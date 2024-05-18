@@ -1,6 +1,6 @@
 .footer {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--text-color);
+    color: var(--text-color-light);
     padding: 20px;
     z-index: 99;
 }
@@ -17,15 +17,16 @@
 }
 
 .footer-logo-left {
+    color: var(--text-color-light);
     font-weight: bold;
 }
 
 .footer-logo-right {
-    color: rgb(255, 57, 58);
+    color: var(--primary-color);
 }
 
 .footer-terms-and-condition {
-    color: #fff;
+    color: var(--text-color-light);
     font-size: 12px;
     font-weight: 700;
     margin: auto;
@@ -36,17 +37,17 @@
 }
 
 .footer a {
-    color: #fff;
+    color: var(--text-color-light);
     text-decoration: underline;
 }
 
 .footer a:hover {
-    color: #fff;
+    color: var(--text-color-light);
     text-decoration: none;
 }
 
 .footer-bottom p {
-    color: #fff;
+    color: var(--text-color-light);
     font-size: 10px;
     font-weight: 400;
     text-align: center;

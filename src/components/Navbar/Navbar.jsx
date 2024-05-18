@@ -16,10 +16,10 @@ function Navbar() {
             <div className="navbar-container">
                 <div className="navbar-logo">
                     <FontAwesomeIcon icon={faBars} onClick={toggleMenu} className={`hamburger-icon ${isMenuOpen ? 'hide' : ''}`} />
-                    <h1>
-                        <span className="logo-left">Electro</span>
-                        <span className="logo-right">Fix!</span>
-                    </h1>
+                    <div className='logo-container'>
+                        <h1 className="logo-left">Electro</h1>
+                        <h1 className="logo-right">Fix!</h1>
+                    </div>
                 </div>
                 <nav className="navbar-links">
                     <a href="#services" className="nav-link">Servicios</a>

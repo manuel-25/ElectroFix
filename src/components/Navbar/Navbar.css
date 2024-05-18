@@ -2,7 +2,7 @@
     z-index: 99;
     width: 100%;
     padding: 10px 20px;
-    background-color: #fff;
+    background-color: var(--background-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     position: fixed;
     top: 0;
@@ -18,8 +18,11 @@
     margin: 0 auto;
 }
 
-.navbar-logo h1 {
-    font-size: 32px;
+.logo-container {
+    font-family: var(--font-secondary);     
+    display: flex;
+    flex-direction: row;
+    font-size: 18px;
 }
 
 .logo-left {
@@ -27,7 +30,7 @@
 }
 
 .logo-right {
-    color: rgb(255, 57, 58);
+    color: var(--primary-color);
 }
 
 .navbar-links {
@@ -44,7 +47,7 @@
 }
 
 .nav-link:hover {
-    color: #007BFF;
+    color: var(--secondary-color-hover);
 }
 
 .navbar-right {

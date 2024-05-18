@@ -31,7 +31,7 @@
 }
 
 .reparation-top h2 {
-    color: rgb(14, 25, 79);
+    color: var(--secondary-color);
     font-weight: bold;
     font-size: 48px;
     font-family: Inter, sans-serif;
@@ -40,7 +40,7 @@
 }
 
 .reparation-top p {
-    color: rgb(14, 25, 79);
+    color: var(--secondary-color);
     font-weight: 400;
     font-size: 24px;
     font-family: Inter, sans-serif;
@@ -60,7 +60,7 @@
 .reparation-bottom input[type="text"] {
     flex-grow: 1;
     padding: 15px;
-    border: 1px solid #007bff;
+    border: 1px solid var(--secondary-color);
     border-radius: 28px;
     font-size: 28px;
     background: none;
@@ -74,7 +74,7 @@
     align-items: center;
     padding: 15px 5px;
     border-radius: 10px;
-    background-color: #fff;
+    background-color: var(--white-color);
     max-width: 800px;
     margin: 50px auto;
 }
@@ -105,7 +105,7 @@
 }
 
 .feature-text .feature-light {
-    color: rgb(14, 25, 79);
+    color: var(--secondary-color);
     font-family: Inter, sans-serif;
     line-height: 1.2;
     display: block;
@@ -115,7 +115,7 @@
 }
 
 .feature-text .feature-bold {
-    color: rgb(14, 25, 79);
+    color: var(--secondary-color);
     font-family: Inter, sans-serif;
     line-height: 1.2;
     display: block;

@@ -10,7 +10,16 @@
   flex-direction: column;
   min-height: 100vh;
   margin-top: 85px;       /* Modificar si la navbar tapa el contenido */
-  background-color: rgb(245, 247, 250);
+  background-color: var(--background-color);
+}
+
+p {
+  font-family: var(--font-secondary);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-secondary);
+  color: var(--secondary-color);
 }
 
 main {
