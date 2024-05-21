@@ -49,6 +49,7 @@ function Navbar() {
             <div className={`side-menu ${isMenuOpen ? 'open' : ''}`}>
                 <QuoteButton text="Cotizar Ahora" className="quote-button" />
                 <ul className='sideMenu-links'>
+                    <li><a href="#services" className="nav-link" onClick={closeMenu}><FontAwesomeIcon icon={faUser} className="icon"/> <span>Ingresar</span></a></li>
                     <li><a href="#services" className="nav-link" onClick={closeMenu}><FontAwesomeIcon icon={faCircleQuestion} className="icon"/> <span>Servicios</span></a></li>
                     <li><a href="#about" className="nav-link" onClick={closeMenu}><FontAwesomeIcon icon={faUserFriends} className="icon"/> <span>Sobre Nosotros</span></a></li>
                     <li><a href="#contact" className="nav-link" onClick={closeMenu}><FontAwesomeIcon icon={faPhone} className="icon"/> <span>Contacto</span></a></li>
