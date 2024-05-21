@@ -9,6 +9,7 @@
     
     --text-color: #333333; /* Gris Oscuro para texto */
     --text-color-light: #F2F2F2; /* Gris Claro para fondos o textos sobre fondos oscuros */
+    --hover-color-light: #f1efef;
     
     --background-color: #F5F7FA; /* Fondo principal */
     --white-color: #FFFFFF; /* Blanco para fondos alternativos */

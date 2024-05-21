@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
 import QuoteButton from '../QuoteButton/QuoteButton';
-import './MainContent.css'
+import './MainContent.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck } from '@fortawesome/free-regular-svg-icons'
+import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
+/*import { FaMobileAlt, FaGamepad, FaCube, FaTv, FaFireAlt, FaCoffee, FaMugHot, FaBreadSlice, FaTshirt, FaWind, FaStream, FaWineGlass,
+    FaTablet, FaPlaystation, FaXbox, FaVrCardboard, FaOilCan, FaMobile
+ } from 'react-icons/fa';*/
 
 function MainContent() {
     return (
@@ -14,7 +17,7 @@ function MainContent() {
                         <p>¿Se rompió tu equipo?</p>
                     </div>
                     <div className="reparation-bottom">
-                        <input type="text" placeholder="Buscar electrodomestico" />
+                        <input type="text" placeholder="Buscar electrodoméstico" />
                         <QuoteButton text="Cotizar Ahora" />
                     </div>
                 </section>
@@ -24,7 +27,7 @@ function MainContent() {
                     <li className='feature'>
                         <FontAwesomeIcon icon={faCircleCheck} />
                         <div className='feature-text'>
-                            <span className='feature-light'>Servicios en</span>
+                            <span className='feature-light'>Evios en</span>
                             <span className='feature-bold'>Todo el país</span>
                         </div>
                     </li>
@@ -52,7 +55,38 @@ function MainContent() {
                 </ul>
             </section>
         </div>
-    )
+    );
 }
 
 export default MainContent;
+
+/*
+<div className="categories">
+                <FaMobileAlt size={50} />
+                <FaGamepad size={50} />
+                <FaCube size={50} />
+                <FaTv size={50} />
+                <FaFireAlt size={50} />
+                <FaCoffee size={50} />
+                <FaMugHot size={50} />
+                <FaBreadSlice size={50} />
+                <FaTshirt size={50} />
+                <FaWind size={50} />
+                <FaStream size={50} />
+                <FaWineGlass size={50} />
+                <FaTablet size={50} />
+                <FaPlaystation size={50} />
+                <FaVrCardboard size={50} />
+                <FaOilCan size={50} />
+                <FaMobile size={50} />
+</div>
+
+<FontAwesomeIcon icon={faWineGlass} />
+<FontAwesomeIcon icon={faTablet} />
+<FontAwesomeIcon icon={faPlaystation} />
+<FontAwesomeIcon icon={faXbox} />
+<FontAwesomeIcon icon={FaVrCardboard} />
+<FontAwesomeIcon icon={faTv} />
+<FontAwesomeIcon icon={faOilCan} />
+<FontAwesomeIcon icon={faMobileScreen} />
+*/
