@@ -1,0 +1,18 @@
+.progress-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .progress-step {
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+    flex-grow: 1;
+    text-align: center;
+  }
+  
+  .progress-step.completed {
+    border-color: green;
+    color: green;
+  }
+  
