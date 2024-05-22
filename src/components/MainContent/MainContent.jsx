@@ -3,9 +3,6 @@ import QuoteButton from '../QuoteButton/QuoteButton';
 import './MainContent.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
-/*import { FaMobileAlt, FaGamepad, FaCube, FaTv, FaFireAlt, FaCoffee, FaMugHot, FaBreadSlice, FaTshirt, FaWind, FaStream, FaWineGlass,
-    FaTablet, FaPlaystation, FaXbox, FaVrCardboard, FaOilCan, FaMobile
- } from 'react-icons/fa';*/
 
 function MainContent() {
     return (
@@ -90,3 +87,7 @@ export default MainContent;
 <FontAwesomeIcon icon={faOilCan} />
 <FontAwesomeIcon icon={faMobileScreen} />
 */
+
+/*import { FaMobileAlt, FaGamepad, FaCube, FaTv, FaFireAlt, FaCoffee, FaMugHot, FaBreadSlice, FaTshirt, FaWind, FaStream, FaWineGlass,
+    FaTablet, FaPlaystation, FaXbox, FaVrCardboard, FaOilCan, FaMobile
+ } from 'react-icons/fa';*/
