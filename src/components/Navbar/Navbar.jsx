@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faBars, faTimes, faCircleQuestion, faPhone, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import MicrowaveIcon from '@mui/icons-material/Microwave';
 
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -37,7 +38,7 @@ function Navbar() {
                     </nav>
                     <div className="navbar-right">
                         <FontAwesomeIcon icon={faUser} className="user-icon" />
-                        <QuoteButton text="Cotizar Ahora" className="quote-button" />
+                        <Link to="/services"><QuoteButton text="Cotizar Ahora" /></Link>
                     </div>
                     <FontAwesomeIcon 
                         icon={faTimes} 
@@ -48,7 +49,7 @@ function Navbar() {
             </div>
             {isMenuOpen && <div className="menu-overlay open" onClick={closeMenu}></div>}
             <div className={`side-menu ${isMenuOpen ? 'open' : ''}`}>
-                <QuoteButton text="Cotizar Ahora" className="quote-button" />
+                <Link to="/services"><QuoteButton text="Cotizar Ahora" /></Link>
                 <ul className='sideMenu-links'>
                     <li>
                         <Link to="/services" className="nav-link" onClick={closeMenu}>

@@ -3,6 +3,7 @@ import QuoteButton from '../QuoteButton/QuoteButton';
 import './MainContent.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
+import { Link } from 'react-router-dom';
 
 function MainContent() {
     return (
@@ -15,7 +16,7 @@ function MainContent() {
                     </div>
                     <div className="reparation-bottom">
                         <input type="text" placeholder="Buscar electrodoméstico" />
-                        <QuoteButton text="Cotizar Ahora" />
+                        <Link to="/services"><QuoteButton text="Cotizar Ahora" /></Link>
                     </div>
                 </section>
             </div>

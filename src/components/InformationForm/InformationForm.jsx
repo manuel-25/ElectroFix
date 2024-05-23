@@ -37,7 +37,7 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
   }
 
   return (
-    <div className="information-form">
+    <div className="selection-container">
       <h2>Te pedimos tus datos, para compartirte la cotización</h2>
       <div className="form-group">
         <label>Nombre:</label>
@@ -68,8 +68,10 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
         <label>Si tenés un código de descuento, ingrésalo aquí:</label>
         <input type="text" value={discountCode} onChange={(e) => setDiscountCode(e.target.value)} />
       </div>
-      <button className="back-button" onClick={prevStep}>Volver</button>
-      <button onClick={handleSubmit}>Siguiente</button>
+      <div className='nav-buttons'>
+        <button className="back-button" onClick={prevStep}>Volver</button>
+        <button onClick={handleSubmit}>Finalizar</button>
+      </div>
     </div>
   )
 }

@@ -1,48 +1,39 @@
-.model-selection-container {
-    font-family: var(--primary-font);
-    background-color: var(--white-color);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-  }
+.model-input {
+  padding: 15px; /* Aumentar el padding */
+  border: none; /* Eliminar el borde */
+  border-radius: 8px; /* Aumentar el radio del borde */
+  margin-bottom: 20px;
+  width: calc(100% - 30px); /* Ajustar el ancho */
+  box-sizing: border-box;
+  font-size: 18px; /* Aumentar el tamaño de la fuente */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agregar una sombra suave */
+  transition: outline 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+}
+
+.model-input:focus {
+  outline: 2px solid var(--secondary-color); /* Agregar un outline de color secundario */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aumentar la sombra al hacer foco */
+}
   
-  .model-selection-container h2 {
-    color: var(--secondary-color);
-    margin-bottom: 20px;
-  }
+.model-selection-container button {
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 10px;
+}
   
-  .model-selection-container input[type="text"] {
-    padding: 10px;
-    border: 1px solid var(--secondary-color);
-    border-radius: 5px;
-    margin-bottom: 20px;
-    width: calc(100% - 22px);
-    box-sizing: border-box;
-    font-size: 16px;
-  }
+.model-selection-container button:hover {
+  background-color: var(--primary-color-hover);
+}
   
-  .model-selection-container button {
-    padding: 10px 20px;
-    background-color: var(--primary-color);
-    color: var(--white-color);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin: 10px;
-  }
+.model-selection-container .back-button {
+  background-color: var(--secondary-color);
+}
   
-  .model-selection-container button:hover {
-    background-color: var(--primary-color-hover);
-  }
-  
-  .model-selection-container .back-button {
-    background-color: var(--secondary-color);
-  }
-  
-  .model-selection-container .back-button:hover {
-    background-color: var(--secondary-color-hover);
-  }
+.model-selection-container .back-button:hover {
+  background-color: var(--secondary-color-hover);
+}

@@ -22,7 +22,7 @@ const BrandSelection = ({ selectedCategory, nextStep, prevStep, updateFormData }
   const [selectedBrand, setSelectedBrand] = useState('')
   const [otherBrand, setOtherBrand] = useState('')
 
-  const categoryBrands = brandsByCategory[selectedCategory] || []
+  const categoryBrands = brandsByCategory[selectedCategory.id] || []
 
   const handleBrandSelect = (brand) => {
     setSelectedBrand(brand)
@@ -36,24 +36,23 @@ const BrandSelection = ({ selectedCategory, nextStep, prevStep, updateFormData }
   }
 
   return (
-    <div className="brand-selection-container">
-      <h2>Selecciona una marca</h2>
+    <div className="selection-container">
+      <h2>¿Qué marca es tu {selectedCategory.name}?</h2>
       {/*<input
             type="text"
             placeholder="Otro"
             value={otherBrand}
             onChange={(e) => setOtherBrand(e.target.value)}
         />*/}
-      <ul className="brand-list">
+      <ul className="selection-list">
         {categoryBrands.map((brand, index) => (
-          <li key={index} className="brand-item" onClick={() => handleBrandSelect(brand)}>
+          <li key={index} className="selection-item" onClick={() => handleBrandSelect(brand)}>
             <span>{brand}</span>
           </li>
         ))}
       </ul>
       <div className='nav-buttons'>
         <button className="back-button" onClick={prevStep}>Atrás</button>
-        <button onClick={handleOtherBrand}>Aceptar</button>
       </div>
     </div>
   )
