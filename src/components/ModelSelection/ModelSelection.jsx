@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import './ModelSelection.css';
+import React, { useState } from 'react'
+import './ModelSelection.css'
 
 const ModelSelection = ({ brand, selectedCategory, nextStep, prevStep, updateFormData }) => {
-  const [model, setModel] = useState('');
+  const [model, setModel] = useState('')
 
   const handleModelSelect = (event) => {
-    setModel(event.target.value);
-  };
+    setModel(event.target.value)
+  }
 
   const handleSubmit = () => {
-    updateFormData('model', model);
-    nextStep();
-  };
+    updateFormData('model', model)
+    nextStep()
+  }
 
   return (
     <div className="selection-container">
@@ -33,7 +33,7 @@ const ModelSelection = ({ brand, selectedCategory, nextStep, prevStep, updateFor
         <button onClick={handleSubmit} className={model ? 'completed' : ''}>Siguiente</button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ModelSelection;
+export default ModelSelection

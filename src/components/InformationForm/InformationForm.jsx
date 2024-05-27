@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
-import './InformationForm.css'; // Asegúrate de tener el archivo CSS para los estilos
+import React, { useState } from 'react'
+import './InformationForm.css' // Asegúrate de tener el archivo CSS para los estilos
 
 const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [province, setProvince] = useState('');
-  const [discountCode, setDiscountCode] = useState('');
-  const [additionalDetails, setAdditionalDetails] = useState('');
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [province, setProvince] = useState('')
+  const [discountCode, setDiscountCode] = useState('')
+  const [additionalDetails, setAdditionalDetails] = useState('')
 
   const provinces = [
     'Buenos Aires', 'Catamarca', 'Chaco', 'Chubut', 'Córdoba', 'Corrientes', 'Entre Ríos',
     'Formosa', 'Jujuy', 'La Pampa', 'La Rioja', 'Mendoza', 'Misiones', 'Neuquén', 'Río Negro',
     'Salta', 'San Juan', 'San Luis', 'Santa Cruz', 'Santa Fe', 'Santiago del Estero', 'Tierra del Fuego', 'Tucumán'
-  ];
+  ]
 
   const handleProvinceSelect = (event) => {
-    setProvince(event.target.value);
-  };
+    setProvince(event.target.value)
+  }
 
   const handleSubmit = () => {
-    const formData = {
+    const userData = {
       firstName,
       lastName,
       email,
@@ -29,10 +29,10 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
       province,
       discountCode,
       additionalDetails
-    };
-    updateFormData(formData);
-    nextStep();
-  };
+    }
+    updateFormData('userData', userData)
+    nextStep()
+  }
 
   return (
     <div className="selection-container">
@@ -82,7 +82,7 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
         <button onClick={handleSubmit}>Finalizar</button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default InformationForm;
+export default InformationForm

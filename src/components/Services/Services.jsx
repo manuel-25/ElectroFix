@@ -16,12 +16,7 @@ const Services = () => {
     brand: '',
     model: '',
     fault: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    province: '',
-    discountCode: ''
+    userData: {}
   })
 
   // Función para manejar el cambio de etapa
@@ -30,7 +25,7 @@ const Services = () => {
 
   // Función para actualizar los datos del formulario
   const updateFormData = (key, value) => {
-    setFormData({ ...formData, [key]: value })
+    setFormData({ ...formData, [key]: value });
   }
 
   return (
@@ -42,6 +37,7 @@ const Services = () => {
       {step === 3 && <ModelSelection selectedCategory={formData.category} brand={formData.brand} nextStep={nextStep} prevStep={prevStep} updateFormData={updateFormData} />}
       {step === 4 && <FaultSelection selectedCategory={formData.category} formData={formData}  nextStep={nextStep} prevStep={prevStep} updateFormData={updateFormData}/>}
       {step === 5 && <InformationForm nextStep={nextStep} prevStep={prevStep} updateFormData={updateFormData} />}
+      {step === 6 && console.log(formData)}
     </div>
   )
 }
