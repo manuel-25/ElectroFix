@@ -1,18 +1,24 @@
-.model-input {
-  padding: 15px; /* Aumentar el padding */
-  border: none; /* Eliminar el borde */
-  border-radius: 8px; /* Aumentar el radio del borde */
+.instructions {
+  font-size: 14px;
+  color: var(--text-color);
   margin-bottom: 20px;
-  width: calc(100% - 30px); /* Ajustar el ancho */
-  box-sizing: border-box;
-  font-size: 18px; /* Aumentar el tamaño de la fuente */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agregar una sombra suave */
-  transition: outline 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+  text-align: left;
+}
+
+.model-input {
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  height: 60px;
+  font-size: 18px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
 }
 
 .model-input:focus {
-  outline: 2px solid var(--secondary-color); /* Agregar un outline de color secundario */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aumentar la sombra al hacer foco */
+  outline: 2px solid var(--secondary-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
   
 .model-selection-container button {
