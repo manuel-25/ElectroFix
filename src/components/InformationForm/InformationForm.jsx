@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import './InformationForm.css' // Asegúrate de tener el archivo CSS para los estilos
+import React, { useState, useEffect } from 'react'
+import './InformationForm.css'
 
 const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
   const [firstName, setFirstName] = useState('')
@@ -7,17 +7,38 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [province, setProvince] = useState('')
+  const [municipio, setMunicipio] = useState('')
+  const [provinces, setProvinces] = useState([])
+  const [municipios, setMunicipios] = useState([])
   const [discountCode, setDiscountCode] = useState('')
   const [additionalDetails, setAdditionalDetails] = useState('')
 
-  const provinces = [
-    'Buenos Aires', 'Catamarca', 'Chaco', 'Chubut', 'Córdoba', 'Corrientes', 'Entre Ríos',
-    'Formosa', 'Jujuy', 'La Pampa', 'La Rioja', 'Mendoza', 'Misiones', 'Neuquén', 'Río Negro',
-    'Salta', 'San Juan', 'San Luis', 'Santa Cruz', 'Santa Fe', 'Santiago del Estero', 'Tierra del Fuego', 'Tucumán'
-  ]
+  useEffect(() => {
+    fetchProvincias()
+  }, [])
 
-  const handleProvinceSelect = (event) => {
-    setProvince(event.target.value)
+  const fetchProvincias = async () => {
+    try {
+      const response = await fetch('https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre')
+      const data = await response.json()
+      const provincias = data.provincias.map(provincia => provincia.nombre)
+      // Ordenar las provincias alfabéticamente
+      const sortedProvincias = provincias.sort((a, b) => a.localeCompare(b))
+      setProvinces(sortedProvincias)
+    } catch (error) {
+      console.error('Error al obtener las provincias:', error)
+    }
+  }
+
+  const fetchMunicipios = async (provinciaNombre) => {
+    try {
+      const response = await fetch(`https://apis.datos.gob.ar/georef/api/municipios?provincia=${provinciaNombre}&campos=id,nombre&max=100`)
+      const data = await response.json()
+      const municipios = data.municipios.map(municipio => municipio.nombre)
+      setMunicipios(municipios)
+    } catch (error) {
+      console.error('Error al obtener los municipios:', error)
+    }
   }
 
   const handleSubmit = () => {
@@ -27,6 +48,7 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
       email,
       phone,
       province,
+      municipio,
       discountCode,
       additionalDetails
     }
@@ -55,13 +77,25 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
           <label>Teléfono</label>
         </div>
         <div className="form-group floating-label">
-          <select id='select-provincia' value={province} onChange={handleProvinceSelect} required>
+          <select id='select-provincia' value={province} onChange={(e) => {
+            setProvince(e.target.value)
+            fetchMunicipios(e.target.value)
+          }} required>
             <option value="">Provincia</option>
-            {provinces.map((province, index) => (
-              <option key={index} value={province}>{province}</option>
+            {provinces.map((provincia, index) => (
+              <option key={index} value={provincia}>{provincia}</option>
             ))}
           </select>
           <label>Provincia</label>
+        </div>
+        <div className="form-group floating-label">
+          <select id='select-municipio' value={municipio} onChange={(e) => setMunicipio(e.target.value)} required>
+            <option value="">Municipio</option>
+            {municipios.map((municipio, index) => (
+              <option key={index} value={municipio}>{municipio}</option>
+            ))}
+          </select>
+          <label>Municipio</label>
         </div>
         <div className="form-group floating-label">
           <textarea

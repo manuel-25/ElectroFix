@@ -15,7 +15,7 @@ const Services = () => {
     category: '',
     brand: '',
     model: '',
-    fault: '',
+    faults: '',
     userData: {}
   })
 
