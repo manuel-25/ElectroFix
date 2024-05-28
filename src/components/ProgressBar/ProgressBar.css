@@ -18,14 +18,26 @@
   left: 0;
   width: 0;
   height: 100%;
-  border-bottom: 2px solid green; /* Color del borde */
+  border-bottom: 2px solid var(--green-color); /* Color del borde */
   transition: width 0.5s ease-in-out; /* Transición de la animación */
 }
 
 .progress-step.completed {
-  color: green;
+  color: var(--green-color);
 }
 
 .progress-step.completed::before {
   width: 100%; /* Ancho completo cuando la etapa está completada */
+}
+
+@media screen and (max-width: 650px) {
+  .progress-bar {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .progress-step {
+    font-size: 14px;
+    padding: 5px;
+  }
 }

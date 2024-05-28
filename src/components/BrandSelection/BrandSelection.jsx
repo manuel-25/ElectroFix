@@ -16,7 +16,8 @@ const BrandSelection = ({ selectedCategory, nextStep, prevStep, updateFormData }
     11: ['Dell', 'Samsung', 'Otros'],
     12: ['Vondom', 'Philco', 'Whirlpool', 'Tophouse', 'Winco', 'Wine Collection', 'Candy', 'Ultra Comb', 'Wine Frost', 'Otros'],
     13: ['Liliana', 'Electro Lux', 'Axel', 'Magiclick', 'Atma', 'Philco', 'Peabody', 'Otros'],
-    14: ['Otros']
+    14: ['Otros'],
+    15: ['Otros']
   }
 
   const [selectedBrand, setSelectedBrand] = useState('')

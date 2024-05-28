@@ -13,8 +13,9 @@
     
     --background-color: #F5F7FA; /* Fondo principal */
     --white-color: #FFFFFF; /* Blanco para fondos alternativos */
+    
+    --green-color: #4CAF50; /* Verde Claro */
 
     --primary-font: 'Open Sans', sans-serif;
     --secondary-font: 'Roboto', sans-serif;
 }
-

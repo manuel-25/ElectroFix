@@ -17,7 +17,8 @@ const CategorySelection = ({ nextStep, updateFormData }) => {
     { id: 11, name: 'Notebook' },
     { id: 12, name: 'Cava de Vino' },
     { id: 13, name: 'Ventilador' },
-    { id: 14, name: 'Estufa' }
+    { id: 14, name: 'Estufa' },
+    { id: 15, name: 'Microondas' }
   ]
 
   const handleCategorySelect = (id) => {

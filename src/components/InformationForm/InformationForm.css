@@ -27,12 +27,13 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 16px;
-    box-sizing: border-box;
     transition: all 0.3s;
 }
 
 .form-group textarea {
-    min-height: 120px; /* Cambia el tamaño mínimo vertical para el textarea */
+    min-height: 120px;
+    width: 100%;
+    resize: none;
 }
 
 /* Label */
@@ -81,7 +82,6 @@
 }
 
 /* Estilo de las opciones del select */
-
 #select-provincia option {
     background-color: var(--white-color);
     color: var(--secondary-color);
@@ -90,21 +90,19 @@
 }
 
 /* Estilos adicionales */
-
 #form-discount-span {
     color: var(--secondary-color);
     font-weight: 700;
     font-size: 16px;
     line-height: 1.2;
-    margin-bottom: 10px; /* Agrega margen inferior */
+    margin-bottom: 10px;
 }
 
 #form-discount input {
-    margin-top: 10px; /* Agrega margen superior */
+    margin-top: 10px; 
 }
 
 /* Botones */
-
 button {
     padding: 12px 24px;
     margin-right: 10px;
@@ -126,4 +124,40 @@ button:hover {
 
 .back-button:hover {
     background-color: var(--secondary-color-hover);
+}
+
+/* Pantallas menores a 900px */
+@media screen and (max-width: 900px) {
+    .form-group-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+  
+    .form-group {
+      width: 100%;
+    }
+
+    .form-group textarea {
+        height: auto;
+    }
+}
+  
+/* Pantallas menores a 650px */
+@media screen and (max-width: 650px) {
+    .form-group-wrapper {
+        display: block;
+        flex-direction: column;
+        align-items: center;
+    }
+  
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      height: 50px;
+      font-size: 14px;
+    }
+  
+    .form-group textarea {
+      min-height: 100px;
+    }
 }
