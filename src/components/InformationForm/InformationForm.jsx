@@ -12,6 +12,7 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
   const [municipios, setMunicipios] = useState([])
   const [discountCode, setDiscountCode] = useState('')
   const [additionalDetails, setAdditionalDetails] = useState('')
+  const [errors, setErrors] = useState({})
 
   useEffect(() => {
     fetchProvincias()
@@ -22,7 +23,6 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
       const response = await fetch('https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre')
       const data = await response.json()
       const provincias = data.provincias.map(provincia => provincia.nombre)
-      // Ordenar las provincias alfabéticamente
       const sortedProvincias = provincias.sort((a, b) => a.localeCompare(b))
       setProvinces(sortedProvincias)
     } catch (error) {
@@ -41,19 +41,46 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
     }
   }
 
-  const handleSubmit = () => {
-    const userData = {
-      firstName,
-      lastName,
-      email,
-      phone,
-      province,
-      municipio,
-      discountCode,
-      additionalDetails
+  const validateForm = () => {
+    const newErrors = {}
+
+    if (!firstName.trim()) newErrors.firstName = 'Nombre es requerido'
+    if (!lastName.trim()) newErrors.lastName = 'Apellido es requerido'
+
+    if (!email.trim()) {
+      newErrors.email = 'Email es requerido'
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = 'Email es inválido'
     }
-    updateFormData('userData', userData)
-    nextStep()
+
+    if (!phone.trim()) {
+      newErrors.phone = 'Teléfono es requerido'
+    } else if (!/^\d{1,11}$/.test(phone)) {
+      newErrors.phone = 'Teléfono debe contener solo números y tener máximo 11 caracteres'
+    }
+
+    if (!province) newErrors.province = 'Provincia es requerida'
+    if (!municipio) newErrors.municipio = 'Municipio es requerido'
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleSubmit = () => {
+    if (validateForm()) {
+      const userData = {
+        firstName,
+        lastName,
+        email,
+        phone,
+        province,
+        municipio,
+        discountCode,
+        additionalDetails
+      }
+      updateFormData('userData', userData)
+      nextStep()
+    }
   }
 
   return (
@@ -63,18 +90,22 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
         <div className="form-group floating-label">
           <input type="text" placeholder='Nombre' value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
           <label>Nombre</label>
+          {errors.firstName && <p className="error">{errors.firstName}</p>}
         </div>
         <div className="form-group floating-label">
           <input type="text" placeholder='Apellido' value={lastName} onChange={(e) => setLastName(e.target.value)} required />
           <label>Apellido</label>
+          {errors.lastName && <p className="error">{errors.lastName}</p>}
         </div>
         <div className="form-group floating-label">
           <input type="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} required />
           <label>Email</label>
+          {errors.email && <p className="error">{errors.email}</p>}
         </div>
         <div className="form-group floating-label">
           <input type="tel" placeholder='Teléfono' value={phone} onChange={(e) => setPhone(e.target.value)} required />
           <label>Teléfono</label>
+          {errors.phone && <p className="error">{errors.phone}</p>}
         </div>
         <div className="form-group floating-label">
           <select id='select-provincia' value={province} onChange={(e) => {
@@ -87,6 +118,7 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
             ))}
           </select>
           <label>Provincia</label>
+          {errors.province && <p className="error">{errors.province}</p>}
         </div>
         <div className="form-group floating-label">
           <select id='select-municipio' value={municipio} onChange={(e) => setMunicipio(e.target.value)} required>
@@ -96,15 +128,17 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
             ))}
           </select>
           <label>Municipio</label>
+          {errors.municipio && <p className="error">{errors.municipio}</p>}
         </div>
         <div className="form-group floating-label">
           <textarea
             value={additionalDetails}
             onChange={(e) => setAdditionalDetails(e.target.value)}
             required
-            placeholder="Especifique detalles adicionales como marca o modelo"
+            placeholder="Especifique detalles adicionales como marca, modelo o falla"
           />
           <label>Detalles adicionales</label>
+          {errors.additionalDetails && <p className="error">{errors.additionalDetails}</p>}
         </div>
       </div>
       <div className="form-group floating-label" id='form-discount'>

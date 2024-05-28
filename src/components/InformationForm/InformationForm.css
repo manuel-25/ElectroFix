@@ -161,3 +161,28 @@ button:hover {
       min-height: 100px;
     }
 }
+
+/* Estilos para los mensajes de error */
+.error {
+    color: #ff0000; /* Color rojo para los errores */
+    font-size: 12px;
+    margin-top: 5px; /* Espacio superior para separar los mensajes de error */
+  }
+  
+  /* Estilos adicionales para resaltar campos con errores */
+  .form-group.error input,
+  .form-group.error select,
+  .form-group.error textarea {
+    border-color: #ff0000; /* Cambia el borde a rojo */
+  }
+  
+  .form-group.error label {
+    color: #ff0000; /* Cambia el color de la etiqueta a rojo */
+  }
+  
+  /* Estilos para resaltar el botón de finalizar cuando hay errores */
+  button.error {
+    background-color: #ffcccc; /* Cambia el fondo a un tono rojo claro */
+    border-color: #ff0000; /* Cambia el borde a rojo */
+    color: #ff0000; /* Cambia el color del texto a rojo */
+  }
