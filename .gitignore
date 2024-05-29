@@ -1,0 +1,29 @@
+# Global ignores
+.DS_Store
+Thumbs.db
+
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+
+# Build output
+dist/
+build/
+
+# Frontend specific ignores
+/frontend/node_modules/
+/frontend/build/
+
+# Backend specific ignores
+/backend/node_modules/
+/backend/.env
+/backend/logs/
+/backend/*.log
+/backend/npm-debug.log*

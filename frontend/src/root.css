@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+    --primary-color: #FF393A; /* Rojo Vivo */
+    --primary-color-hover: #e53935; /* Rojo Vivo más oscuro para :hover */
+    
+    --secondary-color: #003366; /* Azul Oscuro */
+    --secondary-color-hover: #002147; /* Azul Oscuro más intenso para :hover */
+    
+    --text-color: #333333; /* Gris Oscuro para texto */
+    --text-color-light: #F2F2F2; /* Gris Claro para fondos o textos sobre fondos oscuros */
+    --hover-color-light: #f1efef;
+    
+    --background-color: #F5F7FA; /* Fondo principal */
+    --white-color: #FFFFFF; /* Blanco para fondos alternativos */
+    
+    --green-color: #4CAF50; /* Verde Claro */
+
+    --primary-font: 'Open Sans', sans-serif;
+    --secondary-font: 'Roboto', sans-serif;
+}
