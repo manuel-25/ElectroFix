@@ -28,8 +28,7 @@ const ModelSelection = ({ brand, selectedCategory, nextStep, prevStep, updateFor
         placeholder="Modelo" 
         className='model-input'
       />
-      <div className='nav-buttons'>
-        <button className="back-button" onClick={prevStep}>Volver</button>
+      <div className='next-button'>
         <button onClick={handleSubmit} className={model ? 'completed' : ''}>Siguiente</button>
       </div>
     </div>

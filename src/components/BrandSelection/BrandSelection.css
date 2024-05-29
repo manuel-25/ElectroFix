@@ -31,23 +31,3 @@
     margin-right: 10px;
     width: calc(100% - 120px);
 }*/
-
-button:hover {
-    background-color: var(--primary-color-hover);
-}
-  
-.back-button {
-    background-color: var(--secondary-color);
-}
-  
-.back-button:hover {
-    background-color: var(--secondary-color-hover);
-}
-
-.nav-buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin-top: 20px;
-}

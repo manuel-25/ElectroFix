@@ -52,9 +52,6 @@ const BrandSelection = ({ selectedCategory, nextStep, prevStep, updateFormData }
           </li>
         ))}
       </ul>
-      <div className='nav-buttons'>
-        <button className="back-button" onClick={prevStep}>Atrás</button>
-      </div>
     </div>
   )
 }

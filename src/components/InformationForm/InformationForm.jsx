@@ -145,8 +145,7 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
         <span id='form-discount-span'>Si tenés un código de descuento, ingrésalo aquí:</span>
         <input type="text" placeholder='Codigo de descuento' value={discountCode} onChange={(e) => setDiscountCode(e.target.value)} />
       </div>
-      <div className='nav-buttons'>
-        <button className="back-button" onClick={prevStep}>Volver</button>
+      <div className='next-button'>
         <button onClick={handleSubmit}>Finalizar</button>
       </div>
     </div>

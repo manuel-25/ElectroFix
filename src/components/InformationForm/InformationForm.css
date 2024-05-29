@@ -102,28 +102,27 @@
     margin-top: 10px; 
 }
 
-/* Botones */
-button {
-    padding: 12px 24px;
-    margin-right: 10px;
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+/* Estilos para los mensajes de error */
+.error {
+    color: var(--primary-color);
+    font-size: 12px;
+    margin-top: 5px;
 }
-
-button:hover {
-    background-color: var(--primary-color-hover);
+  
+.form-group.error input,
+.form-group.error select,
+.form-group.error textarea {
+    border-color: var(--primary-color);
 }
-
-.back-button {
-    background-color: var(--secondary-color);
-}
-
-.back-button:hover {
-    background-color: var(--secondary-color-hover);
+  
+.form-group.error label {
+    color: var(--primary-color);
+  }
+  
+button.error {
+    background-color: #ffcccc;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
 /* Pantallas menores a 900px */
@@ -161,28 +160,3 @@ button:hover {
       min-height: 100px;
     }
 }
-
-/* Estilos para los mensajes de error */
-.error {
-    color: #ff0000; /* Color rojo para los errores */
-    font-size: 12px;
-    margin-top: 5px; /* Espacio superior para separar los mensajes de error */
-  }
-  
-  /* Estilos adicionales para resaltar campos con errores */
-  .form-group.error input,
-  .form-group.error select,
-  .form-group.error textarea {
-    border-color: #ff0000; /* Cambia el borde a rojo */
-  }
-  
-  .form-group.error label {
-    color: #ff0000; /* Cambia el color de la etiqueta a rojo */
-  }
-  
-  /* Estilos para resaltar el botón de finalizar cuando hay errores */
-  button.error {
-    background-color: #ffcccc; /* Cambia el fondo a un tono rojo claro */
-    border-color: #ff0000; /* Cambia el borde a rojo */
-    color: #ff0000; /* Cambia el color del texto a rojo */
-  }

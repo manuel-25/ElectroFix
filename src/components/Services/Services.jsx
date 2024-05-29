@@ -30,7 +30,7 @@ const Services = () => {
 
   return (
     <div className="services">
-      <ProgressBar step={step} />
+      <ProgressBar step={step} prevStep={prevStep} />
 
       {step === 1 && <CategorySelection nextStep={nextStep} updateFormData={updateFormData} />}
       {step === 2 && <BrandSelection selectedCategory={formData.category} nextStep={nextStep} prevStep={prevStep} updateFormData={updateFormData} />}

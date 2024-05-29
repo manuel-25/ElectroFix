@@ -62,8 +62,7 @@ const FaultSelection = ({ selectedCategory, nextStep, prevStep, updateFormData, 
           </label>
         ))}
       </div>
-      <div className='nav-buttons'>
-        <button className="back-button" onClick={prevStep}>Volver</button>
+      <div className='next-button'>
         <button onClick={handleSubmit}>Siguiente</button>
       </div>
     </div>
