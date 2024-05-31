@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 import config from '../utils/config.js'
 
 const MONGO_URI = config.MONGO_URI
-console.log(config)
 
 // Conexión a MongoDB
 async function connectDB() {

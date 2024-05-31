@@ -3,7 +3,10 @@ import { Schema, model } from "mongoose"
 const collection = 'cotizaciones'
 const quoteSchema = new Schema({
     date: {type: Date, default:  Date.now(), index: true},
-    category: { type: String, index: true, required: true},
+    category: {
+        id: { type: Number, required: true },
+        name: { type: String, required: true }
+    },
     brand: { type: String, required: true},
     model: { type: String },
     faults: { type: [String] },
