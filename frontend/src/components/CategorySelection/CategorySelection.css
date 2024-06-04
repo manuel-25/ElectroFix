@@ -16,7 +16,7 @@
 
 .selection-container h2 {
   color: var(--secondary-color);
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .selection-list {
@@ -71,6 +71,10 @@
 @media screen and (max-width: 900px) {
   .selection-container {
     padding: 6px;
+  }
+
+  .selection-container h2 {
+    margin-bottom: 20px;
   }
 }
 

@@ -72,7 +72,7 @@
 }
 
 .hamburger-button {
-    display: inline-flex;
+    display: none;
     align-items: center;
     justify-content: center;
     position: relative;
@@ -181,6 +181,10 @@
     .navbar-links,
     .navbar-right {
         display: none;
+    }
+
+    .hamburger-button {
+        display: inline-flex;
     }
 
     .hamburger-icon {

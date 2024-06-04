@@ -134,3 +134,20 @@
 .next-button button:hover {
   background-color: var(--primary-color-hover);
 }
+
+@media screen and (max-width: 900px) {
+  .next-button {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    background-color: var(--white-color);
+    padding: 10px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    z-index: 100;
+  }
+
+  .next-button button {
+    margin: 0 auto;
+  }
+}
