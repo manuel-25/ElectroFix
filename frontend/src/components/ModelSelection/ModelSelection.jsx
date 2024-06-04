@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './ModelSelection.css'
 
 const ModelSelection = ({ brand, selectedCategory, nextStep, prevStep, updateFormData }) => {
   const [model, setModel] = useState('')
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true)
 
   const handleModelSelect = (event) => {
     setModel(event.target.value)
   }
+
+  useEffect(() => {
+    setIsButtonDisabled(!model)
+  }, [model])
 
   const handleSubmit = () => {
     updateFormData('model', model)
@@ -29,7 +34,9 @@ const ModelSelection = ({ brand, selectedCategory, nextStep, prevStep, updateFor
         className='model-input'
       />
       <div className='next-button'>
-        <button onClick={handleSubmit} className={model ? 'completed' : ''}>Siguiente</button>
+        <button onClick={handleSubmit} disabled={isButtonDisabled} className={isButtonDisabled ? 'disabled' : ''}>
+          Siguiente
+        </button>
       </div>
     </div>
   )

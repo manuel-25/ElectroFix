@@ -13,7 +13,7 @@ const BrandSelection = ({ selectedCategory, nextStep, prevStep, updateFormData }
     8: ['Phillips', 'Atma', 'Ultra Comb', 'Winco', 'Liliana', 'Philco', 'Peabody', 'Tophouse', 'Otros'],
     9: ['Gama', 'Otros'],
     10: ['Otros'],
-    11: ['Dell', 'Samsung', 'Otros'],
+    11: ['Dell', 'Samsung','HP', 'Lenovo', 'Acer', 'Asus', 'Apple', 'Bangho', 'Microsoft', 'Exo', 'Vaio', ' BGH', 'Noblex', 'Samsung', 'Otros'],
     12: ['Vondom', 'Philco', 'Whirlpool', 'Tophouse', 'Winco', 'Wine Collection', 'Candy', 'Ultra Comb', 'Wine Frost', 'Otros'],
     13: ['Liliana', 'Electro Lux', 'Axel', 'Magiclick', 'Atma', 'Philco', 'Peabody', 'Otros'],
     14: ['Otros'],

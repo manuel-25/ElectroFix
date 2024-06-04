@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './FaultSelection.css'
 
 const FaultSelection = ({ selectedCategory, nextStep, prevStep, updateFormData, formData }) => {
@@ -21,6 +21,7 @@ const FaultSelection = ({ selectedCategory, nextStep, prevStep, updateFormData, 
   }
 
   const [selectedFaults, setSelectedFaults] = useState([])
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true)
 
   const categoryFaults = faultsByCategory[selectedCategory.id] || []
 
@@ -34,9 +35,15 @@ const FaultSelection = ({ selectedCategory, nextStep, prevStep, updateFormData, 
     })
   }
 
+  useEffect(() => {
+    setIsButtonDisabled(selectedFaults.length === 0)
+  }, [selectedFaults])
+
   const handleSubmit = () => {
-    updateFormData('faults', selectedFaults)
-    nextStep()
+    if (selectedFaults.length > 0) {
+      updateFormData('faults', selectedFaults)
+      nextStep()
+    }
   }
 
   return (
@@ -63,7 +70,9 @@ const FaultSelection = ({ selectedCategory, nextStep, prevStep, updateFormData, 
         ))}
       </div>
       <div className='next-button'>
-        <button onClick={handleSubmit}>Siguiente</button>
+        <button onClick={handleSubmit} disabled={isButtonDisabled} className={isButtonDisabled ? 'disabled' : ''}>
+          Siguiente
+        </button>
       </div>
     </div>
   )
