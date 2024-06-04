@@ -9,7 +9,7 @@ const BrandSelection = ({ selectedCategory, nextStep, prevStep, updateFormData }
     4: ['Ultracomb', 'Peabody', 'BGH', 'Atma', 'Philco', 'Kanji', 'Morelli', 'Smartlife', 'Alpaca', 'Enova', 'Tedge', 'Tivoli', 'Liliana', 'Midea', 'Daewo', 'Yelmo', 'Black and Decker', 'Tophouse', 'Smart Tech', 'Axel', 'Otros'],
     5: ['Peabody', 'Atma', 'Electrolux', 'Oster', 'Molinex', 'Yelmo', 'Smart Life', 'Nesspreso', 'Otros'],
     6: ['Yelmo', 'Peabody', 'Ultra Comb', 'Liliana', 'Atma', 'Smart Life', 'Phillips', 'Winco', 'Molinex', 'Daewo', 'Oster', 'Philco', 'Tophouse', 'Otros'],
-    7: ['Atma', 'Molinex', 'Peabody', 'Black and Decker', 'Electro Lux', 'Phillips', 'Daewo', 'Yelmo', 'Ultra Comb', 'Winco', 'Smart Life', 'Liliana', 'Kajijome', 'Oster', 'Smart Tech', 'Otros'],
+    7: ['Atma', 'Molinex', 'Peabody', 'Black and Decker', 'Electro Lux', 'Phillips', 'Daewo', 'Yelmo', 'Ultra Comb', 'Winco', 'Smart Life', 'Liliana', 'Oster', 'Smart Tech', 'Otros'],
     8: ['Phillips', 'Atma', 'Ultra Comb', 'Winco', 'Liliana', 'Philco', 'Peabody', 'Tophouse', 'Otros'],
     9: ['Gama', 'Otros'],
     10: ['Otros'],
@@ -22,6 +22,7 @@ const BrandSelection = ({ selectedCategory, nextStep, prevStep, updateFormData }
 
   const [selectedBrand, setSelectedBrand] = useState('')
   const [otherBrand, setOtherBrand] = useState('')
+  const [visibleBrands, setVisibleBrands] = useState(7) // Limita la cantidad inicial de marcas visibles
 
   const categoryBrands = brandsByCategory[selectedCategory.id] || []
 
@@ -36,22 +37,31 @@ const BrandSelection = ({ selectedCategory, nextStep, prevStep, updateFormData }
     nextStep()
   }
 
+  const loadMoreBrands = () => {
+    setVisibleBrands(prevVisibleBrands => prevVisibleBrands + 5)
+  }
+
   return (
     <div className="selection-container">
       <h2>¿Qué marca es tu {selectedCategory.name}?</h2>
       {/*<input
-            type="text"
-            placeholder="Otro"
-            value={otherBrand}
-            onChange={(e) => setOtherBrand(e.target.value)}
-        />*/}
+        type="text"
+        placeholder="Otro"
+        value={otherBrand}
+        onChange={(e) => setOtherBrand(e.target.value)}
+      />*/}
       <ul className="selection-list">
-        {categoryBrands.map((brand, index) => (
+        {categoryBrands.slice(0, visibleBrands).map((brand, index) => (
           <li key={index} className="selection-item" onClick={() => handleBrandSelect(brand)}>
             <span>{brand}</span>
           </li>
         ))}
       </ul>
+      {visibleBrands < categoryBrands.length && (
+        <div className="load-more">
+          <button onClick={loadMoreBrands}>Ver más</button>
+        </div>
+      )}
     </div>
   )
 }

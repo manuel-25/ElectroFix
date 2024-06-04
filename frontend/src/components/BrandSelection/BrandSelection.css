@@ -31,3 +31,29 @@
     margin-right: 10px;
     width: calc(100% - 120px);
 }*/
+
+.load-more button {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-width: 65px;
+    height: 40px;
+    padding: 10px 24px;
+    margin: 10px 0;  /* Ajustar según sea necesario */
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    line-height: 1.75;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color);
+    background-color: var(--white-color);
+    transition: background-color 0.9s, box-shadow 0.3s;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+  }
+  
+  .load-more button:hover {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 6px 8px -5px, rgba(0, 0, 0, 0.22) 0px 8px 12px 2px;
+  }
+  
