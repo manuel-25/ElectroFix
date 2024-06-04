@@ -37,7 +37,7 @@ const ProgressBar = ({ step, prevStep }) => {
         <div className={`progress-step ${step >= 4 ? 'completed' : ''}`}>Falla</div>
         <div className={`progress-step ${step >= 5 ? 'completed' : ''}`}>Información</div>
       </div>
-      <div className={`back-container`}>
+      <div className={`back-container ${step >= 6 ? 'hide' : ''}`}>
         <button className="back-button" onClick={handleBackClick}>Volver</button>
       </div>
     </div>

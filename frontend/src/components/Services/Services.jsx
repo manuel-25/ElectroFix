@@ -7,6 +7,7 @@ import BrandSelection from '../BrandSelection/BrandSelection'
 import ModelSelection from '../ModelSelection/ModelSelection'
 import FaultSelection from '../FaultSelection/FaultSelection'
 import InformationForm from '../InformationForm/InformationForm'
+import FormSubmissionStatus from '../FormSubmissionStatus/FormSubmissionStatus';
 import ProgressBar from '../ProgressBar/ProgressBar'
 
 const Services = () => {
@@ -19,6 +20,7 @@ const Services = () => {
     faults: '',
     userData: {}
   })
+  const [submitStatus, setSubmitStatus] = useState('pending') // 'pending', 'success', 'error'
 
   // Función para manejar el cambio de etapa
   const nextStep = () => setStep(step + 1)
@@ -45,13 +47,14 @@ const Services = () => {
       if (response.ok) {
         console.log('response', await response.json())
         console.log('Form submitted successfully!')
-        // Puedes redirigir a otra página o mostrar un mensaje de éxito aquí
+        setSubmitStatus('success')
       } else {
         console.error('Form submission failed')
-        // Manejo de errores aquí
+        setSubmitStatus('error')
       }
     } catch (error) {
       console.error('Error submitting form:', error)
+      setSubmitStatus('error')
     }
   }
 
@@ -71,7 +74,7 @@ const Services = () => {
       {step === 3 && <ModelSelection selectedCategory={formData.category} brand={formData.brand} nextStep={nextStep} prevStep={prevStep} updateFormData={updateFormData} />}
       {step === 4 && <FaultSelection selectedCategory={formData.category} formData={formData} nextStep={nextStep} prevStep={prevStep} updateFormData={updateFormData} />}
       {step === 5 && <InformationForm nextStep={nextStep} prevStep={prevStep} updateFormData={updateFormData} />}
-      {step === 6 && <div>Submitting your form...</div>}
+      {step === 6 && <FormSubmissionStatus status={submitStatus} name={formData.userData.firstName} />}
     </div>
   )
 }
