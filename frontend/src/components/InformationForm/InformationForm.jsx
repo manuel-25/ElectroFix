@@ -44,23 +44,23 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
   const validateForm = () => {
     const newErrors = {}
 
-    if (!firstName.trim()) newErrors.firstName = 'Nombre es requerido'
-    if (!lastName.trim()) newErrors.lastName = 'Apellido es requerido'
+    if (!firstName.trim()) newErrors.firstName = 'El nombre es requerido'
+    if (!lastName.trim()) newErrors.lastName = 'El apellido es requerido'
 
     if (!email.trim()) {
-      newErrors.email = 'Email es requerido'
+      newErrors.email = 'El correo electrónico es requerido'
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Email es inválido'
+      newErrors.email = 'El correo electrónico es inválido'
     }
 
     if (!phone.trim()) {
-      newErrors.phone = 'Teléfono es requerido'
-    } else if (!/^\d{1,11}$/.test(phone)) {
-      newErrors.phone = 'Teléfono debe contener solo números y tener máximo 11 caracteres'
+      newErrors.phone = 'El teléfono es requerido'
+    } else if (!/^\d{10}$/.test(phone)) {
+      newErrors.phone = 'El teléfono debe tener exactamente 10 dígitos numéricos'
     }
 
-    if (!province) newErrors.province = 'Provincia es requerida'
-    if (!municipio) newErrors.municipio = 'Municipio es requerido'
+    if (!province) newErrors.province = 'La provincia es requerida'
+    if (!municipio) newErrors.municipio = 'El municipio es requerido'
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -102,15 +102,18 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
           <label>Email</label>
           {errors.email && <p className="error">{errors.email}</p>}
         </div>
-        <div className="form-group floating-label">
-          <input type="tel" placeholder='Teléfono' value={phone} onChange={(e) => setPhone(e.target.value)} required />
-          <label>Teléfono</label>
+        <div className="form-group floating-label" id='phone-id'>
+          <div className='phone-container'>
+            <div className='flag-container'><img src="/images/flag-argentina.svg" alt="Bandera Argentina" />+54 9</div>
+            <input type="tel" placeholder='000 000 0000' value={phone} onChange={(e) => setPhone(e.target.value)} required />
+          </div>
           {errors.phone && <p className="error">{errors.phone}</p>}
         </div>
         <div className="form-group floating-label">
           <select id='select-provincia' value={province} onChange={(e) => {
-            setProvince(e.target.value)
-            fetchMunicipios(e.target.value)
+            const selectedProvince = e.target.value
+            setProvince(selectedProvince)
+            fetchMunicipios(selectedProvince)
           }} required>
             <option value="">Provincia</option>
             {provinces.map((provincia, index) => (
@@ -135,7 +138,7 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
             value={additionalDetails}
             onChange={(e) => setAdditionalDetails(e.target.value)}
             required
-            placeholder="Especifique detalles adicionales como marca, modelo o falla"
+            placeholder="Especifique detalles adicionales como marca, modelo o la falla"
           />
           <label>Detalles adicionales</label>
           {errors.additionalDetails && <p className="error">{errors.additionalDetails}</p>}
