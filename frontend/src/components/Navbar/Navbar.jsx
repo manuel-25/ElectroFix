@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faBars, faTimes, faCircleQuestion, faPhone, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import MicrowaveIcon from '@mui/icons-material/Microwave';
+//import MicrowaveIcon from '@mui/icons-material/Microwave';
 
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);

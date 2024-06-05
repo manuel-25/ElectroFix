@@ -29,7 +29,7 @@ const ProgressBar = ({ step, prevStep }) => {
   }
 
   return (
-    <div className='progress-container'>
+    <div className={`progress-container ${step >= 6 ? 'none' : ''}`}>
       <div className="progress-bar">
         <div className={`progress-step ${step >= 1 ? 'completed' : ''}`}>Categoría</div>
         <div className={`progress-step ${step >= 2 ? 'completed' : ''}`}>Marca</div>
