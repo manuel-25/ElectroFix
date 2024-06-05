@@ -5,6 +5,7 @@ import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import MainContent from './components/MainContent/MainContent';
 import Services from './components/Services/Services';
+import Contact from './components/Contact/Contact';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 
 function AppContent() {
@@ -17,7 +18,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<MainContent />} />
           <Route path="/about"/>
-          <Route path="/contact"/>
+          <Route path="/contact" element={<Contact />} />
           <Route path="/services" element={<Services />} />
         </Routes>
       </main>

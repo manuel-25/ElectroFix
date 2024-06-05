@@ -11,7 +11,7 @@ function MainContent() {
             <div className="reparation-container">
                 <section className="section-reparation">
                     <div className='reparation-top'>
-                        <h2>¡Reparamos tu equipo!</h2>
+                        <h1>¡Reparamos tu equipo!</h1>
                         <p>¿Se rompió tu equipo?</p>
                     </div>
                     <div className="reparation-bottom">
@@ -57,38 +57,3 @@ function MainContent() {
 }
 
 export default MainContent;
-
-/*
-<div className="categories">
-                <FaMobileAlt size={50} />
-                <FaGamepad size={50} />
-                <FaCube size={50} />
-                <FaTv size={50} />
-                <FaFireAlt size={50} />
-                <FaCoffee size={50} />
-                <FaMugHot size={50} />
-                <FaBreadSlice size={50} />
-                <FaTshirt size={50} />
-                <FaWind size={50} />
-                <FaStream size={50} />
-                <FaWineGlass size={50} />
-                <FaTablet size={50} />
-                <FaPlaystation size={50} />
-                <FaVrCardboard size={50} />
-                <FaOilCan size={50} />
-                <FaMobile size={50} />
-</div>
-
-<FontAwesomeIcon icon={faWineGlass} />
-<FontAwesomeIcon icon={faTablet} />
-<FontAwesomeIcon icon={faPlaystation} />
-<FontAwesomeIcon icon={faXbox} />
-<FontAwesomeIcon icon={FaVrCardboard} />
-<FontAwesomeIcon icon={faTv} />
-<FontAwesomeIcon icon={faOilCan} />
-<FontAwesomeIcon icon={faMobileScreen} />
-*/
-
-/*import { FaMobileAlt, FaGamepad, FaCube, FaTv, FaFireAlt, FaCoffee, FaMugHot, FaBreadSlice, FaTshirt, FaWind, FaStream, FaWineGlass,
-    FaTablet, FaPlaystation, FaXbox, FaVrCardboard, FaOilCan, FaMobile
- } from 'react-icons/fa';*/
