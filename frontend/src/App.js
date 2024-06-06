@@ -6,6 +6,7 @@ import Footer from './components/Footer/Footer';
 import MainContent from './components/MainContent/MainContent';
 import Services from './components/Services/Services';
 import Contact from './components/Contact/Contact';
+import AboutUs from './components/AboutUs/AboutUs';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 
 function AppContent() {
@@ -17,7 +18,7 @@ function AppContent() {
       <main>
         <Routes>
           <Route path="/" element={<MainContent />} />
-          <Route path="/about"/>
+          <Route path="/about" element={<AboutUs />}/>
           <Route path="/contact" element={<Contact />} />
           <Route path="/services" element={<Services />} />
         </Routes>

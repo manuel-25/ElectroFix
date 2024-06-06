@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react';
-import './Contact.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'; // Importar icono de WhatsApp correctamente
+import React, { useState, useRef } from 'react'
+import './Contact.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons' // Importar icono de WhatsApp correctamente
 
 const faqs = [
     {
@@ -53,21 +53,21 @@ const faqs = [
         question: "¿Por qué confiar en nosotros?",
         answer: "Contamos con años de experiencia y técnicos altamente calificados. Nuestro compromiso es ofrecer un servicio de alta calidad y satisfacción garantizada."
     }
-];
+]
 
 const Contact = () => {
-    const [activeIndex, setActiveIndex] = useState(null);
-    const faqRef = useRef(null);
+    const [activeIndex, setActiveIndex] = useState(null)
+    const faqRef = useRef(null)
 
     const handleToggle = index => {
-        setActiveIndex(activeIndex === index ? null : index);
-    };
+        setActiveIndex(activeIndex === index ? null : index)
+    }
 
     const scrollToFAQ = () => {
-        const faqElement = faqRef.current;
-        const offset = faqElement.getBoundingClientRect().top + window.pageYOffset - 100; // Se puede ajustar
-        window.scrollTo({ top: offset, behavior: 'smooth' });
-    };
+        const faqElement = faqRef.current
+        const offset = faqElement.getBoundingClientRect().top + window.pageYOffset - 100 // Se puede ajustar
+        window.scrollTo({ top: offset, behavior: 'smooth' })
+    }
 
     return (
         <div className="contact-section">
@@ -106,7 +106,7 @@ const Contact = () => {
                 </div>
             </section>
         </div>
-    );
-};
+    )
+}
 
-export default Contact;
+export default Contact
