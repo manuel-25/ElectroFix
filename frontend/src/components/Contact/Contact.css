@@ -219,10 +219,11 @@
 
 .socials-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    width: 100%;
 }
 
 .contact-socials span {
@@ -257,6 +258,10 @@
     margin-right: 10px;
     font-size: 24px;
     color: var(--secondary-color);
+}
+
+#wapp-icon {
+    color: 	#25D366;
 }
 
 

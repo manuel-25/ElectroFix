@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import './Contact.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons' // Importar icono de WhatsApp correctamente
 
 const faqs = [
@@ -93,7 +93,7 @@ const Contact = () => {
                 <div className="socials-container">
                     <div className="social-item">
                         <p>Llamanos al </p>
-                        <a href="tel:01178967720">011 7896-7720</a>
+                        <a href="tel:01178967720"><FontAwesomeIcon icon={faPhone} className="social-icon" /> 011 7896-7720</a>
                     </div>
                     <div className="social-item">
                         <p>Envianos un mail</p>
@@ -101,7 +101,7 @@ const Contact = () => {
                     </div>
                     <div className="social-item">
                         <p>Contactanos por </p>
-                        <a href="https://wa.me/01178967720" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faWhatsapp} className="social-icon" /> WhatsApp</a>
+                        <a href="https://wa.me/01178967720" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faWhatsapp} className="social-icon" id='wapp-icon'/> WhatsApp</a>
                     </div>
                 </div>
             </section>
