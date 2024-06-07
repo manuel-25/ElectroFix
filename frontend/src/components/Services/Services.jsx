@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { products } from '../../utils/productsData'
 import './Services.css'
 
 // Importar los subcomponentes
@@ -7,19 +9,50 @@ import BrandSelection from '../BrandSelection/BrandSelection'
 import ModelSelection from '../ModelSelection/ModelSelection'
 import FaultSelection from '../FaultSelection/FaultSelection'
 import InformationForm from '../InformationForm/InformationForm'
-import FormSubmissionStatus from '../FormSubmissionStatus/FormSubmissionStatus';
+import FormSubmissionStatus from '../FormSubmissionStatus/FormSubmissionStatus'
 import ProgressBar from '../ProgressBar/ProgressBar'
 
 const Services = () => {
-  const [step, setStep] = useState(1)
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  let selectedCategory = queryParams.get('category') || null
+
+  // Verificar si la categoría seleccionada está en la lista de productos
+  const isValidCategory = products.some(product => product.name === selectedCategory);
+
+  // Si la categoría seleccionada no es válida, establecerla como null
+  if (!isValidCategory) {
+    selectedCategory = null;
+  }
+
+  // Buscar la categoría seleccionada en el array de productos
+  const selectedProduct = selectedCategory ? products.find(product => product.name === selectedCategory) : null;
+
+  // Si se encontró la categoría, guardarla en el estado formData
+  useEffect(() => {
+    if (selectedProduct) {
+      setFormData(prevState => ({
+        ...prevState,
+        category: {
+          id: selectedProduct.id,
+          name: selectedProduct.name
+        }
+      }))
+    }
+  }, [selectedProduct])
+
+  const [step, setStep] = useState(selectedCategory ? 2 : 1)
   const [formData, setFormData] = useState({
     date: '',
-    category: '',
+    category: selectedProduct ? { id: selectedProduct.id, name: selectedProduct.name } : '', // Guarda la categoría seleccionada si existe
     brand: '',
     model: '',
     faults: '',
     userData: {}
   })
+
+  console.log('formData', formData)
+
   const [submitStatus, setSubmitStatus] = useState('pending') // 'pending', 'success', 'error'
 
   // Función para manejar el cambio de etapa

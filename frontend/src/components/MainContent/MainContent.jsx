@@ -27,7 +27,6 @@ function MainContent() {
     }
 
     const handleSuggestionClick = (suggestion) => {
-        console.log("Suggestion clicked:", suggestion) // Log para depuración
         setSearchTerm(suggestion)
         setShowSuggestions(false)
     }
@@ -40,7 +39,6 @@ function MainContent() {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            console.log('Click outside:', event.target) // Log para depuración
             if (
                 inputRef.current && !inputRef.current.contains(event.target) &&
                 suggestionsRef.current && !suggestionsRef.current.contains(event.target)
@@ -78,17 +76,16 @@ function MainContent() {
                                     <div
                                         key={index}
                                         className="suggestion-item"
-                                        onClick={(e) => {
-                                            e.stopPropagation() // Detener propagación
-                                            handleSuggestionClick(item)
-                                        }}
+                                        onClick={() => handleSuggestionClick(item)}
                                     >
                                         {item}
                                     </div>
                                 ))}
                             </div>
                         )}
-                        <Link to="/services"><QuoteButton text="Cotizar Ahora" /></Link>
+                        <Link to={`/services?category=${encodeURIComponent(searchTerm)}`}>
+                            <QuoteButton text="Cotizar Ahora" />
+                        </Link>
                     </div>
                 </section>
             </div>
