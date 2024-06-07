@@ -55,6 +55,7 @@
     width: 100%;
     max-width: 1200px;
     gap: 20px;
+    position: relative; /* Asegura que el .suggestions-container se posicione relativo a este contenedor */
 }
 
 .reparation-bottom input[type="text"] {
@@ -64,7 +65,41 @@
     border-radius: 28px;
     font-size: 28px;
     background: none;
+    color: var(--secondary-color);
     max-width: 60%;
+}
+
+.reparation-bottom input:focus {
+    outline: none;
+    border: 2px solid var(--secondary-color);
+}
+
+.reparation-bottom input::placeholder {
+    font-size: 20px;
+}
+
+/* Suggestion list */
+.suggestions-container {
+    position: absolute;
+    top: 105%;
+    left: 0;
+    width: 60%;
+    background-color: var(--white-color);
+    border: 1px solid #ccc;
+    border-radius: 28px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
 }
 
 /* Features List */
@@ -163,6 +198,11 @@
     }
 
     .reparation-bottom input[type="text"] {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .suggestions-container {
         width: 100%;
         max-width: 100%;
     }

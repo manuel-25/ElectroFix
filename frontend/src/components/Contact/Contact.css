@@ -261,7 +261,9 @@
 }
 
 #wapp-icon {
-    color: 	#25D366;
+    border-radius: 2px;
+    background-color: #25D366;
+    color: 	var(--white-color);
 }
 
 

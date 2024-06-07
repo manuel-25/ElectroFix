@@ -53,7 +53,7 @@ const FaultSelection = ({ selectedCategory, nextStep, prevStep, updateFormData, 
         {categoryFaults.map((fault, index) => (
           <label
             key={index}
-            className="selection-item"
+            className="selection-item checkbox"
             htmlFor={`fault-${index}`}
             onClick={() => handleFaultChange(fault)}
           >

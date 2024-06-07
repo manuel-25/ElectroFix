@@ -36,7 +36,7 @@
   width: 45%;
   height: 65px;
   background-color: #fff;
-  padding: 15px;
+  padding: 20px;
   border-radius: 8px;
   font-weight: 700;
   line-height: 1.2;
@@ -92,6 +92,12 @@
 
   .selection-item {
     width: 100%;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .selection-item.checkbox {
+    justify-content: space-between;
   }
   
   .selection-item{
