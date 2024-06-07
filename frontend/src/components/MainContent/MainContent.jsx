@@ -9,6 +9,7 @@ function MainContent() {
     const [searchTerm, setSearchTerm] = useState('')
     const [showSuggestions, setShowSuggestions] = useState(false)
     const inputRef = useRef(null)
+    const suggestionsRef = useRef(null)
 
     const categoriesAndBrands = [
         'Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
@@ -22,17 +23,14 @@ function MainContent() {
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value)
-        if (event.target.value.length > 0) {
-            setShowSuggestions(true)
-        } else {
-            setShowSuggestions(false)
-        }
+        setShowSuggestions(event.target.value.length > 0)
     }
 
     const handleSuggestionClick = (suggestion) => {
+        console.log("Suggestion clicked:", suggestion) // Log para depuración
         setSearchTerm(suggestion)
         setShowSuggestions(false)
-    }    
+    }
 
     const handleFocus = () => {
         if (searchTerm.length > 0) {
@@ -42,8 +40,11 @@ function MainContent() {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            console.log('event.target', event.target)
-            if (inputRef.current && !inputRef.current.contains(event.target)) {
+            console.log('Click outside:', event.target) // Log para depuración
+            if (
+                inputRef.current && !inputRef.current.contains(event.target) &&
+                suggestionsRef.current && !suggestionsRef.current.contains(event.target)
+            ) {
                 setShowSuggestions(false)
             }
         }
@@ -52,7 +53,7 @@ function MainContent() {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
         }
-    }, [inputRef])
+    }, [inputRef, suggestionsRef])
 
     return (
         <div>
@@ -72,14 +73,14 @@ function MainContent() {
                             ref={inputRef}
                         />
                         {showSuggestions && (
-                            <div className="suggestions-container">
+                            <div className="suggestions-container" ref={suggestionsRef}>
                                 {filteredItems.map((item, index) => (
                                     <div
                                         key={index}
                                         className="suggestion-item"
-                                        onClick={() => {
-                                            console.log("Suggestion clicked:", item);
-                                            handleSuggestionClick(item);
+                                        onClick={(e) => {
+                                            e.stopPropagation() // Detener propagación
+                                            handleSuggestionClick(item)
                                         }}
                                     >
                                         {item}
