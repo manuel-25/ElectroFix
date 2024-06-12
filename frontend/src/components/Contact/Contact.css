@@ -255,18 +255,13 @@
     color: var(--secondary-color);
     text-decoration: none;
 }
-.social-icon {
+
+.social-item img {
     margin-right: 10px;
-    font-size: 24px;
     color: var(--secondary-color);
+    max-width: 30px;
+    max-height: 30px;
 }
-
-#wapp-icon {
-    border-radius: 2px;
-    background-color: #25D366;
-    color: 	var(--white-color);
-}
-
 
 /* Estilos para pantallas más pequeñas (hasta 900px) */
 @media only screen and (max-width: 900px) {

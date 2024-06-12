@@ -11,7 +11,7 @@ function MainContent() {
     const inputRef = useRef(null)
     const suggestionsRef = useRef(null)
 
-    const categoriesAndBrands = [
+    const categories = [
         'Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
         'Pava Eléctrica', 'Tostadora', 'Plancha', 'Secadora de Pelo', 'Planchita de Pelo',
         'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa', 'Microondas'
@@ -40,7 +40,7 @@ function MainContent() {
         { src: '/brands/Alcatel.png', alt: 'Alcatel' },
     ]
 
-    let filteredItems = categoriesAndBrands
+    let filteredItems = categories
         .filter(item => item.toLowerCase().includes(searchTerm.toLowerCase()))
         .slice(0, 6)
 
@@ -178,6 +178,9 @@ function MainContent() {
                     <QuoteButton text="Cotizar Ahora" />
                 </Link>
             </article>
+            <a href="https://wa.me/5491136106124" className="whatsapp-float" target="_blank" rel="noopener noreferrer">
+                <img src="/images/whatsappLogo.svg" alt="WhatsApp" />
+            </a>
         </div>
     )
 }

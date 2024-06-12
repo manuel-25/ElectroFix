@@ -5,52 +5,43 @@ const AboutUs = () => {
     return (
         <section className="about-us-section">
             <div className="about-us-content">
-                <h2>Sobre Nosotros</h2>
+                <h2>Sabemos de dónde venimos</h2>
+                <img src="/images/sabemosdedondevenimos.webp" alt="Banner del equipo" className="about-us-image"/>
                 <p>
-                    Bienvenidos a ElectroFix, donde la pasión por la tecnología se encuentra con la dedicación al servicio al cliente. Desde nuestros humildes comienzos, hemos crecido para convertirnos en líderes en la reparación de electrodomésticos, gracias a nuestro compromiso inquebrantable con la calidad y la satisfacción del cliente.
+                   ElectroFix, donde la pasión por la tecnología se fusiona con la dedicación al servicio al cliente. Desde nuestros humildes comienzos, hemos crecido hasta convertirnos en líderes en la reparación de electrodomésticos, impulsados por nuestro compromiso inquebrantable con la calidad, la rapidez y la eficiencia. Nuestros clientes nos describen como responsables y eficientes, y nos esforzamos cada día por superar sus expectativas con un trabajo bien hecho y un servicio rápido y confiable.
                 </p>
-                <div className="cards-container">
-                    <div className="card">
-                        <div className="card-content">
-                            <div className="card-image">
-                                <img src="/images/reparacion-1094500402-612x612.jpg" alt="Foto del equipo 1" />
-                            </div>
-                            <div className="text-content">
-                                <h3>Valores</h3>
-                                <p>
-                                    En ElectroFix, valoramos la integridad, la transparencia y la excelencia. Creemos en hacer las cosas bien, no solo por nuestros clientes, sino también por el planeta. Nos esforzamos por reducir el desperdicio electrónico a través de reparaciones efectivas y sostenibles.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="card">
-                        <div className="card-content">
-                            <div className="card-image">
-                                <img src="/images/reparacion-1094500402-612x612.jpg" alt="Foto del equipo 2" />
-                            </div>
-                            <div className="text-content">
-                                <h3>Objetivos</h3>
-                                <p>
-                                    Nuestro principal objetivo es devolverle la vida a tus electrodomésticos y hacer que funcionen como nuevos. Queremos ser tu primera opción para todas tus necesidades de reparación, ofreciendo un servicio rápido, confiable y asequible.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="card">
-                        <div className="card-content">
-                            <div className="card-image">
-                                <img src="/images/reparacion-1094500402-612x612.jpg" alt="Foto del equipo 3" />
-                            </div>
-                            <div className="text-content">
-                                <h3>Misión</h3>
-                                <p>
-                                    Nuestra misión es ofrecer soluciones de reparación de alta calidad que sean accesibles para todos. Nos dedicamos a prolongar la vida útil de los electrodomésticos, ahorrándote dinero y ayudando a proteger el medio ambiente. Queremos ser más que una simple empresa de reparaciones; queremos ser tus aliados de confianza.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                
+                <div className="values-section">
+                    <h3>Nuestros Valores</h3>
+                    <p>
+                        En ElectroFix, nuestros valores fundamentales son la honestidad, la integridad y la responsabilidad. Nos enorgullecemos de ofrecer servicios transparentes y fiables, asegurándonos de que cada cliente reciba la mejor atención posible.
+                    </p>
                 </div>
-                {/* Aquí puedes agregar el resto de tu contenido */}
+
+                <div className="experience-section">
+                    <h3>Experiencia y Profesionalismo</h3>
+                    <p>
+                        Contamos con un equipo de técnicos altamente capacitados con años de experiencia en la reparación de todo tipo de electrodomésticos. Utilizamos herramientas y técnicas de vanguardia para garantizar que cada reparación sea efectiva y duradera.
+                    </p>
+                </div>
+
+                <div className="testimonials-section">
+                    <h3>Testimonios de Clientes</h3>
+                    <blockquote>
+                        "Unos genios!! Arreglaron el ventilador en re poco tiempo y funciona re bien. Nos explicaron cada paso. Son muy amables. Muchas gracias! :)" - 
+                        Eugenia Andujar
+                    </blockquote>
+                    <blockquote>
+                        "La rapidez y eficiencia de ElectroFix es genial. Mi samsung lo repararon en menos de un dia. Recomendadisimo" - María Ascasubi
+                    </blockquote>
+                </div>
+
+                <div className="contact-section">
+                    <h3>Llámanos Hoy Mismo</h3>
+                    <p>
+                        ¿Tienes un electrodoméstico que necesita reparación? No dudes en contactarnos. Estamos aquí para ayudarte a que tus equipos vuelvan a funcionar como nuevos.
+                    </p>
+                </div>
             </div>
         </section>
     );

@@ -172,6 +172,7 @@
 }
 
 .services-container h2 {
+    font-size: 36px;
     margin-bottom: 30px;
 }
 
@@ -257,6 +258,20 @@
     max-width: 70px;
     max-height: 70px;
     object-fit: contain;
+}
+
+/* Whatsapp icon */
+.whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.whatsapp-float img {
+    width: 65px;
+    height: 65px;
+    border-radius: 20%;
 }
 
 @media (max-width: 900px) {

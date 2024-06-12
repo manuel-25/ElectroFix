@@ -97,11 +97,11 @@ const Contact = () => {
                     </div>
                     <div className="social-item">
                         <p>Envianos un mail</p>
-                        <a href="mailto:electrofix@gmail.com"><FontAwesomeIcon icon={faEnvelope} className="social-icon" />electrofix@gmail.com</a>
+                        <a href="mailto:electrofix@gmail.com"><FontAwesomeIcon icon={faEnvelope} className="social-icon" /> electrofixsupport@gmail.com</a>
                     </div>
                     <div className="social-item">
                         <p>Contactanos por </p>
-                        <a href="https://wa.me/01178967720" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faWhatsapp} className="social-icon" id='wapp-icon'/> WhatsApp</a>
+                        <a href="https://wa.me/01178967720" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="WhatsApp"/></a>
                     </div>
                 </div>
             </section>
