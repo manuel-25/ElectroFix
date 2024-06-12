@@ -17,7 +17,7 @@ function MainContent() {
         'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa', 'Microondas'
     ]
 
-    const filteredItems = categoriesAndBrands
+    let filteredItems = categoriesAndBrands
         .filter(item => item.toLowerCase().includes(searchTerm.toLowerCase()))
         .slice(0, 6) // Limitar a 6 resultados
 
