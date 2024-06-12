@@ -12,7 +12,7 @@ function Footer() {
                     </h4>
                 </div>
                 <div className="footer-terms-and-condition">
-                    <p>© 2024 | <a href="/">Términos y Condiciones</a> | <a href="/">Privacidad</a></p>
+                    <p>© 2024 | <a href="/terminos-condiciones">Términos y Condiciones</a> | <a href="/privacidad">Privacidad</a></p>
                 </div>
                 <div className="footer-bottom">
                     <p>Todos los derechos reservados ElectroFix!</p>
