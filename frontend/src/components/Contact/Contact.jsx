@@ -74,7 +74,7 @@ const Contact = () => {
             <section className="contact-content">
                 <h3>¿Tenés alguna duda?</h3>
                 <span>¿Necesitas ayuda con tu reparación?</span>
-                <p>No dudes en contactarnos. Estamos aquí para ayudarte.</p>
+                <p>No dudes en contactarnos. Estamos aca para ayudarte.</p>
                 <button className="contact-button" onClick={scrollToFAQ}>Soporte</button>
             </section>
             <section className="frequent-question-container" ref={faqRef}>

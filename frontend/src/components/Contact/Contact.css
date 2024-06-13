@@ -23,8 +23,8 @@
 }
 
 .contact-content h3 {
-    font-size: 56px;
-    color: var(--white-color);
+    font-size: 56px !important;
+    color: var(--white-color) !important;
 }
 
 .contact-content span {
@@ -52,108 +52,6 @@
 }
 
 /*FAQ section */
-.frequent-question-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 1200px;
-    background-color: var(--white-color);
-    border-radius: 8px;
-    margin: 30px 0;
-}
-
-.frequent-question {
-    border-bottom: 1px solid var(--text-color-light);
-}
-
-.question {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--secondary-color);
-    padding: 20px;
-}
-
-.answer {
-    font-size: 18px;
-    text-align: left;
-    background-color: var(--text-color-light);
-    padding: 0 20px;
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    transition: max-height, padding 0.5s ease;
-}
-
-.active.answer {
-    padding: 20px;
-    max-height: 200px;
-    opacity: 1;
-}
-
-.rotate {
-    transition: transform 0.3s ease;
-}
-
-.rotate.up {
-    transform: rotate(180deg);
-}
-
-.contact-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    height: auto;
-    background-color: var(--background-color);
-    color: var(--text-color);
-}
-
-.contact-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100vh;
-    padding: 20px;
-    background-color: var(--secondary-color);
-    color: var(--white-color);
-    gap: 20px;
-}
-
-.contact-content h3 {
-    font-size: 56px;
-    color: var(--white-color);
-}
-
-.contact-content span {
-    font-size: 20px;
-}
-
-.contact-content p {
-    font-size: 18px;
-    margin-bottom: 20px;
-}
-
-.contact-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    color: var(--white-color);
-    background-color: var(--primary-color);
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.contact-button:hover {
-    background-color: var(--primary-color-hover);
-}
-
 .frequent-question-container {
     display: flex;
     flex-direction: column;

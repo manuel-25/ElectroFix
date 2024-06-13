@@ -82,7 +82,7 @@ function MainContent() {
                 <section className="section-reparation">
                     <div className='reparation-top'>
                         <h1>¡Reparamos tu equipo!</h1>
-                        <p>¿Se rompió tu equipo?</p>
+                        <p>¿Se rompió tu equipo? Buscalo</p>
                     </div>
                     <div className="reparation-bottom">
                         <input

@@ -51,8 +51,6 @@ const Services = () => {
     userData: {}
   })
 
-  console.log('formData', formData)
-
   const [submitStatus, setSubmitStatus] = useState('pending') // 'pending', 'success', 'error'
 
   // Función para manejar el cambio de etapa
