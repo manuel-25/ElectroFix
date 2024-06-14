@@ -16,7 +16,7 @@ function Footer() {
                 </div>
                 <div className="footer-bottom">
                     <p>Todos los derechos reservados ElectroFix!</p>
-                    <p>Av. Vicente Lopez 770 B1878 Quilmes | Argentina</p>
+                    <p>Av. Vicente Vicentin 999 B1878 Avellaneda | Argentina</p>
                     <p>Los precios online y los planes de financiación para los productos presentados/publicados en electrofix.com son válidos exclusivamente para la compra vía internet.</p>
                     <p>La venta de cualquier producto o servicio publicado está sujeta a la verificación de stock y/o disponibilidad.</p>
                 </div>

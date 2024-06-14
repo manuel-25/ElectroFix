@@ -2,20 +2,19 @@ import React, { useState, useRef } from 'react'
 import './Contact.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons'
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons' // Importar icono de WhatsApp correctamente
 
 const faqs = [
     {
         question: "¿Cómo funciona nuestro servicio?",
-        answer: "Nuestro servicio es sencillo. Usted nos envía su electrodoméstico mediante correo, lo revisamos y le enviamos una cotización parcial. Una vez aprobado, realizamos la reparación y se lo devolvemos."
+        answer: "Nuestro servicio es sencillo. Usted realiza la cotización de su equipo en nuestra web y luego nos envía su electrodoméstico mediante correo, lo revisamos y le enviamos una cotización final. Una vez aprobado, realizamos la reparación, lo probamos y se lo devolvemos."
     },
     {
         question: "¿Cómo es el proceso de cotización?",
-        answer: "La cotización es parcial y se realiza una vez que recibimos y revisamos su electrodoméstico. Un técnico especializado evaluará el daño y le enviaremos un presupuesto detallado."
+        answer: "La cotización web es estimada y se realizara una vez que recibimos y revisamos su electrodoméstico. Un técnico especializado evaluará el daño y le enviaremos un presupuesto detallado."
     },
     {
         question: "¿Qué opciones tengo para realizar el envío?",
-        answer: "Puede enviar su electrodoméstico a través de Correo Argentino o Andreani. Ambas opciones garantizan una entrega segura y rastreable."
+        answer: "Puede enviar su electrodoméstico a través de Correo Argentino o Andreani."
     },
     {
         question: "¿Cómo se lleva a cabo la revisión del equipo?",
@@ -39,7 +38,7 @@ const faqs = [
     },
     {
         question: "¿Qué sucede si no estoy satisfecho con la reparación?",
-        answer: "Si no está satisfecho con la reparación, contáctenos para resolver el problema. Ofrecemos garantía por nuestro trabajo."
+        answer: "Si no está satisfecho con la reparación, contáctenos para resolver el problema. Ofrecemos garantía de hasta 6 meses."
     },
     {
         question: "¿Se puede realizar seguimiento?",
@@ -47,11 +46,11 @@ const faqs = [
     },
     {
         question: "¿Qué métodos de pago se aceptan?",
-        answer: "Aceptamos diversos métodos de pago, incluyendo tarjetas de crédito, débito y transferencias bancarias."
+        answer: "Aceptamos tarjetas de crédito, débito, transferencias bancarias y mercado pago."
     },
     {
         question: "¿Por qué confiar en nosotros?",
-        answer: "Contamos con años de experiencia y técnicos altamente calificados. Nuestro compromiso es ofrecer un servicio de alta calidad y satisfacción garantizada."
+        answer: "Contamos con años de experiencia y técnicos altamente calificados. Nuestro compromiso es ofrecer un servicio de alta calidad y rapidez."
     }
 ]
 
@@ -93,15 +92,15 @@ const Contact = () => {
                 <div className="socials-container">
                     <div className="social-item">
                         <p>Llamanos al </p>
-                        <a href="tel:01178967720"><FontAwesomeIcon icon={faPhone} className="social-icon" /> 011 7896-7720</a>
+                        <a href="tel:01178968821"><FontAwesomeIcon icon={faPhone} className="social-icon" /> 011 7896-8821</a>
                     </div>
                     <div className="social-item">
                         <p>Envianos un mail</p>
-                        <a href="mailto:electrofix@gmail.com"><FontAwesomeIcon icon={faEnvelope} className="social-icon" /> electrofixsupport@gmail.com</a>
+                        <a href="mailto:electrofixweb@gmail.com"><FontAwesomeIcon icon={faEnvelope} className="social-icon" /> electrofixweb@gmail.com</a>
                     </div>
                     <div className="social-item">
                         <p>Contactanos por </p>
-                        <a href="https://wa.me/01178967720" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="WhatsApp"/></a>
+                        <a href="https://wa.me/01178968821" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="WhatsApp"/></a>
                     </div>
                 </div>
             </section>
