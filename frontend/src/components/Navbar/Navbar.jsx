@@ -32,13 +32,13 @@ function Navbar() {
                         </Link>
                     </div>
                     <nav className="navbar-links">
-                        <Link to="/services" className="nav-link">Servicios</Link>
-                        <Link to="/about" className="nav-link">Sobre Nosotros</Link>
-                        <Link to="/contact" className="nav-link">Contacto</Link>
+                        <Link to="/reparacion-electrodomesticos" className="nav-link">Servicios</Link>
+                        <Link to="/nosotros" className="nav-link">Sobre Nosotros</Link>
+                        <Link to="/contacto" className="nav-link">Contacto</Link>
                     </nav>
                     <div className="navbar-right">
                         <FontAwesomeIcon icon={faUser} className="user-icon" />
-                        <Link to="/services"><QuoteButton text="Cotizar Ahora" /></Link>
+                        <Link to="/reparacion-electrodomesticos"><QuoteButton text="Cotizar Ahora" /></Link>
                     </div>
                     <FontAwesomeIcon 
                         icon={faTimes} 
@@ -49,25 +49,25 @@ function Navbar() {
             </div>
             {isMenuOpen && <div className="menu-overlay open" onClick={closeMenu}></div>}
             <div className={`side-menu ${isMenuOpen ? 'open' : ''}`}>
-                <Link to="/services"><QuoteButton text="Cotizar Ahora" /></Link>
+                <Link to="/reparacion-electrodomesticos"><QuoteButton text="Cotizar Ahora" /></Link>
                 <ul className='sideMenu-links'>
                     <li>
-                        <Link to="/services" className="nav-link" onClick={closeMenu}>
+                        <Link to="/reparacion-electrodomesticos" className="nav-link" onClick={closeMenu}>
                             <FontAwesomeIcon icon={faUser} className="icon"/> <span>Ingresar</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/services" className="nav-link" onClick={closeMenu}>
+                        <Link to="/reparacion-electrodomesticos" className="nav-link" onClick={closeMenu}>
                             <FontAwesomeIcon icon={faCircleQuestion} className="icon"/> <span>Servicios</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/about" className="nav-link" onClick={closeMenu}>
+                        <Link to="/nosotros" className="nav-link" onClick={closeMenu}>
                             <FontAwesomeIcon icon={faUserFriends} className="icon"/> <span>Sobre Nosotros</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/contact" className="nav-link" onClick={closeMenu}>
+                        <Link to="/contacto" className="nav-link" onClick={closeMenu}>
                             <FontAwesomeIcon icon={faPhone} className="icon"/> <span>Contacto</span>
                         </Link>
                     </li>

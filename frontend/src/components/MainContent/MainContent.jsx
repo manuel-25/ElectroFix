@@ -106,7 +106,7 @@ function MainContent() {
                                 ))}
                             </div>
                         )}
-                        <Link to={`/services?category=${encodeURIComponent(searchTerm)}`}>
+                        <Link to={`/reparacion-electrodomesticos?category=${encodeURIComponent(searchTerm)}`}>
                             <QuoteButton text="Cotizar Ahora" />
                         </Link>
                     </div>
@@ -174,7 +174,7 @@ function MainContent() {
                         </div>
                     ))}
                 </section>
-                <Link to="/services">
+                <Link to="/reparacion-electrodomesticos">
                     <QuoteButton text="Cotizar Ahora" />
                 </Link>
             </article>

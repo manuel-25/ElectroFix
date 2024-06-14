@@ -20,14 +20,14 @@ function AppContent() {
       <main>
         <Routes>
           <Route path="/" element={<MainContent />} />
-          <Route path="/about" element={<AboutUs />}/>
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/services" element={<Services />} />
+          <Route path="/nosotros" element={<AboutUs />}/>
+          <Route path="/contacto" element={<Contact />} />
+          <Route path="/reparacion-electrodomesticos" element={<Services />} />
           <Route path="/terminos-condiciones" element={<TermsAndConditions />} />
           <Route path="/privacidad" element={<PrivacyPolicy />} />
         </Routes>
       </main>
-      {location.pathname !== '/services' && <Footer />}
+      {location.pathname !== '/reparacion-electrodomesticos' && <Footer />}
     </div>
   )
 }
