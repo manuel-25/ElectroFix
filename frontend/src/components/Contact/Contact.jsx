@@ -100,7 +100,10 @@ const Contact = () => {
                     </div>
                     <div className="social-item">
                         <p>Contactanos por </p>
-                        <a href="https://wa.me/01178967720" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="WhatsApp"/></a>
+                        <div className='social-logos'>
+                            <a href="https://wa.me/01178967720" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="WhatsApp"/></a>
+                            <a href="https://www.instagram.com/electrosafeok/" target="_blank" rel="noopener noreferrer"><img src="/images/Instagram.webp" alt="Instagram"/></a>
+                        </div>
                     </div>
                 </div>
             </section>
