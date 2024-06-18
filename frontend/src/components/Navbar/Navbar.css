@@ -25,15 +25,16 @@
 }
 
 .logo-container {
-    font-family: var(--font-secondary);     
+    font-family: var(--logo-font);     
     display: flex;
     flex-direction: row;
+    align-items: center;
     font-size: 18px;
     text-decoration: none;
 }
 
 .logo {
-    height: 200px;
+    height: 100px;
 }
 
 .logo-left {

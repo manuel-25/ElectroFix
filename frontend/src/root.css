@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
 :root {
-    --primary-color: #FF393A; /* Rojo Vivo */
+    /*--primary-color: #FF393A; /* Rojo Vivo */
+    --primary-color: #FF6600; /* Rojo Vivo */
     --primary-color-hover: #e53935; /* Rojo Vivo más oscuro para :hover */
     
     --secondary-color: #003366; /* Azul Oscuro */
@@ -16,7 +18,10 @@
     --white-color: #FFFFFF; /* Blanco para fondos alternativos */
     
     --green-color: #4CAF50; /* Verde Claro */
+    --orange-color: #FF6600;
+    --black-color: #000000
 
     --primary-font: 'Open Sans', sans-serif;
     --secondary-font: 'Roboto', sans-serif;
+    --logo-font: 'Anton', sans-serif;
 }

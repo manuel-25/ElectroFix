@@ -10,7 +10,7 @@ const CategorySelection = ({ nextStep, updateFormData }) => {
 
   return (
     <div className="selection-container">
-      <h2>¿Qué necesita reparación?</h2>
+      <h2>¿QUE NECESITA REPARACION?</h2>
       <div className="selection-list">
         {products.map(category => (
           <div

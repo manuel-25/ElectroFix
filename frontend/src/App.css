@@ -18,8 +18,9 @@ p {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-secondary);
-  color: var(--secondary-color);
+  font-family: var(--logo-font);
+  color: var(--black-color) !important;
+  font-weight: 400;
 }
 
 main {

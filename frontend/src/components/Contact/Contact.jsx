@@ -96,7 +96,7 @@ const Contact = () => {
                     </div>
                     <div className="social-item">
                         <p>Envianos un mail</p>
-                        <a href="mailto:electrosafequilmes@gmail.com"><FontAwesomeIcon icon={faEnvelope} className="social-icon" /> electrosafequilmes@gmail.com</a>
+                        <a href="mailto:electrosafeservice@gmail.com"><FontAwesomeIcon icon={faEnvelope} className="social-icon" /> electrosafeservice@gmail.com</a>
                     </div>
                     <div className="social-item">
                         <p>Contactanos por </p>
