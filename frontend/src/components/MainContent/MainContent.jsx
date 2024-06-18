@@ -281,7 +281,7 @@ function MainContent() {
                 <p className='attribution'><span className='powered-by-google' title="Powered by Google"></span></p>
             </section>
             <div className='whatsapp-float'>
-                <a href="https://wa.me/541132370240" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/01178967720" target="_blank" rel="noopener noreferrer">
                     <img src='/images/whatsappLogo.svg' alt='WhatsApp' />
                 </a>
             </div>

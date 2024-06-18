@@ -25,17 +25,6 @@ const AboutUs = () => {
                     </p>
                 </div>
 
-                <div className="testimonials-section">
-                    <h3>Testimonios de Clientes</h3>
-                    <blockquote>
-                        "Unos genios!! Arreglaron el ventilador en re poco tiempo y funciona re bien. Nos explicaron cada paso. Son muy amables. Muchas gracias! :)" - 
-                        Eugenia Andujar
-                    </blockquote>
-                    <blockquote>
-                        "La rapidez y eficiencia de Electrosafe es genial. Mi samsung lo repararon en menos de un dia. Recomendadisimo" - María Ascasubi
-                    </blockquote>
-                </div>
-
                 <div className="contact-section">
                     <h3>Llámanos Hoy Mismo</h3>
                     <p>
