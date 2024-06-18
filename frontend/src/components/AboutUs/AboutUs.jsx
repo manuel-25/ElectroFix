@@ -8,13 +8,13 @@ const AboutUs = () => {
                 <h2>Sabemos de dónde venimos</h2>
                 <img src="/images/sabemosdedondevenimos.webp" alt="Banner del equipo" className="about-us-image"/>
                 <p>
-                   ElectroFix, donde la pasión por la tecnología se fusiona con la dedicación al servicio al cliente. Desde nuestros humildes comienzos, hemos crecido hasta convertirnos en líderes en la reparación de electrodomésticos, impulsados por nuestro compromiso inquebrantable con la calidad, la rapidez y la eficiencia. Nuestros clientes nos describen como responsables y eficientes, y nos esforzamos cada día por superar sus expectativas con un trabajo bien hecho y un servicio rápido y confiable.
+                   Electrosafe, donde la pasión por la tecnología se fusiona con la dedicación al servicio al cliente. Desde nuestros humildes comienzos, hemos crecido hasta convertirnos en líderes en la reparación de electrodomésticos, impulsados por nuestro compromiso inquebrantable con la calidad, la rapidez y la eficiencia. Nuestros clientes nos describen como responsables y eficientes, y nos esforzamos cada día por superar sus expectativas con un trabajo bien hecho y un servicio rápido y confiable.
                 </p>
                 
                 <div className="values-section">
                     <h3>Nuestros Valores</h3>
                     <p>
-                        En ElectroFix, nuestros valores fundamentales son la honestidad, la integridad y la responsabilidad. Nos enorgullecemos de ofrecer servicios transparentes y fiables, asegurándonos de que cada cliente reciba la mejor atención posible.
+                        En Electrosafe, nuestros valores fundamentales son la honestidad, la integridad y la responsabilidad. Nos enorgullecemos de ofrecer servicios transparentes y fiables, asegurándonos de que cada cliente reciba la mejor atención posible.
                     </p>
                 </div>
 
@@ -32,7 +32,7 @@ const AboutUs = () => {
                         Eugenia Andujar
                     </blockquote>
                     <blockquote>
-                        "La rapidez y eficiencia de ElectroFix es genial. Mi samsung lo repararon en menos de un dia. Recomendadisimo" - María Ascasubi
+                        "La rapidez y eficiencia de Electrosafe es genial. Mi samsung lo repararon en menos de un dia. Recomendadisimo" - María Ascasubi
                     </blockquote>
                 </div>
 

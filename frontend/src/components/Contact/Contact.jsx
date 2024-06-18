@@ -92,15 +92,15 @@ const Contact = () => {
                 <div className="socials-container">
                     <div className="social-item">
                         <p>Llamanos al </p>
-                        <a href="tel:01178968821"><FontAwesomeIcon icon={faPhone} className="social-icon" /> 011 7896-8821</a>
+                        <a href="tel:01178967720"><FontAwesomeIcon icon={faPhone} className="social-icon" /> 011 7896-7720</a>
                     </div>
                     <div className="social-item">
                         <p>Envianos un mail</p>
-                        <a href="mailto:electrofixweb@gmail.com"><FontAwesomeIcon icon={faEnvelope} className="social-icon" /> electrofixweb@gmail.com</a>
+                        <a href="mailto:electrosafequilmes@gmail.com"><FontAwesomeIcon icon={faEnvelope} className="social-icon" /> electrosafequilmes@gmail.com</a>
                     </div>
                     <div className="social-item">
                         <p>Contactanos por </p>
-                        <a href="https://wa.me/01178968821" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="WhatsApp"/></a>
+                        <a href="https://wa.me/01178967720" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="WhatsApp"/></a>
                     </div>
                 </div>
             </section>
