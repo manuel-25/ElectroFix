@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react'
-import QuoteButton from '../QuoteButton/QuoteButton'
-import './MainContent.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck, faStore, faTruck, faHome } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect, useRef } from 'react';
+import QuoteButton from '../QuoteButton/QuoteButton';
+import './MainContent.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faStore, faTruck, faHome } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 function MainContent() {
-    const [searchTerm, setSearchTerm] = useState('')
-    const [showSuggestions, setShowSuggestions] = useState(false)
-    const inputRef = useRef(null)
-    const suggestionsRef = useRef(null)
+    const [searchTerm, setSearchTerm] = useState('');
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const inputRef = useRef(null);
+    const suggestionsRef = useRef(null);
 
     const categories = [
         'Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
@@ -40,25 +40,82 @@ function MainContent() {
         { src: '/brands/Alcatel.png', alt: 'Alcatel' },
     ]
 
+    const reviews = [
+        {
+            id: 1,
+            name: 'Daniel Petrone',
+            rating: 5,
+            comment: 'Exelente atencion , muy buen trabajo y rapido, todo perfecto , muy recomendable',
+            profilePic: 'https://lh3.googleusercontent.com/a/ACg8ocLZermqMpgm-jmmOuqM5wQXxGtoUSSW0TKFje0IDSdYzZ57HA=w60-h60-p-rp-mo-br100',
+            timeAgo: 'Hace un mes',
+            url: 'https://www.google.com/maps/contrib/103782907861104787038/reviews/@-37.741386,-64.957331,6z/data=!4m3!8m2!3m1!1e1?hl=es-419&entry=ttu'
+        },
+        {
+            id: 2,
+            name: 'Eugenia Andujar',
+            rating: 5,
+            comment: 'Unos genios!! Arreglaron el ventilador en re poco tiempo y funciona re bien. Nos explicaron cada paso. Son muy amables. Muchas gracias! :)',
+            profilePic: 'https://lh3.googleusercontent.com/a/ACg8ocKLTtxu6h20QVrZeama3LwfX55guZj3cVMCB8_H-ISt4QCIpg=w60-h60-p-rp-mo-br100',
+            timeAgo: 'Hace 4 meses',
+            url: 'https://www.google.com/maps/contrib/108126814334509832821?hl=es-419&ved=1t:31294&ictx=111'
+        },
+        {
+            id: 3,
+            name: 'Maria Florencia Gianni',
+            rating: 5,
+            comment: 'Super recomiendo! unos genios los chicos me solucionaron el problema de mi plancha de un dia para otro!',
+            profilePic: 'https://lh3.googleusercontent.com/a-/ALV-UjUOuXbNU2y2reksHYdYpFBbB0OUiyqUWRxrLh3zVnrf6RhKqoc=w60-h60-p-rp-mo-br100',
+            timeAgo: 'Hace 6 meses',
+            url: 'https://www.google.com/maps/contrib/102927586818368431798?hl=es-419&ved=1t:31294&ictx=111'
+        },
+        {
+            id: 4,
+            name: 'Liliana Camaron',
+            rating: 5,
+            comment: 'Excelente atención, muy profesionales y  cumplen con los tiempos de entrega. Muy recomendables',
+            profilePic: 'https://lh3.googleusercontent.com/a-/ALV-UjVjqMzU-Y_TdQRckdSy9N7mgcqEVPW476n8rXBd1EYlTu_IKHhNSg=w60-h60-p-rp-mo-br100',
+            timeAgo: 'Hace 8 meses',
+            url: 'https://www.google.com/maps/contrib/110487861240920629631?hl=es-419&ved=1t:31294&ictx=111'
+        },
+        {
+            id: 5,
+            name: 'Lucio Mejias',
+            rating: 5,
+            comment: 'Muy profesionales! Tenía una cava de vinos que parecía perdida y me la recuperaron! El mejor de service de Quilmes!',
+            profilePic: 'https://lh3.googleusercontent.com/a/ACg8ocL9AV7zpVhvbhxxJT3USnJ1YoZwefUGF55cGhVTV3PQP0WvXQ=w60-h60-p-rp-mo-br100',
+            timeAgo: 'Hace un año',
+            url: 'https://www.google.com/maps/contrib/112499526229381407473?hl=es-419&ved=1t:31294&ictx=111'
+        },
+        {
+            id: 6,
+            name: 'Rosana R. Kogan',
+            rating: 4,
+            comment: 'Pude reparar mi horno eléctrico, lo mejor es que lo retiraron a domicilio!',
+            profilePic: 'https://lh3.googleusercontent.com/a-/ALV-UjUZviKLwMreDInY68ixgCsgYgicOf2yEX2YC3r75aaisf87ycM=w60-h60-p-rp-mo-br100',
+            timeAgo: 'Hace un año',
+            url: 'https://www.google.com/maps/contrib/110740870314712365654?hl=es-419&ved=1t:31294&ictx=111'
+        },
+    ]
+
     let filteredItems = categories
         .filter(item => item.toLowerCase().includes(searchTerm.toLowerCase()))
-        .slice(0, 6)
+        .slice(0, 6);
 
     const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value)
-        setShowSuggestions(event.target.value.length > 0)
-    }
+        setSearchTerm(event.target.value);
+        setShowSuggestions(event.target.value.length > 0);
+    };
 
     const handleSuggestionClick = (suggestion) => {
-        setSearchTerm(suggestion)
-        setShowSuggestions(false)
-    }
+        setSearchTerm(suggestion);
+        setShowSuggestions(false);
+    };
 
     const handleFocus = () => {
         if (searchTerm.length > 0) {
-            setShowSuggestions(true)
+            setShowSuggestions(true);
         }
-    }
+    };
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -66,15 +123,15 @@ function MainContent() {
                 inputRef.current && !inputRef.current.contains(event.target) &&
                 suggestionsRef.current && !suggestionsRef.current.contains(event.target)
             ) {
-                setShowSuggestions(false)
+                setShowSuggestions(false);
             }
-        }
+        };
 
-        document.addEventListener('mousedown', handleClickOutside)
+        document.addEventListener('mousedown', handleClickOutside);
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [inputRef, suggestionsRef])
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [inputRef, suggestionsRef]);
 
     return (
         <div>
@@ -170,7 +227,7 @@ function MainContent() {
                 <section className='brands-logo-container'>
                     {brandLogos.map((logo, index) => (
                         <div key={index} className='brand-logo-item'>
-                            <img src={logo.src} alt={logo.alt} className='brand-logo' />
+                            <img src={logo.src} alt={logo.alt} className='brand-logo' loading="lazy"/>
                         </div>
                     ))}
                 </section>
@@ -178,11 +235,58 @@ function MainContent() {
                     <QuoteButton text="Cotizar Ahora" />
                 </Link>
             </article>
-            <a href="https://wa.me/5491136106124" className="whatsapp-float" target="_blank" rel="noopener noreferrer">
-                <img src="/images/whatsappLogo.svg" alt="WhatsApp" />
-            </a>
+            <section className='reviews-section'>
+                <div className='title-review-container'>
+                    <h2>Esto dicen de nosotros</h2>
+                </div>
+                <div className='review-location'>
+                    <h2>
+                        <span className='icon'></span>
+                    </h2>
+                    <p>Av. Vicente López 770 B1878, Quilmes, Provincia de Buenos Aires</p>
+                </div>
+                <p className='rating'>
+                    <span className='rating-number'>4.7</span>
+                    <span className='stars-container'>
+                        <span className='star'></span>
+                        <span className='star'></span>
+                        <span className='star'></span>
+                        <span className='star'></span>
+                        <span className='star half'></span>
+                    </span>
+                    <a href="https://www.google.com/search?q=electrosafe+quilmes&sca_esv=a0e417c138758ffa&hl=es-419&gl=ar&sxsrf=ADLYWIL3yPa3TtrqufPpEYP-tPt-nsSfxQ%3A1718729648775&ei=sLtxZun6LovY1sQPp5eKsAQ&oq=electrosa&gs_lp=Egxnd3Mtd2l6LXNlcnAiCWVsZWN0cm9zYSoCCAAyChAjGIAEGCcYigUyChAjGIAEGCcYigUyExAuGIAEGBQYxwEYhwIYjgUYrwEyBRAAGIAEMgUQABiABDIFEAAYgAQyCxAuGIAEGMcBGK8BMgsQLhiABBjHARivATIFEAAYgAQyBRAAGIAESP0TUABYpQtwAHgBkAEAmAGUAaAB2AeqAQMyLje4AQPIAQD4AQGYAgmgAvMHwgIEECMYJ8ICCxAuGIAEGLEDGIMBwgIREC4YgAQYsQMY0QMYgwEYxwHCAgsQABiABBixAxiDAcICDhAAGIAEGLEDGIMBGIoFwgIIEC4YgAQYsQPCAg4QLhiABBixAxjRAxjHAcICChAAGIAEGEMYigXCAg4QLhiABBixAxiDARjUAsICExAuGIAEGLEDGEMYgwEYyQMYigXCAhMQLhiABBixAxjRAxhDGMcBGIoFwgIOEC4YgAQYsQMYxwEYrwHCAggQABiABBixA8ICFBAuGIAEGLEDGIMBGMcBGI4FGK8BmAMAkgcDMC45oAefeA&sclient=gws-wiz-serp#ip=1&lrd=0x95a3332dc6e1e2eb:0x91e0a93b10ba873,1,,,,">115 opiniones</a>
+                </p>
+                <ul className='review-listing'>
+                    {reviews.map(review => (
+                        <li key={review.id} className='review-item'>
+                            <a href={review.url}><img src={review.profilePic} alt={`${review.name}'s profile`} className='profile-pic' loading="lazy"/></a>
+                            <div className='review-name'><a href={review.url}>{review.name}</a></div>
+                            <div className='review-details'>
+                                <div className='review-rating'>
+                                    {[...Array(5)].map((_, i) => (
+                                        <img
+                                            key={i}
+                                            src={`/images/${i < review.rating ? 'star' : 'halfstar'}.svg`}
+                                            alt={i < review.rating ? 'Star' : 'Half Star'}
+                                            className='star-icon'
+                                        />
+                                    ))}
+                                </div>
+                                <div className='review-time'>{review.timeAgo}</div>
+                            </div>
+                            <p className='review-comment'>{review.comment}</p>
+                        </li>
+                    ))}
+                </ul>
+                <p className='attribution'><span className='powered-by-google' title="Powered by Google"></span></p>
+            </section>
+            <div className='whatsapp-float'>
+                <a href="https://wa.me/541132370240" target="_blank" rel="noopener noreferrer">
+                    <img src='/images/whatsappLogo.svg' alt='WhatsApp' />
+                </a>
+            </div>
         </div>
-    )
+    );
 }
 
-export default MainContent
+export default MainContent;
