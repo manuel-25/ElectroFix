@@ -4,13 +4,14 @@ import './MainContent.css'
 import { ReactTyped } from "react-typed";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faStore, faTruck, faHome } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 
 function MainContent() {
     const [searchTerm, setSearchTerm] = useState('')
     const [showSuggestions, setShowSuggestions] = useState(false)
     const inputRef = useRef(null)
     const suggestionsRef = useRef(null)
+    const navigate = useNavigate()
 
     const categories = [
         'Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
@@ -110,6 +111,7 @@ function MainContent() {
     const handleSuggestionClick = (suggestion) => {
         setSearchTerm(suggestion)
         setShowSuggestions(false)
+        inputRef.current.focus()
     }
 
     const handleFocus = () => {
@@ -134,6 +136,12 @@ function MainContent() {
         }
     }, [inputRef, suggestionsRef])
 
+    const handleSearchSubmit = (event) => {
+        if (event.key === 'Enter') {
+            navigate(`/reparacion-electrodomesticos?category=${encodeURIComponent(searchTerm)}`);
+        }
+    }
+
     return (
         <div>
             <div className="reparation-container">
@@ -150,6 +158,7 @@ function MainContent() {
                             onChange={handleSearchChange}
                             onFocus={handleFocus}
                             ref={inputRef}
+                            onKeyDown={handleSearchSubmit}
                         />
                         {showSuggestions && (
                             <div className="suggestions-container" ref={suggestionsRef}>
