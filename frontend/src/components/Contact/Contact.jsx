@@ -71,17 +71,16 @@ const Contact = () => {
     return (
         <div className="contact-section">
             <section className="contact-content">
-                <h1>Reparación y Mantenimiento de Electrodomésticos | Cotización Gratis y Garantía</h1>
-                <h2>¿Tenés alguna duda?</h2>
+                <h1>¿Tenés alguna duda?</h1>
+                <span>¿Necesitas ayuda con tu reparación?</span>
                 <p>No dudes en contactarnos. Estamos acá para ayudarte.</p>
                 <button className="contact-button" onClick={scrollToFAQ}>Soporte</button>
             </section>
             <section className="frequent-question-container" ref={faqRef}>
-                <h2>Preguntas Frecuentes sobre Reparación de Electrodomésticos</h2>
                 {faqs.map((faq, index) => (
                     <div key={index} className="frequent-question">
                         <div className="question" onClick={() => handleToggle(index)}>
-                            <h3>{faq.question}</h3>
+                            <p>{faq.question}</p>
                             <FontAwesomeIcon icon={faChevronDown} className={`rotate ${activeIndex === index ? 'up' : ''}`} />
                         </div>
                         <div className={`answer ${activeIndex === index ? 'active' : ''}`}>{faq.answer}</div>
@@ -89,7 +88,7 @@ const Contact = () => {
                 ))}
             </section>
             <section className="contact-socials">
-                <h2>Contacto y Soporte</h2>
+                <h3>Contacto y Soporte</h3>
                 <span>¿Seguís con dudas? ¡Comunicate!</span>
                 <div className="socials-container">
                     <div className="social-item">

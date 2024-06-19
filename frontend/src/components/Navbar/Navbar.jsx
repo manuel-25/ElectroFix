@@ -27,7 +27,7 @@ function Navbar() {
                             <FontAwesomeIcon icon={faBars} className={`hamburger-icon ${isMenuOpen ? 'hidden' : ''}`} />
                         </button>
                         <Link to="/" className="logo-container">
-                            <img className='logo' src="/ELECTROSAFE.svg" alt="Electrosafe" />
+                            <img className='logo' src="/ELECTROSAFEblack.svg" alt="Electrosafe" />
                         </Link>
                     </div>
                     <nav className="navbar-links">

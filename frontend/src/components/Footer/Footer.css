@@ -12,6 +12,10 @@
     flex-direction: column;
 }
 
+.footer-logo img{
+    height: 70px;
+}
+
 .footer-logo h4 {
     font-size: 32px;
 }
@@ -26,10 +30,17 @@
 }
 
 .footer-terms-and-condition {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: var(--text-color-light);
-    font-size: 12px;
     font-weight: 700;
     margin: auto;
+}
+
+.footer-terms-and-condition p{
+    color: var(--text-color-light);
+    font-size: 12px !important;
 }
 
 .footer p {
@@ -48,7 +59,7 @@
 
 .footer-bottom p {
     color: var(--text-color-light);
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 400;
     text-align: center;
 }

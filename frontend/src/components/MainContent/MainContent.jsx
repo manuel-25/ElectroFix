@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import QuoteButton from '../QuoteButton/QuoteButton'
 import './MainContent.css'
+import { ReactTyped } from "react-typed";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faStore, faTruck, faHome } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
@@ -139,7 +140,7 @@ function MainContent() {
                 <section className="section-reparation">
                     <div className='reparation-top'>
                         <h1>Reparación de Electrodomésticos</h1>
-                        <h2>¿Se rompió tu equipo? Buscalo</h2>
+                        <h3><ReactTyped strings={["¿Se rompió tu equipo? Buscalo"]} typeSpeed={80}></ReactTyped></h3>
                     </div>
                     <div className="reparation-bottom">
                         <input
@@ -202,7 +203,7 @@ function MainContent() {
                 </ul>
             </section>
             <article className='services-container'>
-                <h2>Servicios de Reparación de Electrodomésticos a tu Alcance</h2>
+                <h2>Servicios de Reparación a tu Alcance</h2>
                 <section className='services-card-container'>
                     <div className='service-item'>
                         <FontAwesomeIcon icon={faStore} size="3x" className='service-icon'/>
@@ -222,7 +223,7 @@ function MainContent() {
                 </section>
             </article>
             <article className='brands-container'>
-                <h2>Reparación de Electrodomésticos de las Mejores Marcas</h2>
+                <h2>Trabajamos con todas las marcas</h2>
                 <h3>Las mejores marcas a tu servicio</h3>
                 <section className='brands-logo-container'>
                     {brandLogos.map((logo, index) => (

@@ -1,14 +1,14 @@
 import React from 'react'
 import './Footer.css'
 
+import { Link } from 'react-router-dom';
+
 function Footer() {
     return (
         <footer className="footer">
             <div className="footer-content">
                 <div className='footer-logo'>
-                    <h4>
-                        <span className="footer-logo-left">Electrosafe</span>
-                    </h4>
+                    <img className='logo' src="/ELECTROSAFEwhite.svg" alt="Electrosafe logo" />
                 </div>
                 <div className="footer-terms-and-condition">
                     <p>© 2024 | <a href="/terminos-condiciones">Términos y Condiciones</a> | <a href="/privacidad">Privacidad</a></p>
