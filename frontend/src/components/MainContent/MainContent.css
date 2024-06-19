@@ -167,8 +167,9 @@
 .services-container {
     padding: 20px 40px;
     background-color: var(--background-color);
-    margin-top: 60px;
     text-align: center;
+    max-width: 1200px;
+    margin: 60px auto;
 }
 
 .services-container h2 {
@@ -179,16 +180,15 @@
 .services-card-container {
     display: flex;
     justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 60px;
+    gap: 20px;
 }
 
 .service-item {
     background: var(--white-color);
     border-radius: 10px;
     padding: 20px;
-    width: 20vw;
-    min-width: 250px;
+    width: 30%;
+    min-width: 230px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
@@ -218,8 +218,9 @@
 .brands-container {
     padding: 20px;
     background-color: var(--background-color);
-    margin-top: 60px;
     text-align: center;
+    max-width: 1200px;
+    margin: 60px auto;
 }
 
 .brands-container h2 {
@@ -264,8 +265,9 @@
 .reviews-section {
     padding: 20px;
     background-color: var(--background-color);
-    margin-top: 60px;
     text-align: center;
+    max-width: 1200px;
+    margin: 60px auto;
 }
 
 .title-review-container h2 {
@@ -437,6 +439,18 @@
 
     .features-container {
         max-width: 90vw;
+    }
+
+    .services-card-container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 60px;
+    }
+
+    .service-item {
+        width: 450px;
+        min-height: 200px;
     }
 
     .brands-container h2 {
