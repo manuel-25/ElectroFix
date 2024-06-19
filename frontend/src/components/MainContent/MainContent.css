@@ -226,7 +226,6 @@
 .brands-container h2 {
     margin-bottom: 10px;
     font-size: 36px;
-    color: var(--secondary-color);
 }
 
 .brands-container h3 {
@@ -426,7 +425,11 @@
 
 @media (max-width: 900px) {
     .reparation-top h1 {
-        font-size: 32px;
+        font-size: 36px;
+    }
+
+    .reparation-top h3 {
+        font-size: 28px;
     }
 
     .reparation-top p {
@@ -474,6 +477,14 @@
 
     .section-reparation {
         margin: 0;
+    }
+
+    .reparation-top h1 {
+        font-size: 30px;
+    }
+
+    .reparation-top h3 {
+        font-size: 21px;
     }
 
     .reparation-bottom {

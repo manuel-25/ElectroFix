@@ -148,7 +148,7 @@ function MainContent() {
                 <section className="section-reparation">
                     <div className='reparation-top'>
                         <h1>Reparación de Electrodomésticos</h1>
-                        <h3><ReactTyped strings={["¿Se rompió tu equipo? Buscalo"]} typeSpeed={80}></ReactTyped></h3>
+                        <h3><ReactTyped strings={["¿Se rompió tu equipo? Buscalo"]} typeSpeed={50}></ReactTyped></h3>
                     </div>
                     <div className="reparation-bottom">
                         <input
@@ -212,7 +212,7 @@ function MainContent() {
                 </ul>
             </section>
             <article className='services-container'>
-                <h2>Servicios de Reparación a tu Alcance</h2>
+                <h2>Servicios de Reparación</h2>
                 <section className='services-card-container'>
                     <div className='service-item'>
                         <FontAwesomeIcon icon={faStore} size="3x" className='service-icon'/>

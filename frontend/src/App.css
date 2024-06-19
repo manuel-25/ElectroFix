@@ -34,7 +34,7 @@ h2 {
   font-family: 'Roboto', sans-serif;
   font-weight: 400; /* Bold */
   font-size: 36px;
-  color: var(--black-color) !important;
+  color: var(--black-color);
 }
 
 h3 {
