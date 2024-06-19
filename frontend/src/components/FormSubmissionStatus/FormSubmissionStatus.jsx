@@ -1,30 +1,31 @@
 import React from 'react';
 import './FormSubmissionStatus.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
+import { faCircleCheck, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 
 const FormSubmissionStatus = ({ status, name }) => {
   return (
     <div className="submission-status">
       {status === 'success' && (
-        <div className="success-message">
-            <FontAwesomeIcon icon={faCircleCheck} className='success-icon' />
-            <span>¡Gracias {name}!</span>
-            <span>Su cotizacion fue enviada con éxito, nos pondremos en contacto en la brevedad. </span>
+        <div className="status-message success-message">
+            <FontAwesomeIcon icon={faCircleCheck} className='status-icon' />
+            <h3 className="message-header">¡Gracias {name}!</h3>
+            <p className="message-body">Su cotización fue enviada con éxito. Nos pondremos en contacto en breve.</p>
         </div>
       )}
       {status === 'error' && (
-        <div className="error-message">
-          <span>El envío de la cotización ha fallado.</span>
-          <span>Por favor, inténtelo nuevamente.</span>
+        <div className="status-message error-message">
+          <FontAwesomeIcon icon={faTimesCircle} className='status-icon' />
+          <h3 className="message-header">Error</h3>
+          <p className="message-body">El envío de la cotización ha fallado. Por favor, inténtelo nuevamente.</p>
         </div>
       )}
       <div className="next-steps">
-        <span>Los siguientes pasos a seguir:</span>
-        <ol>
-          <li>Esperar a ser contactado</li>
-          <li>Coordinar la reparación</li>
-          <li>Recupera tu equipo como nuevo</li>
+        <h4 className="next-steps-header">Los siguientes pasos a seguir:</h4>
+        <ol className="steps-list">
+          <li className="step-item">Esperar a ser contactado</li>
+          <li className="step-item">Coordinar la reparación</li>
+          <li className="step-item">Recuperar tu equipo como nuevo</li>
         </ol>
       </div>
     </div>
