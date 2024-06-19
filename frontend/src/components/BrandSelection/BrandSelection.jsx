@@ -26,7 +26,7 @@ const BrandSelection = ({ selectedCategory, nextStep, prevStep, updateFormData }
 
   return (
     <div className="selection-container">
-      <h2>¿Qué marca es tu {selectedCategory.name}?</h2>
+      <h3>¿Qué marca es tu {selectedCategory.name}?</h3>
       {/*<input
         type="text"
         placeholder="Otro"

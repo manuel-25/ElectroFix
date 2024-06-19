@@ -64,23 +64,24 @@ const Contact = () => {
 
     const scrollToFAQ = () => {
         const faqElement = faqRef.current
-        const offset = faqElement.getBoundingClientRect().top + window.pageYOffset - 100 // Se puede ajustar
+        const offset = faqElement.getBoundingClientRect().top + window.pageYOffset - 100
         window.scrollTo({ top: offset, behavior: 'smooth' })
     }
 
     return (
         <div className="contact-section">
             <section className="contact-content">
-                <h3>¿Tenés alguna duda?</h3>
-                <span>¿Necesitas ayuda con tu reparación?</span>
-                <p>No dudes en contactarnos. Estamos aca para ayudarte.</p>
+                <h1>Reparación y Mantenimiento de Electrodomésticos | Cotización Gratis y Garantía</h1>
+                <h2>¿Tenés alguna duda?</h2>
+                <p>No dudes en contactarnos. Estamos acá para ayudarte.</p>
                 <button className="contact-button" onClick={scrollToFAQ}>Soporte</button>
             </section>
             <section className="frequent-question-container" ref={faqRef}>
+                <h2>Preguntas Frecuentes sobre Reparación de Electrodomésticos</h2>
                 {faqs.map((faq, index) => (
                     <div key={index} className="frequent-question">
                         <div className="question" onClick={() => handleToggle(index)}>
-                            <span>{faq.question}</span>
+                            <h3>{faq.question}</h3>
                             <FontAwesomeIcon icon={faChevronDown} className={`rotate ${activeIndex === index ? 'up' : ''}`} />
                         </div>
                         <div className={`answer ${activeIndex === index ? 'active' : ''}`}>{faq.answer}</div>
@@ -88,21 +89,22 @@ const Contact = () => {
                 ))}
             </section>
             <section className="contact-socials">
-                <span>¿Seguis con dudas? Comunicate!</span>
+                <h2>Contacto y Soporte</h2>
+                <span>¿Seguís con dudas? ¡Comunicate!</span>
                 <div className="socials-container">
                     <div className="social-item">
-                        <p>Llamanos al </p>
+                        <p>Llámanos al</p>
                         <a href="tel:01178967720"><FontAwesomeIcon icon={faPhone} className="social-icon" /> 011 7896-7720</a>
                     </div>
                     <div className="social-item">
-                        <p>Envianos un mail</p>
+                        <p>Envíanos un mail</p>
                         <a href="mailto:electrosafeservice@gmail.com"><FontAwesomeIcon icon={faEnvelope} className="social-icon" /> electrosafeservice@gmail.com</a>
                     </div>
                     <div className="social-item">
-                        <p>Contactanos por </p>
+                        <p>Contactanos por</p>
                         <div className='social-logos'>
-                            <a href="https://wa.me/01178967720" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="WhatsApp"/></a>
-                            <a href="https://www.instagram.com/electrosafeok/" target="_blank" rel="noopener noreferrer"><img src="/images/Instagram.webp" alt="Instagram"/></a>
+                            <a href="https://wa.me/01178967720" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" /></a>
+                            <a href="https://www.instagram.com/electrosafeok/" target="_blank" rel="noopener noreferrer"><img src="/images/Instagram.webp" alt="Logotipo de Instagram" /></a>
                         </div>
                     </div>
                 </div>

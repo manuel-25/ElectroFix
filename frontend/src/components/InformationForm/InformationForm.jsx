@@ -85,7 +85,7 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
 
   return (
     <div className="selection-container">
-      <h2>Te pedimos tus datos, para compartirte la cotización</h2>
+      <h3>Te pedimos tus datos, para compartirte la cotización</h3>
       <div className="form-group-wrapper">
         <div className="form-group floating-label">
           <input type="text" placeholder='Nombre' value={firstName} onChange={(e) => setFirstName(e.target.value)} required />

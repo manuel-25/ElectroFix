@@ -82,10 +82,6 @@
 }
 
 /* Phone styles */
-#phone-id {
-
-}
-
 .phone-container {
     display: flex;
     gap: 20px;
@@ -124,7 +120,7 @@
 }
 
 #form-discount-span {
-    color: var(--secondary-color);
+    color: var(--text-color);
     font-weight: 700;
     font-size: 16px;
     line-height: 1.2;
@@ -137,7 +133,7 @@
 
 /* Estilos para los mensajes de error */
 .error {
-    color: var(--primary-color);
+    color: var(--red-color);
     font-size: 12px;
     margin-top: 5px;
 }
@@ -145,11 +141,11 @@
 .form-group.error input,
 .form-group.error select,
 .form-group.error textarea {
-    border-color: var(--primary-color);
+    border-color: var(--red-color);
 }
   
 .form-group.error label {
-    color: var(--primary-color);
+    color: var(--red-color);
   }
   
 button.error {

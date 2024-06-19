@@ -48,7 +48,7 @@ const FaultSelection = ({ selectedCategory, nextStep, prevStep, updateFormData, 
 
   return (
     <div className="selection-container">
-      <h2>¿Cuál es el problema con tu {selectedCategory.name}?</h2>
+      <h3>¿Cuál es el problema con tu {selectedCategory.name}?</h3>
       <div className="selection-list">
         {categoryFaults.map((fault, index) => (
           <label

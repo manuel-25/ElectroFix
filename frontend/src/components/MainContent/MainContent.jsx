@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import QuoteButton from '../QuoteButton/QuoteButton';
-import './MainContent.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck, faStore, faTruck, faHome } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react'
+import QuoteButton from '../QuoteButton/QuoteButton'
+import './MainContent.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck, faStore, faTruck, faHome } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom'
 
 function MainContent() {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [showSuggestions, setShowSuggestions] = useState(false);
-    const inputRef = useRef(null);
-    const suggestionsRef = useRef(null);
+    const [searchTerm, setSearchTerm] = useState('')
+    const [showSuggestions, setShowSuggestions] = useState(false)
+    const inputRef = useRef(null)
+    const suggestionsRef = useRef(null)
 
     const categories = [
         'Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
@@ -99,23 +99,23 @@ function MainContent() {
 
     let filteredItems = categories
         .filter(item => item.toLowerCase().includes(searchTerm.toLowerCase()))
-        .slice(0, 6);
+        .slice(0, 6)
 
     const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
-        setShowSuggestions(event.target.value.length > 0);
-    };
+        setSearchTerm(event.target.value)
+        setShowSuggestions(event.target.value.length > 0)
+    }
 
     const handleSuggestionClick = (suggestion) => {
-        setSearchTerm(suggestion);
-        setShowSuggestions(false);
-    };
+        setSearchTerm(suggestion)
+        setShowSuggestions(false)
+    }
 
     const handleFocus = () => {
         if (searchTerm.length > 0) {
-            setShowSuggestions(true);
+            setShowSuggestions(true)
         }
-    };
+    }
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -123,23 +123,23 @@ function MainContent() {
                 inputRef.current && !inputRef.current.contains(event.target) &&
                 suggestionsRef.current && !suggestionsRef.current.contains(event.target)
             ) {
-                setShowSuggestions(false);
+                setShowSuggestions(false)
             }
-        };
+        }
 
-        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside)
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [inputRef, suggestionsRef]);
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [inputRef, suggestionsRef])
 
     return (
         <div>
             <div className="reparation-container">
                 <section className="section-reparation">
                     <div className='reparation-top'>
-                        <h1>¡Reparamos tu equipo!</h1>
-                        <p>¿Se rompió tu equipo? Buscalo</p>
+                        <h1>Reparación de Electrodomésticos</h1>
+                        <h2>¿Se rompió tu equipo? Buscalo</h2>
                     </div>
                     <div className="reparation-bottom">
                         <input
@@ -202,7 +202,7 @@ function MainContent() {
                 </ul>
             </section>
             <article className='services-container'>
-                <h2>Nuestros servicios</h2>
+                <h2>Servicios de Reparación de Electrodomésticos a tu Alcance</h2>
                 <section className='services-card-container'>
                     <div className='service-item'>
                         <FontAwesomeIcon icon={faStore} size="3x" className='service-icon'/>
@@ -222,7 +222,7 @@ function MainContent() {
                 </section>
             </article>
             <article className='brands-container'>
-                <h2>Trabajamos con todas las marcas</h2>
+                <h2>Reparación de Electrodomésticos de las Mejores Marcas</h2>
                 <h3>Las mejores marcas a tu servicio</h3>
                 <section className='brands-logo-container'>
                     {brandLogos.map((logo, index) => (
@@ -237,7 +237,7 @@ function MainContent() {
             </article>
             <section className='reviews-section'>
                 <div className='title-review-container'>
-                    <h2>Esto dicen de nosotros</h2>
+                    <h2>Opiniones de Nuestros Clientes</h2>
                 </div>
                 <div className='review-location'>
                     <h2>
@@ -286,7 +286,7 @@ function MainContent() {
                 </a>
             </div>
         </div>
-    );
+    )
 }
 
-export default MainContent;
+export default MainContent

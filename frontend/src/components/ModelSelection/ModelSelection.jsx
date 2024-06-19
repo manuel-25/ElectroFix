@@ -20,7 +20,7 @@ const ModelSelection = ({ brand, selectedCategory, nextStep, prevStep, updateFor
 
   return (
     <div className="selection-container">
-      <h2>¿Qué modelo es tu {brand === 'Otros' ? selectedCategory.name : brand || selectedCategory.name}?</h2>
+      <h3>¿Qué modelo es tu {brand === 'Otros' ? selectedCategory.name : brand || selectedCategory.name}?</h3>
       <p className="instructions">
         Para encontrar el modelo de tu {selectedCategory.name.toLowerCase()}, revisa la etiqueta del fabricante que
         generalmente se encuentra en la parte posterior o inferior del dispositivo. Ejemplos comunes incluyen

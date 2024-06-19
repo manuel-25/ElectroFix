@@ -2,9 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
 :root {
-    /*--primary-color: #FF393A; /* Rojo Vivo */
     --primary-color: #FF6600; /* Rojo Vivo */
-    --primary-color-hover: #e53935; /* Rojo Vivo más oscuro para :hover */
+    --primary-color-hover: #e25a00; /* Rojo Vivo más oscuro para :hover */
     
     --secondary-color: #003366; /* Azul Oscuro */
     --secondary-color-hover: #002147; /* Azul Oscuro más intenso para :hover */
@@ -19,7 +18,9 @@
     
     --green-color: #4CAF50; /* Verde Claro */
     --orange-color: #FF6600;
-    --black-color: #000000
+    --red-color: #FF393A;
+    --red-color-hover: #e53935;
+    --black-color: #000000;
 
     --primary-font: 'Open Sans', sans-serif;
     --secondary-font: 'Roboto', sans-serif;
