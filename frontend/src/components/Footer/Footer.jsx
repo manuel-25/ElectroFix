@@ -1,8 +1,6 @@
 import React from 'react'
 import './Footer.css'
 
-import { Link } from 'react-router-dom';
-
 function Footer() {
     return (
         <footer className="footer">
@@ -16,7 +14,7 @@ function Footer() {
                 <div className="footer-bottom">
                     <p>Todos los derechos reservados Electrosafe</p>
                     <p>Av. Vicente Lopez 770 B1878 Quilmes | Argentina</p>
-                    <p>Los precios online y los planes de financiación para los productos presentados/publicados en electrosafe.com son válidos exclusivamente para la compra vía internet.</p>
+                    <p>Los precios online y los planes de financiación para los productos presentados/publicados en electrosafeweb.com son válidos exclusivamente para la compra vía internet.</p>
                     <p>La venta de cualquier producto o servicio publicado está sujeta a la verificación de stock y/o disponibilidad.</p>
                 </div>
             </div>
