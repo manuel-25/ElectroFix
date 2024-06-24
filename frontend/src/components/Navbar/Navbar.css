@@ -70,6 +70,7 @@
 }
 
 .user-icon {
+    display: none;
     cursor: pointer;
     font-size: 24px;
     width: 1em;

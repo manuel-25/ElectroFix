@@ -1,4 +1,10 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Disallow: /contacto
+Disallow: /nosotros
+Disallow: /terminos-condiciones
+Disallow: /privacidad
+
+# Permitir el acceso al favicon
 Allow: /favicon.ico
+
+# Esta configuración bloquea las rutas específicas mencionadas y permite el acceso al favicon

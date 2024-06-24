@@ -93,7 +93,7 @@ const Contact = () => {
                 <div className="socials-container">
                     <div className="social-item">
                         <p>Llámanos al</p>
-                        <a href="tel:01178967720"><FontAwesomeIcon icon={faPhone} className="social-icon" /> 011 7896-7720</a>
+                        <a href="tel:5491178967720"><FontAwesomeIcon icon={faPhone} className="social-icon" /> +54 911 7896-7720</a>
                     </div>
                     <div className="social-item">
                         <p>Envíanos un mail</p>
@@ -102,7 +102,7 @@ const Contact = () => {
                     <div className="social-item">
                         <p>Contactanos por</p>
                         <div className='social-logos'>
-                            <a href="https://wa.me/01178967720" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" /></a>
+                            <a href="https://wa.me/5491178967720" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" /></a>
                             <a href="https://www.instagram.com/electrosafeok/" target="_blank" rel="noopener noreferrer"><img src="/images/Instagram.webp" alt="Logotipo de Instagram" /></a>
                         </div>
                     </div>
