@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
       </div>
     `
 
-    // Enviar correo electrónico
+    // Enviar correo electrónicocd
     const email = await sendEmail(
       config.GMAIL_USER,
       'Nueva solicitud de cotización',
@@ -54,7 +54,7 @@ router.post('/', async (req, res) => {
     res.status(201).send(serviceRequest)
   } catch (error) {
     console.error('Error creating service request:', error)
-    res.status(400).send({ error: error.message })
+    res.status(400).send({ error })
   }
 })
 

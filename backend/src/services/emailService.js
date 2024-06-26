@@ -19,7 +19,7 @@ export const sendEmail = async (to, subject, htmlContent) => {
         from: config.GMAIL_USER,
         to: to,
         subject: subject,
-        html: htmlContent // Asegúrate de usar html aquí
+        html: htmlContent
     }
 
     try {
