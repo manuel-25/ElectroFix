@@ -60,8 +60,10 @@ router.post('/', async (req, res) => {
 
     res.status(201).send(serviceRequest)
   } catch (error) {
-    console.error('Error creating service request:', error)
-    res.status(400).send(error)
+    console.error('Error creating service request:', error);
+
+    // Envía la información completa del error en la respuesta
+    res.status(400).send({ error: error.message, stack: error.stack });
   }
 })
 
