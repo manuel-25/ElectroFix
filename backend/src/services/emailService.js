@@ -5,7 +5,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     type: 'OAuth2',
-    user: config.GMAIL_USER,
+    user: "electrosafeservice@gmail.com",
     clientId: config.CLIENT_ID,
     clientSecret: config.CLIENT_SECRET,
     refreshToken: config.REFRESH_TOKEN,
@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 export const sendEmail = async (to, subject, htmlContent) => {
   try {
     const mailOptions = {
-      from: config.GMAIL_USER,
+      from: "electrosafeservice@gmail.com",
       to: to,
       subject: subject,
       html: htmlContent,

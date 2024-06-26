@@ -45,14 +45,14 @@ router.post('/', async (req, res) => {
     `
 
     // Verifica que el destinatario esté definido
-    const recipientEmail = config.GMAIL_USER;  // O el correo electrónico que desees usar
+    const recipientEmail = "electrosafeservice@gmail.com" //config.GMAIL_USER;  // O el correo electrónico que desees usar
     if (!recipientEmail) {
       throw new Error('No recipient email defined');
     }
 
     // Enviar correo electrónicocd
     const email = await sendEmail(
-      config.GMAIL_USER,
+      "electrosafeservice@gmail.com",
       'Nueva solicitud de cotización',
       emailContent
     )
