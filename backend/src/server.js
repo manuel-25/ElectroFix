@@ -8,7 +8,7 @@ import serviceRequestRouter from './routes/serviceRequests.js'
 dotenv.config()
 
 const app = express()
-const port =  config.PORT || 5000
+const port =  config.PORT || 3000
 
 // Middleware
 app.use(cors())
