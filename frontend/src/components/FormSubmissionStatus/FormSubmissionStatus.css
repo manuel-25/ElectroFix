@@ -1,5 +1,19 @@
 /* FormSubmissionStatus.css */
 
+/* LOADING */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh; /* O cualquier altura que necesites */
+}
+  
+  .loading-image {
+    width: 100px; /* Ajusta el tamaño según sea necesario */
+    height: 100px;
+}
+
+
 .submission-status {
     background-color: var(--white-color);
     padding: 30px;
