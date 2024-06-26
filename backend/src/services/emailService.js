@@ -1,32 +1,32 @@
-import nodemailer from 'nodemailer'
-import config from '../utils/config.js'
+import nodemailer from 'nodemailer';
+import config from '../utils/config.js';
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    type: 'OAuth2',
+    user: config.GMAIL_USER,
+    clientId: config.CLIENT_ID,
+    clientSecret: config.CLIENT_SECRET,
+    refreshToken: config.REFRESH_TOKEN,
+  },
+});
 
 export const sendEmail = async (to, subject, htmlContent) => {
-    let transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-            type: 'OAuth2',
-            user: config.GMAIL_USER,
-            clientId: config.CLIENT_ID,
-            clientSecret: config.CLIENT_SECRET,
-            refreshToken: config.REFRESH_TOKEN
-        }
-    })
-
+  try {
     const mailOptions = {
-        from: config.GMAIL_USER,
-        to: to,
-        subject: subject,
-        html: htmlContent
-    }
+      from: config.GMAIL_USER,
+      to: to,
+      subject: subject,
+      html: htmlContent,
+    };
 
-    try {
-        await transporter.sendMail(mailOptions)
-        console.log('Email sent successfully')
-    } catch (error) {
-        console.error('Error sending email:', error)
-        throw new Error('Email sending failed', error)
-    }
-}
+    console.log('Mail options:', mailOptions);
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent: ', info.response);
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw new Error('Email sending failed');
+  }
+};

@@ -8,6 +8,7 @@ const router = express.Router()
 // Crear una nueva solicitud de servicio
 router.post('/', async (req, res) => {
   try {
+    console.log(req.body)
     const serviceRequest = await QuoteManager.create(req.body)
 
     // Formatear los datos del request body para el correo electrónico
@@ -43,6 +44,12 @@ router.post('/', async (req, res) => {
       </div>
     `
 
+    // Verifica que el destinatario esté definido
+    const recipientEmail = config.GMAIL_USER;  // O el correo electrónico que desees usar
+    if (!recipientEmail) {
+      throw new Error('No recipient email defined');
+    }
+
     // Enviar correo electrónicocd
     const email = await sendEmail(
       config.GMAIL_USER,
@@ -54,7 +61,7 @@ router.post('/', async (req, res) => {
     res.status(201).send(serviceRequest)
   } catch (error) {
     console.error('Error creating service request:', error)
-    res.status(400).send({ error })
+    res.status(400).send(error)
   }
 })
 
