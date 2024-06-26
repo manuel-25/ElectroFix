@@ -49,6 +49,7 @@ router.post('/', async (req, res) => {
       'Nueva solicitud de cotización',
       emailContent
     )
+    console.log(email)
 
     res.status(201).send(serviceRequest)
   } catch (error) {
