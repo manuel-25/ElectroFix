@@ -3,17 +3,10 @@ import config from '../utils/config.js';
 
 // Configuración del transporter de Nodemailer
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: 'Gmail',
   auth: {
-    type: 'OAuth2',
-    user: "electrosafeservice@gmail.com",
-    clientId: config.CLIENT_ID,
-    clientSecret: config.CLIENT_SECRET,
-    refreshToken: config.REFRESH_TOKEN,
-    accessToken: config.ACCESS_TOKEN
-  },
-  tls: {
-    rejectUnauthorized: false
+    user: 'electrosafeservice@gmail.com',
+    pass: config.GMAIL_PASS
   }
 });
 
