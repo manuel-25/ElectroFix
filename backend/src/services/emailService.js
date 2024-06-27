@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
     clientId: config.CLIENT_ID,
     clientSecret: config.CLIENT_SECRET,
     refreshToken: config.REFRESH_TOKEN,
-    accessToken: config.REFRESH_TOKEN
+    accessToken: config.ACCESS_TOKEN
   },
   tls: {
     rejectUnauthorized: false

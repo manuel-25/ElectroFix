@@ -1,6 +1,6 @@
 import express from 'express'
 import QuoteManager from '../Mongo/QuoteManager.js'
-import { sendEmail } from '../services/emailService.js'
+import { sendEmail }  from '../services/emailService.js'
 import config from '../utils/config.js'
 
 const router = express.Router()
