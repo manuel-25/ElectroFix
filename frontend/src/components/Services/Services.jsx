@@ -74,15 +74,15 @@ const Services = () => {
         },
         body: JSON.stringify(updatedFormData),
       })
-      const responseData = await response.json();
-      console.log(responseData)
+
+      const responseData = await response.json()
 
       if (response.ok) {
-        console.log('response', await response.json())
+        console.log('response', responseData)
         console.log('Form submitted successfully!')
         setSubmitStatus('success')
       } else {
-        console.error('Form submission failed', response)
+        console.error('Form submission failed', responseData)
         setSubmitStatus('error')
       }
     } catch (error) {
