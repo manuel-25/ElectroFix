@@ -9,8 +9,7 @@ const config = {
     GMAIL_PASS: process.env.GMAIL_PASS,
     CLIENT_ID: process.env.CLIENT_ID,
     CLIENT_SECRET: process.env.CLIENT_SECRET,
-    REFRESH_TOKEN: process.env.REFRESH_TOKEN,
-    ACCESS_TOKEN: process.env.ACCESS_TOKEN
+    REFRESH_TOKEN: process.env.REFRESH_TOKEN
 }
 
 export default config
