@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 export const sendEmail = async (to, subject, htmlContent) => {
   try {
     const mailOptions = {
-      from: config.BREVO_USER,
+      from: config.GMAIL_USER,
       to: to,
       subject: subject,
       html: htmlContent,
