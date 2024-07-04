@@ -3,12 +3,12 @@ import config from '../utils/config.js';
 
 // Configuración del transporter de Nodemailer
 const transporter = nodemailer.createTransport({
-  host: 'smtp-relay.brevo.com',
+  host: 'smtp.mailersend.net',
   port: 587,
   secure: false,
   auth: {
-    user: config.BREVO_USER,
-    pass: config.BREVO_PASS
+    user: config.MAILER_USER,
+    pass: config.MAILER_PASS
   }
 });
 
