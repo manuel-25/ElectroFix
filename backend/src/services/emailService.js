@@ -7,8 +7,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: config.MAILER_USER,
-    pass: config.MAILER_PASS
+    user: "MS_azGhid@trial-pq3enl6dzkrg2vwr.mlsender.net",
+    pass: "XPLKZCSVfVNnkvix"
   }
 });
 

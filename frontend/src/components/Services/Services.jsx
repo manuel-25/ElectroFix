@@ -67,7 +67,7 @@ const Services = () => {
     try {
       const date = new Date(new Date().getTime() - (3 * 60 * 60 * 1000))
       const updatedFormData = { ...formData, date }
-      const response = await fetch('https://electrosafeweb.com/api/service-requests', { //http://localhost:5000/api/service-requests  https://electrosafeweb.com/api/service-requests 
+      const response = await fetch('https://electrosafeweb.com/api/service-requests', { //http://localhost:5000/api/service-requests  https://electrosafeweb.com/api/service-requests
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
