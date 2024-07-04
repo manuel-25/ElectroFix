@@ -28,7 +28,7 @@ verifyConnection();
 export const sendEmail = async (to, subject, htmlContent) => {
   try {
     const mailOptions = {
-      from: config.GMAIL_USER,
+      from: "MS_azGhid@trial-pq3enl6dzkrg2vwr.mlsender.net",
       to: to,
       subject: subject,
       html: htmlContent,
