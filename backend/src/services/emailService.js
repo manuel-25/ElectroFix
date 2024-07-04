@@ -1,5 +1,5 @@
-import nodemailer from 'nodemailer'
-import config from '../utils/config.js'
+import nodemailer from 'nodemailer';
+import config from '../utils/config.js';
 
 // Configuración del transporter de Nodemailer
 const transporter = nodemailer.createTransport({
@@ -10,7 +10,19 @@ const transporter = nodemailer.createTransport({
     user: config.GMAIL_USER,
     pass: config.GMAIL_PASS
   }
-})
+});
+
+// Verificar la conexión del servidor SMTP
+const verifyConnection = async () => {
+  try {
+    await transporter.verify();
+    console.log("Servidor listo para enviar correos");
+  } catch (error) {
+    console.error("Error verificando la conexión SMTP:", error);
+  }
+};
+
+verifyConnection();
 
 // Función para enviar correos electrónicos
 export const sendEmail = async (to, subject, htmlContent) => {
@@ -20,14 +32,14 @@ export const sendEmail = async (to, subject, htmlContent) => {
       to: to,
       subject: subject,
       html: htmlContent,
-    }
+    };
 
-    const info = await transporter.sendMail(mailOptions)
-    console.log('Correo enviado: ', info.response)
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Correo enviado: ', info.response);
 
-    return info
+    return info;
   } catch (error) {
-    console.error('Error enviando correo:', error)
-    throw new Error('Fallo al enviar el correo')
+    console.error('Error enviando correo:', error);
+    throw new Error('Fallo al enviar el correo');
   }
-}
+};
