@@ -10,6 +10,8 @@ const config = {
     CLIENT_ID: process.env.CLIENT_ID,
     CLIENT_SECRET: process.env.CLIENT_SECRET,
     REFRESH_TOKEN: process.env.REFRESH_TOKEN,
+    BREVO_USER: process.env.BREVO_USER,
+    BREVO_PASS: process.env.BREVO_PASS
 }
 
 export default config
