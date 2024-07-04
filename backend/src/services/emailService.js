@@ -4,13 +4,25 @@ import config from '../utils/config.js';
 // Configuración del transporter de Nodemailer
 const transporter = nodemailer.createTransport({
   host: 'smtp-relay.brevo.com',
-  port: 587, // Puede ser 465 para SSL/TLS o 587 para STARTTLS
-  secure: false, // true para port 465, false para otros puertos
+  port: 587,
+  secure: false,
   auth: {
     user: config.BREVO_USER,
     pass: config.BREVO_PASS
   }
-})
+});
+
+// Verificar la conexión del servidor SMTP
+const verifyConnection = async () => {
+  try {
+    await transporter.verify();
+    console.log("Servidor listo para enviar correos");
+  } catch (error) {
+    console.error("Error verificando la conexión SMTP:", error);
+  }
+};
+
+verifyConnection();
 
 // Función para enviar correos electrónicos
 export const sendEmail = async (to, subject, htmlContent) => {
