@@ -78,7 +78,6 @@ const Services = () => {
       const responseData = await response.json()
 
       if (response.ok) {
-        console.log('response', responseData)
         console.log('Form submitted successfully!')
         setSubmitStatus('success')
       } else {

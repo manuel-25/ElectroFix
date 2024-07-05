@@ -1,26 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import './FormSubmissionStatus.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
+import React, { useState, useEffect } from 'react'
+import './FormSubmissionStatus.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck, faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 
 const FormSubmissionStatus = ({ status, name }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    // Simulamos la carga de datos con un timeout
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
-    }, 2000); // Cambia el tiempo según sea necesario
-
-    return () => clearTimeout(timer);
-  }, []);
+    // Establecer isLoaded a true cuando status esté definido y no sea null
+    if (status) {
+      setIsLoaded(true)
+    }
+  }, [status])
 
   if (!isLoaded) {
     return (
       <div className="loading-container">
         <img src={'/images/Rolling@1x-1.0s-200px-200px.gif'} alt="Cargando..." className="loading-image" />
       </div>
-    );
+    )
   }
 
   return (
@@ -48,7 +46,7 @@ const FormSubmissionStatus = ({ status, name }) => {
         </ol>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FormSubmissionStatus;
+export default FormSubmissionStatus
