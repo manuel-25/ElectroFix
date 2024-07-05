@@ -18,15 +18,15 @@ const Services = () => {
   let selectedCategory = queryParams.get('category') || null
 
   // Verificar si la categoría seleccionada está en la lista de productos
-  const isValidCategory = products.some(product => product.name === selectedCategory);
+  const isValidCategory = products.some(product => product.name === selectedCategory)
 
   // Si la categoría seleccionada no es válida, establecerla como null
   if (!isValidCategory) {
-    selectedCategory = null;
+    selectedCategory = null
   }
 
   // Buscar la categoría seleccionada en el array de productos
-  const selectedProduct = selectedCategory ? products.find(product => product.name === selectedCategory) : null;
+  const selectedProduct = selectedCategory ? products.find(product => product.name === selectedCategory) : null
 
   // Si se encontró la categoría, guardarla en el estado formData
   useEffect(() => {

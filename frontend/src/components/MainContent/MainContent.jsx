@@ -1,111 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react'
 import QuoteButton from '../QuoteButton/QuoteButton'
 import './MainContent.css'
-import { ReactTyped } from "react-typed";
+import { ReactTyped } from "react-typed"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faStore, faTruck, faHome } from '@fortawesome/free-solid-svg-icons'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'
+import { categories, brandLogos, reviews } from '../../utils/productsData'
 
 function MainContent() {
     const [searchTerm, setSearchTerm] = useState('')
     const [showSuggestions, setShowSuggestions] = useState(false)
+    const [selectedIndex, setSelectedIndex] = useState(-1)
     const inputRef = useRef(null)
     const suggestionsRef = useRef(null)
     const navigate = useNavigate()
 
-    const categories = [
-        'Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
-        'Pava Eléctrica', 'Tostadora', 'Plancha', 'Secadora de Pelo', 'Planchita de Pelo',
-        'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa', 'Microondas'
-    ]
-
-    const brandLogos = [
-        { src: '/brands/apple.png', alt: 'Apple' },
-        { src: '/brands/Samsung.png', alt: 'Samsung' },
-        { src: '/brands/Microsoft.png', alt: 'Microsoft' },
-        { src: '/brands/Sony_Log.png', alt: 'Sony' },
-        { src: '/brands/HP.png', alt: 'HP' },
-        { src: '/brands/Dell.png', alt: 'Dell' },
-        { src: '/brands/LG.png', alt: 'LG' },
-        { src: '/brands/Lenovo.png', alt: 'Lenovo' },
-        { src: '/brands/Nintendo.png', alt: 'Nintendo' },
-        { src: '/brands/Huawei.png', alt: 'Huawei' },
-        { src: '/brands/Motorola.png', alt: 'Motorola' },
-        { src: '/brands/Asus.png', alt: 'Asus' },
-        { src: '/brands/Acer.png', alt: 'Acer' },
-        { src: '/brands/Xbox.png', alt: 'Xbox' },
-        { src: '/brands/Philips.png', alt: 'Philips' },
-        { src: '/brands/TCL.png', alt: 'TCL' },
-        { src: '/brands/HIsense.png', alt: 'Hisense' },
-        { src: '/brands/BGH.png', alt: 'BGH' },
-        { src: '/brands/Bangho.png', alt: 'Bangho' },
-        { src: '/brands/Alcatel.png', alt: 'Alcatel' },
-    ]
-
-    const reviews = [
-        {
-            id: 1,
-            name: 'Daniel Petrone',
-            rating: 5,
-            comment: 'Exelente atencion , muy buen trabajo y rapido, todo perfecto , muy recomendable',
-            profilePic: 'https://lh3.googleusercontent.com/a/ACg8ocLZermqMpgm-jmmOuqM5wQXxGtoUSSW0TKFje0IDSdYzZ57HA=w60-h60-p-rp-mo-br100',
-            timeAgo: 'Hace un mes',
-            url: 'https://www.google.com/maps/contrib/103782907861104787038/reviews/@-37.741386,-64.957331,6z/data=!4m3!8m2!3m1!1e1?hl=es-419&entry=ttu'
-        },
-        {
-            id: 2,
-            name: 'Eugenia Andujar',
-            rating: 5,
-            comment: 'Unos genios!! Arreglaron el ventilador en re poco tiempo y funciona re bien. Nos explicaron cada paso. Son muy amables. Muchas gracias! :)',
-            profilePic: 'https://lh3.googleusercontent.com/a/ACg8ocKLTtxu6h20QVrZeama3LwfX55guZj3cVMCB8_H-ISt4QCIpg=w60-h60-p-rp-mo-br100',
-            timeAgo: 'Hace 4 meses',
-            url: 'https://www.google.com/maps/contrib/108126814334509832821?hl=es-419&ved=1t:31294&ictx=111'
-        },
-        {
-            id: 3,
-            name: 'Maria Florencia Gianni',
-            rating: 5,
-            comment: 'Super recomiendo! unos genios los chicos me solucionaron el problema de mi plancha de un dia para otro!',
-            profilePic: 'https://lh3.googleusercontent.com/a-/ALV-UjUOuXbNU2y2reksHYdYpFBbB0OUiyqUWRxrLh3zVnrf6RhKqoc=w60-h60-p-rp-mo-br100',
-            timeAgo: 'Hace 6 meses',
-            url: 'https://www.google.com/maps/contrib/102927586818368431798?hl=es-419&ved=1t:31294&ictx=111'
-        },
-        {
-            id: 4,
-            name: 'Liliana Camaron',
-            rating: 5,
-            comment: 'Excelente atención, muy profesionales y  cumplen con los tiempos de entrega. Muy recomendables',
-            profilePic: 'https://lh3.googleusercontent.com/a-/ALV-UjVjqMzU-Y_TdQRckdSy9N7mgcqEVPW476n8rXBd1EYlTu_IKHhNSg=w60-h60-p-rp-mo-br100',
-            timeAgo: 'Hace 8 meses',
-            url: 'https://www.google.com/maps/contrib/110487861240920629631?hl=es-419&ved=1t:31294&ictx=111'
-        },
-        {
-            id: 5,
-            name: 'Lucio Mejias',
-            rating: 5,
-            comment: 'Muy profesionales! Tenía una cava de vinos que parecía perdida y me la recuperaron! El mejor de service de Quilmes!',
-            profilePic: 'https://lh3.googleusercontent.com/a/ACg8ocL9AV7zpVhvbhxxJT3USnJ1YoZwefUGF55cGhVTV3PQP0WvXQ=w60-h60-p-rp-mo-br100',
-            timeAgo: 'Hace un año',
-            url: 'https://www.google.com/maps/contrib/112499526229381407473?hl=es-419&ved=1t:31294&ictx=111'
-        },
-        {
-            id: 6,
-            name: 'Rosana R. Kogan',
-            rating: 4,
-            comment: 'Pude reparar mi horno eléctrico, lo mejor es que lo retiraron a domicilio!',
-            profilePic: 'https://lh3.googleusercontent.com/a-/ALV-UjUZviKLwMreDInY68ixgCsgYgicOf2yEX2YC3r75aaisf87ycM=w60-h60-p-rp-mo-br100',
-            timeAgo: 'Hace un año',
-            url: 'https://www.google.com/maps/contrib/110740870314712365654?hl=es-419&ved=1t:31294&ictx=111'
-        },
-    ]
-
-    let filteredItems = categories
+    const filteredItems = categories
         .filter(item => item.toLowerCase().includes(searchTerm.toLowerCase()))
         .slice(0, 6)
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value)
         setShowSuggestions(event.target.value.length > 0)
+        setSelectedIndex(-1)
     }
 
     const handleSuggestionClick = (suggestion) => {
@@ -136,11 +53,33 @@ function MainContent() {
         }
     }, [inputRef, suggestionsRef])
 
-    const handleSearchSubmit = (event) => {
-        if (event.key === 'Enter') {
-            navigate(`/reparacion-electrodomesticos?category=${encodeURIComponent(searchTerm)}`);
+    const handleKeyDown = (event) => {
+        if (event.key === 'ArrowDown') {
+            event.preventDefault()
+            setSelectedIndex((prevIndex) => (prevIndex + 1) % filteredItems.length)
+            console.log('SelectedIndex: ', selectedIndex)
+        } else if (event.key === 'ArrowUp') {
+            event.preventDefault()
+            setSelectedIndex((prevIndex) => (prevIndex - 1 + filteredItems.length) % filteredItems.length)
+        } else if (event.key === 'Enter') {
+            event.preventDefault()
+            const selectedCategory = selectedIndex >= 0 ? filteredItems[selectedIndex] : searchTerm
+            navigate(`/reparacion-electrodomesticos?category=${encodeURIComponent(selectedCategory)}`)
+            setShowSuggestions(false)
         }
     }
+
+    useEffect(() => {
+        const inputElement = inputRef.current
+        console.log(inputElement)
+        console.log('Index: ', selectedIndex)
+        if (inputElement) {
+            inputElement.addEventListener('keydown', handleKeyDown)
+            return () => {
+                inputElement.removeEventListener('keydown', handleKeyDown)
+            }
+        }
+    }, [filteredItems, selectedIndex])
 
     return (
         <div>
@@ -158,14 +97,13 @@ function MainContent() {
                             onChange={handleSearchChange}
                             onFocus={handleFocus}
                             ref={inputRef}
-                            onKeyDown={handleSearchSubmit}
                         />
                         {showSuggestions && (
                             <div className="suggestions-container" ref={suggestionsRef}>
                                 {filteredItems.map((item, index) => (
                                     <div
                                         key={index}
-                                        className="suggestion-item"
+                                        className={`suggestion-item ${index === selectedIndex ? 'selected' : ''}`}
                                         onClick={() => handleSuggestionClick(item)}
                                     >
                                         {item}
