@@ -8,10 +8,16 @@ const router = express.Router()
 // Crear una nueva solicitud de servicio
 router.post('/', async (req, res) => {
   try {
+    // Extraer la fecha y agregarle 3 horas
+    const { date } = req.body;
+    const adjustedDate = new Date(date);
+    adjustedDate.setHours(adjustedDate.getHours() + 3)
+    req.body.date = adjustedDate
+
     const serviceRequest = await QuoteManager.create(req.body)
 
     // Formatear los datos del request body para el correo electrónico
-    const { date, category, brand, model, faults, userData } = req.body
+    const { category, brand, model, faults, userData } = req.body
     const emailContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; background-color: #F5F7FA; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
         <h2 style="background-color: #70757A; color: white; padding: 10px; text-align: center; border-radius: 10px 10px 0 0;">Nueva Solicitud de Servicio</h2>
