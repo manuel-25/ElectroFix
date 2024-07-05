@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
         <h2 style="background-color: #70757A; color: white; padding: 10px; text-align: center; border-radius: 10px 10px 0 0;">Nueva Solicitud de Servicio</h2>
         
         <div style="background-color: white; padding: 20px; border-radius: 0 0 10px 10px;">
-          <p><b>Fecha:</b> ${new Date(date).toLocaleString()}</p>
+          <p><b>Fecha:</b> ${req.body.date.toLocaleString()}</p>
           <p><b>Equipo:</b> ${category.name}</p>
           <p><b>Marca:</b> ${brand}</p>
           <p><b>Modelo:</b> ${model}</p>
