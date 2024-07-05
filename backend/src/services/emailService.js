@@ -6,7 +6,7 @@ console.log('PASS:', process.env.BREVO_PASS)
 
 // Configuración del transporter de Nodemailer
 const transporter = nodemailer.createTransport({
-  host: 'smtp.mailersend.net',
+  host: 'smtp-relay.brevo.com',
   port: 587,
   secure: false,
   auth: {
