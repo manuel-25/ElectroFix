@@ -57,7 +57,6 @@ function MainContent() {
         if (event.key === 'ArrowDown') {
             event.preventDefault()
             setSelectedIndex((prevIndex) => (prevIndex + 1) % filteredItems.length)
-            console.log('SelectedIndex: ', selectedIndex)
         } else if (event.key === 'ArrowUp') {
             event.preventDefault()
             setSelectedIndex((prevIndex) => (prevIndex - 1 + filteredItems.length) % filteredItems.length)
@@ -71,8 +70,6 @@ function MainContent() {
 
     useEffect(() => {
         const inputElement = inputRef.current
-        console.log(inputElement)
-        console.log('Index: ', selectedIndex)
         if (inputElement) {
             inputElement.addEventListener('keydown', handleKeyDown)
             return () => {
