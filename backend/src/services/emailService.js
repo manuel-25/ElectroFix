@@ -10,8 +10,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: "MS_azGhid@trial-pq3enl6dzkrg2vwr.mlsender.net",
-    pass: "XPLKZCSVfVNnkvix"
+    user: config.MAILER_USER,
+    pass: config.MAILER_PASS
   }
 })
 
@@ -31,7 +31,7 @@ verifyConnection()
 export const sendEmail = async (to, subject, htmlContent) => {
   try {
     const mailOptions = {
-      from: "MS_azGhid@trial-pq3enl6dzkrg2vwr.mlsender.net",
+      from: config.MAILER_USER,
       to: to,
       subject: subject,
       html: htmlContent,
