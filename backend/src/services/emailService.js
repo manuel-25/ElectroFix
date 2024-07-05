@@ -1,9 +1,6 @@
 import nodemailer from 'nodemailer'
 import config from '../utils/config.js'
 
-console.log('USER:', process.env.BREVO_USER)
-console.log('PASS:', process.env.BREVO_PASS)
-
 // Configuración del transporter de Nodemailer
 const transporter = nodemailer.createTransport({
   host: 'smtp-relay.brevo.com',
