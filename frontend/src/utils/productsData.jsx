@@ -17,21 +17,21 @@ export const products = [
 ]
 
 export const brandsByCategory = {
-    1: ['Apple', 'Samsung', 'Xiaomi', 'Motorola', 'Alcatel', 'Nokia', 'LG', 'Huawei', 'Otros'],
+    1: ['Apple', 'Samsung', 'Xiaomi', 'Motorola', 'LG', 'Huawei', 'Nokia', 'Alcatel', 'Otros'],
     2: ['Sony', 'Xbox', 'Nintendo', 'Otros'],
-    3: ['Samsung', 'Apple', 'LG', 'BGH', 'JVC', 'Hisense', 'Sony', 'Philco', 'Admiral', 'RCA', 'Noblex', 'Phillips', 'TCL', 'Pioner', 'Telefunken', 'Ken Brown', 'Otros'],
-    4: ['Ultracomb', 'Peabody', 'BGH', 'Atma', 'Philco', 'Kanji', 'Morelli', 'Smartlife', 'Alpaca', 'Enova', 'Tedge', 'Tivoli', 'Liliana', 'Midea', 'Daewo', 'Yelmo', 'Black and Decker', 'Tophouse', 'Smart Tech', 'Axel', 'Otros'],
-    5: ['Peabody', 'Atma', 'Electrolux', 'Oster', 'Molinex', 'Yelmo', 'Smart Life', 'Nesspreso', 'Otros'],
-    6: ['Yelmo', 'Peabody', 'Ultra Comb', 'Liliana', 'Atma', 'Smart Life', 'Phillips', 'Winco', 'Molinex', 'Daewo', 'Oster', 'Philco', 'Tophouse', 'Otros'],
-    7: ['Atma', 'Molinex', 'Peabody', 'Black and Decker', 'Electro Lux', 'Phillips', 'Daewo', 'Yelmo', 'Ultra Comb', 'Winco', 'Smart Life', 'Liliana', 'Oster', 'Smart Tech', 'Otros'],
+    3: ['Samsung', 'Apple', 'LG', 'BGH', 'Sony', 'Philco', 'Noblex', 'Hisense', 'Otros'],
+    4: ['Ultracomb', 'Peabody', 'BGH', 'Atma', 'Philco', 'Liliana', 'Midea', 'Yelmo', 'Otros'],
+    5: ['Peabody', 'Atma', 'Electrolux', 'Oster', 'Molinex', 'Yelmo', 'Smart Life', 'Nespresso', 'Otros'],
+    6: ['Yelmo', 'Peabody', 'Ultra Comb', 'Liliana', 'Atma', 'Philco', 'Winco', 'Molinex', 'Otros'],
+    7: ['Atma', 'Molinex', 'Peabody', 'Black and Decker', 'Electro Lux', 'Phillips', 'Daewo', 'Yelmo', 'Otros'],
     8: ['Phillips', 'Atma', 'Ultra Comb', 'Winco', 'Liliana', 'Philco', 'Peabody', 'Tophouse', 'Otros'],
-    9: ['Gama', 'Otros'],
-    10: ['Otros'],
-    11: ['Dell', 'Samsung','HP', 'Lenovo', 'Acer', 'Asus', 'Apple', 'Bangho', 'Microsoft', 'Exo', 'Vaio', ' BGH', 'Noblex', 'Samsung', 'Otros'],
-    12: ['Vondom', 'Philco', 'Whirlpool', 'Tophouse', 'Winco', 'Wine Collection', 'Candy', 'Ultra Comb', 'Wine Frost', 'Otros'],
+    9: ['Philips', 'GA.MA', 'Rowenta', 'Babyliss', 'Revlon', 'CHI', 'Conair', 'Bellissima', 'Otros'],
+    10: ['Surrey', 'Longvie', 'Volcán', 'Orbis', 'Philco', 'Whirlpool', 'Bosch', 'Electrolux', 'Otros'],
+    11: ['Samsung', 'Dell', 'HP', 'Lenovo', 'Acer', 'Asus', 'Apple', 'Bangho', 'Otros'],
+    12: ['Philco', 'Whirlpool', 'Vondom', 'Tophouse', 'Winco', 'Wine Collection', 'Candy', 'Otros'],
     13: ['Liliana', 'Electro Lux', 'Axel', 'Magiclick', 'Atma', 'Philco', 'Peabody', 'Otros'],
-    14: ['Otros'],
-    15: ['Otros']
+    14: ['Longvie', 'Volcán', 'Orbis', 'Philco', 'Whirlpool', 'Surrey', 'Bosch', 'Electrolux', 'Otros'],
+    15: ['Philips', 'GaMa', 'Remington', 'Babyliss', 'Rowenta', 'Arno', 'Braun', 'Taiff', 'Otros']
 }
 
 export const categories = [
