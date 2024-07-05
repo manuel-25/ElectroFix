@@ -63,31 +63,36 @@ const Services = () => {
   }
 
   // Función para manejar el envío de datos
-  const handleSubmit = async () => {
-    try {
-      const date = new Date(new Date().getTime() - (3 * 60 * 60 * 1000))
-      const updatedFormData = { ...formData, date }
-      const response = await fetch('https://electrosafeweb.com/api/service-requests', { //http://localhost:5000/api/service-requests  https://electrosafeweb.com/api/service-requests
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedFormData),
-      })
+  const handleSubmit = () => {
+    const submitData = async () => {
+      try {
+        const date = new Date(new Date().getTime() - (3 * 60 * 60 * 1000))
+        const updatedFormData = { ...formData, date }
+        const response = await fetch('https://electrosafeweb.com/api/service-requests', { //http://localhost:5000/api/service-requests  https://electrosafeweb.com/api/service-requests
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedFormData),
+        })
 
-      const responseData = await response.json()
+        const responseData = await response.json()
 
-      if (response.ok) {
-        console.log('Form submitted successfully!')
-        setSubmitStatus('success')
-      } else {
-        console.error('Form submission failed', responseData)
+        if (response.ok) {
+          console.log('Form submitted successfully!')
+          setSubmitStatus('success')
+        } else {
+          console.error('Form submission failed', responseData)
+          setSubmitStatus('error')
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error)
         setSubmitStatus('error')
       }
-    } catch (error) {
-      console.error('Error submitting form:', error)
-      setSubmitStatus('error')
     }
+
+    setSubmitStatus('pending')
+    submitData()
   }
 
   // Usar useEffect para llamar handleSubmit cuando el paso es 6

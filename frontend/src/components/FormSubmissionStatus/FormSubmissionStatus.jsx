@@ -7,8 +7,8 @@ const FormSubmissionStatus = ({ status, name }) => {
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    // Establecer isLoaded a true cuando status esté definido y no sea null
-    if (status) {
+    // Establecer isLoaded a true cuando status no esté pendiente
+    if (status !== 'pending') {
       setIsLoaded(true)
     }
   }, [status])
