@@ -16,6 +16,8 @@ const Services = () => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   let selectedCategory = queryParams.get('category') || null
+  let selectedBrand = queryParams.get('brand') || null
+  let selectedModel = queryParams.get('model') || null
 
   // Verificar si la categoría seleccionada está en la lista de productos
   const isValidCategory = products.some(product => product.name === selectedCategory)
@@ -28,7 +30,6 @@ const Services = () => {
   // Buscar la categoría seleccionada en el array de productos
   const selectedProduct = selectedCategory ? products.find(product => product.name === selectedCategory) : null
 
-  // Si se encontró la categoría, guardarla en el estado formData
   useEffect(() => {
     if (selectedProduct) {
       setFormData(prevState => ({
@@ -38,15 +39,16 @@ const Services = () => {
           name: selectedProduct.name
         }
       }))
+      setStep(2) // Avanzar automáticamente al paso 2 si tenemos la categoría seleccionada
     }
   }, [selectedProduct])
 
-  const [step, setStep] = useState(selectedCategory ? 2 : 1)
+  const [step, setStep] = useState(1) // Comenzar en el paso 1 por defecto
   const [formData, setFormData] = useState({
     date: '',
-    category: selectedProduct ? { id: selectedProduct.id, name: selectedProduct.name } : '', // Guarda la categoría seleccionada si existe
-    brand: '',
-    model: '',
+    category: selectedProduct ? { id: selectedProduct.id, name: selectedProduct.name } : '',
+    brand: selectedBrand || '',
+    model: selectedModel || '',
     faults: '',
     userData: {}
   })
@@ -59,7 +61,10 @@ const Services = () => {
 
   // Función para actualizar los datos del formulario
   const updateFormData = (key, value) => {
-    setFormData({ ...formData, [key]: value })
+    setFormData(prevState => ({
+      ...prevState,
+      [key]: value
+    }))
   }
 
   // Función para manejar el envío de datos
@@ -68,7 +73,7 @@ const Services = () => {
       try {
         const date = new Date(new Date().getTime() - (3 * 60 * 60 * 1000))
         const updatedFormData = { ...formData, date }
-        const response = await fetch('https://electrosafeweb.com/api/service-requests', { //http://localhost:5000/api/service-requests  https://electrosafeweb.com/api/service-requests
+        const response = await fetch('https://electrosafeweb.com/api/service-requests', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -101,6 +106,17 @@ const Services = () => {
       handleSubmit()
     }
   }, [step])
+
+  // Determinar el paso inicial basado en la disponibilidad de datos
+  useEffect(() => {
+    if (selectedBrand && selectedModel) {
+      setStep(4)
+    } else if (selectedBrand) {
+      setStep(3)
+    } else if (selectedCategory) {
+      setStep(2)
+    }
+  }, [selectedCategory, selectedBrand, selectedModel])
 
   return (
     <div className="services">

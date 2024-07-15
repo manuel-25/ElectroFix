@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import QuoteButton from '../QuoteButton/QuoteButton'
 import './MainContent.css'
-import { ReactTyped } from "react-typed"
+import { ReactTyped } from 'react-typed'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faStore, faTruck, faHome } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from 'react-router-dom'
-import { categories, brandLogos, reviews } from '../../utils/productsData'
+import { brandLogos, reviews, detailedBrandsByCategory } from '../../utils/productsData'
 
 function MainContent() {
     const [searchTerm, setSearchTerm] = useState('')
@@ -15,19 +15,32 @@ function MainContent() {
     const suggestionsRef = useRef(null)
     const navigate = useNavigate()
 
-    const filteredItems = categories
-        .filter(item => item.toLowerCase().includes(searchTerm.toLowerCase()))
-        .slice(0, 6)
+    const filteredItems = Object.values(detailedBrandsByCategory).flatMap(category => 
+        Object.entries(category.brands).flatMap(([brand, models]) => 
+            models.filter(model => 
+                category.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                brand.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                model.toLowerCase().includes(searchTerm.toLowerCase())
+            ).map(model => ({
+                category: category.name,
+                brand,
+                model
+            }))
+        )
+    ).slice(0, 6)
+    
 
     const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value)
-        setShowSuggestions(event.target.value.length > 0)
+        const inputKeywords = event.target.value
+        setSearchTerm(inputKeywords)
+        setShowSuggestions(inputKeywords.length > 0)
         setSelectedIndex(-1)
     }
 
-    const handleSuggestionClick = (suggestion) => {
+    const handleSuggestionClick = (suggestion, index) => {
         setSearchTerm(suggestion)
         setShowSuggestions(false)
+        setSelectedIndex(index)
         inputRef.current.focus()
     }
 
@@ -37,46 +50,63 @@ function MainContent() {
         }
     }
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (
-                inputRef.current && !inputRef.current.contains(event.target) &&
-                suggestionsRef.current && !suggestionsRef.current.contains(event.target)
-            ) {
-                setShowSuggestions(false)
-            }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [inputRef, suggestionsRef])
-
     const handleKeyDown = (event) => {
-        if (event.key === 'ArrowDown') {
+        if (event.key === 'ArrowUp') {
             event.preventDefault()
-            setSelectedIndex((prevIndex) => (prevIndex + 1) % filteredItems.length)
-        } else if (event.key === 'ArrowUp') {
+            setSelectedIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : prevIndex))
+        } else if (event.key === 'ArrowDown') {
             event.preventDefault()
-            setSelectedIndex((prevIndex) => (prevIndex - 1 + filteredItems.length) % filteredItems.length)
+            setSelectedIndex(prevIndex => (prevIndex < filteredItems.length - 1 ? prevIndex + 1 : prevIndex))
         } else if (event.key === 'Enter') {
             event.preventDefault()
-            const selectedCategory = selectedIndex >= 0 ? filteredItems[selectedIndex] : searchTerm
-            navigate(`/reparacion-electrodomesticos?category=${encodeURIComponent(selectedCategory)}`)
-            setShowSuggestions(false)
+            if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
+                const { category, brand, model } = filteredItems[selectedIndex]
+                const categoryParam = encodeURIComponent(category || '')
+                const brandParam = encodeURIComponent(brand || '')
+                const modelParam = encodeURIComponent(model || '')
+
+                navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
+                setShowSuggestions(false)
+            } else if (searchTerm) {
+                const [category, brand, model] = searchTerm.split(' ')
+                const categoryParam = encodeURIComponent(category || '')
+                const brandParam = encodeURIComponent(brand || '')
+                const modelParam = encodeURIComponent(model || '')
+
+                navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
+                setShowSuggestions(false)
+            }
         }
     }
 
     useEffect(() => {
-        const inputElement = inputRef.current
-        if (inputElement) {
-            inputElement.addEventListener('keydown', handleKeyDown)
-            return () => {
-                inputElement.removeEventListener('keydown', handleKeyDown)
-            }
+        document.addEventListener('keydown', handleKeyDown)
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown)
         }
-    }, [filteredItems, selectedIndex])
+    }, [selectedIndex, filteredItems, searchTerm])
+
+    const handleQuoteButtonClick = () => {
+        if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
+            const { category, brand, model } = filteredItems[selectedIndex]    
+            const categoryParam = encodeURIComponent(category || '')
+            const brandParam = encodeURIComponent(brand || '')
+            const modelParam = encodeURIComponent(model || '')
+    
+            navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
+        } else if (searchTerm) {    
+            const searchTermParts = searchTerm.split(' ')
+            const category = searchTermParts[0] || ''
+            const brand = searchTermParts[1] || ''
+            const model = searchTermParts[2] || ''
+    
+            const categoryParam = encodeURIComponent(category)
+            const brandParam = encodeURIComponent(brand)
+            const modelParam = encodeURIComponent(model)
+    
+            navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
+        }
+    }    
 
     return (
         <div>
@@ -84,7 +114,7 @@ function MainContent() {
                 <section className="section-reparation">
                     <div className='reparation-top'>
                         <h1>Reparación de Electrodomésticos</h1>
-                        <h3><ReactTyped strings={["¿Se rompió tu equipo? Buscalo"]} typeSpeed={50}></ReactTyped></h3>
+                        <h3><ReactTyped strings={["¿Se rompió tu equipo? Búscalo"]} typeSpeed={50}></ReactTyped></h3>
                     </div>
                     <div className="reparation-bottom">
                         <input
@@ -101,16 +131,14 @@ function MainContent() {
                                     <div
                                         key={index}
                                         className={`suggestion-item ${index === selectedIndex ? 'selected' : ''}`}
-                                        onClick={() => handleSuggestionClick(item)}
+                                        onClick={() => handleSuggestionClick(`${item.category} ${item.brand} ${item.model}`, index)}
                                     >
-                                        {item}
+                                        {`${item.category} ${item.brand} ${item.model}`}
                                     </div>
                                 ))}
                             </div>
                         )}
-                        <Link to={`/reparacion-electrodomesticos?category=${encodeURIComponent(searchTerm)}`}>
-                            <QuoteButton text="Cotizar Ahora" />
-                        </Link>
+                        <QuoteButton text="Cotizar Ahora!" onClick={handleQuoteButtonClick} />
                     </div>
                 </section>
             </div>
@@ -199,7 +227,7 @@ function MainContent() {
                         <span className='star'></span>
                         <span className='star half'></span>
                     </span>
-                    <a href="https://www.google.com/search?q=electrosafe+quilmes&sca_esv=a0e417c138758ffa&hl=es-419&gl=ar&sxsrf=ADLYWIL3yPa3TtrqufPpEYP-tPt-nsSfxQ%3A1718729648775&ei=sLtxZun6LovY1sQPp5eKsAQ&oq=electrosa&gs_lp=Egxnd3Mtd2l6LXNlcnAiCWVsZWN0cm9zYSoCCAAyChAjGIAEGCcYigUyChAjGIAEGCcYigUyExAuGIAEGBQYxwEYhwIYjgUYrwEyBRAAGIAEMgUQABiABDIFEAAYgAQyCxAuGIAEGMcBGK8BMgsQLhiABBjHARivATIFEAAYgAQyBRAAGIAESP0TUABYpQtwAHgBkAEAmAGUAaAB2AeqAQMyLje4AQPIAQD4AQGYAgmgAvMHwgIEECMYJ8ICCxAuGIAEGLEDGIMBwgIREC4YgAQYsQMY0QMYgwEYxwHCAgsQABiABBixAxiDAcICDhAAGIAEGLEDGIMBGIoFwgIIEC4YgAQYsQPCAg4QLhiABBixAxjRAxjHAcICChAAGIAEGEMYigXCAg4QLhiABBixAxiDARjUAsICExAuGIAEGLEDGEMYgwEYyQMYigXCAhMQLhiABBixAxjRAxhDGMcBGIoFwgIOEC4YgAQYsQMYxwEYrwHCAggQABiABBixA8ICFBAuGIAEGLEDGIMBGMcBGI4FGK8BmAMAkgcDMC45oAefeA&sclient=gws-wiz-serp#ip=1&lrd=0x95a3332dc6e1e2eb:0x91e0a93b10ba873,1,,,," target="_blank" rel="noopener noreferrer">115 opiniones</a>
+                    <a href="https://www.google.com/search?q=electrosafe+quilmes&sca_esv=a0e417c138758ffa&hl=es-419&gl=ar&sxsrf=ADLYWIL3yPa3TtrqufPpEYP-tPt-nsSfxQ%3A1718729648775&ei=sLtxZun6LovY1sQPp5eKsAQ&oq=electrosa&gs_lp=Egxnd3Mtd2l6LXNlcnAiCWVsZWN0cm9zYSoCCAAyChAjGIAEGCcYigUyChAjGIAEGCcYigUyExAuGIAEGBQYxwEYhwIYjgUYrwEyBRAAGIAEMgUQABiABDIFEAAYgAQyCxAuGIAEGMcBGK8BMgsQLhiABBjHARivATIFEAAYgAQyBRAAGIAESP0TUABYpQtwAHgBkAEAmAGUAaAB2AeqAQMyLje4AQPIAQD4AQGYAgmgAvMHwgIEECMYJ8ICCxAuGIAEGLEDGIMBwgIREC4YgAQYsQMY0QMYgwEYxwHCAgsQABiABBixAxiDAcICDhAAGIAEGLEDGIMBGIoFwgIIEC4YgAQYsQMYxwEYrwHCAggQABiABBixA8ICFBAuGIAEGLEDGIMBGMcBGI4FGK8BmAMAkgcDMC45oAefeA&sclient=gws-wiz-serp#ip=1&lrd=0x95a3332dc6e1e2eb:0x91e0a93b10ba873,1,,,," target="_blank" rel="noopener noreferrer">115 opiniones</a>
                 </p>
                 <ul className='review-listing'>
                     {reviews.map(review => (

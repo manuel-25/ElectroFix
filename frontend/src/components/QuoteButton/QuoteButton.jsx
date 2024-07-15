@@ -1,10 +1,12 @@
 import React from "react"
 import './QuoteButton.css'
 
-function QuoteButton(props) {
+function QuoteButton({ text, onClick }) {
     return (
         <div className="quote-button-container">
-            <button className="quote-button">{props.text}</button>
+            <button className="quote-button" onClick={onClick}>
+                {text}
+            </button>
         </div>
     )
 }
