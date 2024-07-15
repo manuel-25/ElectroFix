@@ -28,7 +28,6 @@ function MainContent() {
             }))
         )
     ).slice(0, 6)
-    
 
     const handleSearchChange = (event) => {
         const inputKeywords = event.target.value
@@ -64,15 +63,16 @@ function MainContent() {
                 const categoryParam = encodeURIComponent(category || '')
                 const brandParam = encodeURIComponent(brand || '')
                 const modelParam = encodeURIComponent(model || '')
-
+    
                 navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
                 setShowSuggestions(false)
             } else if (searchTerm) {
-                const [category, brand, model] = searchTerm.split(' ')
+                const [category, brand, ...rest] = searchTerm.split(' ')
+                const model = rest.join(' ') // Join remaining parts as the model
                 const categoryParam = encodeURIComponent(category || '')
                 const brandParam = encodeURIComponent(brand || '')
                 const modelParam = encodeURIComponent(model || '')
-
+    
                 navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
                 setShowSuggestions(false)
             }
