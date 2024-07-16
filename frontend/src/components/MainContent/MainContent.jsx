@@ -15,12 +15,16 @@ function MainContent() {
     const suggestionsRef = useRef(null)
     const navigate = useNavigate()
 
+    const searchTerms = searchTerm.toLowerCase().split(' ');
+
     const filteredItems = Object.values(detailedBrandsByCategory).flatMap(category => 
         Object.entries(category.brands).flatMap(([brand, models]) => 
             models.filter(model => 
-                category.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                brand.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                model.toLowerCase().includes(searchTerm.toLowerCase())
+                searchTerms.every(term =>
+                    category.name.toLowerCase().includes(term) ||
+                    brand.toLowerCase().includes(term) ||
+                    model.toLowerCase().includes(term)
+                )
             ).map(model => ({
                 category: category.name,
                 brand,
@@ -162,7 +166,7 @@ function MainContent() {
                         <FontAwesomeIcon icon={faCircleCheck} className='feature-icon' />
                         <div className='feature-text'>
                             <span className='feature-light'>Garantía</span>
-                            <span className='feature-bold'>Por 6 meses</span>
+                            <span className='feature-bold'>Por 90 días</span>
                         </div>
                     </li>
                     <li className='feature'>
