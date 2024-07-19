@@ -79,6 +79,8 @@ function MainContent() {
     
                 navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
                 setShowSuggestions(false)
+            } else {
+                navigate(`/reparacion-electrodomesticos`) 
             }
         }
     }
