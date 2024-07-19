@@ -15,7 +15,7 @@ function MainContent() {
     const suggestionsRef = useRef(null)
     const navigate = useNavigate()
 
-    const searchTerms = searchTerm.toLowerCase().split(' ');
+    const searchTerms = searchTerm.toLowerCase().split(' ')
 
     const filteredItems = Object.values(detailedBrandsByCategory).flatMap(category => 
         Object.entries(category.brands).flatMap(([brand, models]) => 
@@ -55,30 +55,30 @@ function MainContent() {
 
     const handleKeyDown = (event) => {
         if (event.key === 'ArrowUp') {
-            event.preventDefault();
-            setSelectedIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : filteredItems.length - 1));
+            event.preventDefault()
+            setSelectedIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : filteredItems.length - 1))
         } else if (event.key === 'ArrowDown') {
-            event.preventDefault();
-            setSelectedIndex(prevIndex => (prevIndex < filteredItems.length - 1 ? prevIndex + 1 : 0));
+            event.preventDefault()
+            setSelectedIndex(prevIndex => (prevIndex < filteredItems.length - 1 ? prevIndex + 1 : 0))
         } else if (event.key === 'Enter') {
-            event.preventDefault();
+            event.preventDefault()
             if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
-                const { category, brand, model } = filteredItems[selectedIndex];
-                const categoryParam = encodeURIComponent(category || '');
-                const brandParam = encodeURIComponent(brand || '');
-                const modelParam = encodeURIComponent(model || '');
+                const { category, brand, model } = filteredItems[selectedIndex]
+                const categoryParam = encodeURIComponent(category || '')
+                const brandParam = encodeURIComponent(brand || '')
+                const modelParam = encodeURIComponent(model || '')
     
-                navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`);
-                setShowSuggestions(false);
+                navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
+                setShowSuggestions(false)
             } else if (searchTerm) {
-                const [category, brand, ...rest] = searchTerm.split(' ');
-                const model = rest.join(' '); // Join remaining parts as the model
-                const categoryParam = encodeURIComponent(category || '');
-                const brandParam = encodeURIComponent(brand || '');
-                const modelParam = encodeURIComponent(model || '');
+                const [category, brand, ...rest] = searchTerm.split(' ')
+                const model = rest.join(' ') // Join remaining parts as the model
+                const categoryParam = encodeURIComponent(category || '')
+                const brandParam = encodeURIComponent(brand || '')
+                const modelParam = encodeURIComponent(model || '')
     
-                navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`);
-                setShowSuggestions(false);
+                navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
+                setShowSuggestions(false)
             }
         }
     }
@@ -109,6 +109,8 @@ function MainContent() {
             const modelParam = encodeURIComponent(model)
     
             navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
+        } else {
+            navigate(`/reparacion-electrodomesticos`) 
         }
     }    
 
