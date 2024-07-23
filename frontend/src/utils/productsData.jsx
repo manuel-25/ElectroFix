@@ -1,4 +1,5 @@
 export const products = [
+    { id: 15, name: 'Air Fryer' },
     { id: 1, name: 'Smartphone' },
     { id: 3, name: 'Televisor' },
     { id: 2, name: 'Consola' },
@@ -13,7 +14,7 @@ export const products = [
     { id: 10, name: 'Planchita de Pelo' },
     { id: 12, name: 'Cava de Vino' },
     { id: 13, name: 'Ventilador' },
-    { id: 14, name: 'Estufa' }
+    { id: 14, name: 'Estufa' },
 ]
 
 export const brandsByCategory = {
@@ -35,11 +36,52 @@ export const brandsByCategory = {
 }
 
 export const detailedBrandsByCategory = {
+    0: {
+        name: 'Air Fryer',
+        brands: {
+            'Nef': ['Nef AirFry 123', 'Nef TurboCook'],
+            'Philips': ['HD9220/20', 'HD9650/99', 'HD9741/99', 'HD9230/26'],
+            'Peabody': ['PE-AF605', 'PE-AF545', 'PE-AF605R'],
+            'Suono': ['AF-900', 'AF-850'],
+            'Zego': ['ZG-AF700', 'ZG-AF750'],
+            'Winco': ['AF-530', 'AF-610'],
+            'Yelmo': ['AF-1000', 'AF-950'],
+            'Oryx': ['AF-701', 'F-801'],
+            'Moulinex': ['EZ4018', 'AF1018'],
+            'Atma': ['AF8030E', 'AF8050E'],
+            'Ultracomb': ['AF2207', 'AF2209']
+        }
+    },
     1: {
         name: 'Smartphone',
         brands: {
-            'Apple': ['iPhone 15', 'iPhone 14', 'iPhone 13 Pro Max', 'iPhone 12', 'iPhone SE', 'iPhone 11', 'iPhone XR', 'iPhone XS', 'iPhone X', 'iPhone 8', 'iPhone 7'],
-            'Samsung': ['Galaxy S22', 'Galaxy Note 20 Ultra', 'Galaxy A52', 'Galaxy Z Flip 3', 'Galaxy S21', 'Galaxy Note 10', 'Galaxy S20', 'Galaxy Note 9', 'Galaxy S10', 'Galaxy Note 8'],
+            'Apple': [
+                'iPhone 15', 'iPhone 15 Plus', 'iPhone 15 Pro', 'iPhone 15 Pro Max',
+                'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max',
+                'iPhone 13', 'iPhone 13 Mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max',
+                'iPhone 12', 'iPhone 12 Mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max',
+                'iPhone SE (2022)', 'iPhone SE (2020)',
+                'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max',
+                'iPhone XR', 'iPhone XS', 'iPhone XS Max',
+                'iPhone X',
+                'iPhone 8', 'iPhone 8 Plus',
+                'iPhone 7', 'iPhone 7 Plus'
+            ],
+            'Samsung': [
+                'Galaxy S22', 'Galaxy S22+', 'Galaxy S22 Ultra',
+                'Galaxy S21', 'Galaxy S21+', 'Galaxy S21 Ultra', 'Galaxy S21 FE',
+                'Galaxy S20', 'Galaxy S20+', 'Galaxy S20 Ultra', 'Galaxy S20 FE',
+                'Galaxy S10', 'Galaxy S10+', 'Galaxy S10e', 'Galaxy S10 Lite',
+                'Galaxy Note 20', 'Galaxy Note 20 Ultra',
+                'Galaxy Note 10', 'Galaxy Note 10+', 'Galaxy Note 10 Lite',
+                'Galaxy Note 9',
+                'Galaxy Note 8',
+                'Galaxy A52', 'Galaxy A52s', 'Galaxy A72', 'Galaxy A32', 'Galaxy A12', 'Galaxy A02s',
+                'Galaxy A51', 'Galaxy A71', 'Galaxy A31', 'Galaxy A21s', 'Galaxy A11', 'Galaxy A01',
+                'Galaxy A50', 'Galaxy A70', 'Galaxy A30', 'Galaxy A20', 'Galaxy A10',
+                'Galaxy Z Fold 3', 'Galaxy Z Flip 3', 'Galaxy Z Fold 2', 'Galaxy Z Flip 2',
+                'Galaxy Z Fold', 'Galaxy Z Flip'
+            ],
             'Xiaomi': ['Mi 11', 'Redmi Note 10', 'Poco X3', 'Mi 10T', 'Mi 9', 'Redmi Note 9', 'Mi Note 10', 'Redmi Note 8', 'Mi Mix 3', 'Mi 8'],
             'Motorola': ['Moto G100', 'Moto Edge 20', 'Moto G Power', 'Moto G Stylus', 'Moto G Fast', 'Moto E'],
             'LG': ['Velvet', 'Wing', 'V60 ThinQ', 'G8 ThinQ', 'G7 ThinQ'],
@@ -60,7 +102,19 @@ export const detailedBrandsByCategory = {
             'TCL': ['6-Series', '5-Series', '4-Series', '3-Series', 'S535', 'R635', 'S405', 'R617'],
             'Hisense': ['U8G', 'H9G', 'A6G', 'U7G', 'H8G', 'R8F', 'H9F', 'H8C'],
             'Vizio': ['P-Series', 'M-Series', 'V-Series', 'D-Series', 'E-Series', 'P65Q9-H1', 'M65Q7-H1', 'V505-H9'],
-            'Otros': []
+            'ADMIRAL': [],
+            'JVC': ['LT-55MAW705', 'LT-43MAW595', 'LT-32MAW384'],
+            'THC': [],
+            'TOP HOUSE': [],
+            'QUINT': [],
+            'ENOVA': [],
+            'KANJI': [],
+            'CANDY': [],
+            'KODAK': ['55UHDX7XPRO', '43FHDX7XPRO', '32HDX7XPRO'],
+            'TELEFUNKEN': [],
+            'RCA': ['RTRU5527', 'RLDED5098-UHD', 'RLDED3258A'],
+            'Ken Brown': [],
+            'Otros': [],
         }
     },
     3: {
@@ -95,6 +149,17 @@ export const detailedBrandsByCategory = {
             'Sharp': ['ZSMC1449FS', 'R-21LCFS', 'SMC1442CS', 'SMC1585BS', 'R1874T', 'R1874TY', 'R651ZS', 'R459YK'],
             'Toshiba': ['EM131A5C-BS', 'EM925A5A-BS', 'EC042A5C-SS', 'ML-EM45PIT', 'EM131A5C-SS', 'EM131A5C-SS', 'EM925A5A-SS', 'EM925A5A-CHS'],
             'Whirlpool': ['WMH31017HS', 'WMC30516HZ', 'WMC20005YB', 'WML55011HS', 'WMC30516HZ', 'WML55011HS', 'WMC20005YW', 'WMC30516HW'],
+            'BGH QuickChef': ['BQG34M20B', 'BQG30M10B'],
+            'Atma': ['MD1825N', 'MD2011B', 'MD1710B'],
+            'Philco': ['PMO20D', 'PMO25D', 'PMO32D'],
+            'Daewoo': ['KOR-7LREM', 'KOR-7LREW', 'KOR-6L7B'],
+            'RCA': ['RMW733', 'RMW953', 'RMW1182'],
+            'Ariston': ['MFO 25 E IX A', 'MHE 30 X'],
+            'Hitplus': [],
+            'Top House': [],
+            'Eslabón de Lujo': [],
+            'Likon': [],
+            'Westinghouse': [],
             'Otros': []
         }
     },
@@ -107,6 +172,15 @@ export const detailedBrandsByCategory = {
             'Cuisinart': ['TOA-60', 'TOB-260N1', 'TOB-1010', 'TOA-65', 'TOB-200', 'TOA-60', 'TOB-260N1', 'TOB-1010'],
             'Hamilton Beach': ['31126', '31123D', '31104D', '31103DA', '31126', '31123D', '31104D', '31103DA'],
             'Panasonic': ['NB-G110P', 'FlashXpress', 'NB-G110P', 'FlashXpress', 'NB-G110P', 'FlashXpress', 'NB-G110P', 'FlashXpress'],
+            'Atma': [],
+            'Enova': [],
+            'Kanji Home': [],
+            'BGH': [],
+            'Ultracomb': [],
+            'Yelmo': [],
+            'Philco': [],
+            'Bonn': [],
+            'Ken Brown': [],
             'Otros': []
         }
     },
