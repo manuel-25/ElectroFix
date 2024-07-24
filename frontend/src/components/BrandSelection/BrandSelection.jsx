@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import './BrandSelection.css'
-import { brandsByCategory } from '../../utils/productsData'
+import { detailedBrandsByCategory } from '../../utils/productsData'
 
 const BrandSelection = ({ selectedCategory, nextStep, prevStep, updateFormData }) => {
   const [selectedBrand, setSelectedBrand] = useState('')
   const [otherBrand, setOtherBrand] = useState('')
   const [visibleBrands, setVisibleBrands] = useState(7) // Limita la cantidad inicial de marcas visibles
 
-  const categoryBrands = brandsByCategory[selectedCategory.id] || []
+  console.log('id:', selectedCategory.id)
+  const categoryBrands = Object.keys(detailedBrandsByCategory[selectedCategory.id]?.brands || {})
 
   const handleBrandSelect = (brand) => {
     setSelectedBrand(brand)
