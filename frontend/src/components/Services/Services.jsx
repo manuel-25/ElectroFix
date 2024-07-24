@@ -15,20 +15,30 @@ import ProgressBar from '../ProgressBar/ProgressBar'
 const Services = () => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
-  let selectedCategory = queryParams.get('category') || null
-  let selectedBrand = queryParams.get('brand') || null
-  let selectedModel = queryParams.get('model') || null
+  const [step, setStep] = useState(1) // Paso inicial
+  const [formData, setFormData] = useState({
+    date: '',
+    category: { id: '', name: '' },
+    brand: '',
+    model: '',
+    faults: '',
+    userData: {}
+  })
+  const [submitStatus, setSubmitStatus] = useState('pending') // Estado del envío
 
-  // Verificar si la categoría seleccionada está en la lista de productos
+  // Obtener parámetros de consulta
+  const selectedCategory = queryParams.get('category') || null
+  const selectedBrand = queryParams.get('brand') || null
+  const selectedModel = queryParams.get('model') || null
+
+  // Verificar si la categoría seleccionada es válida
   const isValidCategory = products.some(product => product.name === selectedCategory)
 
-  // Si la categoría seleccionada no es válida, establecerla como null
-  if (!isValidCategory) {
-    selectedCategory = null
-  }
+  // Si la categoría no es válida, establecerla como null
+  const validCategory = isValidCategory ? selectedCategory : null
 
-  // Buscar la categoría seleccionada en el array de productos
-  const selectedProduct = selectedCategory ? products.find(product => product.name === selectedCategory) : null
+  // Buscar la categoría en el array de productos
+  const selectedProduct = validCategory ? products.find(product => product.name === validCategory) : null
 
   useEffect(() => {
     if (selectedProduct) {
@@ -39,27 +49,20 @@ const Services = () => {
           name: selectedProduct.name
         }
       }))
-      setStep(2) // Avanzar automáticamente al paso 2 si tenemos la categoría seleccionada
+      setStep(2)
     }
   }, [selectedProduct])
 
-  const [step, setStep] = useState(1) // Comenzar en el paso 1 por defecto
-  const [formData, setFormData] = useState({
-    date: '',
-    category: selectedProduct ? { id: selectedProduct.id, name: selectedProduct.name } : '',
-    brand: selectedBrand || '',
-    model: selectedModel || '',
-    faults: '',
-    userData: {}
-  })
+  useEffect(() => {
+    if (selectedBrand && selectedModel) {
+      setStep(4)
+    } else if (selectedBrand) {
+      setStep(3)
+    } else if (validCategory) {
+      setStep(2)
+    }
+  }, [validCategory, selectedBrand, selectedModel])
 
-  const [submitStatus, setSubmitStatus] = useState('pending') // 'pending', 'success', 'error'
-
-  // Función para manejar el cambio de etapa
-  const nextStep = () => setStep(step + 1)
-  const prevStep = () => setStep(step - 1)
-
-  // Función para actualizar los datos del formulario
   const updateFormData = (key, value) => {
     setFormData(prevState => ({
       ...prevState,
@@ -67,56 +70,40 @@ const Services = () => {
     }))
   }
 
-  // Función para manejar el envío de datos
-  const handleSubmit = () => {
-    const submitData = async () => {
-      try {
-        const date = new Date(new Date().getTime() - (3 * 60 * 60 * 1000))
-        const updatedFormData = { ...formData, date }
-        const response = await fetch('https://electrosafeweb.com/api/service-requests', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updatedFormData),
-        })
+  const handleSubmit = async () => {
+    const date = new Date(new Date().getTime() - (3 * 60 * 60 * 1000)) // Ajustar la fecha
+    const updatedFormData = { ...formData, date }
 
-        const responseData = await response.json()
+    try {
+      const response = await fetch('https://electrosafeweb.com/api/service-requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedFormData),
+      })
 
-        if (response.ok) {
-          console.log('Form submitted successfully!')
-          setSubmitStatus('success')
-        } else {
-          console.error('Form submission failed', responseData)
-          setSubmitStatus('error')
-        }
-      } catch (error) {
-        console.error('Error submitting form:', error)
+      const responseData = await response.json()
+
+      if (response.ok) {
+        console.log('Form submitted successfully!')
+        setSubmitStatus('success')
+      } else {
+        console.error('Form submission failed', responseData)
         setSubmitStatus('error')
       }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      setSubmitStatus('error')
     }
-
-    setSubmitStatus('pending')
-    submitData()
   }
 
-  // Usar useEffect para llamar handleSubmit cuando el paso es 6
   useEffect(() => {
     if (step === 6) {
       handleSubmit()
     }
   }, [step])
 
-  // Determinar el paso inicial basado en la disponibilidad de datos
-  useEffect(() => {
-    if (selectedBrand && selectedModel) {
-      setStep(4)
-    } else if (selectedBrand) {
-      setStep(3)
-    } else if (selectedCategory) {
-      setStep(2)
-    }
-  }, [selectedCategory, selectedBrand, selectedModel])
+  const nextStep = () => setStep(prevStep => prevStep + 1)
+  const prevStep = () => setStep(prevStep => prevStep - 1)
 
   return (
     <div className="services">

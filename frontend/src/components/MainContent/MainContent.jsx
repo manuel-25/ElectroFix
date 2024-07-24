@@ -71,8 +71,11 @@ function MainContent() {
                 navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
                 setShowSuggestions(false)
             } else if (searchTerm) {
-                const [category, brand, ...rest] = searchTerm.split(' ')
-                const model = rest.join(' ') // Join remaining parts as the model
+                const searchTermParts = searchTerm.split(' ')
+                const category = searchTermParts.slice(0, -2).join(' ') // Join all but last two parts for category
+                const brand = searchTermParts.slice(-2, -1)[0] // Second last part for brand
+                const model = searchTermParts.slice(-1)[0] // Last part for model
+
                 const categoryParam = encodeURIComponent(category || '')
                 const brandParam = encodeURIComponent(brand || '')
                 const modelParam = encodeURIComponent(model || '')
@@ -102,9 +105,9 @@ function MainContent() {
             navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
         } else if (searchTerm) {    
             const searchTermParts = searchTerm.split(' ')
-            const category = searchTermParts[0] || ''
-            const brand = searchTermParts[1] || ''
-            const model = searchTermParts[2] || ''
+            const category = searchTermParts.slice(0, -2).join(' ') // Join all but last two parts for category
+            const brand = searchTermParts.slice(-2, -1)[0] // Second last part for brand
+            const model = searchTermParts.slice(-1)[0] // Last part for model
     
             const categoryParam = encodeURIComponent(category)
             const brandParam = encodeURIComponent(brand)

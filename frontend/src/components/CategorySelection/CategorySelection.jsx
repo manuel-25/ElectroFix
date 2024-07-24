@@ -1,10 +1,14 @@
 import React from 'react'
 import './CategorySelection.css'
 import { products } from '../../utils/productsData'
+import NewTag from '../NewTag/NewTag'
+
+// Lista de IDs de categorías con NEW TAG
+const newCategoryIds = [1]
 
 const CategorySelection = ({ nextStep, updateFormData }) => {
-  const handleCategorySelect = (id) => {
-    updateFormData('category', id)
+  const handleCategorySelect = (category) => {
+    updateFormData('category', {id: category.id, name: category.name})
     nextStep()
   }
 
@@ -20,6 +24,9 @@ const CategorySelection = ({ nextStep, updateFormData }) => {
           >
             {/* <img src={iconPath} alt={category.name} className="category-icon" /> */}
             <span>{category.name}</span>
+            {newCategoryIds.includes(category.id) && (
+              <NewTag text="Nuevo" color="var(--green-color)" />
+            )}
           </div>
         ))}
       </div>
