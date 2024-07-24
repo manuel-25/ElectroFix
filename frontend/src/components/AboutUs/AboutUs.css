@@ -1,5 +1,4 @@
 /* AboutUs.css */
-
 .about-us-section {
     background-color: var(--background-color);
     padding: 60px 20px;
@@ -43,8 +42,7 @@
 
 .values-section,
 .experience-section,
-.testimonials-section,
-.contact-section {
+.testimonials-section {
     margin-top: 40px;
 }
 
