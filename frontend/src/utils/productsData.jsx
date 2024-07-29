@@ -76,14 +76,15 @@ export const detailedBrandsByCategory = {
     3: {
         name: 'Televisor',
         brands: {
-            'Samsung': ['QN90A', 'AU8000', 'The Frame', 'TU7000', 'Q60T', 'RU7100', 'Q90R', 'Q80R', 'Q70R'],
-            'LG': ['OLED55C1', 'NANO75UP', 'UN7300', 'GX', 'OLED65CX', 'OLED48CXPUB', 'OLED55BX', 'OLED65B9PUA', 'OLED55B9PUA'],
-            'Sony': ['X90J', 'A80J', 'X85J', 'X800H', 'X900H', 'X950G', 'X850G', 'A9G', 'X950H'],
-            'Philips': ['OLED 806', 'PUS7506', 'PUS7906', 'The One', 'PUS8506', 'OLED 855', 'PUS9435', 'PUS9435'],
-            'Panasonic': ['JZ2000', 'HZ1000', 'GX800', 'GX700', 'HX800', 'HX600', 'FX800', 'FX700'],
-            'TCL': ['6-Series', '5-Series', '4-Series', '3-Series', 'S535', 'R635', 'S405', 'R617'],
-            'Hisense': ['U8G', 'H9G', 'A6G', 'U7G', 'H8G', 'R8F', 'H9F', 'H8C'],
-            'Vizio': ['P-Series', 'M-Series', 'V-Series', 'D-Series', 'E-Series', 'P65Q9-H1', 'M65Q7-H1', 'V505-H9'],
+            'Samsung': ['QN90A', 'AU8000', 'The Frame', 'TU7000', 'Q60T', 'RU7100', 'Q90R', 'Q80R', 'Q70R', 'QN900A', 'QN800A'],
+            'LG': ['OLED55C1', 'NANO75UP', 'UN7300', 'GX', 'OLED65CX', 'OLED48CXPUB', 'OLED55BX', 'OLED65B9PUA', 'OLED55B9PUA', 'OLED77G1'],
+            'Sony': ['X90J', 'A80J', 'X85J', 'X800H', 'X900H', 'X950G', 'X850G', 'A9G', 'X950H', 'A90J'],
+            'Philips': ['OLED 806', 'PUS7506', 'PUS7906', 'The One', 'PUS8506', 'OLED 855', 'PUS9435', 'PUS9435', 'OLED 935'],
+            'Panasonic': ['JZ2000', 'HZ1000', 'GX800', 'GX700', 'HX800', 'HX600', 'FX800', 'FX700', 'HZ2000'],
+            'TCL': ['6-Series', '5-Series', '4-Series', '3-Series', 'S535', 'R635', 'S405', 'R617', '8-Series'],
+            'Hisense': ['U8G', 'H9G', 'A6G', 'U7G', 'H8G', 'R8F', 'H9F', 'H8C', 'L9G'],
+            'Vizio': ['P-Series', 'M-Series', 'V-Series', 'D-Series', 'E-Series', 'P65Q9-H1', 'M65Q7-H1', 'V505-H9', 'P85QX-H1'],
+            'Apple': ['Apple TV 4K (2nd generation)', 'Apple TV 4K (1st generation)', 'Apple TV HD'],
             'ADMIRAL': [],
             'JVC': ['LT-55MAW705', 'LT-43MAW595', 'LT-32MAW384'],
             'THC': [],
@@ -98,7 +99,7 @@ export const detailedBrandsByCategory = {
             'Ken Brown': [],
             'Otros': [],
         }
-    },
+    },   
     4: {
         name: 'Consola',
         brands: {
@@ -283,42 +284,23 @@ export const categories = [
     'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa', 'Microondas'
 ]
 
-export const brandsByCategory = {
-    1: ['Nef', 'Philips', 'Peabody', 'Suono', 'Zego', 'Winco', 'Yelmo', 'Oryx', 'Moulinex', 'Atma', 'Ultracomb'],
-    2: ['Apple', 'Samsung', 'Xiaomi', 'Motorola', 'LG', 'Huawei', 'Nokia', 'Alcatel', 'Otros'],
-    3: ['Sony', 'Xbox', 'Nintendo', 'Otros'],
-    4: ['Samsung', 'Apple', 'LG', 'BGH', 'Sony', 'Philco', 'Noblex', 'Hisense', 'Otros'],
-    5: ['Ultracomb', 'Peabody', 'BGH', 'Atma', 'Philco', 'Liliana', 'Midea', 'Yelmo', 'Otros'],
-    6: ['Peabody', 'Atma', 'Electrolux', 'Oster', 'Molinex', 'Yelmo', 'Smart Life', 'Nespresso', 'Otros'],
-    7: ['Yelmo', 'Peabody', 'Ultra Comb', 'Liliana', 'Atma', 'Philco', 'Winco', 'Molinex', 'Otros'],
-    8: ['Atma', 'Molinex', 'Peabody', 'Black and Decker', 'Electro Lux', 'Phillips', 'Daewo', 'Yelmo', 'Otros'],
-    9: ['Phillips', 'Atma', 'Ultra Comb', 'Winco', 'Liliana', 'Philco', 'Peabody', 'Tophouse', 'Otros'],
-    10: ['Philips', 'GA.MA', 'Rowenta', 'Babyliss', 'Revlon', 'CHI', 'Conair', 'Bellissima', 'Otros'],
-    11: ['Surrey', 'Longvie', 'Volcán', 'Orbis', 'Philco', 'Whirlpool', 'Bosch', 'Electrolux', 'Otros'],
-    12: ['Samsung', 'Dell', 'HP', 'Lenovo', 'Acer', 'Asus', 'Apple', 'Bangho', 'Otros'],
-    13: ['Philco', 'Whirlpool', 'Vondom', 'Tophouse', 'Winco', 'Wine Collection', 'Candy', 'Otros'],
-    14: ['Liliana', 'Electro Lux', 'Axel', 'Magiclick', 'Atma', 'Philco', 'Peabody', 'Otros'],
-    15: ['Longvie', 'Volcán', 'Orbis', 'Philco', 'Whirlpool', 'Surrey', 'Bosch', 'Electrolux', 'Otros'],
-    16: ['Philips', 'GaMa', 'Remington', 'Babyliss', 'Rowenta', 'Arno', 'Braun', 'Taiff', 'Otros']
-}
-
 export const faultsByCategory = {
     1: ['No enciende', 'No calienta', 'Cocción desigual', 'Ruidos extraños', 'Salen chispas', 'Humo', 'Olor a quemado', 'La pantalla no funciona', 'El temporizador no funciona', 'Se apaga sola', 'Fugas de aceite', 'Otra'],
     2: ['No enciende', 'No inicia sistema', 'Pantalla rota / dañada', 'Falla pantalla táctil', 'Pantalla en negro / con líneas', 'No carga', 'Falla el audio', 'Problemas de batería', 'Problemas de software', 'Tapa trasera dañada', 'Otra'],
-    3: ['No enciende', 'Errores de sistema', 'No lee discos', 'Problemas con los joystick', 'Pantalla en negro', 'Sobrecalentamiento', 'Se congela', 'Falla de almacenamiento', 'Mantenimiento / Limpieza', 'Otra'],
-    4: ['No enciende', 'No hay imagen', 'Sin sonido', 'Imagen distorsionada', 'Problemas con el control remoto', 'Problemas con las conexiones HDMI/AV', 'Otra'],
-    5: ['No enciende', 'Enciende no calienta', 'Ruidos fuertes', 'Salen chispas', 'Problemas con el temporizador', 'Se apaga solo', 'Otra'],
-    6: ['No enciende', 'Enciende no calienta', 'Pierde agua' ,'No muele café', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con la bomba de agua', 'Mantenimiento / Limpieza', 'Otra'],
-    7: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Problemas con el termostato', 'Otra'],
-    8: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con el temporizador', 'Otra'],
-    9: ['No enciende', 'No calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Problemas con el rociador de vapor', 'Base dañada', 'Otra'],
-    10: ['No enciende', 'No calienta', 'Olor a quemado', 'Ruidos fuertes', 'Se apaga sola', 'Problemas con el motor', 'Otra'],
-    11: ['No enciende', 'No calienta', 'Olor a quemado', 'Problemas con las placas', 'Cable dañado', 'Otra'],
-    12: ['No enciende', 'No inicia sistema operativo', 'Pantalla rota', 'Pantalla Azul', 'No carga / problema con el cargador', 'Falla del teclado', 'Bisagras dañadas / rotas', 'No hay imagen', 'Se sobrecalienta', 'Se apaga', 'Mantenimiento / limpieza', 'Virus', 'Olvidé la contraseña', 'Ingreso líquido / se mojó', 'Batería dura poco / no anda', 'Problemas de teclado', 'Otra'],
-    13: ['No enciende', 'No enfría', 'Ruidos fuertes', 'Problemas con el termostato', 'Fugas de líquido refrigerante', 'Otra'],
-    14: ['No enciende', 'Ruidos fuertes', 'No gira', 'Problemas con el motor', 'Vibración excesiva', 'Otra'],
-    15: ['No enciende', 'No calienta', 'Olor a quemado', 'Salta la térmica', 'Problemas con el termostato', 'Se apaga sola', 'Otra'],
-    16: ['No enciende', 'No calienta', 'Olor a quemado', 'Ruidos fuertes', 'Problemas con la puerta', 'Problemas con el temporizador', 'Se apaga sola', 'Otra']
+    3: ['No enciende', 'No hay imagen', 'Sin sonido', 'Imagen distorsionada', 'Problemas con el control remoto', 'Problemas con las conexiones HDMI/AV', 'Otra'],
+    4: ['No enciende', 'Errores de sistema', 'No lee discos', 'Problemas con los joystick', 'Pantalla en negro', 'Sobrecalentamiento', 'Se congela', 'Falla de almacenamiento', 'Mantenimiento / Limpieza', 'Otra'],
+    5: ['No enciende', 'No inicia sistema operativo', 'Pantalla rota', 'Pantalla Azul', 'No carga / problema con el cargador', 'Falla del teclado', 'Bisagras dañadas / rotas', 'No hay imagen', 'Se sobrecalienta', 'Se apaga', 'Mantenimiento / limpieza', 'Virus', 'Olvidé la contraseña', 'Ingreso líquido / se mojó', 'Batería dura poco / no anda', 'Problemas de teclado', 'Otra'],
+    6: ['No enciende', 'Enciende no calienta', 'Ruidos fuertes', 'Salen chispas', 'Problemas con el temporizador', 'Se apaga solo', 'Otra'],
+    7: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con el temporizador', 'Otra'],
+    8: ['No enciende', 'Enciende no calienta', 'Pierde agua', 'No muele café', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con la bomba de agua', 'Mantenimiento / Limpieza', 'Otra'],
+    9: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Problemas con el termostato', 'Otra'],
+    10: ['No enciende', 'No calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Problemas con el temporizador', 'Otra'],
+    11: ['No enciende', 'No calienta', 'Olor a quemado', 'Problemas con el rociador de vapor', 'Base dañada', 'Otra'],
+    12: ['No enciende', 'No calienta', 'Olor a quemado', 'Ruidos fuertes', 'Se apaga sola', 'Problemas con el motor', 'Otra'],
+    13: ['No enciende', 'No calienta', 'Olor a quemado', 'Problemas con las placas', 'Cable dañado', 'Otra'],
+    14: ['No enciende', 'No enfría', 'Ruidos fuertes', 'Problemas con el termostato', 'Fugas de líquido refrigerante', 'Otra'],
+    15: ['No enciende', 'Ruidos fuertes', 'No gira', 'Problemas con el motor', 'Vibración excesiva', 'Otra'],
+    16: ['No enciende', 'No calienta', 'Olor a quemado', 'Salta la térmica', 'Problemas con el termostato', 'Se apaga sola', 'Otra'],
 }
 
 export const brandLogos = [
