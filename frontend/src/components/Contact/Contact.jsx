@@ -1,57 +1,14 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import './Contact.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons'
+import { faqs } from '../../utils/productsData'
+import { GoogleMap, useLoadScript, MarkerF } from '@react-google-maps/api'
 
-const faqs = [
-    {
-        question: "¿Cómo funciona nuestro servicio?",
-        answer: "Nuestro servicio es sencillo. Usted realiza la cotización de su equipo en nuestra web y luego nos envía su electrodoméstico mediante correo, lo revisamos y le enviamos una cotización final. Una vez aprobado, realizamos la reparación, lo probamos y se lo devolvemos."
-    },
-    {
-        question: "¿Cómo es el proceso de cotización?",
-        answer: "La cotización web es estimada y se realizara una vez que recibimos y revisamos su electrodoméstico. Un técnico especializado evaluará el daño y le enviaremos un presupuesto detallado."
-    },
-    {
-        question: "¿Qué opciones tengo para realizar el envío?",
-        answer: "Puede enviar su electrodoméstico a través de Correo Argentino o Andreani."
-    },
-    {
-        question: "¿Cómo se lleva a cabo la revisión del equipo?",
-        answer: "Un técnico especializado revisará su electrodoméstico para identificar el problema y determinar las reparaciones necesarias."
-    },
-    {
-        question: "¿Cuánto tardaré en recibir la cotización del producto?",
-        answer: "Una vez que recibimos su electrodoméstico, el tiempo estimado para enviarle la cotización es de 2 a 3 días hábiles."
-    },
-    {
-        question: "¿Hay distintas opciones de reparación?",
-        answer: "Sí, ofrecemos varias opciones de reparación según el tipo de daño y el costo. Le proporcionaremos todas las opciones disponibles en la cotización."
-    },
-    {
-        question: "¿Cómo se devuelve el equipo reparado?",
-        answer: "Una vez reparado, le enviaremos su electrodoméstico a través del mismo servicio de mensajería que utilizó para enviarlo."
-    },
-    {
-        question: "¿Mis datos están seguros?",
-        answer: "Sí, tomamos la seguridad de sus datos muy en serio y utilizamos protocolos de seguridad para proteger su información personal."
-    },
-    {
-        question: "¿Qué sucede si no estoy satisfecho con la reparación?",
-        answer: "Si no está satisfecho con la reparación, contáctenos para resolver el problema. Ofrecemos garantía de hasta 6 meses."
-    },
-    {
-        question: "¿Se puede realizar seguimiento?",
-        answer: "Sí, puede hacer seguimiento del estado de su reparación a través de nuestro sitio web o contactándonos directamente."
-    },
-    {
-        question: "¿Qué métodos de pago se aceptan?",
-        answer: "Aceptamos tarjetas de crédito, débito, transferencias bancarias y mercado pago."
-    },
-    {
-        question: "¿Por qué confiar en nosotros?",
-        answer: "Contamos con años de experiencia y técnicos altamente calificados. Nuestro compromiso es ofrecer un servicio de alta calidad y rapidez."
-    }
+const libraries = ["places"]
+const locations = [
+    { lat: -34.6428301, lng: -58.3745474, name: "Electrosafe Service Electrodomesticos (Llamados y Whatsapp)", url: "https://www.google.com.ar/maps/place/Electrosafe+Service+Electrodomesticos+(Llamados+y+Whatsapp)/@-34.6428257,-58.3771277,17z/data=!3m1!4b1!4m6!3m5!1s0x95a32f86a4e7a6f9:0x48efe2a55af0f759!8m2!3d-34.6428301!4d-58.3745474!16s%2Fg%2F11rtm81rkx?hl=es&entry=ttu" },
+    { lat: -34.7213736, lng: -58.2693768, name: "Electrosafe Service (Llamadas y Whatsapp)", url: "https://www.google.com.ar/maps/place/Electrosafe+Service+(Llamadas+y+Whatsapp)/@-34.7213736,-58.2693768,17z/data=!3m1!4b1!4m6!3m5!1s0x95a3332dc6e1e2eb:0x91e0a93b10ba873!8m2!3d-34.721378!4d-58.2667965!16s%2Fg%2F1w113c0q?hl=es&entry=ttu" },
 ]
 
 const Contact = () => {
@@ -66,6 +23,38 @@ const Contact = () => {
         const faqElement = faqRef.current
         const offset = faqElement.getBoundingClientRect().top + window.pageYOffset - 100
         window.scrollTo({ top: offset, behavior: 'smooth' })
+    }
+
+    const GoogleMaps = () => {
+        const { isLoaded, loadError } = useLoadScript({
+            googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
+            libraries,
+        })
+
+        const center = useMemo(() => ({ lat: -34.6428301, lng: -58.3745474 }), [])
+
+        if (loadError) return <div>Error loading maps</div>
+        if (!isLoaded) return <div>Loading...</div>
+
+        return (
+            <GoogleMap
+                mapContainerStyle={{ height: '400px', width: '100%' }}
+                center={center}
+                zoom={15}
+                options={{
+                    streetViewControl: false,
+                    mapTypeControl: false
+                }}
+            >
+                {locations.map((location, index) => (
+                    <MarkerF
+                        key={index}
+                        position={{ lat: location.lat, lng: location.lng }}
+                        onClick={() => window.open(location.url, '_blank')}
+                    />
+                ))}
+            </GoogleMap>
+        )
     }
 
     return (
@@ -93,7 +82,7 @@ const Contact = () => {
                 <div className="socials-container">
                     <div className="social-item">
                         <p>Llámanos al</p>
-                        <a href="tel:5491178967720"><FontAwesomeIcon icon={faPhone} className="social-icon" /> +54 911 7896-7720</a>
+                        <a href="tel:5491139148766"><FontAwesomeIcon icon={faPhone} className="social-icon" /> +54 911 3914-8766</a>
                     </div>
                     <div className="social-item">
                         <p>Envíanos un mail</p>
@@ -102,10 +91,13 @@ const Contact = () => {
                     <div className="social-item">
                         <p>Contactanos por</p>
                         <div className='social-logos'>
-                            <a href="https://wa.me/5491178967720" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" /></a>
+                            <a href="https://wa.me/5491139148766" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" /></a>
                             <a href="https://www.instagram.com/electrosafeok/" target="_blank" rel="noopener noreferrer"><img src="/images/Instagram.webp" alt="Logotipo de Instagram" /></a>
                         </div>
                     </div>
+                </div>
+                <div className="map-container">
+                    <GoogleMaps />
                 </div>
             </section>
         </div>

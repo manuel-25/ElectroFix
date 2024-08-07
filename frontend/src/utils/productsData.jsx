@@ -382,3 +382,54 @@ export const reviews = [
         url: 'https://www.google.com/maps/contrib/110740870314712365654?hl=es-419&ved=1t:31294&ictx=111'
     },
 ]
+
+export const faqs = [
+    {
+        question: "¿Cómo funciona nuestro servicio?",
+        answer: "Nuestro servicio es sencillo. Usted realiza la cotización de su equipo en nuestra web y luego nos envía su electrodoméstico mediante correo, lo revisamos y le enviamos una cotización final. Una vez aprobado, realizamos la reparación, lo probamos y se lo devolvemos."
+    },
+    {
+        question: "¿Cómo es el proceso de cotización?",
+        answer: "La cotización web es estimada y se realizara una vez que recibimos y revisamos su electrodoméstico. Un técnico especializado evaluará el daño y le enviaremos un presupuesto detallado."
+    },
+    {
+        question: "¿Qué opciones tengo para realizar el envío?",
+        answer: "Puede enviar su electrodoméstico a través de Correo Argentino o Andreani."
+    },
+    {
+        question: "¿Cómo se lleva a cabo la revisión del equipo?",
+        answer: "Un técnico especializado revisará su electrodoméstico para identificar el problema y determinar las reparaciones necesarias."
+    },
+    {
+        question: "¿Cuánto tardaré en recibir la cotización del producto?",
+        answer: "Una vez que recibimos su electrodoméstico, el tiempo estimado para enviarle la cotización es de 2 a 3 días hábiles."
+    },
+    {
+        question: "¿Hay distintas opciones de reparación?",
+        answer: "Sí, ofrecemos varias opciones de reparación según el tipo de daño y el costo. Le proporcionaremos todas las opciones disponibles en la cotización."
+    },
+    {
+        question: "¿Cómo se devuelve el equipo reparado?",
+        answer: "Una vez reparado, le enviaremos su electrodoméstico a través del mismo servicio de mensajería que utilizó para enviarlo."
+    },
+    {
+        question: "¿Mis datos están seguros?",
+        answer: "Sí, tomamos la seguridad de sus datos muy en serio y utilizamos protocolos de seguridad para proteger su información personal."
+    },
+    {
+        question: "¿Qué sucede si no estoy satisfecho con la reparación?",
+        answer: "Si no está satisfecho con la reparación, contáctenos para resolver el problema. Ofrecemos garantía de hasta 6 meses."
+    },
+    {
+        question: "¿Se puede realizar seguimiento?",
+        answer: "Sí, puede hacer seguimiento del estado de su reparación a través de nuestro sitio web o contactándonos directamente."
+    },
+    {
+        question: "¿Qué métodos de pago se aceptan?",
+        answer: "Aceptamos tarjetas de crédito, débito, transferencias bancarias y mercado pago."
+    },
+    {
+        question: "¿Por qué confiar en nosotros?",
+        answer: "Contamos con años de experiencia y técnicos altamente calificados. Nuestro compromiso es ofrecer un servicio de alta calidad y rapidez."
+    }
+]
