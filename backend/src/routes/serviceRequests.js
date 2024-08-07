@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
           <p><b>Código de descuento:</b> ${userData.discountCode || 'N/A'}</p>
           
           <p style="text-align: center; margin-top: 20px;">
-            <a href="https://wa.me/549${userData.phone}?text=Hola, ${userData.firstName}! te escribo desde Electrosafe ví tu cotización en nuestra web y quería comentarte las opciones y promociones que tenemos para reparación de tu ${category.name}." 
+            <a href="https://wa.me/549${userData.phone}?text=Hola, ${userData.firstName}! Nos comunicamos del equipo de logistica Electrosafe, recibimos tu solicitud de cotización en nuestra web y quería comentarte las opciones y promociones que tenemos para reparación de tu ${category.name}." 
               style="background-color: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
               Contactar por WhatsApp
             </a>
