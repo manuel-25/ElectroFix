@@ -95,7 +95,10 @@ const PrivacyPolicy = () => {
       <div className="section">
         <h2 className="section-title">Contacto</h2>
         <p className="normal-text">
-          En caso que el Usuario tenga alguna duda acerca de la Política de Privacidad, o sobre la aplicación de la misma, deberá ponerse en contacto con Electrosafe, en cualquier momento, vía correo electrónico a <a href="mailto: electrosafeservice@gmail.com"> electrosafeservice@gmail.com</a>. Electrosafe, CUIT 30-12345678-9, CON DOMICILIO EN República de Cuba 769, CP: 1882, Ezpeleta, Buenos Aires, Argentina.
+          En caso de que el Usuario tenga alguna duda acerca de la Política de Privacidad, o sobre la aplicación de la misma, deberá ponerse en contacto con Electrosafe en cualquier momento, vía correo electrónico a <a href="mailto:electrosafeservice@gmail.com">electrosafeservice@gmail.com</a>.
+        </p>
+        <p className="normal-text">
+          Se fija como domicilio de Electrosafe República de Cuba 769, CP: 1882, Ezpeleta, Buenos Aires, Argentina.
         </p>
       </div>
     </div>
