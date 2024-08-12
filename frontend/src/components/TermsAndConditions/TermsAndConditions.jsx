@@ -284,18 +284,6 @@ const TermsAndConditions = () => {
         </p>
       </div>
 
-      {/* Sección Modificaciones de los Términos y Condiciones */}
-      <div className="section">
-        <h2 className="section-title">Modificaciones de los Términos y Condiciones</h2>
-        <p className="normal-text">
-          Electrosafe se reserva el derecho de modificar los términos y condiciones en cualquier momento,
-          siendo responsabilidad del usuario revisar periódicamente esta sección para estar informado de los cambios.
-        </p>
-        <p className="small-text">
-          La continuidad en el uso del Sitio después de la publicación de cambios constituirá la aceptación de dichos cambios por parte del usuario.
-        </p>
-      </div>
-
       {/* Sección Ley Aplicable y Jurisdicción */}
       <div className="section">
         <h2 className="section-title">Ley Aplicable y Jurisdicción</h2>
