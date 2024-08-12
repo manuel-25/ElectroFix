@@ -7,30 +7,41 @@
     line-height: 1.6;
     text-align: justify;
 }
-  
+
 .section {
     margin-bottom: 40px;
 }
-  
+
 .main-title {
     text-align: center;
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 30px;
 }
-  
+
 .section-title {
-    font-size: 20px;
+    font-size: 18px; /* Adjusted for a more uniform look */
     font-weight: bold;
     margin-bottom: 15px;
 }
-  
+
 .normal-text {
     font-size: 16px;
     margin-bottom: 10px;
 }
-  
+
 .small-text {
-    font-size: 14px;
+    font-size: 15px; /* Adjusted to reduce the difference */
     margin-bottom: 8px;
+}
+
+/* Remove bullets and adjust spacing for lists */
+ul {
+    list-style: none; /* Remove default bullets */
+    padding-left: 0; /* Remove default padding */
+    margin-bottom: 10px; /* Adjust margin as needed */
+}
+
+ul li {
+    margin-bottom: 8px; /* Adjust spacing between list items */
 }
