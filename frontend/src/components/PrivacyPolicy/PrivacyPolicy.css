@@ -1,41 +1,67 @@
+/* Estilos generales del contenedor de privacidad */
 .privacy-container {
     max-width: 800px;
-    margin: 20px auto;
+    margin: 30px auto;
     padding: 20px;
-    font-family: var(--primary-font);
+    font-family: 'Roboto', sans-serif; /* Fuente profesional */
     font-size: 16px;
     line-height: 1.6;
     text-align: justify;
 }
-  
+
+/* Sección general */
 .section {
-    margin-bottom: 40px;
+    margin-bottom: 30px; /* Ajuste de margen */
 }
-  
+
+/* Título principal */
 .main-title {
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 30px;
+    margin-bottom: 20px; /* Ajuste del margen inferior */
+    color: #003366; /* Color azul oscuro */
 }
-  
+
+/* Títulos de sección */
 .section-title {
     font-size: 20px;
     font-weight: bold;
-    margin-bottom: 15px;
+    margin-bottom: 10px; /* Ajuste del margen inferior */
+    border-bottom: 1px solid #003366; /* Línea debajo del título */
+    padding-bottom: 5px; /* Espacio debajo del título */
+    color: #003366; /* Color azul oscuro */
 }
-  
+
+/* Texto normal */
 .normal-text {
     font-size: 16px;
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Ajuste del margen inferior */
 }
-  
+
+/* Texto pequeño */
 .small-text {
     font-size: 14px;
-    margin-bottom: 8px;
+    margin-bottom: 10px; /* Ajuste del margen inferior */
+    color: #666; /* Color gris oscuro para notas */
+}
+
+/* Estilo para listas */
+.list-items {
+    padding-left: 20px; /* Espacio a la izquierda para la lista */
 }
 
 .list-items li {
-    text-decoration: none;
-    list-style-type: none;
+    margin-bottom: 10px; /* Espacio entre ítems */
+    position: relative;
+    padding-left: 15px; /* Espacio adicional a la izquierda */
+}
+
+.list-items li::before {
+    content: '•'; /* Símbolo de viñeta */
+    color: #003366; /* Color azul oscuro para la viñeta */
+    position: absolute;
+    left: 0;
+    font-size: 16px; /* Tamaño de la viñeta */
+    line-height: 1;
 }

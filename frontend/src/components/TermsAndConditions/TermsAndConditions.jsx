@@ -7,7 +7,7 @@ const TermsAndConditions = () => {
       {/* Sección de Términos y Condiciones de Uso */}
       <div className="section">
         <h1 className="main-title">Términos y Condiciones de Uso</h1>
-        <p className="normal-text">
+        <p className="small-text">
           Este documento describe los términos y condiciones de uso del sitio web{' '}
           <a href="https://electrosafeweb.com">https://electrosafeweb.com</a> (el “Sitio” o la “Plataforma”).
           Se deja constancia que cualquier persona que no acepte estos términos y condiciones,
