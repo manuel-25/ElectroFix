@@ -266,7 +266,7 @@ const TermsAndConditions = () => {
       <div className="section">
         <h2 className="section-title">Modificación de los Términos y Condiciones</h2>
         <p className="normal-text">
-          Electrosafe podrá en cualquier momento actualizar el presente Acuerdo y publicará la nueva versión del mismo en la Plataforma, sin previo aviso. En caso de que usted no esté de acuerdo con la actualización de los términos y condiciones del Acuerdo, le solicitamos que no utilice más la Plataforma. Usted podrá ejercer el derecho del art. 6 de la Ley 25.326 inc. e) y solicitar a Electrosafe la cancelación de sus datos de registro como Usuario del Sitio. Para ello, consulte el procedimiento para solicitar la cancelación de sus datos escribiendo a <a href="mailto:soporte@electrosafe.com">soporte@electrosafe.com</a>.
+          Electrosafe podrá en cualquier momento actualizar el presente Acuerdo y publicará la nueva versión del mismo en la Plataforma, sin previo aviso. En caso de que usted no esté de acuerdo con la actualización de los términos y condiciones del Acuerdo, le solicitamos que no utilice más la Plataforma. Usted podrá ejercer el derecho del art. 6 de la Ley 25.326 inc. e) y solicitar a Electrosafe la cancelación de sus datos de registro como Usuario del Sitio. Para ello, consulte el procedimiento para solicitar la cancelación de sus datos escribiendo a <a href="mailto:electrosafeservice@gmail.com">electrosafeservice@gmail.com</a>.
         </p>
         <p className="small-text">
           El uso del sitio y/o sus servicios implica la aceptación de estos Términos y Condiciones.

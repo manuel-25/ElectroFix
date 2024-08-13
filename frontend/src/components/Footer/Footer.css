@@ -13,7 +13,7 @@
 }
 
 .footer-logo img{
-    height: 70px;
+    height: 75px;
 }
 
 .footer-logo h4 {
@@ -59,9 +59,14 @@
 
 .footer-bottom p {
     color: var(--text-color-light);
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 400;
     text-align: center;
+}
+
+.images .qr-afip {
+    height: 30px;
+    margin-top: 10px;
 }
 
 @media (max-width: 768px) {
