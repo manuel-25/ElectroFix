@@ -12,7 +12,7 @@
     flex-direction: column;
 }
 
-.footer-logo img{
+.footer-logo img {
     height: 75px;
 }
 
@@ -38,7 +38,7 @@
     margin: auto;
 }
 
-.footer-terms-and-condition p{
+.footer-terms-and-condition p {
     color: var(--text-color-light);
     font-size: 12px !important;
 }
@@ -64,9 +64,18 @@
     text-align: center;
 }
 
-.images .qr-afip {
-    height: 30px;
+.images {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     margin-top: 10px;
+}
+
+.images .qr-afip, .images .secure-icon {
+    display: flex;
+    align-items: center;
+    height: 30px;
 }
 
 @media (max-width: 768px) {
@@ -77,5 +86,9 @@
     .footer p,
     .footer a {
         text-align: center;
+    }
+
+    .images {
+        justify-content: center;
     }
 }

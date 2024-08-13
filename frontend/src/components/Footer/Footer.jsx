@@ -12,6 +12,7 @@ function Footer() {
                     <a href="http://qr.afip.gob.ar/?qr=ueZdOH3wUQcOvPEgt_JCjw,," target="_F960AFIPInfo">
                         <img className='qr-afip' src="http://www.afip.gob.ar/images/f960/DATAWEB.jpg" alt="AFIP QR" />
                     </a>
+                    <img className='secure-icon' src="/images/secure.png" alt="Secure Icon" />
                 </div>
                 <div className="footer-terms-and-condition">
                     <p>© 2024 | <a href="/terminos-condiciones">Términos y Condiciones</a> | <a href="/privacidad">Privacidad</a></p>
