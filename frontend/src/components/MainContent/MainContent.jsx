@@ -120,37 +120,35 @@ function MainContent() {
         }
     }    
 
-    //Animaciones de elementos cuando son visibles
+    // Animaciones de elementos
     function isElementInViewport(element) {
-        const rect = element.getBoundingClientRect()
-        const windowHeight = window.innerHeight || document.documentElement.clientHeight
-        
+        const rect = element.getBoundingClientRect();
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    
         // Verifica si el elemento está al 75% de la altura de la ventana
         return (
             rect.top <= windowHeight * 0.75 && // El borde superior del elemento debe estar dentro del 25% superior de la ventana
             rect.bottom > 0 // El elemento debe estar parcialmente visible
-        )
+        );
     }
     
     function handleScroll() {
-        const elements = document.querySelectorAll('.animated-element')
+        const elements = document.querySelectorAll('.animated-element');
     
         elements.forEach(element => {
-            const rect = element.getBoundingClientRect()
-            const windowHeight = window.innerHeight || document.documentElement.clientHeight
+            const rect = element.getBoundingClientRect();
+            const windowHeight = window.innerHeight || document.documentElement.clientHeight;
     
             if (isElementInViewport(element)) {
-                element.classList.add('visible')
+                element.classList.add('visible');
             } else if (rect.top < windowHeight) {
-                // Si el elemento se está desplazando hacia arriba y queda dentro de la ventana, ocúltalo
-                element.classList.remove('visible')
+                // Si el elemento se está desplazando hacia arriba y sale de la ventana, ocúltalo
+                element.classList.remove('visible');
             }
-        })
-    }
+        });
+    }    
     
     window.addEventListener('scroll', handleScroll)
-    
-
     return (
         <div>
             <div className="reparation-container">
