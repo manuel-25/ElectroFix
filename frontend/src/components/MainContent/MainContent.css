@@ -427,6 +427,31 @@
     border-radius: 20%;
 }
 
+/* Animaciones*/
+.vertical-animation {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.vertical-animation.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.horizontal-animation {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.horizontal-animation.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+
 @media (max-width: 900px) {
     .reparation-top h1 {
         font-size: 36px;
