@@ -8,23 +8,23 @@ import { Link, useNavigate } from 'react-router-dom'
 import { brandLogos, reviews, detailedBrandsByCategory } from '../../utils/productsData'
 
 function MainContent() {
+    /*  SEARCH BAR   */
     const [searchTerm, setSearchTerm] = useState('')
     const [showSuggestions, setShowSuggestions] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(-1)
-    const [isBrandsVisible, setIsBrandsVisible] = useState(false)
     const inputRef = useRef(null)
     const suggestionsRef = useRef(null)
     const navigate = useNavigate()
 
-    const searchTerms = searchTerm.toLowerCase().split(' ')
-
+    // Función para filtrar items según el término de búsqueda
     const filteredItems = Object.values(detailedBrandsByCategory).flatMap(category => 
         Object.entries(category.brands).flatMap(([brand, models]) => 
             models.filter(model => 
-                searchTerms.every(term =>
-                    category.name.toLowerCase().includes(term) ||
-                    brand.toLowerCase().includes(term) ||
-                    model.toLowerCase().includes(term)
+                searchTerm.length > 0 &&
+                (
+                    category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    model.toLowerCase().includes(searchTerm.toLowerCase())
                 )
             ).map(model => ({
                 category: category.name,
@@ -33,6 +33,8 @@ function MainContent() {
             }))
         )
     ).slice(0, 6)
+
+    console.log('filtered items', filteredItems)
 
     const handleSearchChange = (event) => {
         const inputKeywords = event.target.value
@@ -65,17 +67,13 @@ function MainContent() {
             event.preventDefault()
             if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
                 const { category, brand, model } = filteredItems[selectedIndex]
-                const categoryParam = encodeURIComponent(category || '')
-                const brandParam = encodeURIComponent(brand || '')
-                const modelParam = encodeURIComponent(model || '')
-    
-                navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
+                navigate(`/reparacion-electrodomesticos?category=${encodeURIComponent(category || '')}&brand=${encodeURIComponent(brand || '')}&model=${encodeURIComponent(model || '')}`)
                 setShowSuggestions(false)
             } else if (searchTerm) {
                 const searchTermParts = searchTerm.split(' ')
-                const category = searchTermParts.slice(0, -2).join(' ') // Join all but last two parts for category
-                const brand = searchTermParts.slice(-2, -1)[0] // Second last part for brand
-                const model = searchTermParts.slice(-1)[0] // Last part for model
+                const model = searchTermParts.pop() // Último elemento es el modelo
+                const brand = searchTermParts.pop() // Penúltimo elemento es la marca
+                const category = searchTermParts.join(' ') // El resto es la categoría
 
                 const categoryParam = encodeURIComponent(category || '')
                 const brandParam = encodeURIComponent(brand || '')
@@ -84,11 +82,11 @@ function MainContent() {
                 navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
                 setShowSuggestions(false)
             } else {
-                navigate(`/reparacion-electrodomesticos`) 
+                navigate(`/reparacion-electrodomesticos`)
             }
         }
     }
-    
+
     useEffect(() => {
         document.addEventListener('keydown', handleKeyDown)
         return () => {
@@ -98,57 +96,53 @@ function MainContent() {
 
     const handleQuoteButtonClick = () => {
         if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
-            const { category, brand, model } = filteredItems[selectedIndex]    
+            const { category, brand, model } = filteredItems[selectedIndex]
+            navigate(`/reparacion-electrodomesticos?category=${encodeURIComponent(category || '')}&brand=${encodeURIComponent(brand || '')}&model=${encodeURIComponent(model || '')}`)
+        } else if (searchTerm) {
+            const searchTermParts = searchTerm.split(' ')
+            const model = searchTermParts.pop() // Último elemento es el modelo
+            const brand = searchTermParts.pop() // Penúltimo elemento es la marca
+            const category = searchTermParts.join(' ') // El resto es la categoría
+
             const categoryParam = encodeURIComponent(category || '')
             const brandParam = encodeURIComponent(brand || '')
             const modelParam = encodeURIComponent(model || '')
     
             navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
-        } else if (searchTerm) {    
-            const searchTermParts = searchTerm.split(' ')
-            const category = searchTermParts.slice(0, -2).join(' ') // Join all but last two parts for category
-            const brand = searchTermParts.slice(-2, -1)[0] // Second last part for brand
-            const model = searchTermParts.slice(-1)[0] // Last part for model
-    
-            const categoryParam = encodeURIComponent(category)
-            const brandParam = encodeURIComponent(brand)
-            const modelParam = encodeURIComponent(model)
-    
-            navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
         } else {
-            navigate(`/reparacion-electrodomesticos`) 
+            navigate(`/reparacion-electrodomesticos`)
         }
-    }    
+    }
 
     // Animaciones de elementos
     function isElementInViewport(element) {
-        const rect = element.getBoundingClientRect();
-        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-    
-        // Verifica si el elemento está al 75% de la altura de la ventana
+        const rect = element.getBoundingClientRect()
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight
         return (
-            rect.top <= windowHeight * 0.75 && // El borde superior del elemento debe estar dentro del 25% superior de la ventana
-            rect.bottom > 0 // El elemento debe estar parcialmente visible
-        );
+            rect.top <= windowHeight * 0.75
+        )
     }
-    
+
     function handleScroll() {
-        const elements = document.querySelectorAll('.animated-element');
-    
+        const elements = document.querySelectorAll('.animated-element')
         elements.forEach(element => {
-            const rect = element.getBoundingClientRect();
-            const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-    
+            const rect = element.getBoundingClientRect()
+            const windowHeight = window.innerHeight || document.documentElement.clientHeight
             if (isElementInViewport(element)) {
-                element.classList.add('visible');
+                element.classList.add('visible')
             } else if (rect.top < windowHeight) {
-                // Si el elemento se está desplazando hacia arriba y sale de la ventana, ocúltalo
-                element.classList.remove('visible');
+                element.classList.remove('visible')
             }
-        });
-    }    
-    
-    window.addEventListener('scroll', handleScroll)
+        })
+    }
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll)
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
+
     return (
         <div>
             <div className="reparation-container">
