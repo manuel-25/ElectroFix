@@ -1,235 +1,224 @@
-import React, { useState, useEffect, useRef } from 'react'
-import QuoteButton from '../QuoteButton/QuoteButton'
-import './MainContent.css'
-import { ReactTyped } from 'react-typed'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck, faStore, faTruck, faHome } from '@fortawesome/free-solid-svg-icons'
-import { Link, useNavigate } from 'react-router-dom'
-import { brandLogos, reviews, detailedBrandsByCategory } from '../../utils/productsData'
+import React, { useState, useEffect, useRef } from 'react';
+import QuoteButton from '../QuoteButton/QuoteButton';
+import './MainContent.css';
+import { ReactTyped } from 'react-typed';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faStore, faTruck, faHome } from '@fortawesome/free-solid-svg-icons';
+import { Link, useNavigate } from 'react-router-dom';
+import { brandLogos, reviews, detailedBrandsByCategory } from '../../utils/productsData';
 
 function MainContent() {
-    /*  SEARCH BAR   */
-    const [searchTerm, setSearchTerm] = useState('')
-    const [showSuggestions, setShowSuggestions] = useState(false)
-    const [selectedIndex, setSelectedIndex] = useState(-1)
-    const inputRef = useRef(null)
-    const suggestionsRef = useRef(null)
-    const navigate = useNavigate()
+  /* SEARCH BAR */
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const inputRef = useRef(null);
+  const suggestionsRef = useRef(null);
+  const navigate = useNavigate();
 
-    // Función para filtrar items según el término de búsqueda
-    const filteredItems = Object.values(detailedBrandsByCategory).flatMap(category => 
-        Object.entries(category.brands).flatMap(([brand, models]) => 
-            models.filter(model => 
-                searchTerm.length > 0 &&
-                (
-                    category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    model.toLowerCase().includes(searchTerm.toLowerCase())
-                )
-            ).map(model => ({
-                category: category.name,
-                brand,
-                model
-            }))
-        )
-    ).slice(0, 6)
-
-    console.log('filtered items', filteredItems)
-
-    const handleSearchChange = (event) => {
-        const inputKeywords = event.target.value
-        setSearchTerm(inputKeywords)
-        setShowSuggestions(inputKeywords.length > 0)
-        setSelectedIndex(-1)
-    }
-
-    const handleSuggestionClick = (suggestion, index) => {
-        setSearchTerm(suggestion)
-        setShowSuggestions(false)
-        setSelectedIndex(index)
-        inputRef.current.focus()
-    }
-
-    const handleFocus = () => {
-        if (searchTerm.length > 0) {
-            setShowSuggestions(true)
-        }
-    }
-
-    const handleKeyDown = (event) => {
-        if (event.key === 'ArrowUp') {
-            event.preventDefault()
-            setSelectedIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : filteredItems.length - 1))
-        } else if (event.key === 'ArrowDown') {
-            event.preventDefault()
-            setSelectedIndex(prevIndex => (prevIndex < filteredItems.length - 1 ? prevIndex + 1 : 0))
-        } else if (event.key === 'Enter') {
-            event.preventDefault()
-            if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
-                const { category, brand, model } = filteredItems[selectedIndex]
-                navigate(`/reparacion-electrodomesticos?category=${encodeURIComponent(category || '')}&brand=${encodeURIComponent(brand || '')}&model=${encodeURIComponent(model || '')}`)
-                setShowSuggestions(false)
-            } else if (searchTerm) {
-                const searchTermParts = searchTerm.split(' ')
-                const model = searchTermParts.pop() // Último elemento es el modelo
-                const brand = searchTermParts.pop() // Penúltimo elemento es la marca
-                const category = searchTermParts.join(' ') // El resto es la categoría
-
-                const categoryParam = encodeURIComponent(category || '')
-                const brandParam = encodeURIComponent(brand || '')
-                const modelParam = encodeURIComponent(model || '')
-    
-                navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
-                setShowSuggestions(false)
-            } else {
-                navigate(`/reparacion-electrodomesticos`)
-            }
-        }
-    }
-
-    useEffect(() => {
-        document.addEventListener('keydown', handleKeyDown)
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown)
-        }
-    }, [selectedIndex, filteredItems, searchTerm])
-
-    const handleQuoteButtonClick = () => {
-        if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
-            const { category, brand, model } = filteredItems[selectedIndex]
-            navigate(`/reparacion-electrodomesticos?category=${encodeURIComponent(category || '')}&brand=${encodeURIComponent(brand || '')}&model=${encodeURIComponent(model || '')}`)
-        } else if (searchTerm) {
-            const searchTermParts = searchTerm.split(' ')
-            const model = searchTermParts.pop() // Último elemento es el modelo
-            const brand = searchTermParts.pop() // Penúltimo elemento es la marca
-            const category = searchTermParts.join(' ') // El resto es la categoría
-
-            const categoryParam = encodeURIComponent(category || '')
-            const brandParam = encodeURIComponent(brand || '')
-            const modelParam = encodeURIComponent(model || '')
-    
-            navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
-        } else {
-            navigate(`/reparacion-electrodomesticos`)
-        }
-    }
-
-    // Animaciones de elementos
-    function isElementInViewport(element) {
-        const rect = element.getBoundingClientRect()
-        const windowHeight = window.innerHeight || document.documentElement.clientHeight
-        return (
-            rect.top <= windowHeight * 0.75
-        )
-    }
-
-    function handleScroll() {
-        const elements = document.querySelectorAll('.animated-element')
-        elements.forEach(element => {
-            const rect = element.getBoundingClientRect()
-            const windowHeight = window.innerHeight || document.documentElement.clientHeight
-            if (isElementInViewport(element)) {
-                element.classList.add('visible')
-            } else if (rect.top < windowHeight) {
-                element.classList.remove('visible')
-            }
+  // Función para filtrar items según el término de búsqueda
+  const filteredItems = Object.values(detailedBrandsByCategory).flatMap(category =>
+    Object.entries(category.brands).flatMap(([brand, models]) =>
+      models
+        .filter(model => {
+          const searchWords = searchTerm.toLowerCase().split(' ').map(word => word.trim()).filter(word => word);
+          return searchWords.every(word =>
+            category.name.toLowerCase().includes(word) ||
+            brand.toLowerCase().includes(word) ||
+            model.toLowerCase().includes(word)
+          );
         })
+        .map(model => ({ category: category.name, brand, model }))
+    )
+  ).slice(0, 6);
+
+  const handleSearchChange = (event) => {
+    const inputKeywords = event.target.value;
+    setSearchTerm(inputKeywords);
+    setShowSuggestions(inputKeywords.length > 0);
+    setSelectedIndex(-1);
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    const { category, brand, model } = suggestion;
+    navigate(`/reparacion-electrodomesticos?category=${encodeURIComponent(category || '')}&brand=${encodeURIComponent(brand || '')}&model=${encodeURIComponent(model || '')}`);
+    setSearchTerm('');
+    setShowSuggestions(false);
+    inputRef.current.focus();
+  };
+
+  const handleFocus = () => {
+    if (searchTerm.length > 0) {
+      setShowSuggestions(true);
     }
+  };
 
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll)
-        return () => {
-            window.removeEventListener('scroll', handleScroll)
-        }
-    }, [])
+  const handleKeyDown = (event) => {
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      setSelectedIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : filteredItems.length - 1));
+    } else if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      setSelectedIndex(prevIndex => (prevIndex < filteredItems.length - 1 ? prevIndex + 1 : 0));
+    } else if (event.key === 'Enter') {
+      event.preventDefault();
+      if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
+        handleSuggestionClick(filteredItems[selectedIndex]);
+      } else if (searchTerm) {
+        const searchTermParts = searchTerm.split(' ');
+        const model = searchTermParts.pop(); // Último elemento es el modelo
+        const brand = searchTermParts.pop(); // Penúltimo elemento es la marca
+        const category = searchTermParts.join(' '); // El resto es la categoría
+        const categoryParam = encodeURIComponent(category || '');
+        const brandParam = encodeURIComponent(brand || '');
+        const modelParam = encodeURIComponent(model || '');
+        navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`);
+      } else {
+        navigate(`/reparacion-electrodomesticos`);
+      }
+    }
+  };
 
-    return (
-        <div>
-            <div className="reparation-container">
-                <section className="section-reparation">
-                    <div className='reparation-top'>
-                        <h1>Reparación de Electrodomésticos</h1>
-                        <h3><ReactTyped strings={["¿Se rompió tu equipo? Búscalo"]} typeSpeed={50}></ReactTyped></h3>
-                    </div>
-                    <div className="reparation-bottom">
-                        <input
-                            type="text"
-                            placeholder="Buscar electrodoméstico"
-                            value={searchTerm}
-                            onChange={handleSearchChange}
-                            onFocus={handleFocus}
-                            ref={inputRef}
-                        />
-                        {showSuggestions && (
-                            <div className="suggestions-container" ref={suggestionsRef}>
-                                {filteredItems.map((item, index) => (
-                                    <div
-                                        key={index}
-                                        className={`suggestion-item ${index === selectedIndex ? 'selected' : ''}`}
-                                        onClick={() => handleSuggestionClick(`${item.category} ${item.brand} ${item.model}`, index)}
-                                    >
-                                        {`${item.category} ${item.brand} ${item.model}`}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                        <QuoteButton text="Cotizar Ahora!" onClick={handleQuoteButtonClick} />
-                    </div>
-                </section>
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedIndex, filteredItems, searchTerm]);
+
+  const handleQuoteButtonClick = () => {
+    if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
+      handleSuggestionClick(filteredItems[selectedIndex]);
+    } else if (searchTerm) {
+      const searchTermParts = searchTerm.split(' ');
+      const model = searchTermParts.pop(); // Último elemento es el modelo
+      const brand = searchTermParts.pop(); // Penúltimo elemento es la marca
+      const category = searchTermParts.join(' '); // El resto es la categoría
+      const categoryParam = encodeURIComponent(category || '');
+      const brandParam = encodeURIComponent(brand || '');
+      const modelParam = encodeURIComponent(model || '');
+      navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`);
+    } else {
+      navigate(`/reparacion-electrodomesticos`);
+    }
+  };
+
+  // Animaciones de elementos
+  function isElementInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    return (rect.top <= windowHeight * 0.75);
+  }
+
+  function handleScroll() {
+    const elements = document.querySelectorAll('.animated-element');
+    elements.forEach(element => {
+      const rect = element.getBoundingClientRect();
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+      if (isElementInViewport(element)) {
+        element.classList.add('visible');
+      } else if (rect.top < windowHeight) {
+        element.classList.remove('visible');
+      }
+    });
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  return (
+    <div>
+      <div className="reparation-container">
+        <section className="section-reparation">
+          <div className='reparation-top'>
+            <h1>Reparación de Electrodomésticos</h1>
+            <h3>
+              <ReactTyped strings={["¿Se rompió tu equipo? Búscalo"]} typeSpeed={50} />
+            </h3>
+          </div>
+          <div className="reparation-bottom">
+            <input
+              type="text"
+              placeholder="Buscar electrodoméstico"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onFocus={handleFocus}
+              ref={inputRef}
+            />
+            {showSuggestions && (
+              <div className="suggestions-container" ref={suggestionsRef}>
+                {filteredItems.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`suggestion-item ${index === selectedIndex ? 'selected' : ''}`}
+                    onClick={() => handleSuggestionClick(item)}
+                  >
+                    {`${item.category} ${item.brand} ${item.model}`}
+                  </div>
+                ))}
+              </div>
+            )}
+            <QuoteButton text="Cotizar Ahora!" onClick={handleQuoteButtonClick} />
+          </div>
+        </section>
+      </div>
+      <section className='features-container'>
+        <ul className='features-list'>
+          <li className='feature'>
+            <FontAwesomeIcon icon={faCircleCheck} className='feature-icon' />
+            <div className='feature-text'>
+              <span className='feature-light'>Envios en</span>
+              <span className='feature-bold'>Todo el país</span>
             </div>
-            <section className='features-container'>
-                <ul className='features-list'>
-                    <li className='feature'>
-                        <FontAwesomeIcon icon={faCircleCheck} className='feature-icon' />
-                        <div className='feature-text'>
-                            <span className='feature-light'>Envios en</span>
-                            <span className='feature-bold'>Todo el país</span>
-                        </div>
-                    </li>
-                    <li className='feature'>
-                        <FontAwesomeIcon icon={faCircleCheck} className='feature-icon' />
-                        <div className='feature-text'>
-                            <span className='feature-light'>Cuotas</span>
-                            <span className='feature-bold'>Sin interés</span>
-                        </div>
-                    </li>
-                    <li className='feature'>
-                        <FontAwesomeIcon icon={faCircleCheck} className='feature-icon' />
-                        <div className='feature-text'>
-                            <span className='feature-light'>Garantía</span>
-                            <span className='feature-bold'>Por 90 días</span>
-                        </div>
-                    </li>
-                    <li className='feature'>
-                        <FontAwesomeIcon icon={faCircleCheck} className='feature-icon' />
-                        <div className='feature-text'>
-                            <span className='feature-light'>Diagnóstico</span>
-                            <span className='feature-bold'>Gratis</span>
-                        </div>
-                    </li>
-                </ul>
-            </section>
-            <article className='services-container'>
-                <h2>Servicios de Reparación</h2>
-                <section className='services-card-container'>
-                    <div className='service-item'>
-                        <FontAwesomeIcon icon={faStore} size="3x" className='service-icon'/>
-                        <h3>Visítanos</h3>
-                        <p>Trae tu electrodoméstico a nuestro local.</p>
-                    </div>
-                    <div className='service-item'>
-                        <FontAwesomeIcon icon={faTruck} size="3x" className='service-icon' />
-                        <h3>Envialo</h3>
-                        <p>Envía tu equipo por correo a nuestra dirección por Andreani o Correo Argentino</p>
-                    </div>
-                    <div className='service-item'>
-                        <FontAwesomeIcon icon={faHome} size="3x" className='service-icon'/>
-                        <h3>Nosotros lo buscamos</h3>
-                        <p>Pasamos a buscar el equipo por tu casa (Sujeto a ubicación)</p>
-                    </div>
-                </section>
-            </article>
-            <article className='brands-container animated-element vertical-animation'>
+          </li>
+          <li className='feature'>
+            <FontAwesomeIcon icon={faCircleCheck} className='feature-icon' />
+            <div className='feature-text'>
+              <span className='feature-light'>Cuotas</span>
+              <span className='feature-bold'>Sin interés</span>
+            </div>
+          </li>
+          <li className='feature'>
+            <FontAwesomeIcon icon={faCircleCheck} className='feature-icon' />
+            <div className='feature-text'>
+              <span className='feature-light'>Garantía</span>
+              <span className='feature-bold'>Por 90 días</span>
+            </div>
+          </li>
+          <li className='feature'>
+            <FontAwesomeIcon icon={faCircleCheck} className='feature-icon' />
+            <div className='feature-text'>
+              <span className='feature-light'>Diagnóstico</span>
+              <span className='feature-bold'>Gratis</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <article className='services-container'>
+        <h2>Servicios de Reparación</h2>
+        <section className='services-card-container'>
+          <div className='service-item'>
+            <FontAwesomeIcon icon={faStore} size="3x" className='service-icon'/>
+            <h3>Visítanos</h3>
+            <p>Trae tu electrodoméstico a nuestro local.</p>
+          </div>
+          <div className='service-item'>
+            <FontAwesomeIcon icon={faTruck} size="3x" className='service-icon' />
+            <h3>Envialo</h3>
+            <p>Envía tu equipo por correo a nuestra dirección por Andreani o Correo Argentino</p>
+          </div>
+          <div className='service-item'>
+            <FontAwesomeIcon icon={faHome} size="3x" className='service-icon' />
+            <h3>Visita Domiciliaria</h3>
+            <p>Podemos ir a tu casa para el diagnóstico y reparación.</p>
+          </div>
+        </section>
+      </article>
+      <article className='brands-container animated-element vertical-animation'>
                 <h2>Trabajamos con todas las marcas</h2>
                 <h3>Las mejores marcas a tu servicio</h3>
                 <section className='brands-logo-container'>
