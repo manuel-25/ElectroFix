@@ -1,8 +1,6 @@
 User-agent: *
 Disallow: /contacto
 Disallow: /nosotros
-Disallow: /terminos-condiciones
-Disallow: /privacidad
 
 # Permitir el acceso al favicon
 Allow: /favicon.ico

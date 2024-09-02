@@ -21,17 +21,17 @@ export const detailedBrandsByCategory = {
     1: {
         name: 'Air Fryer',
         brands: {
-            'Nef': ['AirFry 123', 'TurboCook'],
-            'Philips': ['HD9220/20', 'HD9650/99', 'HD9741/99', 'HD9230/26'],
-            'Peabody': ['PE-AF605', 'PE-AF545', 'PE-AF605R'],
-            'Suono': ['AF-900', 'AF-850'],
-            'Zego': ['ZG-AF700', 'ZG-AF750'],
-            'Winco': ['AF-530', 'AF-610'],
-            'Yelmo': ['AF-1000', 'AF-950'],
-            'Oryx': ['AF-701', 'F-801'],
-            'Moulinex': ['EZ4018', 'AF1018'],
-            'Atma': ['AF8030E', 'AF8050E'],
-            'Ultracomb': ['AF2207', 'AF2209']
+            'Nef': ['TurboCook'],
+            'Philips': [],
+            'Peabody': [],
+            'Suono': [],
+            'Zego': [],
+            'Winco': [],
+            'Yelmo': [],
+            'Oryx': [],
+            'Moulinex': [],
+            'Atma': [],
+            'Ultracomb': []
         }
     },
     2: {
@@ -76,27 +76,22 @@ export const detailedBrandsByCategory = {
     3: {
         name: 'Televisor',
         brands: {
-            'Samsung': ['QN90A', 'AU8000', 'The Frame', 'TU7000', 'Q60T', 'RU7100', 'Q90R', 'Q80R', 'Q70R', 'QN900A', 'QN800A'],
-            'LG': ['OLED55C1', 'NANO75UP', 'UN7300', 'GX', 'OLED65CX', 'OLED48CXPUB', 'OLED55BX', 'OLED65B9PUA', 'OLED55B9PUA', 'OLED77G1'],
-            'Sony': ['X90J', 'A80J', 'X85J', 'X800H', 'X900H', 'X950G', 'X850G', 'A9G', 'X950H', 'A90J'],
-            'Philips': ['OLED 806', 'PUS7506', 'PUS7906', 'The One', 'PUS8506', 'OLED 855', 'PUS9435', 'PUS9435', 'OLED 935'],
-            'Panasonic': ['JZ2000', 'HZ1000', 'GX800', 'GX700', 'HX800', 'HX600', 'FX800', 'FX700', 'HZ2000'],
-            'TCL': ['6-Series', '5-Series', '4-Series', '3-Series', 'S535', 'R635', 'S405', 'R617', '8-Series'],
-            'Hisense': ['U8G', 'H9G', 'A6G', 'U7G', 'H8G', 'R8F', 'H9F', 'H8C', 'L9G'],
-            'Vizio': ['P-Series', 'M-Series', 'V-Series', 'D-Series', 'E-Series', 'P65Q9-H1', 'M65Q7-H1', 'V505-H9', 'P85QX-H1'],
+            'Samsung': [],
+            'LG': [],
+            'Sony': [],
+            'Philips': [],
+            'Panasonic': [],
+            'TCL': [],
+            'Hisense': [],
+            'Vizio': [],
             'Apple': ['Apple TV 4K (2nd generation)', 'Apple TV 4K (1st generation)', 'Apple TV HD'],
             'ADMIRAL': [],
-            'JVC': ['LT-55MAW705', 'LT-43MAW595', 'LT-32MAW384'],
+            'JVC': [],
             'THC': [],
             'TOP HOUSE': [],
-            'QUINT': [],
-            'ENOVA': [],
-            'KANJI': [],
-            'CANDY': [],
-            'KODAK': ['55UHDX7XPRO', '43FHDX7XPRO', '32HDX7XPRO'],
-            'TELEFUNKEN': [],
-            'RCA': ['RTRU5527', 'RLDED5098-UHD', 'RLDED3258A'],
+            'RCA': [],
             'Ken Brown': [],
+            'Sanyo': [],
             'Otros': [],
         }
     },   
@@ -126,18 +121,18 @@ export const detailedBrandsByCategory = {
     6: {
         name: 'Microondas',
         brands: {
-            'LG': ['NeoChef', 'MH6535GDIS', 'MS2595DIS', 'MH6044V', 'LCRT2010ST', 'LMC0975ST', 'LCSP1110ST', 'LCS1112ST'],
-            'Samsung': ['ME21M706BAS', 'MG11H2020CT', 'MS14K6000AS', 'MC11K7035CG', 'ME16K3000AS', 'ME18H704SFS', 'MS19M8000AS', 'ME21H706MQG'],
-            'Panasonic': ['NN-SN686S', 'NN-SN936B', 'NN-SN966S', 'NN-SD372S', 'NN-SU696S', 'NN-SD681S', 'NN-ST975S', 'NN-SN966SR'],
-            'Sharp': ['ZSMC1449FS', 'R-21LCFS', 'SMC1442CS', 'SMC1585BS', 'R1874T', 'R1874TY', 'R651ZS', 'R459YK'],
-            'Toshiba': ['EM131A5C-BS', 'EM925A5A-BS', 'EC042A5C-SS', 'ML-EM45PIT', 'EM131A5C-SS', 'EM131A5C-SS', 'EM925A5A-SS', 'EM925A5A-CHS'],
-            'Whirlpool': ['WMH31017HS', 'WMC30516HZ', 'WMC20005YB', 'WML55011HS', 'WMC30516HZ', 'WML55011HS', 'WMC20005YW', 'WMC30516HW'],
-            'BGH QuickChef': ['BQG34M20B', 'BQG30M10B'],
-            'Atma': ['MD1825N', 'MD2011B', 'MD1710B'],
-            'Philco': ['PMO20D', 'PMO25D', 'PMO32D'],
-            'Daewoo': ['KOR-7LREM', 'KOR-7LREW', 'KOR-6L7B'],
-            'RCA': ['RMW733', 'RMW953', 'RMW1182'],
-            'Ariston': ['MFO 25 E IX A', 'MHE 30 X'],
+            'LG': [],
+            'Samsung': [],
+            'Panasonic': [],
+            'Sharp': [],
+            'Toshiba': [],
+            'Whirlpool': [],
+            'BGH QuickChef': [''],
+            'Atma': [''],
+            'Philco': [],
+            'Daewoo': [],
+            'RCA': [],
+            'Ariston': [],
             'Hitplus': [],
             'Top House': [],
             'Eslabón de Lujo': [],
@@ -149,12 +144,12 @@ export const detailedBrandsByCategory = {
     7: {
         name: 'Horno Eléctrico',
         brands: {
-            'Oster': ['TSSTTVMNDG', 'TSSTTVFDDG', 'TSSTTVFDXL', 'TSSTTVDGXL', 'TSSTTV0000', 'TSSTTVSK01', 'TSSTTVXLDG', 'TSSTTVDFL1'],
-            'Black & Decker': ['TO3290XSD', 'TO3250XSB', 'TO3240XSBD', 'TO3230SBD', 'TO3290XSD', 'TO3250XSB', 'TO3240XSBD', 'TO3230SBD'],
-            'Breville': ['BOV800XL', 'BOV845BSS', 'BOV900BSS', 'BOV650XL', 'BOV450XL', 'BOV650XL', 'BOV800XL', 'BOV845BSS'],
-            'Cuisinart': ['TOA-60', 'TOB-260N1', 'TOB-1010', 'TOA-65', 'TOB-200', 'TOA-60', 'TOB-260N1', 'TOB-1010'],
-            'Hamilton Beach': ['31126', '31123D', '31104D', '31103DA', '31126', '31123D', '31104D', '31103DA'],
-            'Panasonic': ['NB-G110P', 'FlashXpress', 'NB-G110P', 'FlashXpress', 'NB-G110P', 'FlashXpress', 'NB-G110P', 'FlashXpress'],
+            'Oster': [],
+            'Black & Decker': [],
+            'Breville': [],
+            'Cuisinart': [],
+            'Hamilton Beach': [],
+            'Panasonic': ['FlashXpress'],
             'Atma': [],
             'Enova': [],
             'Kanji Home': [],
@@ -164,6 +159,7 @@ export const detailedBrandsByCategory = {
             'Philco': [],
             'Bonn': [],
             'Ken Brown': [],
+            'Smeg': [],
             'Otros': []
         }
     },
@@ -172,53 +168,59 @@ export const detailedBrandsByCategory = {
         brands: {
             'Nespresso': ['Essenza Mini', 'Pixie', 'Citiz', 'Lattissima Pro', 'VertuoPlus', 'Inissia', 'Creatista', 'Maestria'],
             'Keurig': ['K-Elite', 'K-Classic', 'K-Mini', 'K-Supreme Plus', 'K-Slim', 'K-Duo', 'K-Cafe', 'K-Compact'],
-            'Breville': ['BES870XL', 'BES920XL', 'BES840XL', 'BES500BSS', 'BES878BSS', 'BES980BSS', 'BES990BSS', 'BES878BSS'],
-            'DeLonghi': ['Dinamica', 'Magnifica', 'Eletta', 'La Specialista', 'ECAM22110SB', 'EC155', 'EC702', 'EC9335M'],
-            'Mr. Coffee': ['Easy Measure', 'Cafe Barista', 'BVMC-PSTX95', 'BVMC-SJX33GT', 'BVMC-ECMP1000', 'BVMC-ECMP1102', 'BVMC-ECMPT1000', 'BVMC-ECMPT1002'],
-            'Hamilton Beach': ['FlexBrew', '49980A', '49976', '49979', '49976', '49980Z', '49983', '49995R'],
+            'Breville': [],
+            'DeLonghi': ['Dinamica', 'Magnifica', 'Eletta', 'La Specialista'],
+            'Mr. Coffee': ['Easy Measure', 'Cafe Barista', 'BVMC-PSTX95'],
+            'Hamilton Beach': ['FlexBrew'],
+            'Oster': ['Prima Latte'],
+            'Atma': [],
+            'Espresso': [],
+            'Ultracomb': [],
+            'Philips': [],
             'Otros': []
         }
     },
     9: {
         name: 'Pava Eléctrica',
         brands: {
-            'Breville': ['BKE820XL', 'BKE830XL', 'BKE700BSS', 'BKE720BSS', 'BKE720BSS', 'BKE820XL', 'BKE830XL', 'BKE700BSS'],
-            'Cuisinart': ['CPK-17', 'JK-17P1', 'PTK-330CR', 'DK-17', 'DK-17P1', 'DK-17P1', 'CPK-17', 'JK-17P1'],
-            'Hamilton Beach': ['40880', '40885', '41020R', '40919', '40894', '40898', '40919', '40894'],
-            'KitchenAid': ['KEK1222PT', 'KEK1322SS', 'KEK1565OB', 'KEK1522CA', 'KEK1522CA', 'KEK1222PT', 'KEK1322SS', 'KEK1565OB'],
-            'Mueller': ['Austria Ultra', 'Premium 1500W', 'Ultra Kettle', 'Ultra Kettle', 'Austria Ultra', 'Premium 1500W', 'Ultra Kettle', 'Ultra Kettle'],
-            'Ovente': ['KG83B', 'KS88S', 'KP72W', 'KS96S', 'KS96S', 'KG83B', 'KS88S', 'KP72W'],
+            'Breville': [],
+            'Cuisinart': [],
+            'Hamilton Beach': [],
+            'KitchenAid': [],
+            'Mueller': [],
+            'Ovente': [],
             'Otros': []
         }
     },
     10: {
         name: 'Tostadora',
         brands: {
-            'Breville': ['BTA720XL', 'BTA840XL', 'BTA830XL', 'BTA720XL', 'BTA840XL', 'BTA830XL', 'BTA720XL', 'BTA840XL'],
-            'Cuisinart': ['CPT-180P1', 'CPT-160P1', 'CPT-320P1', 'CPT-180P1', 'CPT-160P1', 'CPT-320P1', 'CPT-180P1', 'CPT-160P1'],
-            'Hamilton Beach': ['22811', '22633', '22791', '22623', '22623', '22633', '22811', '22791'],
-            'KitchenAid': ['KMT2115CU', 'KMT4116CU', 'KMT4229CU', 'KMT2115CU', 'KMT4116CU', 'KMT4229CU', 'KMT2115CU', 'KMT4116CU'],
-            'Oster': ['TSSTTRJBG1', 'TSSTTRJBG1-NP', 'TSSTTRWF4S-SHP', 'TSSTTRJBG1', 'TSSTTRJBG1-NP', 'TSSTTRWF4S-SHP', 'TSSTTRJBG1', 'TSSTTRJBG1-NP'],
-            'Philips': ['HD2637/90', 'HD2581/90', 'HD2598/00', 'HD2637/90', 'HD2581/90', 'HD2598/00', 'HD2637/90', 'HD2581/90'],
+            'Breville': [],
+            'Cuisinart': [],
+            'Hamilton Beach': [],
+            'KitchenAid': [],
+            'Oster': [],
+            'Philips': [],
+            'Smart Life': [],
             'Otros': []
         }
     },
     11: {
         name: 'Plancha',
         brands: {
-            'Rowenta': ['DW9280', 'DW8080', 'DW5197', 'DW2070', 'DW1150', 'DW6080', 'DW2090', 'DW7180'],
-            'Black & Decker': ['D2030', 'IR16X', 'F67E', 'F210', 'ICR05X', 'Irons', 'F67E', 'D1500'],
-            'Philips': ['GC5039/30', 'GC9630/20', 'GC4526/87', 'GC2145/29', 'GC1433/30', 'GC4567/79', 'GC5039/30', 'GC9630/20'],
-            'Hamilton Beach': ['14210', '19801', '14525', '14210', '14525', '14210', '19801', '14525'],
-            'Panasonic': ['NI-L70SRW', 'NI-WL600', 'NI-E660SRW', 'NI-L70SRW', 'NI-WL600', 'NI-E660SRW', 'NI-L70SRW', 'NI-WL600'],
-            'Sunbeam': ['GCSBNC-101', 'GCSBCL-317-000', 'SteamMaster', 'GCSBNC-101', 'GCSBCL-317-000', 'SteamMaster', 'GCSBNC-101', 'GCSBCL-317-000'],
+            'Rowenta': [],
+            'Black & Decker': [],
+            'Philips': [],
+            'Hamilton Beach': [],
+            'Panasonic': [],
+            'Sunbeam': [],
             'Otros': []
         }
     },
     12: {
         name: 'Secadora de Pelo',
         brands: {
-            'Dyson': ['Supersonic', 'Supersonic', 'Supersonic', 'Supersonic', 'Supersonic', 'Supersonic'],
+            'Dyson': ['Supersonic'],
             'Revlon': ['1875W Infrared', 'One-Step Volumizer', '1875W Volume Booster', '1875W Infrared', 'One-Step Volumizer', '1875W Volume Booster'],
             'Conair': ['InfinitiPro', '1875W Ionic Ceramic', '1875 Watt Turbo', 'InfinitiPro', '1875W Ionic Ceramic', '1875 Watt Turbo'],
             'BaBylissPRO': ['Nano Titanium', 'Ceramix Xtreme', 'Rapido', 'Nano Titanium', 'Ceramix Xtreme', 'Rapido'],
@@ -230,24 +232,25 @@ export const detailedBrandsByCategory = {
     13: {
         name: 'Planchita de Pelo',
         brands: {
-            'GHD': ['Platinum+ Professional', 'Gold Professional', 'Platinum+ Professional', 'Gold Professional', 'Platinum+ Professional', 'Gold Professional'],
+            'GHD': ['Platinum+ Professional', 'Gold Professional'],
             'BaBylissPRO': ['Nano Titanium', 'Porcelain Ceramic', 'Nano Titanium', 'Porcelain Ceramic', 'Nano Titanium', 'Porcelain Ceramic'],
             'Chi': ['Original 1"', 'G2', 'Air Spin N Curl', 'Original 1"', 'G2', 'Air Spin N Curl'],
-            'Dyson': ['Corrale', 'Corrale', 'Corrale', 'Corrale', 'Corrale', 'Corrale'],
-            'Remington': ['S5500', 'S9520', 'S8598', 'S5500', 'S9520', 'S8598'],
-            'T3': ['SinglePass X', 'SinglePass Compact', 'SinglePass X', 'SinglePass Compact', 'SinglePass X', 'SinglePass Compact'],
+            'Dyson': ['Corrale'],
+            'Remington': [],
+            'Revlon': [],
+            'T3': ['SinglePass X', 'SinglePass Compact'],
             'Otros': []
         }
     },
     14: {
         name: 'Cava de Vino',
         brands: {
-            'Whynter': ['BWR-401DS', 'BWR-1002SD', 'BWR-401DS', 'BWR-1002SD', 'BWR-401DS', 'BWR-1002SD'],
-            'NutriChef': ['PKCWC120', 'PKCWC120', 'PKCWC120', 'PKCWC120', 'PKCWC120', 'PKCWC120'],
-            'NewAir': ['AW-121E', 'AW-320ED', 'AW-121E', 'AW-320ED', 'AW-121E', 'AW-320ED'],
-            'Ivation': ['IV-FWCT181B', 'IV-FWCT181B', 'IV-FWCT181B', 'IV-FWCT181B', 'IV-FWCT181B', 'IV-FWCT181B'],
-            'Kalamera': ['KR-12A2E', 'KR-28ASS', 'KR-12A2E', 'KR-28ASS', 'KR-12A2E', 'KR-28ASS'],
-            'Phiestina': ['PH-CWR100', 'PH-29BD', 'PH-CWR100', 'PH-29BD', 'PH-CWR100', 'PH-29BD'],
+            'Whynter': [],
+            'NutriChef': [],
+            'NewAir': [],
+            'Ivation': [],
+            'Kalamera': [],
+            'Phiestina': [],
             'Otros': []
         }
     },
@@ -256,11 +259,11 @@ export const detailedBrandsByCategory = {
         brands: {
             'Dyson': ['Cool AM07', 'Pure Hot + Cool', 'AM09 Hot + Cool'],
             'Honeywell': ['HT-900', 'TurboForce'],
-            'Lasko': ['2551 Wind Curve', '1843 18"', '754200', '751320'],
-            'Vornado': ['660', '630', 'AVH10', 'VH10'],
-            'Rowenta': ['VU5670', 'VU2531', 'DW9280', 'DW8080', 'DW5197', 'DW2070'],
+            'Lasko': ['2551 Wind Curve'],
+            'Vornado': ['VH10'],
+            'Rowenta': [],
             'Holmes': ['HAPF623R', 'Blizzard'],
-            'Sunbeam': ['GCSBNC-101', 'GCSBCL-317-000', 'SteamMaster'],
+            'Sunbeam': ['SteamMaster'],
             'Otros': []
         }
     },
@@ -268,10 +271,11 @@ export const detailedBrandsByCategory = {
         name: 'Estufa',
         brands: {
             'Dyson': ['AM09 Hot + Cool', 'AM09 Hot + Cool'],
-            'Lasko': ['754200', '751320'],
-            'DeLonghi': ['EW7707CM', 'TRD40615E'],
-            'Honeywell': ['HCE200W', 'HCE100B'],
-            'Vornado': ['AVH10', 'VH10'],
+            'Lasko': [],
+            'DeLonghi': [],
+            'Honeywell': [],
+            'Vornado': [],
+            'Liliana': [],
             'Duraflame': ['3D Infrared Electric Fireplace', 'Portable Electric'],
             'Otros': []
         }
