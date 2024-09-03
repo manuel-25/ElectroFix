@@ -226,17 +226,18 @@ function MainContent() {
           <div className='service-item'>
             <FontAwesomeIcon icon={faStore} size="3x" className='service-icon'/>
             <h3>Visítanos</h3>
-            <p>Trae tu electrodoméstico a nuestro local.</p>
+            <p>Trae tu electrodoméstico a nuestro local para un servicio más rápido.</p>
           </div>
           <div className='service-item'>
             <FontAwesomeIcon icon={faTruck} size="3x" className='service-icon' />
-            <h3>Envialo</h3>
+            <h3>Envialo por Correo</h3>
             <p>Envía tu equipo por correo a nuestra dirección por Andreani o Correo Argentino</p>
           </div>
           <div className='service-item'>
             <FontAwesomeIcon icon={faHome} size="3x" className='service-icon' />
-            <h3>Visita Domiciliaria</h3>
-            <p>Podemos ir a tu casa para el diagnóstico y reparación.</p>
+            <h3>Retiro a Domicilio</h3>
+            <p>Podemos recoger el equipo en tu domicilio, sujeto a disponibilidad según tu ubicación.
+            </p>
           </div>
         </section>
       </article>
