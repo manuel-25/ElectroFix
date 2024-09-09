@@ -231,6 +231,7 @@ export const detailedBrandsByCategory = {
     12: {
         name: 'Secadora de Pelo',
         brands: {
+            'Rowenta': ['Infini Pro Elite'],
             'Dyson': ['Supersonic'],
             'BaBylissPRO': ['Nano Titanium', 'Ceramix Xtreme', 'Rapido'],
             'T3': ['Cura', 'Featherweight 2', 'Fit'],
@@ -241,6 +242,7 @@ export const detailedBrandsByCategory = {
             'Fidelite': [],
             'Winco': [],
             'Atma': [],
+            'Braun': [],
             'Otros': []
         }
     },
