@@ -15,6 +15,8 @@ export const products = [
     { id: 14, name: 'Cava de Vino' },
     { id: 15, name: 'Ventilador' },
     { id: 16, name: 'Estufa' },
+    { id: 17, name: 'Aspiradora' },
+    { id: 18, name: 'Minipimer' },
 ]
 
 export const detailedBrandsByCategory = {
@@ -31,7 +33,8 @@ export const detailedBrandsByCategory = {
             'Oryx': [],
             'Moulinex': [],
             'Atma': [],
-            'Ultracomb': []
+            'Ultracomb': [],
+            'Otros': []
         }
     },
     2: {
@@ -107,7 +110,7 @@ export const detailedBrandsByCategory = {
     5: {
         name: 'Notebook',
         brands: {
-            'Apple': ['MacBook Air M1', 'MacBook Pro 14', 'MacBook Pro 16', 'MacBook Air 13', 'MacBook Pro 13', 'MacBook 12'],
+            'Apple': ['MacBook Air', 'MacBook Pro 14', 'MacBook Pro 16', 'MacBook Air 13', 'MacBook Pro 13', 'MacBook 12'],
             'Dell': ['XPS 15', 'XPS 13', 'Inspiron 15', 'Inspiron 14', 'Alienware m15', 'G5 15'],
             'HP': ['Spectre x360', 'Envy 15', 'Pavilion 14', 'OMEN 15', 'Stream 14', 'Elite Dragonfly'],
             'Lenovo': ['ThinkPad X1 Carbon', 'Yoga 9i', 'IdeaPad 5', 'Legion 5', 'ThinkBook 14', 'Flex 5'],
@@ -115,51 +118,52 @@ export const detailedBrandsByCategory = {
             'Asus': ['ZenBook 14', 'ROG Zephyrus G14', 'VivoBook 15', 'TUF Gaming A15', 'Chromebook Flip C434', 'ExpertBook B9'],
             'MSI': ['GS66 Stealth', 'GE76 Raider', 'Prestige 14', 'Modern 15', 'Creator 15', 'GF63 Thin'],
             'Razer': ['Blade 15', 'Blade Stealth 13', 'Blade Pro 17', 'Blade 14', 'Razer Book 13', 'Razer Blade Stealth'],
+            'Inspiron': [],
             'Otros': []
         }
     },
     6: {
         name: 'Microondas',
         brands: {
-            'LG': [],
             'Samsung': [],
+            'LG': [],
             'Panasonic': [],
+            'Whirlpool': [],
             'Sharp': [],
             'Toshiba': [],
-            'Whirlpool': [],
-            'BGH QuickChef': [''],
-            'Atma': [''],
-            'Philco': [],
             'Daewoo': [],
+            'Philco': [],
+            'BGH QuickChef': [''],
             'RCA': [],
+            'Atma': [''],
             'Ariston': [],
-            'Hitplus': [],
-            'Top House': [],
-            'Eslabón de Lujo': [],
-            'Likon': [],
             'Westinghouse': [],
+            'Eslabón de Lujo': [],
+            'Top House': [],
+            'Likon': [],
+            'Hitplus': [],
             'Otros': []
-        }
+        }    
     },
     7: {
         name: 'Horno Eléctrico',
         brands: {
-            'Oster': [],
-            'Black & Decker': [],
             'Breville': [],
             'Cuisinart': [],
-            'Hamilton Beach': [],
             'Panasonic': ['FlashXpress'],
+            'Oster': [],
+            'Black & Decker': [],
+            'Hamilton Beach': [],
+            'Smeg': [],
             'Atma': [],
             'Enova': [],
             'Kanji Home': [],
             'BGH': [],
             'Ultracomb': [],
-            'Yelmo': [],
             'Philco': [],
+            'Yelmo': [],
             'Bonn': [],
             'Ken Brown': [],
-            'Smeg': [],
             'Otros': []
         }
     },
@@ -168,17 +172,18 @@ export const detailedBrandsByCategory = {
         brands: {
             'Nespresso': ['Essenza Mini', 'Pixie', 'Citiz', 'Lattissima Pro', 'VertuoPlus', 'Inissia', 'Creatista', 'Maestria'],
             'Keurig': ['K-Elite', 'K-Classic', 'K-Mini', 'K-Supreme Plus', 'K-Slim', 'K-Duo', 'K-Cafe', 'K-Compact'],
-            'Breville': [],
             'DeLonghi': ['Dinamica', 'Magnifica', 'Eletta', 'La Specialista'],
+            'Breville': [],
             'Mr. Coffee': ['Easy Measure', 'Cafe Barista', 'BVMC-PSTX95'],
-            'Hamilton Beach': ['FlexBrew'],
-            'Oster': ['Prima Latte'],
-            'Atma': [],
-            'Espresso': [],
-            'Ultracomb': [],
             'Philips': [],
+            'Oster': ['Prima Latte'],
+            'Hamilton Beach': ['FlexBrew'],
+            'Smart Life': [],
+            'Atma': [],
+            'Ultracomb': [],
+            'Espresso': [],
             'Otros': []
-        }
+        }    
     },
     9: {
         name: 'Pava Eléctrica',
@@ -205,40 +210,52 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }
     },
-    11: {
+    11:{
         name: 'Plancha',
         brands: {
-            'Rowenta': [],
-            'Black & Decker': [],
             'Philips': [],
-            'Hamilton Beach': [],
+            'Rowenta': [],
             'Panasonic': [],
             'Sunbeam': [],
+            'Black & Decker': [],
+            'Hamilton Beach': [],
+            'Winco': [],
+            'GA.MA': [],
+            'Ultracomb': [],
+            'Philco': [],
+            'Gadnic': [],
+            'Liliana': [],
             'Otros': []
         }
-    },
+    },    
     12: {
         name: 'Secadora de Pelo',
         brands: {
             'Dyson': ['Supersonic'],
-            'Revlon': ['1875W Infrared', 'One-Step Volumizer', '1875W Volume Booster', '1875W Infrared', 'One-Step Volumizer', '1875W Volume Booster'],
-            'Conair': ['InfinitiPro', '1875W Ionic Ceramic', '1875 Watt Turbo', 'InfinitiPro', '1875W Ionic Ceramic', '1875 Watt Turbo'],
-            'BaBylissPRO': ['Nano Titanium', 'Ceramix Xtreme', 'Rapido', 'Nano Titanium', 'Ceramix Xtreme', 'Rapido'],
-            'T3': ['Cura', 'Featherweight 2', 'Fit', 'Cura', 'Featherweight 2', 'Fit'],
-            'Remington': ['D3190 Damage Protection', 'AC2015', 'Pro Hair Dryer with Pearl Ceramic', 'D3190 Damage Protection', 'AC2015', 'Pro Hair Dryer with Pearl Ceramic'],
+            'BaBylissPRO': ['Nano Titanium', 'Ceramix Xtreme', 'Rapido'],
+            'T3': ['Cura', 'Featherweight 2', 'Fit'],
+            'Conair': ['InfinitiPro', '1875W Ionic Ceramic', '1875 Watt Turbo'],
+            'Revlon': ['1875W Infrared', 'One-Step Volumizer', '1875W Volume Booster'],
+            'Remington': ['D3190 Damage Protection', 'AC2015', 'Pro Hair Dryer with Pearl Ceramic'],
+            'GA.MA': [],
+            'Fidelite': [],
+            'Winco': [],
+            'Atma': [],
             'Otros': []
         }
     },
     13: {
         name: 'Planchita de Pelo',
         brands: {
-            'GHD': ['Platinum+ Professional', 'Gold Professional'],
-            'BaBylissPRO': ['Nano Titanium', 'Porcelain Ceramic', 'Nano Titanium', 'Porcelain Ceramic', 'Nano Titanium', 'Porcelain Ceramic'],
-            'Chi': ['Original 1"', 'G2', 'Air Spin N Curl', 'Original 1"', 'G2', 'Air Spin N Curl'],
-            'Dyson': ['Corrale'],
+            'GHD': [],
+            'BaBylissPRO': [],
+            'Chi': [],
+            'Dyson': [],
             'Remington': [],
-            'Revlon': [],
-            'T3': ['SinglePass X', 'SinglePass Compact'],
+            'T3': [],
+            'GA.MA': [],
+            'BaByliss PRO': [],
+            'Philips': [],
             'Otros': []
         }
     },
@@ -246,11 +263,17 @@ export const detailedBrandsByCategory = {
         name: 'Cava de Vino',
         brands: {
             'Whynter': [],
-            'NutriChef': [],
             'NewAir': [],
+            'NutriChef': [],
             'Ivation': [],
             'Kalamera': [],
             'Phiestina': [],
+            'Philco': [],
+            'Peabody': [],
+            'Liliana': [],
+            'Exahome': [],
+            'Winco': [],
+            'Airmax': [],
             'Otros': []
         }
     },
@@ -271,40 +294,81 @@ export const detailedBrandsByCategory = {
         name: 'Estufa',
         brands: {
             'Dyson': ['AM09 Hot + Cool', 'AM09 Hot + Cool'],
-            'Lasko': [],
             'DeLonghi': [],
             'Honeywell': [],
             'Vornado': [],
-            'Liliana': [],
+            'Lasko': [],
             'Duraflame': ['3D Infrared Electric Fireplace', 'Portable Electric'],
+            'Philco': [],
+            'Atma': [],
+            'Liliana': [],
+            'Exahome': [],
+            'Otros': []
+        }    
+    },
+    17: {
+        name: 'Aspiradora',
+        brands: {
+            'Samsung': [],
+            'Philips': [],
+            'Electrolux': [],
+            'Black & Decker': [],
+            'Philco': [],
+            'Daewoo': [],
+            'Atma': [],
+            'Ultracomb': [],
+            'Yelmo': [],
+            'Einhell': [],
+            'Gadnic': [],
+            'Winco': [],
+            'Suono': [],
             'Otros': []
         }
-    }
+    },
+    18: {
+        name: 'Minipimer',
+        brands: {
+            'Atma': [],
+            'UltraComb': [],
+            'Spica': [],
+            'Yelmo': [],
+            'Winco': [],
+            'Oster': [],
+            'Philips': [],
+            'Kanji': [],
+            'Liliana': [],
+            'Turbomix': [],
+            'Daewoo': [],
+            'Otros': []
+        }
+    }    
 }
 
 export const categories = [
     'Air Fryer', 'Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
     'Pava Eléctrica', 'Tostadora', 'Plancha', 'Secadora de Pelo', 'Planchita de Pelo',
-    'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa', 'Microondas'
+    'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa', 'Microondas', 'Aspiradora', 'Minipimer'
 ]
 
 export const faultsByCategory = {
-    1: ['No enciende', 'No calienta', 'Cocción desigual', 'Ruidos extraños', 'Salen chispas', 'Humo', 'Olor a quemado', 'La pantalla no funciona', 'El temporizador no funciona', 'Se apaga sola', 'Fugas de aceite', 'Otra'],
+    1: ['No enciende', 'No calienta', 'Cocción desigual', 'Ruidos extraños', 'Salen chispas', 'Humo', 'Olor a quemado', 'La pantalla no funciona', 'El temporizador no funciona', 'Se apaga sola', 'Fugas de aceite', 'Mantenimiento / Limpieza', 'Otra'],
     2: ['No enciende', 'No inicia sistema', 'Pantalla rota / dañada', 'Falla pantalla táctil', 'Pantalla en negro / con líneas', 'No carga', 'Falla el audio', 'Problemas de batería', 'Problemas de software', 'Tapa trasera dañada', 'Otra'],
     3: ['No enciende', 'No hay imagen', 'Sin sonido', 'Imagen distorsionada', 'Problemas con el control remoto', 'Problemas con las conexiones HDMI/AV', 'Otra'],
     4: ['No enciende', 'Errores de sistema', 'No lee discos', 'Problemas con los joystick', 'Pantalla en negro', 'Sobrecalentamiento', 'Se congela', 'Falla de almacenamiento', 'Mantenimiento / Limpieza', 'Otra'],
     5: ['No enciende', 'No inicia sistema operativo', 'Pantalla rota', 'Pantalla Azul', 'No carga / problema con el cargador', 'Falla del teclado', 'Bisagras dañadas / rotas', 'No hay imagen', 'Se sobrecalienta', 'Se apaga', 'Mantenimiento / limpieza', 'Virus', 'Olvidé la contraseña', 'Ingreso líquido / se mojó', 'Batería dura poco / no anda', 'Problemas de teclado', 'Otra'],
-    6: ['No enciende', 'Enciende no calienta', 'Ruidos fuertes', 'Salen chispas', 'Problemas con el temporizador', 'Se apaga solo', 'Otra'],
-    7: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con el temporizador', 'Otra'],
-    8: ['No enciende', 'Enciende no calienta', 'Pierde agua', 'No muele café', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con la bomba de agua', 'Mantenimiento / Limpieza', 'Otra'],
-    9: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Problemas con el termostato', 'Otra'],
-    10: ['No enciende', 'No calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Problemas con el temporizador', 'Otra'],
+    6: ['No enciende', 'Enciende no calienta', 'Ruidos fuertes', 'Salen chispas', 'Problemas con el temporizador', 'Se apaga solo', 'Al inicio ruido fuerte','No gira el plato', 'Falla el teclado','Otra'],
+    7: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con el temporizador', 'No cierra la puerta', 'No corta Temperatura', 'Velas Quemadas', 'Salta la térmica', 'Mantenimiento / Limpieza', 'Otra'],
+    8: ['No enciende', 'Enciende no calienta', 'Enciende pero no traba','Pierde agua', 'No muele café', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con la bomba de agua', 'Mantenimiento / Limpieza', 'Otra'],
+    9: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Problemas con el termostato', 'Mantenimiento / Limpieza', 'Otra'],
+    10: ['No enciende', 'No calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Problemas con el temporizador', 'Mantenimiento / Limpieza', 'Otra'],
     11: ['No enciende', 'No calienta', 'Olor a quemado', 'Problemas con el rociador de vapor', 'Base dañada', 'Otra'],
-    12: ['No enciende', 'No calienta', 'Olor a quemado', 'Ruidos fuertes', 'Se apaga sola', 'Problemas con el motor', 'Otra'],
+    12: ['No enciende', 'No calienta', 'Olor a quemado', 'Ruidos fuertes', 'Se apaga sola', 'Problemas con el motor', 'Mantenimiento / Limpieza', 'Otra'],
     13: ['No enciende', 'No calienta', 'Olor a quemado', 'Problemas con las placas', 'Cable dañado', 'Otra'],
     14: ['No enciende', 'No enfría', 'Ruidos fuertes', 'Problemas con el termostato', 'Fugas de líquido refrigerante', 'Otra'],
-    15: ['No enciende', 'Ruidos fuertes', 'No gira', 'Problemas con el motor', 'Vibración excesiva', 'Otra'],
+    15: ['No enciende', 'Ruidos fuertes', 'No gira', 'Problemas con el motor', 'Vibración excesiva', 'Mantenimiento / Limpieza', 'Otra'],
     16: ['No enciende', 'No calienta', 'Olor a quemado', 'Salta la térmica', 'Problemas con el termostato', 'Se apaga sola', 'Otra'],
+    17: ['No enciende', 'Pérdida de succión', 'Ruidos extraños', 'Fugas de aire', 'Problemas con el cable de alimentación', 'Problemas con el filtro', 'Problemas con el cepillo', 'Se apaga sola', 'Fugas de polvo', 'Mantenimiento / Limpieza', 'Otra'],
+    18: ['No enciende', 'No mezcla bien', 'Ruidos extraños', 'Problemas con el motor', 'Fugas de líquido', 'Problemas con los accesorios', 'No responde al control', 'Se sobrecalienta', 'Falla en las cuchillas', 'Fugas de aceite', 'Mantenimiento / Limpieza', 'Otra']
 }
 
 export const brandLogos = [
