@@ -101,7 +101,7 @@ export const detailedBrandsByCategory = {
     4: {
         name: 'Consola',
         brands: {
-            'Sony': ['PlayStation 5','PlayStation 5 Pro' ,'PlayStation 4 Pro', 'PlayStation 4 Slim', 'PlayStatrion 4', 'PlayStation 3'],
+            'Sony': ['PlayStation 5','PlayStation 5 Pro' ,'PlayStation 4 Pro', 'PlayStation 4 Slim', 'PlayStation 4', 'PlayStation 3'],
             'Microsoft': ['Xbox Series X', 'Xbox Series S', 'Xbox One X', 'Xbox One S', 'Xbox 360', 'Original Xbox'],
             'Nintendo': ['Switch', 'Switch Lite', 'Switch OLED', '3DS XL', '2DS', 'Wii U'],
             'Otros': []
