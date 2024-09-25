@@ -10,7 +10,7 @@ class ServiceRequestController {
             const lastServiceRequest = await QuoteManager.findLastServiceRequest()
             const serviceRequestNumber = lastServiceRequest && lastServiceRequest?.serviceRequestNumber
                 ? lastServiceRequest.serviceRequestNumber + 1
-                : 10080
+                : 10081
             return serviceRequestNumber
         } catch (error) {
             throw new Error('Error generating service request number')
@@ -43,7 +43,7 @@ class ServiceRequestController {
                 const lastClient = await ClientManager.findLastClient()
                 customerNumber = lastClient && lastClient.customerNumber
                     ? lastClient.customerNumber + 1
-                    : 10076
+                    : 10077
 
                 // Crear un nuevo cliente con el customerNumber y la solicitud
                 const newClientData = {
