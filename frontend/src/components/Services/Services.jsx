@@ -22,9 +22,14 @@ const Services = () => {
     brand: '',
     model: '',
     faults: '',
-    userData: {}
+    userData: {
+      customerNumber: '',
+      serviceRequestNumber: '',
+      firstName: ''
+    }
   })
   const [submitStatus, setSubmitStatus] = useState('pending') // Estado del envío
+  const [responseData, setResponseData] = useState(null) // Almacena la respuesta del servidor
 
   // Obtener parámetros de consulta
   const selectedCategory = queryParams.get('category') || null
@@ -85,15 +90,24 @@ const Services = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedFormData),
       })
+      const responseData = await response.json()
 
       if (!response.ok) {
-        const responseData = await response.json()
         console.error('Form submission failed', responseData)
         setSubmitStatus('error')
         return
       }
 
-      console.log('Form submitted successfully!')
+      setResponseData(responseData) // Almacenar la respuesta del servidor
+      setFormData(prevState => ({
+        ...prevState,
+        userData: {
+          ...prevState.userData,
+          customerNumber: responseData.customerNumber,
+          serviceRequestNumber: responseData.serviceRequestNumber,
+          firstName: updatedFormData.userData.firstName // Asegúrate de que este dato esté presente
+        }
+      }))
       setSubmitStatus('success')
     } catch (error) {
       console.error('Error submitting form:', error)
@@ -126,7 +140,7 @@ const Services = () => {
       {step === 3 && (
         <ModelSelection
           selectedCategory={formData.category}
-          brand={formData.brand} // Asegúrate de que esto contenga la marca seleccionada
+          brand={formData.brand}
           nextStep={nextStep}
           prevStep={prevStep}
           updateFormData={updateFormData}
@@ -141,8 +155,21 @@ const Services = () => {
           updateFormData={updateFormData}
         />
       )}
-      {step === 5 && <InformationForm nextStep={nextStep} prevStep={prevStep} updateFormData={updateFormData} />}
-      {step === 6 && <FormSubmissionStatus status={submitStatus} name={formData.userData.firstName} />}
+      {step === 5 && (
+        <InformationForm 
+          nextStep={nextStep} 
+          prevStep={prevStep} 
+          updateFormData={updateFormData} 
+        />
+      )}
+      {step === 6 && (
+        <FormSubmissionStatus 
+          status={submitStatus} 
+          name={formData.userData.firstName} 
+          customerNumber={formData.userData.customerNumber} 
+          serviceRequestNumber={formData.userData.serviceRequestNumber} 
+        />
+      )}
     </div>
   )
 }

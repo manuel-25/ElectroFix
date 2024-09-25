@@ -5,23 +5,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh; /* O cualquier altura que necesites */
-}
-  
-  .loading-image {
-    width: 100px; /* Ajusta el tamaño según sea necesario */
-    height: 100px;
+    height: 50vh; /* Altura adaptable */
 }
 
+.loading-image {
+    width: 100px; /* Tamaño ajustable */
+    height: 100px;
+}
 
 .submission-status {
     background-color: var(--white-color);
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     max-width: 600px;
     margin: 40px auto;
     font-family: 'Inter', sans-serif;
+    border: 1px solid #e0e0e0; /* Borde sutil */
 }
 
 .status-message {
@@ -32,32 +32,29 @@
     text-align: center;
 }
 
-.status-message h3 {
-    font-size: 32px;
-    font-weight: 800;
-}
-
 .status-icon {
-    font-size: 50px;
+    font-size: 50px; /* Icono grande */
     margin-bottom: 10px;
 }
 
 .success-message .status-icon {
-    color: #28a746;
+    color: #28a746; /* Color para éxito */
 }
 
 .error-message .status-icon {
-    color: #dc3545;
+    color: #dc3545; /* Color para error */
 }
 
 .message-header {
-    font-size: 24px;
+    font-size: 28px; /* Tamaño ajustado */
     margin-bottom: 10px;
+    font-weight: 600; /* Mayor énfasis */
+    color: #333; /* Color más oscuro */
 }
 
 .message-body {
     font-size: 18px;
-    color: #666;
+    color: #666; /* Color para texto secundario */
 }
 
 .next-steps {
@@ -66,34 +63,47 @@
 }
 
 .next-steps-header {
-    font-size: 20px;
+    font-size: 20px; /* Tamaño ajustado */
     margin-bottom: 10px;
     font-weight: bold;
+    color: #444; /* Color más oscuro */
 }
 
 .steps-list {
-    list-style-type: decimal;
-    padding-left: 20px;
+    list-style-type: decimal; /* Numeración en lista */
+    padding-left: 20px; /* Espaciado */
 }
 
 .step-item {
     font-size: 18px;
-    color: #444;
+    color: #444; /* Color para pasos */
     margin-bottom: 10px;
 }
 
+.request-numbers {
+    margin-top: 20px; /* Espacio antes de los números */
+    text-align: center; /* Centrar texto */
+    font-size: 16px; /* Tamaño de fuente para números */
+    color: #444; /* Color más oscuro */
+}
+
+.number-detail {
+    font-weight: bold; /* Resaltar los números */
+}
+
+/* Responsive */
 @media (max-width: 600px) {
     .submission-status {
-        padding: 20px;
+        padding: 20px; /* Espaciado adaptable */
     }
-    
+
     .message-header {
-        font-size: 20px;
+        font-size: 22px; /* Tamaño adaptable */
     }
 
     .message-body,
     .next-steps-header,
     .step-item {
-        font-size: 16px;
+        font-size: 16px; /* Tamaño adaptable */
     }
 }
