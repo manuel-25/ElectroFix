@@ -1,70 +1,51 @@
-import clientModel from "./models/client.model.js"
+import { Schema, model } from "mongoose"
 
-class ClientManagerDao {
-    constructor() {
-        this.clientModel = clientModel
-    }
+const collection = 'cotizaciones'
 
-    // Función para obtener la hora actual en Argentina
-    getArgentinaTime() {
-        const now = new Date()
-        now.setHours(now.getHours() - 3) // Ajustar a GMT-3
-        return now
-    }
-
-    // Función para formatear la fecha
-    formatDate(date) {
-        return new Intl.DateTimeFormat('es-AR', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            timeZone: 'America/Argentina/Buenos_Aires',
-            hour12: false,
-        }).format(date)
-    }
-
-    async getAll() {
-        const clients = await this.clientModel.find()
-        return clients.map(client => {
-            client.createdAt = this.formatDate(client.createdAt)
-            return client
-        })
-    }
-
-    async getById(id) {
-        const client = await this.clientModel.findById(id)
-        client.createdAt = this.formatDate(client.createdAt)
-        return client
-    }
-
-    async create(data) {
-        data.date = this.getArgentinaTime()
-        return await this.clientModel.create(data)
-    }
-
-    async update(id, data, config) {
-        return await this.clientModel.findByIdAndUpdate(id, data, config)
-    }
-
-    async delete(id) {
-        return await this.clientModel.findByIdAndDelete(id)
-    }
-
-    async findByEmail(email) {
-        return await this.clientModel.findOne({ email })
-    }
-
-    async findLastClient() {
-        const lastClient = await this.clientModel.findOne().sort({ createdAt: -1 })
-        if (lastClient) {
-            lastClient.createdAt = this.formatDate(lastClient.createdAt)
-        }
-        return lastClient
-    }
+// Función para obtener la fecha actual menos tres horas
+function getArgentinaTime() {
+    const now = new Date()
+    now.setHours(now.getHours() - 3)
+    return now
 }
 
-const ClientManager = new ClientManagerDao()
-export default ClientManager
+const quoteSchema = new Schema({
+    serviceRequestNumber: { type: Number, required: true, unique: true },
+    customerNumber: { type: Number, required: true },
+    date: { type: Date, default: getArgentinaTime, index: true },
+    category: { id: { type: Number, required: true }, name: { type: String, required: true }},
+    brand: { type: String, required: true },
+    model: { type: String },
+    faults: { type: [String] },
+    userData: {
+        additionalDetails: String,
+        discountCode: String,
+        email: { type: String, required: true },
+        firstName: { type: String, required: true },
+        lastName: { type: String, required: true },
+        municipio: String,
+        phone: { type: Number },
+        province: String
+    },
+    review: { type: String },
+    status: { 
+        type: String, 
+        enum: ['En revisión', 'Presupuesto Enviado', 'Aprobada', 'Rechazada', 'Listo para devolución'], 
+        default: 'En revisión' 
+    }
+}, { timestamps: true })
+
+// Hook para ajustar las fechas en los timestamps y restar 3 horas
+quoteSchema.pre('save', function (next) {
+    this.createdAt = getArgentinaTime()
+    this.updatedAt = getArgentinaTime()
+    next()
+})
+
+quoteSchema.pre('findOneAndUpdate', function (next) {
+    this._update.updatedAt = getArgentinaTime()
+    next()
+})
+
+const quoteModel = model(collection, quoteSchema)
+export default quoteModel
