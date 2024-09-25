@@ -33,8 +33,6 @@ const Services = () => {
 
   // Verificar si la categoría seleccionada es válida
   const isValidCategory = products.some(product => product.name === selectedCategory)
-
-  // Si la categoría no es válida, establecerla como null
   const validCategory = isValidCategory ? selectedCategory : null
 
   // Buscar la categoría en el array de productos
@@ -54,6 +52,13 @@ const Services = () => {
   }, [selectedProduct])
 
   useEffect(() => {
+    if (selectedBrand) {
+      updateFormData('brand', selectedBrand) // Actualizar marca en formData
+    }
+  }, [selectedBrand])
+
+  useEffect(() => {
+    // Navegación a través de pasos basada en los datos disponibles
     if (selectedBrand && selectedModel) {
       setStep(4)
     } else if (selectedBrand) {
@@ -75,21 +80,21 @@ const Services = () => {
     const updatedFormData = { ...formData, date }
 
     try {
-      const response = await fetch('https://electrosafeweb.com/api/service-requests', {       //http://localhost:8000/api/service-requests
+      const response = await fetch('https://electrosafeweb.com/api/service-requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedFormData),
       })
 
-      const responseData = await response.json()
-
-      if (response.ok) {
-        console.log('Form submitted successfully!')
-        setSubmitStatus('success')
-      } else {
+      if (!response.ok) {
+        const responseData = await response.json()
         console.error('Form submission failed', responseData)
         setSubmitStatus('error')
+        return
       }
+
+      console.log('Form submitted successfully!')
+      setSubmitStatus('success')
     } catch (error) {
       console.error('Error submitting form:', error)
       setSubmitStatus('error')
@@ -110,9 +115,32 @@ const Services = () => {
       <ProgressBar step={step} prevStep={prevStep} />
 
       {step === 1 && <CategorySelection nextStep={nextStep} updateFormData={updateFormData} />}
-      {step === 2 && <BrandSelection selectedCategory={formData.category} nextStep={nextStep} prevStep={prevStep} updateFormData={updateFormData} />}
-      {step === 3 && <ModelSelection selectedCategory={formData.category} brand={formData.brand} nextStep={nextStep} prevStep={prevStep} updateFormData={updateFormData} />}
-      {step === 4 && <FaultSelection selectedCategory={formData.category} formData={formData} nextStep={nextStep} prevStep={prevStep} updateFormData={updateFormData} />}
+      {step === 2 && (
+        <BrandSelection
+          selectedCategory={formData.category}
+          nextStep={nextStep}
+          prevStep={prevStep}
+          updateFormData={updateFormData}
+        />
+      )}
+      {step === 3 && (
+        <ModelSelection
+          selectedCategory={formData.category}
+          brand={formData.brand} // Asegúrate de que esto contenga la marca seleccionada
+          nextStep={nextStep}
+          prevStep={prevStep}
+          updateFormData={updateFormData}
+        />
+      )}
+      {step === 4 && (
+        <FaultSelection
+          selectedCategory={formData.category}
+          formData={formData}
+          nextStep={nextStep}
+          prevStep={prevStep}
+          updateFormData={updateFormData}
+        />
+      )}
       {step === 5 && <InformationForm nextStep={nextStep} prevStep={prevStep} updateFormData={updateFormData} />}
       {step === 6 && <FormSubmissionStatus status={submitStatus} name={formData.userData.firstName} />}
     </div>
