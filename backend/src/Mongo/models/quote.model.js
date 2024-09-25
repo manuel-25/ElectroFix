@@ -1,13 +1,20 @@
 import { Schema, model } from "mongoose"
 
 const collection = 'cotizaciones'
+
+// Función para obtener la fecha actual menos tres horas
+function getArgentinaTime() {
+    const now = new Date()
+    now.setHours(now.getHours() - 3)
+    return now
+}
+
 const quoteSchema = new Schema({
-    date: {type: Date, default:  Date.now(), index: true},
-    category: {
-        id: { type: Number, required: true },
-        name: { type: String, required: true }
-    },
-    brand: { type: String, required: true},
+    serviceRequestNumber: { type: Number, required: true, unique: true },
+    customerNumber: { type: Number, required: true },
+    date: { type: Date, default: getArgentinaTime, index: true },
+    category: { id: { type: Number, required: true }, name: { type: String, required: true }},
+    brand: { type: String, required: true },
     model: { type: String },
     faults: { type: [String] },
     userData: {
@@ -17,9 +24,27 @@ const quoteSchema = new Schema({
         firstName: { type: String, required: true },
         lastName: { type: String, required: true },
         municipio: String,
-        phone: Number,
+        phone: { type: Number },
         province: String
+    },
+    review: { type: String },
+    status: { 
+        type: String, 
+        enum: ['En revisión', 'Presupuesto Enviado', 'Aprobada', 'Rechazada', 'Listo para devolución'], 
+        default: 'En revisión' 
     }
+}, { timestamps: true })
+
+// Hook para ajustar las fechas en los timestamps y restar 3 horas
+quoteSchema.pre('save', function (next) {
+    this.createdAt = getArgentinaTime()
+    this.updatedAt = getArgentinaTime()
+    next()
+})
+
+quoteSchema.pre('findOneAndUpdate', function (next) {
+    this._update.updatedAt = getArgentinaTime()
+    next()
 })
 
 const quoteModel = model(collection, quoteSchema)

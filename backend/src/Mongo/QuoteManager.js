@@ -24,6 +24,13 @@ class QuoteManagerDao {
     async delete(id) {
         return await quoteModel.findByIdAndDelete(id)
     }
+
+    async findLastServiceRequest() {
+        return await this.quoteModel
+            .findOne()
+            .sort({ date: -1 })
+            .exec()
+    }    
 }
 
 const QuoteManager = new QuoteManagerDao()

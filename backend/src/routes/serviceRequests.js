@@ -1,77 +1,9 @@
-import express from 'express'
-import QuoteManager from '../Mongo/QuoteManager.js'
-import { sendEmail }  from '../services/emailService.js'
-import config from '../utils/config.js'
+import express from 'express';
+import ServiceRequestController from '../controllers/serviceRequestController.js';
 
-const router = express.Router()
+const router = express.Router();
 
-// Crear una nueva solicitud de servicio
-router.post('/', async (req, res) => {
-  try {
-    // Extraer la fecha y agregarle 3 horas
-    const { date } = req.body;
-    const adjustedDate = new Date(date);
-    adjustedDate.setHours(adjustedDate.getHours() + 3)
-    req.body.date = adjustedDate
-
-    const serviceRequest = await QuoteManager.create(req.body)
-
-    // Formatear los datos del request body para el correo electrónico
-    const { category, brand, model, faults, userData } = req.body
-    const emailContent = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; background-color: #F5F7FA; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-        <h2 style="background-color: #70757A; color: white; padding: 10px; text-align: center; border-radius: 10px 10px 0 0;">Nueva Solicitud de Servicio</h2>
-        
-        <div style="background-color: white; padding: 20px; border-radius: 0 0 10px 10px;">
-          <p><b>Fecha:</b> ${req.body.date.toLocaleString()}</p>
-          <p><b>Equipo:</b> ${category.name}</p>
-          <p><b>Marca:</b> ${brand}</p>
-          <p><b>Modelo:</b> ${model}</p>
-          <p><b>Fallas reportadas:</b></p>
-          <ul style="background-color: #F9F9F9; padding: 10px; border-radius: 5px; list-style-type: none; padding-left: 0;">
-            ${faults.map(fault => `<li style="border-bottom: 1px solid #eee; padding: 5px 0;">${fault}</li>`).join('')}
-          </ul>
-          <p><b>Detalles adicionales:</b> ${userData.additionalDetails || 'N/A'}</p>
-          
-          <h3>Datos del usuario:</h3>
-          <p><b>Nombre:</b> ${userData.firstName} ${userData.lastName}</p>
-          <p><b>Email:</b> ${userData.email}</p>
-          <p><b>Teléfono:</b> +54 9 ${userData.phone}</p>
-          <p><b>Provincia:</b> ${userData.province}</p>
-          <p><b>Municipio:</b> ${userData.municipio}</p>
-          <p><b>Código de descuento:</b> ${userData.discountCode || 'N/A'}</p>
-          
-          <p style="text-align: center; margin-top: 20px;">
-            <a href="https://wa.me/549${userData.phone}?text=Hola, ${userData.firstName}! Nos comunicamos del equipo de logistica Electrosafe, recibimos tu solicitud de cotización en nuestra web y quería comentarte las opciones y promociones que tenemos para reparación de tu ${category.name}." 
-              style="background-color: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-              Contactar por WhatsApp
-            </a>
-          </p>
-        </div>
-      </div>
-    `
-
-
-    // Verifica que el destinatario esté definido
-    const recipientEmail = config.GMAIL_USER
-    if (!recipientEmail) {
-      throw new Error('No recipient email defined')
-    }
-
-    // Enviar correo electrónicocd
-    const email = await sendEmail(
-      config.GMAIL_USER,
-      'Nueva solicitud de cotización',
-      emailContent
-    )
-
-    res.status(201).send(serviceRequest)
-  } catch (error) {
-    console.error('Error creating service request:', error)
-
-    // Envía la información completa del error en la respuesta
-    res.status(400).send({ error: error.message, stack: error.stack })
-  }
-})
+// Ruta para crear una nueva solicitud de servicio
+router.post('/', ServiceRequestController.createServiceRequest)
 
 export default router

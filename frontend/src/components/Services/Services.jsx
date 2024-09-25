@@ -75,7 +75,7 @@ const Services = () => {
     const updatedFormData = { ...formData, date }
 
     try {
-      const response = await fetch('https://electrosafeweb.com/api/service-requests', {
+      const response = await fetch('https://electrosafeweb.com/api/service-requests', {       //http://localhost:8000/api/service-requests
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedFormData),
