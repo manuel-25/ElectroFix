@@ -5,6 +5,7 @@ import connectDB from './db/mongoose-config.js'
 import config from './utils/config.js'
 import serviceRequestRouter from './routes/serviceRequests.js'
 import quoteRoutes from './routes/quoteRoutes.js'
+import userRoutes from './routes/userRoutes.js'
 
 dotenv.config()
 
@@ -18,6 +19,7 @@ app.use(express.json())
 //Routes
 app.use('/api/service-requests', serviceRequestRouter)
 app.use('/api/quotes', quoteRoutes)
+app.use('/api/manager', userRoutes)
 
 // MongoDB Connection
 await connectDB()
