@@ -1,5 +1,6 @@
 import UserManager from '../Mongo/UserManager.js'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 class UserController {    // Crear un nuevo usuario
 static async createUser(req, res) {
@@ -26,10 +27,43 @@ static async createUser(req, res) {
 
         res.status(201).json(newUser)
     } catch (error) {
-        console.error('Error creating user:', error)
-        res.status(400).json({ error: error.message })
+            console.error('Error creating user:', error)
+            res.status(400).json({ error: error.message })
+        }
     }
-}
+
+    // Autenticación de usuario
+    static async login(req, res) {
+        try {
+            const { email, password } = req.body;
+
+            // Validar que se reciban los campos necesarios
+            if (!email || !password) {
+                return res.status(400).json({ message: 'Email and password are required' });
+            }
+
+            // Obtener el usuario por email
+            const user = await UserManager.getByEmail(email);
+            if (!user) {
+                return res.status(400).json({ message: 'Email o contraseña incorrectos' });
+            }
+
+            // Verificar la contraseña
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+            if (!isPasswordValid) {
+                return res.status(400).json({ message: 'Email o contraseña incorrectos' });
+            }
+
+            // Generar el token JWT
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+            // Devolver el token y el usuario en la respuesta
+            res.status(200).json({ message: 'Login exitoso', token, user: { email: user.email } });
+        } catch (error) {
+            console.error('Error al iniciar sesión:', error);
+            res.status(500).json({ message: 'Error al iniciar sesión', error: error.message });
+        }
+    }
 
     // Obtener todos los usuarios
     static async getUsers(req, res) {

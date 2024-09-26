@@ -1,0 +1,119 @@
+.dashboard-container {
+    padding: 20px;
+}
+
+.cotizaciones-table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto; /* Permitir desplazamiento horizontal */
+}
+
+.cotizaciones-table th, 
+.cotizaciones-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+/* Ajustar el ancho de las columnas específicas */
+.cotizaciones-table th:nth-child(8), 
+.cotizaciones-table td:nth-child(8) {
+    width: 150px; /* Ajustar ancho de la columna de estado */
+}
+
+.cotizaciones-table th:nth-child(9), 
+.cotizaciones-table td:nth-child(9) {
+    width: 300px; /* Aumentar el ancho de la columna de revisión */
+}
+
+.action-buttons {
+    display: flex; /* Usar flexbox para alinear botones */
+    gap: 10px; /* Espacio entre botones */
+}
+
+button {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center; /* Alinear icono y texto */
+}
+
+.edit-button {
+    background-color: #FFCC00; /* Amarillo */
+}
+
+.delete-button {
+    background-color: #FF6600; /* Rojo */
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 200px; /* Ajusta el ancho como sea necesario */
+    max-width: none; /* Para evitar restricciones de ancho */
+}
+
+input[type="text"] {
+    width: 100%; /* El input ocupa todo el ancho del cuadro */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ddd; /* Bordes del input */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+    .cotizaciones-table th, 
+    .cotizaciones-table td {
+        font-size: 14px; /* Reducir tamaño de fuente */
+        padding: 8px; /* Ajustar el espaciado */
+    }
+
+    .cotizaciones-table th:nth-child(8), 
+    .cotizaciones-table td:nth-child(8) {
+        width: 120px; /* Ancho de columna de estado en pantallas pequeñas */
+    }
+
+    .cotizaciones-table th:nth-child(9), 
+    .cotizaciones-table td:nth-child(9) {
+        width: 250px; /* Ancho de columna de revisión en pantallas pequeñas */
+    }
+
+    button {
+        padding: 8px 12px; /* Ajustar el espaciado de los botones */
+    }
+}
+
+@media (max-width: 480px) {
+    .cotizaciones-table {
+        display: block; /* Mostrar como bloque para permitir desplazamiento */
+        overflow-x: auto; /* Permitir desplazamiento horizontal */
+    }
+
+    .cotizaciones-table th, 
+    .cotizaciones-table td {
+        display: block; /* Mostrar celdas como bloques */
+        width: auto; /* Ancho automático */
+        text-align: right; /* Alinear texto a la derecha */
+    }
+
+    .cotizaciones-table th {
+        position: relative; /* Relativo para el diseño de tabla */
+        padding-top: 15px; /* Espaciado superior */
+        padding-bottom: 15px; /* Espaciado inferior */
+    }
+
+    .cotizaciones-table td {
+        text-align: left; /* Alinear texto a la izquierda en las celdas */
+        padding-top: 10px; /* Espaciado superior en celdas */
+        padding-bottom: 10px; /* Espaciado inferior en celdas */
+        border-top: 1px solid #ddd; /* Línea entre filas */
+    }
+}
