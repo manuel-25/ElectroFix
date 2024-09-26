@@ -2,21 +2,9 @@ import QuoteManager from '../Mongo/QuoteManager.js'
 import ClientManager from '../Mongo/ClientManager.js'
 import { sendEmail } from '../services/emailService.js'
 import config from '../utils/config.js'
+import NumberGenerator from '../services/numberGenerator.js'
 
 class ServiceRequestController {
-    // Método para generar el serviceRequestNumber
-    static async generateServiceRequestNumber() {
-        try {
-            const lastServiceRequest = await QuoteManager.findLastServiceRequest()
-            const serviceRequestNumber = lastServiceRequest && lastServiceRequest?.serviceRequestNumber
-                ? lastServiceRequest.serviceRequestNumber + 1
-                : 10081
-            return serviceRequestNumber
-        } catch (error) {
-            throw new Error('Error generating service request number')
-        }
-    }
-
     // Método para crear una nueva solicitud de servicio
     static async createServiceRequest(req, res) {
         try {
@@ -30,20 +18,16 @@ class ServiceRequestController {
             const existingClient = await ClientManager.findByEmail(req.body.userData.email)
             
             let customerNumber
-            let serviceRequestNumber = await ServiceRequestController.generateServiceRequestNumber()
+            let serviceRequestNumber = await NumberGenerator.generateServiceRequestNumber()
 
             if (existingClient) {
                 // Cliente existente: reutilizar el número de cliente
                 customerNumber = existingClient.customerNumber
                 // Agregar el nuevo número de solicitud al cliente existente
                 existingClient.serviceRequestNumbers.push(serviceRequestNumber)
-                await ClientManager.update(existingClient._id, existingClient)
             } else {
                 // Cliente nuevo: generar un nuevo número de cliente
-                const lastClient = await ClientManager.findLastClient()
-                customerNumber = lastClient && lastClient.customerNumber
-                    ? lastClient.customerNumber + 1
-                    : 10077
+                customerNumber = await NumberGenerator.generateCustomerNumber()
 
                 // Crear un nuevo cliente con el customerNumber y la solicitud
                 const newClientData = {
@@ -118,6 +102,8 @@ class ServiceRequestController {
             res.status(400).send({ error: error.message, stack: error.stack })
         }
     }
+
+
 }
 
 export default ServiceRequestController

@@ -21,6 +21,14 @@ class QuoteManagerDao {
         return await this.quoteModel.findByIdAndUpdate(id, data, config)
     }
 
+    async updateByServiceRequestNumber(serviceRequestNumber, data, config) {
+        return await this.quoteModel.findOneAndUpdate(
+            { serviceRequestNumber }, // Busca por el campo serviceRequestNumber
+            data,
+            { new: true, ...config } // Devuelve el documento actualizado
+        )
+    }
+
     async delete(id) {
         return await quoteModel.findByIdAndDelete(id)
     }
@@ -30,7 +38,11 @@ class QuoteManagerDao {
             .findOne()
             .sort({ date: -1 })
             .exec()
-    }    
+    }   
+
+    async getByServiceRequestNumber(serviceRequestNumber) {
+        return await this.quoteModel.findOne({ serviceRequestNumber })
+    }
 }
 
 const QuoteManager = new QuoteManagerDao()
