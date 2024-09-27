@@ -14,6 +14,7 @@ const config = {
     BREVO_PASS: process.env.BREVO_PASS,
     MAILER_USER: process.env.MAILER_USER,
     MAILER_PASS: process.env.MAILER_PASS,
+    JWT_SECRET: process.env.JWT_SECRET
 }
 
 export default config

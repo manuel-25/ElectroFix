@@ -17,6 +17,10 @@ class UserManager {
         return await this.userModel.create(data)
     }
 
+    async getById(id) {
+        return await this.userModel.findById(id)
+    }
+
     async updateByEmail(email, data, config) {
         return await this.userModel.findOneAndUpdate(
             { email },

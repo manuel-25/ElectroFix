@@ -45,7 +45,7 @@ class QuoteManagerDao {
     }
 
     static async softDelete(serviceRequestNumber) {
-        return await QuoteModel.findOneAndUpdate(
+        return await quoteModel.findOneAndUpdate(
             { serviceRequestNumber },
             { deleted: true }, // Cambia el estado a "eliminado"
             { new: true }
@@ -53,7 +53,7 @@ class QuoteManagerDao {
     }
 
     static async getAll({ page = 1, limit = 10 }) {
-        const quotes = await QuoteModel.find({ deleted: { $ne: true } }) // Filtrar las cotizaciones no eliminadas
+        const quotes = await quoteModel.find({ deleted: { $ne: true } }) // Filtrar las cotizaciones no eliminadas
             .skip((page - 1) * limit)
             .limit(limit)
         return quotes

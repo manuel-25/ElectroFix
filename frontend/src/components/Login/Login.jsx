@@ -18,15 +18,17 @@ const Login = () => {
 
         try {
             const response = await axios.post('http://localhost:8000/api/manager/login', { email, password })
-
             // Guardar el token en una cookie
-            Cookies.set('authToken', response.data.token, { expires: 1 }) // Expira en 1 día
+            Cookies.set('authToken', response.data.token, {
+                expires: 1,
+                //secure: true,   // Solo se envía a través de HTTPS
+            })
 
             // Redirigir al usuario al Dashboard
             navigate('/dashboard')
         } catch (err) {
             console.error('Login error:', err)
-            setError('Email o contraseña incorrectos')
+            setError('Credenciales invalidas')
         } finally {
             setLoading(false)
         }    

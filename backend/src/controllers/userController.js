@@ -2,6 +2,8 @@ import UserManager from '../Mongo/UserManager.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
+const blacklist = []
+
 class UserController {    // Crear un nuevo usuario
 static async createUser(req, res) {
     try {
@@ -35,33 +37,48 @@ static async createUser(req, res) {
     // Autenticación de usuario
     static async login(req, res) {
         try {
-            const { email, password } = req.body;
+            const { email, password } = req.body
 
             // Validar que se reciban los campos necesarios
             if (!email || !password) {
-                return res.status(400).json({ message: 'Email and password are required' });
+                return res.status(400).json({ message: 'Email and password are required' })
             }
 
             // Obtener el usuario por email
-            const user = await UserManager.getByEmail(email);
+            const user = await UserManager.getByEmail(email)
             if (!user) {
-                return res.status(400).json({ message: 'Email o contraseña incorrectos' });
+                return res.status(400).json({ message: 'Email o contraseña incorrectos' })
             }
 
             // Verificar la contraseña
-            const isPasswordValid = await bcrypt.compare(password, user.password);
+            const isPasswordValid = await bcrypt.compare(password, user.password)
             if (!isPasswordValid) {
-                return res.status(400).json({ message: 'Email o contraseña incorrectos' });
+                return res.status(400).json({ message: 'Email o contraseña incorrectos' })
             }
 
             // Generar el token JWT
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
 
             // Devolver el token y el usuario en la respuesta
-            res.status(200).json({ message: 'Login exitoso', token, user: { email: user.email } });
+            res.status(200).json({ message: 'Login exitoso', token, user: { email: user.email } })
         } catch (error) {
-            console.error('Error al iniciar sesión:', error);
-            res.status(500).json({ message: 'Error al iniciar sesión', error: error.message });
+            console.error('Error al iniciar sesión:', error)
+            res.status(500).json({ message: 'Error al iniciar sesión', error: error.message })
+        }
+    }
+
+    //Logout
+    static async logout(req, res) {
+        try {
+            const token = req.headers.authorization?.split(' ')[1]
+            if (token) {
+                blacklist.push(token)
+                return res.status(200).json({ message: 'Logout exitoso' })
+            }
+            res.status(400).json({ message: 'Token no proporcionado' })
+        } catch (error) {
+            console.error('Error al hacer logout:', error)
+            res.status(500).json({ message: 'Error al hacer logout', error: error.message })
         }
     }
 
@@ -126,6 +143,20 @@ static async createUser(req, res) {
         } catch (error) {
             console.error('Error deleting user:', error)
             res.status(500).json({ error: 'Failed to delete user' })
+        }
+    }
+
+    // Método para verificar el token
+    static async verifyToken(req, res) {
+        try {
+            const user = await UserManager.getById(req.user.id)
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' })
+            }
+            res.json({ message: 'Token es válido', user: { email: user.email } })
+        } catch (error) {
+            console.error('Error verifying token:', error)
+            res.status(500).json({ error: 'Internal Server Error' })
         }
     }
 }

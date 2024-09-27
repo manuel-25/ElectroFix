@@ -29,7 +29,6 @@ class QuoteController {
         try {
             const { page = 1, limit = 10 } = req.query; // Paginación
             const quotes = await QuoteManager.getAll({ page, limit })
-            console.log(quotes)
             
             if (!quotes || quotes.length === 0) {
                 return res.status(404).json({ message: 'No quotes found' });
