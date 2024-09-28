@@ -10,8 +10,9 @@ import AboutUs from './components/AboutUs/AboutUs'
 import TermsAndConditions from './components/TermsAndConditions/TermsAndConditions'
 import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy'
 import Login from './components/Login/Login.jsx'
-import Dashboard from './components/Dashboard/Dashboard.jsx' // Componente protegido
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx' // Ruta protegida
+import Dashboard from './components/Dashboard/Dashboard.jsx'
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx'
+import { AuthProvider } from './Context/AuthContext.jsx'  // Importar correctamente el AuthProvider
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'
 
 function AppContent() {
@@ -47,7 +48,9 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <AppContent />
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </Router>
   )
 }

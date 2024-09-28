@@ -1,15 +1,13 @@
 import './Login.css'
-import React, { useState } from 'react'
-import axios from 'axios'
-import Cookies from 'js-cookie'
-import { useNavigate } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { AuthContext } from '../../Context/AuthContext.jsx'
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
+    const { login } = useContext(AuthContext)
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -17,21 +15,13 @@ const Login = () => {
         setError(null)
 
         try {
-            const response = await axios.post('http://localhost:8000/api/manager/login', { email, password })
-            // Guardar el token en una cookie
-            Cookies.set('authToken', response.data.token, {
-                expires: 1,
-                //secure: true,   // Solo se envía a través de HTTPS
-            })
-
-            // Redirigir al usuario al Dashboard
-            navigate('/dashboard')
+            await login(email, password)
         } catch (err) {
-            console.error('Login error:', err)
-            setError('Credenciales invalidas')
+            console.error('Error de inicio de sesión:', err)
+            setError('Credenciales inválidas')
         } finally {
             setLoading(false)
-        }    
+        }  
     }
 
     return (

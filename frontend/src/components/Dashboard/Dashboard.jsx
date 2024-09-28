@@ -1,68 +1,70 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './Dashboard.css'; // Asegúrate de crear estilos para la tabla
+import React, { useEffect, useState } from 'react'
+import Loading from '../Loading/Loading.jsx'
+import axios from 'axios'
+import './Dashboard.css'
 
 const Dashboard = () => {
-  const [cotizaciones, setCotizaciones] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [cotizaciones, setCotizaciones] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchCotizaciones = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/quotes'); // Ajusta la URL a tu API
-        const sortedCotizaciones = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
-        setCotizaciones(sortedCotizaciones);
+        const response = await axios.get('http://localhost:8000/api/quotes') // Ajusta la URL a tu API
+        const sortedCotizaciones = response.data.sort((a, b) => new Date(b.date) - new Date(a.date))
+        setCotizaciones(sortedCotizaciones)
       } catch (err) {
-        setError('Error al cargar las cotizaciones');
+        setError('Error al cargar las cotizaciones')
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchCotizaciones();
-  }, []);
+    fetchCotizaciones()
+  }, [])
 
   const handleDelete = async (serviceRequestNumber) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar esta cotización?')) {
       try {
-        await axios.delete(`http://localhost:8000/api/quotes/${serviceRequestNumber}`);
-        setCotizaciones(cotizaciones.filter(cotizacion => cotizacion.serviceRequestNumber !== serviceRequestNumber));
+        await axios.delete(`http://localhost:8000/api/quotes/${serviceRequestNumber}`)
+        setCotizaciones(cotizaciones.filter(cotizacion => cotizacion.serviceRequestNumber !== serviceRequestNumber))
       } catch (err) {
-        setError('Error al eliminar la cotización');
+        setError('Error al eliminar la cotización')
       }
     }
-  };
+  }
 
   const handleStatusChange = async (serviceRequestNumber, newStatus) => {
     try {
-      await axios.put(`http://localhost:8000/api/quotes/${serviceRequestNumber}`, { status: newStatus });
+      await axios.put(`http://localhost:8000/api/quotes/${serviceRequestNumber}`, { status: newStatus })
       setCotizaciones(cotizaciones.map(cotizacion =>
         cotizacion.serviceRequestNumber === serviceRequestNumber ? { ...cotizacion, status: newStatus } : cotizacion
-      ));
+      ))
     } catch (err) {
-      setError('Error al actualizar el estado');
+      setError('Error al actualizar el estado')
     }
-  };
+  }
 
   const handleReviewChange = async (serviceRequestNumber, newReview) => {
     try {
-      await axios.put(`http://localhost:8000/api/quotes/${serviceRequestNumber}`, { review: newReview });
+      await axios.put(`http://localhost:8000/api/quotes/${serviceRequestNumber}`, { review: newReview })
       setCotizaciones(cotizaciones.map(cotizacion =>
         cotizacion.serviceRequestNumber === serviceRequestNumber ? { ...cotizacion, review: newReview } : cotizacion
-      ));
+      ))
     } catch (err) {
-      setError('Error al actualizar la revisión');
+      setError('Error al actualizar la revisión')
     }
-  };
+  }
 
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <Loading />
+  if (error) return <p>{error}</p>
 
   return (
     <div className="dashboard-container">
       <h1>Bienvenido al Dashboard</h1>
       <p>Esta es una sección protegida y solo puede ser vista por usuarios autenticados.</p>
+      <Loading />
 
       <table className="cotizaciones-table">
         <thead>
@@ -122,7 +124,7 @@ const Dashboard = () => {
         </tbody>
       </table>
     </div>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard

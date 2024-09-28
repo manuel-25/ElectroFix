@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
-import './Navbar.css';
-import QuoteButton from '../QuoteButton/QuoteButton';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { faBars, faTimes, faCircleQuestion, faPhone, faUserFriends } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react'
+import './Navbar.css'
+import QuoteButton from '../QuoteButton/QuoteButton'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-regular-svg-icons'
+import { faBars, faTimes, faCircleQuestion, faPhone, faUserFriends, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom'
+import { AuthContext } from '../../Context/AuthContext' // Importar el contexto de autenticación
 
 function Navbar() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { logout } = useContext(AuthContext) // Usar el contexto para obtener la función de logout
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
+        setIsMenuOpen(!isMenuOpen)
+    }
 
     const closeMenu = () => {
-        setIsMenuOpen(false);
-    };
+        setIsMenuOpen(false)
+    }
 
     const handleQuoteClick = () => {
-        closeMenu();
-    };
+        closeMenu()
+    }
 
     return (
         <header>
@@ -43,6 +45,9 @@ function Navbar() {
                         <Link to="/reparacion-electrodomesticos">
                             <QuoteButton text="Cotizar Ahora" onClick={handleQuoteClick} />
                         </Link>
+                        <Link to="/" className="nav-link logout-link" onClick={() => { closeMenu(); logout(); }}>
+                            <FontAwesomeIcon icon={faSignOutAlt} /> <span></span>
+                        </Link>
                     </div>
                     <FontAwesomeIcon 
                         icon={faTimes} 
@@ -57,11 +62,11 @@ function Navbar() {
                     <QuoteButton text="Cotizar Ahora" onClick={handleQuoteClick} />
                 </Link>
                 <ul className='sideMenu-links'>
-                    <li>
+                    { /*<li>
                         <Link to="/reparacion-electrodomesticos" className="nav-link" onClick={closeMenu}>
                             <FontAwesomeIcon icon={faUser} className="icon"/> <span>Ingresar</span>
                         </Link>
-                    </li>
+                    </li>*/ }
                     <li>
                         <Link to="/reparacion-electrodomesticos" className="nav-link" onClick={closeMenu}>
                             <FontAwesomeIcon icon={faCircleQuestion} className="icon"/> <span>Servicios</span>
@@ -77,10 +82,15 @@ function Navbar() {
                             <FontAwesomeIcon icon={faPhone} className="icon"/> <span>Contacto</span>
                         </Link>
                     </li>
+                    <li>
+                        <Link to="/" className="nav-link logout-link" onClick={() => { closeMenu(); logout(); }}>
+                            <FontAwesomeIcon icon={faSignOutAlt} /> <span>Cerrar Sesión</span>
+                        </Link>
+                    </li>
                 </ul>
             </div>
         </header>
-    );
+    )
 }
 
-export default Navbar;
+export default Navbar

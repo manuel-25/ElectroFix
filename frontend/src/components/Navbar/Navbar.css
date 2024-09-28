@@ -183,6 +183,21 @@
     height: 1em;
 }
 
+.logout-link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #003366;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s;
+}
+
+.logout-link:hover {
+    color: var(--red-color);
+}
+
 @media (max-width: 900px) {
     .navbar-links,
     .navbar-right {

@@ -1,44 +1,58 @@
-import React, { useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom'
-import Cookies from 'js-cookie'
-import axios from 'axios'
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../../Context/AuthContext';
+import { Navigate } from 'react-router-dom';
+import axios from 'axios';
+import Loading from '../Loading/Loading.jsx';
 
 const ProtectedRoute = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(null) // null para manejar el estado de carga
-    const token = Cookies.get('authToken')
+    const { auth } = useContext(AuthContext);
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
+    const [loading, setLoading] = useState(true); // Estado de carga
 
     useEffect(() => {
         const verifyToken = async () => {
+            const token = auth?.token;
+
             if (token) {
                 try {
-                    // Verificamos el token haciendo una llamada a la API
-                    await axios.get('http://localhost:8000/api/manager/verifytoken', {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    })
-                    setIsAuthenticated(true) // Token válido
+                    console.log('verificando token...', token);
+                    const response = await axios.get('http://localhost:8000/api/manager/verifytoken', {
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
+
+                    if (response.status === 200) {
+                        setIsAuthenticated(true); // Token es válido
+                        console.log('token verificado');
+                    } else {
+                        setIsAuthenticated(false);
+                        console.log('token no verificado');
+                    }
                 } catch (error) {
-                    console.error('Token inválido:', error)
-                    setIsAuthenticated(false) // Token no válido
+                    console.error('Token inválido:', error);
+                    setIsAuthenticated(false);
                 }
             } else {
-                setIsAuthenticated(false) // No hay token
+                setIsAuthenticated(false); // No hay token
             }
-        }
+            setLoading(false); // Finaliza la carga
+        };
 
-        verifyToken()
-    }, [token])
+        verifyToken();
+    }, [auth]);
 
-    if (isAuthenticated === null) {
-        return <div>Cargando...</div>
+    console.log('isAuthenticated', isAuthenticated);
+
+    if (loading) {
+        return <Loading />; // Muestra loading mientras se verifica
     }
 
+    // Redirige si no está autenticado
     if (!isAuthenticated) {
-        return <Navigate to="/manager" replace />
+        return <Navigate to="/manager" replace />;
     }
 
-    return children
-}
+    // Renderiza los hijos si el usuario está autenticado
+    return children;
+};
 
-export default ProtectedRoute
+export default ProtectedRoute;
