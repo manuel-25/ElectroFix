@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify({ email, password }),
                 credentials: 'include',
             })
-
+            console.log('response', response)
             if (!response.ok) {
                 throw new Error('Error en el inicio de sesión', response)
             }
