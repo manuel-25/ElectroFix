@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
     // Función de login
     const login = async (email, password) => {
         try {
-            const response = await fetch('http://localhost:8000/api/manager/login', {
+            const response = await fetch('https://electrosafeweb.com/api/manager/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const token = auth?.token
 
-            await axios.post('http://localhost:8000/api/manager/logout', {}, {
+            await axios.post('https://electrosafeweb.com/api/manager/logout', {}, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

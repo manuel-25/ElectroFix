@@ -53,28 +53,28 @@ class ServiceRequestController {
             // Formatear el contenido del correo
             const { category, brand, model, faults, userData } = req.body
             const emailContent = `
-                <div style="font-family: Arial, sans-serif max-width: 600px margin: auto background-color: #F5F7FA padding: 20px border-radius: 10px box-shadow: 0 0 10px rgba(0,0,0,0.1)">
-                    <h2 style="background-color: #70757A color: white padding: 10px text-align: center border-radius: 10px 10px 0 0">Nueva Solicitud de Servicio</h2>
-                    <div style="background-color: white padding: 20px border-radius: 0 0 10px 10px">
-                        <p><b>Fecha:</b> ${req.body.date.toLocaleString()}</p>
-                        <p><b>Equipo:</b> ${category.name}</p>
-                        <p><b>Marca:</b> ${brand}</p>
-                        <p><b>Modelo:</b> ${model}</p>
-                        <p><b>Fallas reportadas:</b></p>
-                        <ul style="background-color: #F9F9F9 padding: 10px border-radius: 5px list-style-type: none padding-left: 0">
-                            ${faults.map(fault => `<li style="border-bottom: 1px solid #eee padding: 5px 0">${fault}</li>`).join('')}
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; background-color: #F5F7FA; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                    <h2 style="background-color: #70757A; color: white; padding: 10px; text-align: center; border-radius: 10px 10px 0 0;">Nueva Solicitud de Servicio</h2>
+                    <div style="background-color: white; padding: 20px; border-radius: 0 0 10px 10px;">
+                        <p><strong>Fecha:</strong> ${req.body.date.toLocaleString()}</p>
+                        <p><strong>Equipo:</strong> ${category.name}</p>
+                        <p><strong>Marca:</strong> ${brand}</p>
+                        <p><strong>Modelo:</strong> ${model}</p>
+                        <p><strong>Fallas reportadas:</strong></p>
+                        <ul style="background-color: #F9F9F9; padding: 10px; border-radius: 5px; list-style-type: none; padding-left: 0;">
+                            ${faults.map(fault => `<li style="border-bottom: 1px solid #eee; padding: 5px 0;">${fault}</li>`).join('')}
                         </ul>
-                        <p><b>Detalles adicionales:</b> ${userData.additionalDetails || 'N/A'}</p>
-                        <h3>Datos del usuario:</h3>
-                        <p><b>Nombre:</b> ${userData.firstName} ${userData.lastName}</p>
-                        <p><b>Email:</b> ${userData.email}</p>
-                        <p><b>Teléfono:</b> +54 9 ${userData.phone}</p>
-                        <p><b>Provincia:</b> ${userData.province}</p>
-                        <p><b>Municipio:</b> ${userData.municipio}</p>
-                        <p><b>Código de descuento:</b> ${userData.discountCode || 'N/A'}</p>
-                        <p style="text-align: center margin-top: 20px">
-                            <a href="https://wa.me/549${userData.phone}?text=Hola, ${userData.firstName}! Nos comunicamos del equipo de logística Electrosafe, recibimos tu solicitud de cotización en nuestra web y quería comentarte las opciones y promociones que tenemos para reparación de tu ${category.name}." 
-                                style="background-color: #25D366 color: white padding: 10px 20px text-decoration: none border-radius: 5px display: inline-block">
+                        <p><strong>Detalles adicionales:</strong> ${userData.additionalDetails || 'N/A'}</p>
+                        <h3 style="color: #70757A;">Datos del usuario:</h3>
+                        <p><strong>Nombre:</strong> ${userData.firstName} ${userData.lastName}</p>
+                        <p><strong>Email:</strong> ${userData.email}</p>
+                        <p><strong>Teléfono:</strong> +54 9 ${userData.phone}</p>
+                        <p><strong>Provincia:</strong> ${userData.province}</p>
+                        <p><strong>Municipio:</strong> ${userData.municipio}</p>
+                        <p><strong>Código de descuento:</strong> ${userData.discountCode || 'N/A'}</p>
+                        <p style="text-align: center; margin-top: 20px;">
+                            <a href="https://wa.me/549${userData.phone}?text=Hola, ${userData.firstName}! Nos comunicamos del equipo de logística Electrosafe, recibimos tu solicitud de cotización en nuestra web y quería comentarte las opciones y promociones que tenemos para reparación de tu ${category.name}."
+                                style="background-color: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
                                 Contactar por WhatsApp
                             </a>
                         </p>

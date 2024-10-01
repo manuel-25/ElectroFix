@@ -19,7 +19,7 @@ const ProtectedRoute = ({ children }) => {
             }
 
             try {
-                const response = await axios.get('http://localhost:8000/api/manager/verifytoken', {
+                const response = await axios.get('https://electrosafeweb.com/api/manager/verifytoken', {
                     headers: { Authorization: `Bearer ${token}` },
                 })
 

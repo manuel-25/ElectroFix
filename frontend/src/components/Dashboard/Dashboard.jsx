@@ -14,7 +14,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchCotizaciones = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/quotes')
+        const response = await axios.get('https://electrosafeweb.com/api/quotes')
         const sortedCotizaciones = response.data.sort((a, b) => new Date(b.date) - new Date(a.date))
         setCotizaciones(sortedCotizaciones)
       } catch (err) {
@@ -29,7 +29,7 @@ const Dashboard = () => {
 
   const handleStatusChange = async (serviceRequestNumber, newStatus) => {
     try {
-      await axios.put(`http://localhost:8000/api/quotes/${serviceRequestNumber}`, { status: newStatus })
+      await axios.put(`https://electrosafeweb.com/api/quotes/${serviceRequestNumber}`, { status: newStatus })
       setCotizaciones(cotizaciones.map(cotizacion =>
         cotizacion.serviceRequestNumber === serviceRequestNumber ? { ...cotizacion, status: newStatus } : cotizacion
       ))
@@ -46,7 +46,7 @@ const Dashboard = () => {
 
   const handleReviewEdit = async (serviceRequestNumber, review) => {
     try {
-      await axios.put(`http://localhost:8000/api/quotes/${serviceRequestNumber}`, { review })
+      await axios.put(`https://electrosafeweb.com/api/quotes/${serviceRequestNumber}`, { review })
       // Actualiza el estado de cotizaciones para reflejar la revisión editada
       setCotizaciones(cotizaciones.map(cotizacion =>
         cotizacion.serviceRequestNumber === serviceRequestNumber ? { ...cotizacion, review } : cotizacion
