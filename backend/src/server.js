@@ -14,9 +14,20 @@ const app = express()
 const port = config.PORT || 5000      //config.PORT || 5000 
 
 // Middleware
+const allowedOrigins = [
+  'https://electrosafeweb.com',  // Dominio de producción
+  'http://localhost:3000'         // Origen de desarrollo
+]
+
 app.use(cors({
-  origin: 'https://electrosafeweb.com/',  // Permite solicitudes solo desde este origen
-  credentials: true                 // Habilita el uso de credenciales (cookies, autorizaciones)
+  origin: function (origin, callback) {
+    // Permite solicitudes sin origen (como las de herramientas como Postman)
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+    return callback(new Error('No permitido por CORS'));
+  },
+  credentials: true // Habilita el uso de credenciales (cookies, autorizaciones)
 }))
 app.use(cookieParser())
 app.use(express.json())

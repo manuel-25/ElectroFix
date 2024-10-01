@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
             })
 
             if (!response.ok) {
-                throw new Error('Error en el inicio de sesión')
+                throw new Error('Error en el inicio de sesión', response)
             }
 
             const data = await response.json()
