@@ -7,16 +7,10 @@ export const products = [
     { id: 6, name: 'Microondas' },
     { id: 7, name: 'Horno Eléctrico' },
     { id: 8, name: 'Cafetera' },
-    { id: 9, name: 'Pava Eléctrica' },
-    { id: 10, name: 'Tostadora' },
-    { id: 11, name: 'Plancha' },
-    { id: 12, name: 'Secadora de Pelo' },
-    { id: 13, name: 'Planchita de Pelo' },
     { id: 14, name: 'Cava de Vino' },
     { id: 15, name: 'Ventilador' },
     { id: 16, name: 'Estufa' },
     { id: 17, name: 'Aspiradora' },
-    { id: 18, name: 'Minipimer' },
 ]
 
 export const detailedBrandsByCategory = {
@@ -185,18 +179,6 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }    
     },
-    9: {
-        name: 'Pava Eléctrica',
-        brands: {
-            'Breville': [],
-            'Cuisinart': [],
-            'Hamilton Beach': [],
-            'KitchenAid': [],
-            'Mueller': [],
-            'Ovente': [],
-            'Otros': []
-        }
-    },
     10: {
         name: 'Tostadora',
         brands: {
@@ -207,57 +189,6 @@ export const detailedBrandsByCategory = {
             'Oster': [],
             'Philips': [],
             'Smart Life': [],
-            'Otros': []
-        }
-    },
-    11:{
-        name: 'Plancha',
-        brands: {
-            'Philips': [],
-            'Rowenta': [],
-            'Panasonic': [],
-            'Sunbeam': [],
-            'Black & Decker': [],
-            'Hamilton Beach': [],
-            'Winco': [],
-            'GA.MA': [],
-            'Ultracomb': [],
-            'Philco': [],
-            'Gadnic': [],
-            'Liliana': [],
-            'Otros': []
-        }
-    },    
-    12: {
-        name: 'Secadora de Pelo',
-        brands: {
-            'Rowenta': ['Infini Pro Elite'],
-            'Dyson': ['Supersonic'],
-            'BaBylissPRO': ['Nano Titanium', 'Ceramix Xtreme', 'Rapido'],
-            'T3': ['Cura', 'Featherweight 2', 'Fit'],
-            'Conair': ['InfinitiPro', '1875W Ionic Ceramic', '1875 Watt Turbo'],
-            'Revlon': ['1875W Infrared', 'One-Step Volumizer', '1875W Volume Booster'],
-            'Remington': ['D3190 Damage Protection', 'AC2015', 'Pro Hair Dryer with Pearl Ceramic'],
-            'GA.MA': [],
-            'Fidelite': [],
-            'Winco': [],
-            'Atma': [],
-            'Braun': [],
-            'Otros': []
-        }
-    },
-    13: {
-        name: 'Planchita de Pelo',
-        brands: {
-            'GHD': [],
-            'BaBylissPRO': [],
-            'Chi': [],
-            'Dyson': [],
-            'Remington': [],
-            'T3': [],
-            'GA.MA': [],
-            'BaByliss PRO': [],
-            'Philips': [],
             'Otros': []
         }
     },
@@ -282,14 +213,8 @@ export const detailedBrandsByCategory = {
     15: {
         name: 'Ventilador',
         brands: {
-            'Dyson': ['Cool AM07', 'Pure Hot + Cool', 'AM09 Hot + Cool'],
-            'Honeywell': ['HT-900', 'TurboForce'],
-            'Lasko': ['2551 Wind Curve'],
-            'Vornado': ['VH10'],
-            'Rowenta': [],
-            'Holmes': ['HAPF623R', 'Blizzard'],
-            'Sunbeam': ['SteamMaster'],
-            'Otros': []
+            'Liliana': [],
+            'Electrolux': []
         }
     },
     16: {
@@ -326,30 +251,12 @@ export const detailedBrandsByCategory = {
             'Suono': [],
             'Otros': []
         }
-    },
-    18: {
-        name: 'Minipimer',
-        brands: {
-            'Atma': [],
-            'UltraComb': [],
-            'Spica': [],
-            'Yelmo': [],
-            'Winco': [],
-            'Oster': [],
-            'Philips': [],
-            'Kanji': [],
-            'Liliana': [],
-            'Turbomix': [],
-            'Daewoo': [],
-            'Otros': []
-        }
-    }    
+    }  
 }
 
 export const categories = [
     'Air Fryer', 'Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
-    'Pava Eléctrica', 'Tostadora', 'Plancha', 'Secadora de Pelo', 'Planchita de Pelo',
-    'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa', 'Microondas', 'Aspiradora', 'Minipimer'
+    'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa', 'Microondas', 'Aspiradora'
 ]
 
 export const faultsByCategory = {
