@@ -61,9 +61,9 @@ static async createUser(req, res) {
 
             // Configurar la cookie con HttpOnly y Secure
             res.cookie('authToken', token, {
-                /*httpOnly: true,
+                //httpOnly: true,
                 secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
-                sameSite: 'Strict',*/
+                sameSite: 'Strict',
                 maxAge: 24 * 60 * 60 * 1000
             })
 

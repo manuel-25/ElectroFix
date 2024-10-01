@@ -38,8 +38,7 @@ export const AuthProvider = ({ children }) => {
             }
 
             const data = await response.json()
-            console.log('Login exitoso:', data)
-
+            
             // Almacena el token en la cookie
             Cookies.set('authToken', data.token)
             setAuth({ token: data.token, user: data.user })

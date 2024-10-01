@@ -41,7 +41,11 @@ function Navbar() {
                         <Link to="/contacto" className="nav-link">Contacto</Link>
                     </nav>
                     <div className="navbar-right">
-                        <FontAwesomeIcon icon={faUser} className="user-icon" />
+                        {auth?.token && (
+                            <Link to="/dashboard" className="nav-link logout-link" onClick={() => { closeMenu();}}>
+                                <FontAwesomeIcon icon={faUser} />
+                            </Link>
+                        )}
                         <Link to="/reparacion-electrodomesticos">
                             <QuoteButton text="Cotizar Ahora" onClick={handleQuoteClick} />
                         </Link>
@@ -64,11 +68,13 @@ function Navbar() {
                     <QuoteButton text="Cotizar Ahora" onClick={handleQuoteClick} />
                 </Link>
                 <ul className='sideMenu-links'>
-                    { /*<li>
-                        <Link to="/reparacion-electrodomesticos" className="nav-link" onClick={closeMenu}>
-                            <FontAwesomeIcon icon={faUser} className="icon"/> <span>Ingresar</span>
-                        </Link>
-                    </li>*/ }
+                    {auth?.token && ( // Mostrar el botón de "Cerrar sesión" en el menú lateral solo si hay un token
+                            <li>
+                                <Link to="/dashboard" className="nav-link logout-link" onClick={() => { closeMenu();}}>
+                                    <FontAwesomeIcon icon={faUser} /> <span>Manager</span>
+                                </Link>
+                            </li>
+                    )}
                     <li>
                         <Link to="/reparacion-electrodomesticos" className="nav-link" onClick={closeMenu}>
                             <FontAwesomeIcon icon={faCircleQuestion} className="icon"/> <span>Servicios</span>

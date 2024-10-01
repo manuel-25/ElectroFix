@@ -6,6 +6,7 @@ import config from './utils/config.js'
 import serviceRequestRouter from './routes/serviceRequests.js'
 import quoteRoutes from './routes/quoteRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import cookieParser from 'cookie-parser'
 
 dotenv.config()
 
@@ -17,6 +18,7 @@ app.use(cors({
   origin: 'http://localhost:3000',  // Permite solicitudes solo desde este origen
   credentials: true                 // Habilita el uso de credenciales (cookies, autorizaciones)
 }))
+app.use(cookieParser())
 app.use(express.json())
 
 //Routes
