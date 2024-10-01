@@ -7,59 +7,69 @@ export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState(null)
+    const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
 
     useEffect(() => {
-        const token = Cookies.get('authToken');
+        const token = Cookies.get('authToken')
+        console.log('Auth token: ', token)
         if (token) {
-            setAuth({ token }); // Establecer el estado de autenticación si hay un token
+            setAuth({ token })
+        } else {
+            setAuth(null)
         }
+        setLoading(false)
     }, [])
 
     // Función de login
     const login = async (email, password) => {
         try {
-            const response = await axios.post('http://localhost:8000/api/manager/login', { email, password })
-            const token = response.data.token
+            const response = await fetch('http://localhost:8000/api/manager/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+                credentials: 'include',
+            })
 
-            // Guardar el token en la cookie
-            Cookies.set('authToken', token, { expires: 1 })
+            if (!response.ok) {
+                throw new Error('Error en el inicio de sesión')
+            }
 
-            // Actualizar el estado de autenticación
-            setAuth({ token })
-            navigate('/dashboard') // Redirigir al dashboard después del login
-        } catch (err) {
-            console.error('Error de inicio de sesión:', err)
-            throw new Error('Credenciales inválidas')
+            const data = await response.json()
+            console.log('Login exitoso:', data)
+
+            // Almacena el token en la cookie
+            Cookies.set('authToken', data.token)
+            setAuth({ token: data.token, user: data.user })
+            navigate('/dashboard')
+        } catch (error) {
+            console.error('Error:', error)
         }
     }
 
     // Función de logout
     const logout = async () => {
         try {
-            // Asegúrate de que el token esté disponible en el estado de autenticación
             const token = auth?.token
 
-            // Realiza la solicitud de logout con el token en la cabecera
             await axios.post('http://localhost:8000/api/manager/logout', {}, {
                 headers: {
-                    Authorization: `Bearer ${token}`, // Incluye el token aquí
+                    Authorization: `Bearer ${token}`,
                 },
             })
 
-            // Eliminar el token de la cookie
             Cookies.remove('authToken')
-
-            // Limpiar el estado de autenticación
-            setAuth(null)
-            navigate('/manager') // Redirigir a la página de login o manager
+            setAuth(null) // Asegúrate de que auth sea null al cerrar sesión
+            navigate('/manager')
         } catch (err) {
             console.error('Error al cerrar sesión:', err)
         }
     }
 
     return (
-        <AuthContext.Provider value={{ auth, login, logout }}>
+        <AuthContext.Provider value={{ auth, loading, login, logout }}>
             {children}
         </AuthContext.Provider>
     )

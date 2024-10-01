@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import { AuthContext } from '../../Context/AuthContext' // Importar el contexto de autenticación
 
 function Navbar() {
-    const { logout } = useContext(AuthContext) // Usar el contexto para obtener la función de logout
+    const { auth, logout } = useContext(AuthContext)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     const toggleMenu = () => {
@@ -45,9 +45,11 @@ function Navbar() {
                         <Link to="/reparacion-electrodomesticos">
                             <QuoteButton text="Cotizar Ahora" onClick={handleQuoteClick} />
                         </Link>
-                        <Link to="/" className="nav-link logout-link" onClick={() => { closeMenu(); logout(); }}>
-                            <FontAwesomeIcon icon={faSignOutAlt} /> <span></span>
-                        </Link>
+                        {auth?.token && (
+                            <Link to="/" className="nav-link logout-link" onClick={() => { closeMenu(); logout(); }}>
+                                <FontAwesomeIcon icon={faSignOutAlt} />
+                            </Link>
+                        )}
                     </div>
                     <FontAwesomeIcon 
                         icon={faTimes} 
@@ -82,11 +84,13 @@ function Navbar() {
                             <FontAwesomeIcon icon={faPhone} className="icon"/> <span>Contacto</span>
                         </Link>
                     </li>
-                    <li>
-                        <Link to="/" className="nav-link logout-link" onClick={() => { closeMenu(); logout(); }}>
-                            <FontAwesomeIcon icon={faSignOutAlt} /> <span>Cerrar Sesión</span>
-                        </Link>
-                    </li>
+                    {auth?.token && ( // Mostrar el botón de "Cerrar sesión" en el menú lateral solo si hay un token
+                        <li>
+                            <Link to="/" className="nav-link logout-link" onClick={() => { closeMenu(); logout(); }}>
+                                <FontAwesomeIcon icon={faSignOutAlt} /> <span>Cerrar Sesión</span>
+                            </Link>
+                        </li>
+                    )}
                 </ul>
             </div>
         </header>
