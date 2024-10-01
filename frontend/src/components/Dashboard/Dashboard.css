@@ -1,121 +1,110 @@
-/* Asegúrate de que el estilo solo aplique a los elementos dentro del dashboard */
-.dashboard-container {
-    padding: 20px;
-}
-
-.dashboard-container .cotizaciones-table {
+/* Colores para el estado de cada fila */
+.row-in-review {
+    background-color: transparent;
+  }
+  
+  .row-budget-sent {
+    background-color: #fff3cd;
+  }
+  
+  .row-approved {
+    background-color: #d4edda;
+  }
+  
+  .row-rejected {
+    background-color: #f8d7da;
+  }
+  
+  .row-ready-for-return {
+    background-color: #e2d0f1;
+  }
+  
+  /* Estilos generales de la tabla */
+  .cotizaciones-table {
     width: 100%;
     border-collapse: collapse;
-    overflow-x: auto; /* Permitir desplazamiento horizontal */
-}
-
-.dashboard-container .cotizaciones-table th, 
-.dashboard-container .cotizaciones-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
+  }
+  
+  .cotizaciones-table th, .cotizaciones-table td {
+    border: 1px solid #ddd; /* Bordes en gris claro */
+    padding: 8px;
     text-align: left;
-}
-
-/* Ajustar el ancho de las columnas específicas dentro del Dashboard */
-.dashboard-container .cotizaciones-table th:nth-child(8), 
-.dashboard-container .cotizaciones-table td:nth-child(8) {
-    width: 150px; /* Ajustar ancho de la columna de estado */
-}
-
-.dashboard-container .cotizaciones-table th:nth-child(9), 
-.dashboard-container .cotizaciones-table td:nth-child(9) {
-    width: 300px; /* Aumentar el ancho de la columna de revisión */
-}
-
-/* Asegúrate que solo los botones dentro del Dashboard se vean afectados */
-.dashboard-container .action-buttons {
-    display: flex; /* Usar flexbox para alinear botones */
-    gap: 10px; /* Espacio entre botones */
-}
-
-.dashboard-container button {
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    border: none;
-    color: white;
+  }
+  
+  .cotizaciones-table th {
+    background-color: #f2f2f2;
+  }
+  
+  /* Transiciones suaves */
+  .cotizaciones-table tbody tr {
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Estilos para el select */
+  .status-select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 16px;
+    border: 2px solid transparent;
+  }
+  
+  /* Estilos para las columnas */
+  .small-column {
+    width: 120px; /* Tamaño equitativo y pequeño para "Número de Solicitud", "Número de Cliente", y "Fecha" */
+  }
+  
+  .appliance-column {
+    width: 150px; /* Espacio razonable para "Electrodoméstico" */
+  }
+  
+  .status-column {
+    width: 120px; /* Espacio adecuado para que los select sean legibles */
+  }
+  
+  .details-column {
+    width: 200px; /* Tamaño ajustado para "Detalles Adicionales" (20% menos) */
+  }
+  
+  .review-column {
+    width: 180px; /* Tamaño ajustado para "Revisión" (más espacio) */
+  }
+  
+  /* Estilos para la celda y el input de revisión */
+  .review-cell {
     display: flex;
-    align-items: center; /* Alinear icono y texto */
-}
-
-.dashboard-container .edit-button {
-    background-color: #FFCC00; /* Amarillo */
-}
-
-.dashboard-container .delete-button {
-    background-color: #FF6600; /* Rojo */
-}
-
-.dashboard-container button:hover {
-    opacity: 0.8;
-}
-
-.dashboard-container select {
-    padding: 10px;
-    border: 1px solid #ddd;
+    align-items: center;
+    position: relative;
+  }
+  
+  .review-input {
+    width: calc(100% - 40px); /* Ocupa el espacio restante dejando espacio para el botón */
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+  }
+  
+  .edit-review-button {
+    position: absolute;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #007bff;
+    font-size: 20px;
+  }
+  
+  /* Estilos del botón de ocultar/mostrar */
+  .toggle-cotizaciones-button {
+    margin-bottom: 15px;
+    background-color: #FF6600;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
     border-radius: 5px;
-    width: 200px; /* Ajusta el ancho como sea necesario */
-    max-width: none; /* Para evitar restricciones de ancho */
-}
-
-.dashboard-container input[type="text"] {
-    width: 100%; /* El input ocupa todo el ancho del cuadro */
-    padding: 10px; /* Espaciado interno */
-    border: 1px solid #ddd; /* Bordes del input */
-    border-radius: 5px; /* Bordes redondeados */
-}
-
-/* Media queries para responsividad */
-@media (max-width: 768px) {
-    .dashboard-container .cotizaciones-table th, 
-    .dashboard-container .cotizaciones-table td {
-        font-size: 14px; /* Reducir tamaño de fuente */
-        padding: 8px; /* Ajustar el espaciado */
-    }
-
-    .dashboard-container .cotizaciones-table th:nth-child(8), 
-    .dashboard-container .cotizaciones-table td:nth-child(8) {
-        width: 120px; /* Ancho de columna de estado en pantallas pequeñas */
-    }
-
-    .dashboard-container .cotizaciones-table th:nth-child(9), 
-    .dashboard-container .cotizaciones-table td:nth-child(9) {
-        width: 250px; /* Ancho de columna de revisión en pantallas pequeñas */
-    }
-
-    .dashboard-container button {
-        padding: 8px 12px; /* Ajustar el espaciado de los botones */
-    }
-}
-
-@media (max-width: 480px) {
-    .dashboard-container .cotizaciones-table {
-        display: block; /* Mostrar como bloque para permitir desplazamiento */
-        overflow-x: auto; /* Permitir desplazamiento horizontal */
-    }
-
-    .dashboard-container .cotizaciones-table th, 
-    .dashboard-container .cotizaciones-table td {
-        display: block; /* Mostrar celdas como bloques */
-        width: auto; /* Ancho automático */
-        text-align: right; /* Alinear texto a la derecha */
-    }
-
-    .dashboard-container .cotizaciones-table th {
-        position: relative; /* Relativo para el diseño de tabla */
-        padding-top: 15px; /* Espaciado superior */
-        padding-bottom: 15px; /* Espaciado inferior */
-    }
-
-    .dashboard-container .cotizaciones-table td {
-        text-align: left; /* Alinear texto a la izquierda en las celdas */
-        padding-top: 10px; /* Espaciado superior en celdas */
-        padding-bottom: 10px; /* Espaciado inferior en celdas */
-        border-top: 1px solid #ddd; /* Línea entre filas */
-    }
-}
+    cursor: pointer;
+  }
+  
