@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom'
 import axios from 'axios'
 import Loading from '../Loading/Loading.jsx'
 import Cookies from 'js-cookie'
+import { getApiUrl } from '../../config.js'
 
 const ProtectedRoute = ({ children }) => {
     const { auth, loading } = useContext(AuthContext)
@@ -19,7 +20,7 @@ const ProtectedRoute = ({ children }) => {
             }
 
             try {
-                const response = await axios.get('https://electrosafeweb.com/api/manager/verifytoken', {
+                const response = await axios.get(`${getApiUrl()}/api/manager/verifytoken`, {
                     headers: { Authorization: `Bearer ${token}` },
                 })
 

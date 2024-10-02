@@ -2,17 +2,18 @@ import React, { createContext, useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../config.js'
 
 export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
     const navigate = useNavigate()
 
     useEffect(() => {
         const token = Cookies.get('authToken')
-        console.log('Auth token: ', token)
         if (token) {
             setAuth({ token })
         } else {
@@ -24,7 +25,8 @@ export const AuthProvider = ({ children }) => {
     // Función de login
     const login = async (email, password) => {
         try {
-            const response = await fetch('https://electrosafeweb.com/api/manager/login', {
+            setLoading(true)
+            const response = await fetch(`${getApiUrl()}/api/manager/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,43 +34,50 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify({ email, password }),
                 credentials: 'include',
             })
-            console.log('response', response)
+            
             if (!response.ok) {
-                throw new Error('Error en el inicio de sesión', response)
+                throw new Error('Error en el inicio de sesión')
             }
 
             const data = await response.json()
-            
+
             // Almacena el token en la cookie
             Cookies.set('authToken', data.token)
             setAuth({ token: data.token, user: data.user })
+            setError(null)
             navigate('/dashboard')
         } catch (error) {
-            console.error('Error:', error)
+            console.error('Error en el inicio de sesión:', error)
+            setError('Error en las credenciales de inicio de sesión')
+        } finally {
+            setLoading(false)
         }
     }
 
     // Función de logout
     const logout = async () => {
         try {
+            setLoading(true)
             const token = auth?.token
 
-            await axios.post('https://electrosafeweb.com/api/manager/logout', {}, {
+            await axios.post(`${getApiUrl()}/api/manager/logout`, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             })
 
             Cookies.remove('authToken')
-            setAuth(null) // Asegúrate de que auth sea null al cerrar sesión
+            setAuth(null)
             navigate('/manager')
         } catch (err) {
             console.error('Error al cerrar sesión:', err)
+        } finally {
+            setLoading(false)
         }
     }
 
     return (
-        <AuthContext.Provider value={{ auth, loading, login, logout }}>
+        <AuthContext.Provider value={{ auth, loading, login, logout, error }}>
             {children}
         </AuthContext.Provider>
     )

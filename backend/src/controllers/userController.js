@@ -1,5 +1,6 @@
 import UserManager from '../Mongo/UserManager.js'
 import bcrypt from 'bcrypt'
+import config from '../utils/config.js'
 import jwt from 'jsonwebtoken'
 
 const blacklist = []
@@ -57,18 +58,25 @@ static async createUser(req, res) {
             }
 
             // Generar el token JWT
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' })
+            const token = jwt.sign(
+                { id: user._id, role: user.role },
+                config.JWT_SECRET, 
+                { expiresIn: '1h' }
+            )
 
             // Configurar la cookie con HttpOnly y Secure
             res.cookie('authToken', token, {
-                //httpOnly: true,
+                //httpOnly: true,                               // Con esto se rompe
                 secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
                 sameSite: 'Strict',
                 maxAge: 24 * 60 * 60 * 1000
             })
 
-            // Devolver una respuesta de éxito (sin incluir el token)
-            res.status(200).json({ message: 'Login exitoso', user: { email: user.email }, token })
+            res.status(200).json({
+                message: 'Login exitoso',
+                user: { email: user.email, role: user.role },  // Incluye el role aquí
+                token
+            })
         } catch (error) {
             console.error('Error al iniciar sesión:', error)
             res.status(500).json({ message: 'Error al iniciar sesión', error: error.message })
