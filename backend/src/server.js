@@ -12,7 +12,7 @@ import clientRoutes from './routes/clientRoutes.js'
 dotenv.config()
 
 const app = express()
-const port = 8000    //config.PORT || 5000 
+const port = config.PORT || 5000    //8000
 
 // Middleware
 const allowedOrigins = [
