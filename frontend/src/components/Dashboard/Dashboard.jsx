@@ -20,7 +20,6 @@ const Dashboard = () => {
 
   const { auth } = useContext(AuthContext);
 
-  console.log('auth: ', auth);
 
   useEffect(() => {
     const fetchCotizaciones = async () => {
