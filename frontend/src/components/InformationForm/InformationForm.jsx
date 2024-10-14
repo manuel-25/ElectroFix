@@ -31,13 +31,34 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
   }
 
   const fetchMunicipios = async (provinciaNombre) => {
-    try {
-      const response = await fetch(`https://apis.datos.gob.ar/georef/api/municipios?provincia=${provinciaNombre}&campos=id,nombre&max=100`)
-      const data = await response.json()
-      const municipios = data.municipios.map(municipio => municipio.nombre)
-      setMunicipios(municipios)
-    } catch (error) {
-      console.error('Error al obtener los municipios:', error)
+    if (provinciaNombre === "Ciudad Autónoma de Buenos Aires") {
+      const barrios = [
+        'Palermo', 'San Telmo', 'Puerto Madero', 'Recoleta', 'Belgrano',
+        'Caballito', 'La Boca', 'Flores', 'Barracas', 'Almagro', 
+        'Villa Devoto', 'Villa Urquiza', 'Saavedra', 'Villa Luro', 
+        'Villa del Parque', 'Colegiales', 'Avellaneda', 'Mataderos', 
+        'Liniers', 'Vélez Sarsfield', 'Nueva Pompeya', 'San Cristóbal', 
+        'San Nicolás', 'Retiro', 'Monserrat', 'San Fernando', 
+        'Balvanera', 'Villa Riachuelo', 'Constitución', 'San Carlos', 
+        'Parque Chacabuco', 'Parque Patricios', 'Boedo', 'Paternal', 
+        'Chacarita', 'Nuñez', 'Boca', 'La Paternal', 
+        'Agronomía', 'Villa Ortúzar', 'Floresta', 'Parque Centenario',
+        'Villa Crespo', 'Villa del Parque', 'Devoto', 'Monte Castro',
+        'Cerro de la Gloria', 'San José'
+    ]    
+
+      const sortedBarrios = barrios.sort((a, b) => a.localeCompare(b))
+      setMunicipios(sortedBarrios)
+    } else {
+      try {
+        const response = await fetch(`https://apis.datos.gob.ar/georef/api/municipios?provincia=${provinciaNombre}&campos=id,nombre&max=100`)
+        const data = await response.json()
+        const municipios = data.municipios.map(municipio => municipio.nombre)
+        const sortedMunicipios = municipios.sort((a, b) => a.localeCompare(b))
+        setMunicipios(sortedMunicipios)
+      } catch (error) {
+        console.error('Error al obtener los municipios:', error)
+      }
     }
   }
 
