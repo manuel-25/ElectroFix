@@ -57,6 +57,8 @@ class ServiceRequestController {
                     <h2 style="background-color: #70757A; color: white; padding: 10px; text-align: center; border-radius: 10px 10px 0 0;">Nueva Solicitud de Servicio</h2>
                     <div style="background-color: white; padding: 20px; border-radius: 0 0 10px 10px;">
                         <p><strong>Fecha:</strong> ${req.body.date.toLocaleString()}</p>
+                        <p><strong>Número de Cliente:</strong> ${customerNumber}</p>
+                        <p><strong>Número de Solicitud:</strong> ${serviceRequestNumber}</p>
                         <p><strong>Equipo:</strong> ${category.name}</p>
                         <p><strong>Marca:</strong> ${brand}</p>
                         <p><strong>Modelo:</strong> ${model}</p>
@@ -73,7 +75,7 @@ class ServiceRequestController {
                         <p><strong>Municipio:</strong> ${userData.municipio}</p>
                         <p><strong>Código de descuento:</strong> ${userData.discountCode || 'N/A'}</p>
                         <p style="text-align: center; margin-top: 20px;">
-                            <a href="https://wa.me/549${userData.phone}?text=Hola, ${userData.firstName}! Nos comunicamos del equipo de logística Electrosafe, recibimos tu solicitud de cotización en nuestra web y quería comentarte las opciones y promociones que tenemos para reparación de tu ${category.name}."
+                            <a href="https://wa.me/549${userData.phone}?text=Hola, ${userData.firstName}! Nos comunicamos del equipo de logística Electrosafe, recibimos tu solicitud de cotización (Nº ${serviceRequestNumber}) en nuestra web y quería comentarte las opciones y promociones que tenemos para reparación de tu ${category.name}."
                                 style="background-color: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
                                 Contactar por WhatsApp
                             </a>
