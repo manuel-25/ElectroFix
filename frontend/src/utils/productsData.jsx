@@ -410,3 +410,18 @@ export const faqs = [
         answer: "Contamos con años de experiencia y técnicos altamente calificados. Nuestro compromiso es ofrecer un servicio de alta calidad y rapidez."
     }
 ]
+
+export const barriosCABA = [
+    'Palermo', 'San Telmo', 'Puerto Madero', 'Recoleta', 'Belgrano',
+    'Caballito', 'La Boca', 'Flores', 'Barracas', 'Almagro', 
+    'Villa Devoto', 'Villa Urquiza', 'Saavedra', 'Villa Luro', 
+    'Villa del Parque', 'Colegiales', 'Avellaneda', 'Mataderos', 
+    'Liniers', 'Vélez Sarsfield', 'Nueva Pompeya', 'San Cristóbal', 
+    'San Nicolás', 'Retiro', 'Monserrat', 'San Fernando', 
+    'Balvanera', 'Villa Riachuelo', 'Constitución', 'San Carlos', 
+    'Parque Chacabuco', 'Parque Patricios', 'Boedo', 'Paternal', 
+    'Chacarita', 'Nuñez', 'Boca', 'La Paternal', 
+    'Agronomía', 'Villa Ortúzar', 'Floresta', 'Parque Centenario',
+    'Villa Crespo', 'Villa del Parque', 'Devoto', 'Monte Castro',
+    'Cerro de la Gloria', 'San José'
+]   

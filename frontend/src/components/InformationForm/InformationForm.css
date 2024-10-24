@@ -111,6 +111,19 @@
     border-radius: 1px;
 }
 
+.phone-container input {
+    border: 1px solid #ccc;
+    transition: border-color 0.3s;
+  }
+  
+  .phone-container input.error {
+    border-color: var(--red-color);
+  }
+  
+  .phone-container input.success {
+    border-color: var(--green-color);
+  }
+
 /* Estilo de las opciones del select */
 #select-provincia option {
     background-color: var(--white-color);
@@ -131,12 +144,49 @@
     margin-top: 10px; 
 }
 
-/* Estilos para los mensajes de error */
-.error {
-    color: var(--red-color);
-    font-size: 12px;
-    margin-top: 5px;
-}
+/* Contenedor para el select y el spinner */
+.select-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+  
+  /* Estilos para ocultar la flechita del select por defecto */
+  .select-container select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 40px;
+    width: 100%;
+  }
+  
+  /* Flechita personalizada */
+  .select-container .custom-arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #333;
+    pointer-events: none;
+  }
+  
+  /* Posición del spinner */
+  .select-container .spinner-container {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Para que el spinner no interfiera con el select */
+  }
+  
+  /* Ocultar la flechita si el spinner está activo */
+  .select-container.loading .custom-arrow {
+    display: none;
+  }  
   
 .form-group.error input,
 .form-group.error select,
