@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer'
 import config from '../utils/config.js'
+import { logger } from '../utils/logger.js'
 
 // Configuración del transporter de Nodemailer
 const transporter = nodemailer.createTransport({
@@ -16,9 +17,9 @@ const transporter = nodemailer.createTransport({
 const verifyConnection = async () => {
   try {
     await transporter.verify()
-    console.log("Servidor listo para enviar correos")
+    logger.info("Servidor listo para enviar correos")
   } catch (error) {
-    console.error("Error verificando la conexión SMTP:", error)
+    logger.error("Error verificando la conexión SMTP:", error)
   }
 }
 
@@ -35,11 +36,11 @@ export const sendEmail = async (to, subject, htmlContent) => {
     }
 
     const info = await transporter.sendMail(mailOptions)
-    console.log('Correo enviado: ', info.response)
+    logger.info('Correo enviado: ', info.response)
 
     return info
   } catch (error) {
-    console.error('Error enviando correo:', error)
+    logger.fatal('Error enviando correo:', error)
     throw new Error('Fallo al enviar el correo')
   }
 }
