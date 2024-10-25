@@ -37,6 +37,7 @@
     margin-bottom: 10px;
 }
 
+/* Colores para los íconos de estado */
 .success-message .status-icon {
     color: #28a746; 
 }
@@ -45,6 +46,7 @@
     color: #dc3545; 
 }
 
+/* Estilos para el encabezado del mensaje */
 .message-header {
     font-size: 28px; 
     margin-bottom: 10px;
@@ -52,6 +54,7 @@
     color: #333; 
 }
 
+/* Estilos para el cuerpo del mensaje */
 .message-body {
     font-size: 18px;
     color: #666; 
@@ -65,6 +68,7 @@
     align-items: center; 
 }
 
+/* Estilos para el enlace de WhatsApp */
 .whatsapp-link {
     display: flex; 
     align-items: center; 
@@ -96,6 +100,7 @@
     color: var(--secondary-color);
 }
 
+/* Título de contacto */
 .contact-title {
     font-size: 20px;
     color: var(--text-color);
@@ -103,7 +108,7 @@
 }
 
 /* Botón de cotización */
-.errorBack-button {
+.quote-button {
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -130,6 +135,7 @@
     text-decoration: none;
 }
 
+/* Efecto hover para el botón de cotización */
 .quote-button:hover {
     background-color: var(--primary-color-hover);
 }
