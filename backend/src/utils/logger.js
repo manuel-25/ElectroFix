@@ -1,6 +1,6 @@
-import winston from 'winston';
-import { sendEmail } from '../services/emailService.js';
-import config from './config.js';
+import winston from 'winston'
+import { Mail } from 'winston-mail'
+import config from './config.js'
 
 // Define los colores para los niveles de log
 winston.addColors({
@@ -9,7 +9,7 @@ winston.addColors({
   warn: 'yellow',
   info: 'green',
   debug: 'blue',
-});
+})
 
 // Crea el logger con los niveles y colores personalizados
 const logger = winston.createLogger({
@@ -21,10 +21,8 @@ const logger = winston.createLogger({
     debug: 4,
   },
   format: winston.format.combine(
-    winston.format.colorize(),
     winston.format.timestamp({
       format: () => {
-        // Obtener la hora actual en Buenos Aires (GMT-3)
         return new Date().toLocaleString('es-AR', {
           timeZone: 'America/Argentina/Buenos_Aires',
           hour12: false,
@@ -34,44 +32,37 @@ const logger = winston.createLogger({
     winston.format.printf(({ timestamp, level, message }) => {
       return `${timestamp} ${level}: ${message}`;
     })
-  ),
+  ),  
   transports: [
     new winston.transports.Console(),
     new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'info.log', level: 'info' }),
+    new Mail({
+      to: config.GMAIL_USER,
+      from: config.GMAIL_USER,
+      subject: 'Error occurred!',
+      level: 'error',
+      host: 'smtp-relay.brevo.com',
+      username: config.BREVO_USER,
+      password: config.BREVO_PASS,
+      port: 587,
+      secure: false,
+    }),
   ],
-});
+})
 
-// Middleware para registrar errores y enviar correos
-const errorLogger = (err, req, res, next) => {
-    console.log('entre', err);
-  
-    // Verifica el mensaje del error o utiliza el logger para determinar el nivel
-    const isFatalError = err.message.includes('fatal'); // Ajusta según tu lógica
+// Interceptar el log y personalizar el contenido del correo
+logger.on('logging', (transport, log) => {
+  if (log.level === 'error' || log.level === 'fatal') {
+    const customContent = `
+      <p><strong>Error en la Aplicación</strong></p>
+      <p>${log.message}</p>
+      <p><strong>Hora del error:</strong> ${new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour12: false })}</p>
+    `
 
-    // Enviar correo en caso de error fatal
-    if (isFatalError) {
-        const emailContent = `
-            <p><strong>Error Fatal en Electrosafeweb.com</strong></p>
-            <p>Se ha producido un error fatal:</p>
-            <p>${err.message}</p>
-            <p><strong>Hora del error (Argentina):</strong> ${new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour12: false })}</p>
-            <p><strong>Detalles del Request:</strong></p>
-            <p>URL: ${req.originalUrl}</p>
-            <p>Método: ${req.method}</p>
-            <p>Parámetros: ${JSON.stringify(req.body)}</p>
-        `;
+    // Actualizar el contenido del correo
+    transport.content = customContent
+  }
+})
 
-        sendEmail(config.NOTIFY_EMAIL, 'Error Fatal en la Aplicación', emailContent)
-            .then(() => {
-                logger.info('Correo de error fatal enviado correctamente.');
-            })
-            .catch((error) => {
-                logger.error('Error al enviar correo de notificación:', error);
-            });
-    }
-
-    next(err);
-};
-
-
-export { logger, errorLogger };
+export { logger }

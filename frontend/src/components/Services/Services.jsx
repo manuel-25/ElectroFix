@@ -81,11 +81,11 @@ const Services = () => {
   }
 
   const handleSubmit = async () => {
-    const date = new Date(new Date().getTime() - (3 * 60 * 60 * 1000)) // Ajustar la fecha
+    const date = new Date(new Date().getTime() - (3 * 60 * 60 * 1000))
     const updatedFormData = { ...formData, date }
 
     try {
-      const response = await fetch('http://localhost:8000/api/service-requests', {     //https://electrosafeweb.com/api/service-requests
+      const response = await fetch('https://electrosafeweb.com/api/service-requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedFormData),

@@ -13,7 +13,7 @@ class ClientController {
 
             res.status(200).json(client)
         } catch (error) {
-            console.error('Error al obtener cliente:', error)
+            logger.error('Error al obtener cliente:', error)
             res.status(500).json({ message: 'Error al obtener cliente', error: error.message })
         }
     }

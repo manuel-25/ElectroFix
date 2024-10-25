@@ -1,18 +1,17 @@
-/* FormSubmissionStatus.css */
-
-/* LOADING */
+/* Cargando */
 .loading-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh; /* Altura adaptable */
+    height: 50vh; 
 }
 
 .loading-image {
-    width: 100px; /* Tamaño ajustable */
+    width: 100px; 
     height: 100px;
 }
 
+/* Estado de envío */
 .submission-status {
     background-color: var(--white-color);
     padding: 30px;
@@ -21,7 +20,8 @@
     max-width: 600px;
     margin: 40px auto;
     font-family: 'Inter', sans-serif;
-    border: 1px solid #e0e0e0; /* Borde sutil */
+    border: 1px solid #e0e0e0; 
+    position: relative; 
 }
 
 .status-message {
@@ -33,77 +33,110 @@
 }
 
 .status-icon {
-    font-size: 50px; /* Icono grande */
+    font-size: 50px; 
     margin-bottom: 10px;
 }
 
 .success-message .status-icon {
-    color: #28a746; /* Color para éxito */
+    color: #28a746; 
 }
 
 .error-message .status-icon {
-    color: #dc3545; /* Color para error */
+    color: #dc3545; 
 }
 
 .message-header {
-    font-size: 28px; /* Tamaño ajustado */
+    font-size: 28px; 
     margin-bottom: 10px;
-    font-weight: 600; /* Mayor énfasis */
-    color: #333; /* Color más oscuro */
+    font-weight: 600; 
+    color: #333; 
 }
 
 .message-body {
     font-size: 18px;
-    color: #666; /* Color para texto secundario */
+    color: #666; 
 }
 
-.next-steps {
-    margin-top: 20px;
-    text-align: left;
+/* Información de contacto */
+.contact-info {
+    margin-top: 10px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
 }
 
-.next-steps-header {
-    font-size: 20px; /* Tamaño ajustado */
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #444; /* Color más oscuro */
+.whatsapp-link {
+    display: flex; 
+    align-items: center; 
+    text-decoration: none; 
+    color: var(--text-color); 
 }
 
-.steps-list {
-    list-style-type: decimal; /* Numeración en lista */
-    padding-left: 20px; /* Espaciado */
+.whatsapp-link strong {
+    font-size: 16px;
 }
 
-.step-item {
+.whatsapp-icon {
+    width: 30px; 
+    height: 30px; 
+    margin-right: 5px; 
+}
+
+/* Estilos para el correo electrónico */
+.email-link {
+    font-size: 16px;
+    color: black;
+    margin-top: 5px;
+    text-decoration: none;
+}
+
+.email-link svg {
+    margin-right: 5px;
     font-size: 18px;
-    color: #444; /* Color para pasos */
-    margin-bottom: 10px;
+    color: var(--secondary-color);
 }
 
-.request-numbers {
-    margin-top: 20px; /* Espacio antes de los números */
-    text-align: center; /* Centrar texto */
-    font-size: 16px; /* Tamaño de fuente para números */
-    color: #444; /* Color más oscuro */
+.contact-title {
+    font-size: 20px;
+    color: var(--text-color);
+    margin-top: 20px;
 }
 
-.number-detail {
-    font-weight: bold; /* Resaltar los números */
+/* Botón de cotización */
+.errorBack-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 64px;
+    height: 40px; 
+    padding: 10px 20px; 
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    border-radius: 28px;
+    font-weight: bold;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    letter-spacing: 0.02857em;
+    gap: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: 0;
+    border: 0;
+    margin: 20px auto; 
+    user-select: none;
+    vertical-align: middle;
+    appearance: none;
+    text-decoration: none;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-    .submission-status {
-        padding: 20px; /* Espaciado adaptable */
-    }
+.quote-button:hover {
+    background-color: var(--primary-color-hover);
+}
 
-    .message-header {
-        font-size: 22px; /* Tamaño adaptable */
-    }
-
-    .message-body,
-    .next-steps-header,
-    .step-item {
-        font-size: 16px; /* Tamaño adaptable */
+/* Estilos responsivos */
+@media (max-width: 650px) {
+    .quote-button {
+        width: 100%;
     }
 }

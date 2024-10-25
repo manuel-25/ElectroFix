@@ -117,7 +117,7 @@ class ServiceRequestController {
             res.status(201).send(serviceRequest)
         } catch (error) {
             logger.fatal('Error creating service request:', error)
-            return next(error) //res.status(400).send({ error: error.message, stack: error.stack })
+            res.status(400).send({ error: error.message, stack: error.stack })
         }
     }
 }
