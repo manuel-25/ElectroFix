@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './FormSubmissionStatus.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
-import { faEnvelope} from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-
 
 const FormSubmissionStatus = ({ status, name, customerNumber, serviceRequestNumber }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -41,7 +40,7 @@ const FormSubmissionStatus = ({ status, name, customerNumber, serviceRequestNumb
             <ol className="steps-list">
               <li className="step-item">Esperar a ser contactado por nuestro equipo</li>
               <li className="step-item">Coordinar la reparación con uno de nuestros técnicos</li>
-              <li className="step-item">Recuperar su equipo en perfectas condiciones</li>
+              <li className="step-item">Recuperar su equipo reparado</li>
             </ol>
           </div>
           <div className="request-numbers">
@@ -64,8 +63,8 @@ const FormSubmissionStatus = ({ status, name, customerNumber, serviceRequestNumb
               <strong>+54 911 3914-8766</strong>
             </a>
             <a href="mailto:electrosafeservice@gmail.com" className="email-link">
-              <FontAwesomeIcon icon={faEnvelope} className="social-icon" /> 
-                electrosafeservice@gmail.com
+              <FontAwesomeIcon icon={faEnvelope} className="social-icon" />
+              electrosafeservice@gmail.com
             </a>
           </div>
           <button className="errorBack-button" onClick={onBackToMenu}>
