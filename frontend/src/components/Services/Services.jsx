@@ -81,7 +81,7 @@ const Services = () => {
   }
 
   const handleSubmit = async () => {
-    const date = new Date(new Date().getTime() - (3 * 60 * 60 * 1000)) // Ajustar la fecha
+    const date = new Date(new Date().getTime() - (3 * 60 * 60 * 1000))
     const updatedFormData = { ...formData, date }
 
     try {

@@ -1,5 +1,6 @@
 import QuoteManager from "../Mongo/QuoteManager.js"
 import NumberGenerator from "../services/numberGenerator.js"
+import { logger } from "../utils/logger.js"
 
 class QuoteController {
     // Crear una nueva cotización
@@ -19,7 +20,7 @@ class QuoteController {
             // Enviar la respuesta con el nuevo objeto de cotización
             res.status(201).json(newQuote)
         } catch (error) {
-            console.error('Error creating quote:', error)
+            logger.error('Error creating quote:', error)
             res.status(400).json({ error: 'Error creating quote: ' + error.message })
         }
     }
@@ -36,7 +37,7 @@ class QuoteController {
             
             res.status(200).json(quotes)
         } catch (error) {
-            console.error('Error fetching quotes:', error)
+            logger.error('Error fetching quotes:', error)
             res.status(500).json({ error: 'Failed to fetch quotes: ' + error.message })
         }
     }
@@ -51,7 +52,7 @@ class QuoteController {
             }
             res.status(200).json(quote)
         } catch (error) {
-            console.error('Error fetching quote:', error)
+            logger.error('Error fetching quote:', error)
             res.status(500).json({ error: 'Failed to fetch quote: ' + error.message })
         }
     }
@@ -71,7 +72,7 @@ class QuoteController {
 
             res.status(200).json(updatedQuote)
         } catch (error) {
-            console.error('Error updating quote in database:', error)
+            logger.error('Error updating quote in database:', error)
             res.status(500).json({ message: 'Error al actualizar la cotización: ' + error.message })
         }
     }
@@ -86,7 +87,7 @@ class QuoteController {
             }
             res.status(200).json({ message: 'Quote deleted successfully' })
         } catch (error) {
-            console.error('Error deleting quote:', error)
+            logger.error('Error deleting quote:', error)
             res.status(500).json({ error: 'Failed to delete quote: ' + error.message })
         }
     }

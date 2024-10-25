@@ -3,6 +3,7 @@ import ClientManager from '../Mongo/ClientManager.js'
 import { sendEmail } from '../services/emailService.js'
 import config from '../utils/config.js'
 import NumberGenerator from '../services/numberGenerator.js'
+import { logger } from '../utils/logger.js'
 
 function normalizeName(name) {
     return name
@@ -15,10 +16,10 @@ function normalizeName(name) {
 
 class ServiceRequestController {
     // Método para crear una nueva solicitud de servicio
-    static async createServiceRequest(req, res) {
+    static async createServiceRequest(req, res, next) {
         try {
             // Normalizar los datos del cliente antes de guardarlos
-            let { userData, category, brand, model, faults } = req.body
+            const { userData, category, brand, model, faults } = req.body
 
             // Normalizar el nombre y el apellido
             userData.firstName = normalizeName(userData.firstName)
@@ -115,7 +116,7 @@ class ServiceRequestController {
             // Devolver la respuesta exitosa
             res.status(201).send(serviceRequest)
         } catch (error) {
-            console.error('Error creating service request:', error)
+            logger.fatal('Error creating service request:', error)
             res.status(400).send({ error: error.message, stack: error.stack })
         }
     }

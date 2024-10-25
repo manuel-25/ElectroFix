@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
 import config from '../utils/config.js'
 
-
 const authenticateJWT = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1]
     if (token) {
@@ -13,7 +12,7 @@ const authenticateJWT = (req, res, next) => {
             next()
         })
     } else {
-        res.sendStatus(401) // Unauthorized
+        res.sendStatus(401)
     }
 }
 

@@ -30,7 +30,7 @@ static async createUser(req, res) {
 
         res.status(201).json(newUser)
     } catch (error) {
-            console.error('Error creating user:', error)
+            logger.error('Error creating user:', error)
             res.status(400).json({ error: error.message })
         }
     }
@@ -78,7 +78,7 @@ static async createUser(req, res) {
                 token
             })
         } catch (error) {
-            console.error('Error al iniciar sesión:', error)
+            logger.error('Error al iniciar sesión:', error)
             res.status(500).json({ message: 'Error al iniciar sesión', error: error.message })
         }
     }
@@ -93,7 +93,7 @@ static async createUser(req, res) {
             }
             res.status(400).json({ message: 'Token no proporcionado' })
         } catch (error) {
-            console.error('Error al hacer logout:', error)
+            logger.error('Error al hacer logout:', error)
             res.status(500).json({ message: 'Error al hacer logout', error: error.message })
         }
     }
@@ -104,7 +104,7 @@ static async createUser(req, res) {
             const users = await UserManager.getAll()
             res.status(200).json(users)
         } catch (error) {
-            console.error('Error fetching users:', error)
+            logger.error('Error fetching users:', error)
             res.status(500).json({ error: 'Failed to fetch users' })
         }
     }
@@ -119,7 +119,7 @@ static async createUser(req, res) {
             }
             res.status(200).json(user)
         } catch (error) {
-            console.error('Error fetching user:', error)
+            logger.error('Error fetching user:', error)
             res.status(500).json({ error: 'Failed to fetch user' })
         }
     }
@@ -142,7 +142,7 @@ static async createUser(req, res) {
 
             res.status(200).json(updatedUser)
         } catch (error) {
-            console.error('Error updating user:', error)
+            logger.error('Error updating user:', error)
             res.status(500).json({ message: 'Error updating user' })
         }
     }
@@ -157,7 +157,7 @@ static async createUser(req, res) {
             }
             res.status(200).json({ message: 'User deleted successfully' })
         } catch (error) {
-            console.error('Error deleting user:', error)
+            logger.error('Error deleting user:', error)
             res.status(500).json({ error: 'Failed to delete user' })
         }
     }
@@ -171,7 +171,7 @@ static async createUser(req, res) {
             }
             res.json({ message: 'Token es válido', user: { email: user.email } })
         } catch (error) {
-            console.error('Error verifying token:', error)
+            logger.error('Error verifying token:', error)
             res.status(500).json({ error: 'Internal Server Error' })
         }
     }
