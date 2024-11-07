@@ -24,7 +24,6 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
 
   const fetchProvincias = async () => {
     setLoading(true);
-    console.time("Fetch provincias");
     try {
       const response = await fetch('https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre');
       const data = await response.json();
@@ -60,23 +59,23 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!firstName.trim()) newErrors.firstName = 'El nombre es requerido';
-    if (!lastName.trim()) newErrors.lastName = 'El apellido es requerido';
+    if (!firstName.trim()) newErrors.firstName = '*El nombre es requerido';
+    if (!lastName.trim()) newErrors.lastName = '*El apellido es requerido';
 
     if (!email.trim()) {
-      newErrors.email = 'El correo electrónico es requerido';
+      newErrors.email = '*El correo electrónico es requerido';
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'El correo electrónico es inválido';
+      newErrors.email = '*El correo electrónico es inválido';
     }
 
     if (!phone.trim()) {
-      newErrors.phone = 'El teléfono es requerido';
+      newErrors.phone = '*El teléfono es requerido';
     } else if (!/^\d{10}$/.test(phone)) {
-      newErrors.phone = 'El teléfono debe tener exactamente 10 dígitos numéricos';
+      newErrors.phone = '*El teléfono debe tener exactamente 10 dígitos numéricos';
     }
 
-    if (!province) newErrors.province = 'La provincia es requerida';
-    if (!municipio) newErrors.municipio = 'El municipio es requerido';
+    if (!province) newErrors.province = '*La provincia es requerida';
+    if (!municipio) newErrors.municipio = '*El municipio es requerido';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

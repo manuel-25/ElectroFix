@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { products } from '../../utils/productsData'
+import { products, additionalDetailsConfig } from '../../utils/productsData.jsx'
 import './Services.css'
 
 // Importar los subcomponentes
@@ -11,59 +11,56 @@ import FaultSelection from '../FaultSelection/FaultSelection'
 import InformationForm from '../InformationForm/InformationForm'
 import FormSubmissionStatus from '../FormSubmissionStatus/FormSubmissionStatus'
 import ProgressBar from '../ProgressBar/ProgressBar'
+import AdditionalDetailsStep from '../AdditionalDetailsStep/AdditionalDetailsStep'
 
 const Services = () => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
-  const [step, setStep] = useState(1) // Paso inicial
+
+  // Estado para el paso actual, datos del formulario, estado de envío y detalles adicionales
+  const [step, setStep] = useState(1)
   const [formData, setFormData] = useState({
     date: '',
     category: { id: '', name: '' },
     brand: '',
     model: '',
-    faults: '',
-    userData: {
-      customerNumber: '',
-      serviceRequestNumber: '',
-      firstName: ''
-    }
+    faults: '', 
+    additionalDetails: {},
+    userData: { customerNumber: '', serviceRequestNumber: '', firstName: '' }
   })
-  const [submitStatus, setSubmitStatus] = useState('pending') // Estado del envío
-  const [responseData, setResponseData] = useState(null) // Almacena la respuesta del servidor
+  const [submitStatus, setSubmitStatus] = useState('pending')
+  const [showAdditionalDetails, setShowAdditionalDetails] = useState(false)
 
-  // Obtener parámetros de consulta
+  // Parámetros de búsqueda para categorías, marcas y modelos seleccionados
   const selectedCategory = queryParams.get('category') || null
   const selectedBrand = queryParams.get('brand') || null
   const selectedModel = queryParams.get('model') || null
 
-  // Verificar si la categoría seleccionada es válida
+  // Comprobar si la categoría seleccionada es válida
   const isValidCategory = products.some(product => product.name === selectedCategory)
   const validCategory = isValidCategory ? selectedCategory : null
-
-  // Buscar la categoría en el array de productos
   const selectedProduct = validCategory ? products.find(product => product.name === validCategory) : null
 
+  // Efecto para inicializar la categoría seleccionada
   useEffect(() => {
     if (selectedProduct) {
       setFormData(prevState => ({
         ...prevState,
-        category: {
-          id: selectedProduct.id,
-          name: selectedProduct.name
-        }
+        category: { id: selectedProduct.id, name: selectedProduct.name }
       }))
       setStep(2)
     }
   }, [selectedProduct])
 
+  // Efecto para actualizar la marca seleccionada
   useEffect(() => {
     if (selectedBrand) {
-      updateFormData('brand', selectedBrand) // Actualizar marca en formData
+      updateFormData('brand', selectedBrand)
     }
   }, [selectedBrand])
 
+  // Efecto para manejar el paso en función de las selecciones
   useEffect(() => {
-    // Navegación a través de pasos basada en los datos disponibles
     if (selectedBrand && selectedModel) {
       setStep(4)
     } else if (selectedBrand) {
@@ -73,6 +70,7 @@ const Services = () => {
     }
   }, [validCategory, selectedBrand, selectedModel])
 
+  // Función para actualizar datos del formulario
   const updateFormData = (key, value) => {
     setFormData(prevState => ({
       ...prevState,
@@ -80,6 +78,39 @@ const Services = () => {
     }))
   }
 
+  //LOGS
+  useEffect(() => {
+    console.log(formData)
+  }, [formData])
+
+  // Efecto para gestionar la visualización de detalles adicionales
+  useEffect(() => {
+    const requiresAdditionalDetails = additionalDetailsConfig.some(
+      detail => detail.categoryId === formData.category.id
+    )
+    setShowAdditionalDetails(requiresAdditionalDetails)
+  }, [formData.category])
+
+  // Manejar paso siguiente y paso anterior
+  const handleNextStep = () => {
+    setStep(prevStep => prevStep + 1)
+  }
+
+  const handlePrevStep = () => {
+    if(showAdditionalDetails) {
+      setStep(prevStep => prevStep - 1)
+      setShowAdditionalDetails(false)
+    } else {
+      setStep(prevStep => prevStep - 1)
+    }
+  }
+
+  // Confirmación de detalles adicionales
+  const handleAdditionalDetailsConfirm = () => {
+    setShowAdditionalDetails(false)
+  }  
+
+  // Envío del formulario
   const handleSubmit = async () => {
     const date = new Date(new Date().getTime() - (3 * 60 * 60 * 1000))
     const updatedFormData = { ...formData, date }
@@ -98,14 +129,13 @@ const Services = () => {
         return
       }
 
-      setResponseData(responseData) // Almacenar la respuesta del servidor
       setFormData(prevState => ({
         ...prevState,
         userData: {
           ...prevState.userData,
           customerNumber: responseData.customerNumber,
           serviceRequestNumber: responseData.serviceRequestNumber,
-          firstName: updatedFormData.userData.firstName // Asegúrate de que este dato esté presente
+          firstName: updatedFormData.userData.firstName
         }
       }))
       setSubmitStatus('success')
@@ -115,63 +145,26 @@ const Services = () => {
     }
   }
 
+  // Llamar al envío cuando el paso es 6
   useEffect(() => {
     if (step === 6) {
       handleSubmit()
     }
   }, [step])
 
-  const nextStep = () => setStep(prevStep => prevStep + 1)
-  const prevStep = () => setStep(prevStep => prevStep - 1)
-
   return (
     <div className="services">
-      <ProgressBar step={step} prevStep={prevStep} />
-
-      {step === 1 && <CategorySelection nextStep={nextStep} updateFormData={updateFormData} />}
-      {step === 2 && (
-        <BrandSelection
-          selectedCategory={formData.category}
-          nextStep={nextStep}
-          prevStep={prevStep}
-          updateFormData={updateFormData}
-        />
-      )}
-      {step === 3 && (
-        <ModelSelection
-          selectedCategory={formData.category}
-          brand={formData.brand}
-          nextStep={nextStep}
-          prevStep={prevStep}
-          updateFormData={updateFormData}
-        />
-      )}
-      {step === 4 && (
-        <FaultSelection
-          selectedCategory={formData.category}
-          formData={formData}
-          nextStep={nextStep}
-          prevStep={prevStep}
-          updateFormData={updateFormData}
-        />
-      )}
-      {step === 5 && (
-        <InformationForm 
-          nextStep={nextStep} 
-          prevStep={prevStep} 
-          updateFormData={updateFormData} 
-        />
-      )}
-      {step === 6 && (
-        <FormSubmissionStatus 
-          status={submitStatus} 
-          name={formData.userData.firstName} 
-          customerNumber={formData.userData.customerNumber} 
-          serviceRequestNumber={formData.userData.serviceRequestNumber} 
-        />
-      )}
+      <ProgressBar step={step} handlePrevStep={handlePrevStep} />
+      {step === 1 && !showAdditionalDetails && <CategorySelection nextStep={handleNextStep} updateFormData={updateFormData} />}
+      {step === 2 && !showAdditionalDetails && <BrandSelection selectedCategory={formData.category} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
+      {step === 3 && !showAdditionalDetails && <ModelSelection selectedCategory={formData.category} brand={formData.brand} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
+      {step === 4 && !showAdditionalDetails && <FaultSelection selectedCategory={formData.category} formData={formData} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
+      {step === 5 && !showAdditionalDetails && <InformationForm nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
+      {step === 6 && !showAdditionalDetails && <FormSubmissionStatus status={submitStatus} name={formData.userData.firstName} customerNumber={formData.userData.customerNumber} serviceRequestNumber={formData.userData.serviceRequestNumber} />}
+      {showAdditionalDetails && <AdditionalDetailsStep onConfirm={handleAdditionalDetailsConfirm} updateFormData={updateFormData} categoryId={formData.category.id} />}
     </div>
-  )
+  )  
+  
 }
 
 export default Services

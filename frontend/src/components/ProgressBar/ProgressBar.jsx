@@ -1,7 +1,7 @@
 import React from 'react'
 import './ProgressBar.css'
 
-const ProgressBar = ({ step, prevStep }) => {
+const ProgressBar = ({ step, handlePrevStep }) => {
   const createRipple = (event) => {
     const button = event.currentTarget
     const rect = button.getBoundingClientRect()
@@ -24,7 +24,7 @@ const ProgressBar = ({ step, prevStep }) => {
     if (step === 1) {
       window.history.back()
     } else {
-      prevStep()
+      handlePrevStep()
     }
   }
 

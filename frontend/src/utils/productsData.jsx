@@ -13,6 +13,40 @@ export const products = [
     { id: 17, name: 'Aspiradora' },
 ]
 
+export const additionalDetailsConfig = [
+    {
+        categoryId: 3,
+        categoryName: "Televisor",
+        label: "¿Su televisor es Smart TV?",
+        type: "select",
+        options: [
+            { value: "si", label: "Sí" },
+            { value: "no", label: "No" }
+        ]
+    },
+    {
+        categoryId: 7,
+        categoryName: "Horno Eléctrico",
+        label: "¿Su horno eléctrico es empotrable?",
+        type: "select",
+        options: [
+            { value: "si", label: "Sí" },
+            { value: "no", label: "No" }
+        ]
+    },
+    {
+        categoryId: 15,
+        categoryName: "Ventilador",
+        label: "¿Su ventilador es de ...?",
+        type: "select",
+        options: [
+            { value: "piso", label: "Piso" },
+            { value: "pared", label: "Pared" },
+            { value: "techo", label: "Techo" }
+        ]
+    }
+]
+
 export const detailedBrandsByCategory = {
     1: {
         name: 'Air Fryer',
@@ -214,7 +248,8 @@ export const detailedBrandsByCategory = {
         name: 'Ventilador',
         brands: {
             'Liliana': [],
-            'Electrolux': []
+            'Electrolux': [],
+            'Otros': []
         }
     },
     16: {
@@ -424,4 +459,4 @@ export const barriosCABA = [
     'Agronomía', 'Villa Ortúzar', 'Floresta', 'Parque Centenario',
     'Villa Crespo', 'Villa del Parque', 'Devoto', 'Monte Castro',
     'Cerro de la Gloria', 'San José'
-]   
+]
