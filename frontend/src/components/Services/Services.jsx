@@ -78,11 +78,6 @@ const Services = () => {
     }))
   }
 
-  //LOGS
-  useEffect(() => {
-    console.log(formData)
-  }, [formData])
-
   // Efecto para gestionar la visualización de detalles adicionales
   useEffect(() => {
     const requiresAdditionalDetails = additionalDetailsConfig.some(
