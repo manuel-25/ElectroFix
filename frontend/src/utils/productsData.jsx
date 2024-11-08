@@ -9,7 +9,7 @@ export const products = [
     { id: 8, name: 'Cafetera' },
     { id: 14, name: 'Cava de Vino' },
     { id: 15, name: 'Ventilador' },
-    { id: 16, name: 'Estufa' },
+    { id: 16, name: 'Estufa eléctrica' },
     { id: 17, name: 'Aspiradora' },
 ]
 
@@ -253,7 +253,7 @@ export const detailedBrandsByCategory = {
         }
     },
     16: {
-        name: 'Estufa',
+        name: 'Estufa eléctrica',
         brands: {
             'Dyson': ['AM09 Hot + Cool', 'AM09 Hot + Cool'],
             'DeLonghi': [],
@@ -291,13 +291,13 @@ export const detailedBrandsByCategory = {
 
 export const categories = [
     'Air Fryer', 'Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
-    'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa', 'Microondas', 'Aspiradora'
+    'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa eléctrica', 'Microondas', 'Aspiradora'
 ]
 
 export const faultsByCategory = {
     1: ['No enciende', 'No calienta', 'Cocción desigual', 'Ruidos extraños', 'Salen chispas', 'Humo', 'Olor a quemado', 'La pantalla no funciona', 'El temporizador no funciona', 'Se apaga sola', 'Fugas de aceite', 'Mantenimiento / Limpieza', 'Otra'],
     2: ['No enciende', 'No inicia sistema', 'Pantalla rota / dañada', 'Falla pantalla táctil', 'Pantalla en negro / con líneas', 'No carga', 'Falla el audio', 'Problemas de batería', 'Problemas de software', 'Tapa trasera dañada', 'Otra'],
-    3: ['No enciende', 'No hay imagen', 'Sin sonido', 'Imagen distorsionada', 'Problemas con el control remoto', 'Problemas con las conexiones HDMI/AV', 'Otra'],
+    3: ['No enciende', 'No hay imagen', 'Sin sonido', 'Imagen distorsionada', 'Pantalla rota / golpeada', 'Problemas con el control remoto', 'Problemas con las conexiones HDMI/AV', 'Otra'],
     4: ['No enciende', 'Errores de sistema', 'No lee discos', 'Problemas con los joystick', 'Pantalla en negro', 'Sobrecalentamiento', 'Se congela', 'Falla de almacenamiento', 'Mantenimiento / Limpieza', 'Otra'],
     5: ['No enciende', 'No inicia sistema operativo', 'Pantalla rota', 'Pantalla Azul', 'No carga / problema con el cargador', 'Falla del teclado', 'Bisagras dañadas / rotas', 'No hay imagen', 'Se sobrecalienta', 'Se apaga', 'Mantenimiento / limpieza', 'Virus', 'Olvidé la contraseña', 'Ingreso líquido / se mojó', 'Batería dura poco / no anda', 'Problemas de teclado', 'Otra'],
     6: ['No enciende', 'Enciende no calienta', 'Ruidos fuertes', 'Salen chispas', 'Problemas con el temporizador', 'Se apaga solo', 'Al inicio ruido fuerte','No gira el plato', 'Falla el teclado','Otra'],
