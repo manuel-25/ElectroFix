@@ -1,4 +1,11 @@
 /* Contenedor principal de la barra de progreso */
+.back-container.hide {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+}
+
 .progress-container {
   display: flex;
   flex-direction: column;
@@ -14,8 +21,7 @@
   width: 100%;
   margin-bottom: 20px;
   position: relative;
-  flex-wrap: nowrap; /* Asegura que la barra se mantenga en una línea */
-  overflow-x: auto; /* Añadido para permitir desplazamiento horizontal si es necesario */
+  flex-wrap: nowrap;
 }
 
 /* Paso individual de la barra de progreso */
@@ -203,6 +209,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
   min-width: 65px;
   height: 40px;
@@ -243,8 +250,6 @@
   }
 }
 
-/* Estilos responsivos */
-
 /* Pantallas medianas (650px a 900px) */
 @media screen and (max-width: 900px) {
   .next-button {
@@ -279,13 +284,13 @@
 @media screen and (max-width: 650px) {
   /* Ajustes para pantallas pequeñas */
   .progress-bar {
-    flex-wrap: nowrap; /* Asegura que la barra se mantenga en una sola línea */
+    flex-wrap: nowrap;
   }
 
   .progress-step {
-    font-size: 12px; /* Reducción del tamaño de la fuente */
-    padding: 5px; /* Ajuste de los márgenes */
-    margin-top: 10px; /* Menor espacio superior */
+    font-size: 12px;
+    padding: 5px;
+    margin-top: 10px
   }
 
   .step-container {
@@ -299,7 +304,6 @@
     font-size: 10px;
   }
 
-  /* Ajuste de la barra de progreso */
   .progress-container {
     margin: 10px;
   }
@@ -319,5 +323,9 @@
 
   .back-container {
     margin: 10px;
+  }
+
+  .selection-container h3 {
+    font-size: 22px;
   }
 }

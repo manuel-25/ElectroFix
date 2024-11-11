@@ -17,8 +17,12 @@ const AdditionalDetailsStep = ({ onConfirm, categoryId, updateFormData }) => {
   }
 
   const handleConfirm = () => {
-    updateFormData('additionalDetails', details)
-    onConfirm(details)
+    const detailsString = Object.entries(details)
+      .map(([question, answer]) => `${question} ${answer}`)
+      .join(', ')
+    
+    updateFormData('details', detailsString)
+    onConfirm(detailsString)
   }
 
   return (

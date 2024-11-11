@@ -17,7 +17,7 @@ const quoteSchema = new Schema({
     brand: { type: String, required: true },
     model: { type: String },
     faults: { type: [String] },
-    details: { type: String} ,
+    details: { type: String, default: "N/A"} ,
     userData: {
         additionalDetails: String,
         discountCode: String,

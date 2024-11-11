@@ -1,85 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import './InformationForm.css';
-import { barriosCABA } from '../../utils/productsData.jsx';
-import Loading from '../Loading/Loading.jsx';
+import React, { useState, useEffect } from 'react'
+import './InformationForm.css'
+import { barriosCABA } from '../../utils/productsData.jsx'
+import Loading from '../Loading/Loading.jsx'
 
 const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [province, setProvince] = useState('');
-  const [municipio, setMunicipio] = useState('');
-  const [provinces, setProvinces] = useState([]);
-  const [municipios, setMunicipios] = useState([]);
-  const [discountCode, setDiscountCode] = useState('');
-  const [additionalDetails, setAdditionalDetails] = useState('');
-  const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [loadingMunicipios, setLoadingMunicipios] = useState(false);
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [province, setProvince] = useState('')
+  const [municipio, setMunicipio] = useState('')
+  const [provinces, setProvinces] = useState([])
+  const [municipios, setMunicipios] = useState([])
+  const [discountCode, setDiscountCode] = useState('')
+  const [additionalDetails, setAdditionalDetails] = useState('')
+  const [errors, setErrors] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [loadingMunicipios, setLoadingMunicipios] = useState(false)
 
   useEffect(() => {
-    fetchProvincias();
-  }, []);
+    fetchProvincias()
+  }, [])
 
   const fetchProvincias = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const response = await fetch('https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre');
-      const data = await response.json();
-      console.timeEnd("Fetch provincias");
-      const provincias = data.provincias.map(provincia => provincia.nombre);
-      const sortedProvincias = provincias.sort((a, b) => a.localeCompare(b));
-      setProvinces(sortedProvincias);
+      const response = await fetch('https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre')
+      const data = await response.json()
+      console.timeEnd("Fetch provincias")
+      const provincias = data.provincias.map(provincia => provincia.nombre)
+      const sortedProvincias = provincias.sort((a, b) => a.localeCompare(b))
+      setProvinces(sortedProvincias)
     } catch (error) {
-      console.error('Error al obtener las provincias:', error);
+      console.error('Error al obtener las provincias:', error)
     }
-    setLoading(false);
-  };
+    setLoading(false)
+  }
 
   const fetchMunicipios = async (provinciaNombre) => {
-    setLoadingMunicipios(true);
+    setLoadingMunicipios(true)
     if (provinciaNombre === "Ciudad Autónoma de Buenos Aires") {
-      const sortedBarrios = barriosCABA.sort((a, b) => a.localeCompare(b));
-      setMunicipios(sortedBarrios);
+      const sortedBarrios = barriosCABA.sort((a, b) => a.localeCompare(b))
+      setMunicipios(sortedBarrios)
     } else {
       try {
-        const response = await fetch(`https://apis.datos.gob.ar/georef/api/municipios?provincia=${provinciaNombre}&campos=id,nombre&max=100`);
-        const data = await response.json();
-        const municipios = data.municipios.map(municipio => municipio.nombre);
-        const sortedMunicipios = municipios.sort((a, b) => a.localeCompare(b));
-        setMunicipios(sortedMunicipios);
+        const response = await fetch(`https://apis.datos.gob.ar/georef/api/municipios?provincia=${provinciaNombre}&campos=id,nombre&max=100`)
+        const data = await response.json()
+        const municipios = data.municipios.map(municipio => municipio.nombre)
+        const sortedMunicipios = municipios.sort((a, b) => a.localeCompare(b))
+        setMunicipios(sortedMunicipios)
       } catch (error) {
-        console.error('Error al obtener los municipios:', error);
+        console.error('Error al obtener los municipios:', error)
       }
     }
-    setLoadingMunicipios(false);
-  };
+    setLoadingMunicipios(false)
+  }
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors = {}
 
-    if (!firstName.trim()) newErrors.firstName = '*El nombre es requerido';
-    if (!lastName.trim()) newErrors.lastName = '*El apellido es requerido';
+    if (!firstName.trim()) newErrors.firstName = '*El nombre es requerido'
+    if (!lastName.trim()) newErrors.lastName = '*El apellido es requerido'
 
     if (!email.trim()) {
-      newErrors.email = '*El correo electrónico es requerido';
+      newErrors.email = '*El correo electrónico es requerido'
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = '*El correo electrónico es inválido';
+      newErrors.email = '*El correo electrónico es inválido'
     }
 
     if (!phone.trim()) {
-      newErrors.phone = '*El teléfono es requerido';
+      newErrors.phone = '*El teléfono es requerido'
     } else if (!/^\d{10}$/.test(phone)) {
-      newErrors.phone = '*El teléfono debe tener exactamente 10 dígitos numéricos';
+      newErrors.phone = '*El teléfono debe tener exactamente 10 dígitos numéricos'
     }
 
-    if (!province) newErrors.province = '*La provincia es requerida';
-    if (!municipio) newErrors.municipio = '*El municipio es requerido';
+    if (!province) newErrors.province = '*La provincia es requerida'
+    if (!municipio) newErrors.municipio = '*El municipio es requerido'
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleSubmit = () => {
     if (validateForm()) {
@@ -92,11 +92,11 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
         municipio,
         discountCode,
         additionalDetails,
-      };
-      updateFormData('userData', userData);
-      nextStep();
+      }
+      updateFormData('userData', userData)
+      nextStep()
     }
-  };
+  }
 
   return (
     <div className="selection-container">
@@ -172,9 +172,9 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
               id="select-provincia"
               value={province}
               onChange={(e) => {
-                const selectedProvince = e.target.value;
-                setProvince(selectedProvince);
-                fetchMunicipios(selectedProvince);
+                const selectedProvince = e.target.value
+                setProvince(selectedProvince)
+                fetchMunicipios(selectedProvince)
               }}
               required
             >
@@ -249,7 +249,7 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
         <button onClick={handleSubmit}>Finalizar</button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default InformationForm;
+export default InformationForm

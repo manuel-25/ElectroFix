@@ -1,35 +1,35 @@
-import React from 'react';
-import './ProgressBar.css';
-import { TiTick } from 'react-icons/ti';
+import React from 'react'
+import './ProgressBar.css'
+import { TiTick } from 'react-icons/ti'
 
 const ProgressBar = ({ step, handlePrevStep }) => {
-  const steps = ["Categoría", "Marca", "Modelo", "Falla", "Información"];
+  const steps = ["Categoría", "Marca", "Modelo", "Falla", "Datos"]
 
   const createRipple = (event) => {
-    const button = event.currentTarget;
-    const rect = button.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const button = event.currentTarget
+    const rect = button.getBoundingClientRect()
+    const x = event.clientX - rect.left
+    const y = event.clientY - rect.top
 
-    const ripple = document.createElement("span");
-    ripple.style.left = `${x}px`;
-    ripple.style.top = `${y}px`;
+    const ripple = document.createElement("span")
+    ripple.style.left = `${x}px`
+    ripple.style.top = `${y}px`
 
-    button.appendChild(ripple);
+    button.appendChild(ripple)
 
     setTimeout(() => {
-      ripple.remove();
-    }, 600);
-  };
+      ripple.remove()
+    }, 600)
+  }
 
   const handleBackClick = (e) => {
-    createRipple(e);
+    createRipple(e)
     if (step === 1) {
-      window.history.back();
+      window.history.back()
     } else {
-      handlePrevStep();
+      handlePrevStep()
     }
-  };
+  }
 
   return (
     <div className={`progress-container ${step >= 6 ? 'none' : ''}`}>
@@ -46,11 +46,11 @@ const ProgressBar = ({ step, handlePrevStep }) => {
           </div>
         ))}
       </div>
-      <div className={`back-container ${step >= 6 ? 'hide' : ''}`}>
+      <div className={`back-container ${(step === 1 || step >= 6) ? 'hide' : ''}`}>
         <button className="back-button" onClick={handleBackClick}>Volver</button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProgressBar;
+export default ProgressBar

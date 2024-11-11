@@ -42,7 +42,6 @@ export const additionalDetailsConfig = [
         options: [
             { value: "piso", label: "Piso" },
             { value: "pared", label: "Pared" },
-            { value: "techo", label: "Techo" }
         ]
     }
 ]
