@@ -66,6 +66,11 @@ class ServiceRequestController {
             req.body.customerNumber = customerNumber
             req.body.serviceRequestNumber = serviceRequestNumber
 
+            // Convertir `details` en una cadena JSON antes de almacenar
+            if (typeof details === 'object') {
+                req.body.details = JSON.stringify(details)
+            }
+
             // Crear la solicitud en la base de datos
             const serviceRequest = await QuoteManager.create(req.body)
 
