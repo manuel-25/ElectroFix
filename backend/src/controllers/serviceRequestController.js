@@ -20,7 +20,7 @@ class ServiceRequestController {
     static async createServiceRequest(req, res, next) {
         try {
             // Normalizar los datos del cliente antes de guardarlos
-            let { userData, category, brand, model, faults } = req.body
+            let { userData, category, brand, model, faults, details } = req.body
 
             // Normalizar el nombre y el apellido
             userData.firstName = normalizeName(userData.firstName)
@@ -77,6 +77,7 @@ class ServiceRequestController {
                         <p><strong>Número de Cliente:</strong> ${customerNumber}</p>
                         <p><strong>Número de Solicitud:</strong> ${serviceRequestNumber}</p>
                         <p><strong>Equipo:</strong> ${category.name}</p>
+                        <p><strong>Detalles:</strong> ${details}</p>
                         <p><strong>Marca:</strong> ${brand}</p>
                         <p><strong>Modelo:</strong> ${model}</p>
                         <p><strong>Fallas reportadas:</strong></p>
