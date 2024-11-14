@@ -247,10 +247,10 @@ function MainContent() {
                 <p className='attribution'><span className='powered-by-google' title="Powered by Google"></span></p>
             </section>
             <div className='whatsapp-float'>
-                <a href="https://wa.me/5491139148766" target="_blank" rel="noopener noreferrer">
-                    <img src='/images/whatsappLogo.svg' alt='WhatsApp' />
-                </a>
-            </div>
+              <a href="https://wa.me/5491139148766?text=Hola,%20me%20comunico%20desde%20la%20web%20de%20Electrosafe." target="_blank" rel="noopener noreferrer">
+                  <img src='/images/whatsappLogo.svg' alt='WhatsApp' />
+              </a>
+          </div>
     </div>
   )
 }
