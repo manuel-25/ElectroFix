@@ -26,6 +26,7 @@ const Services = () => {
     model: '',
     faults: '', 
     additionalDetails: {},
+    details: 'N/A',
     userData: { customerNumber: '', serviceRequestNumber: '', firstName: '' }
   })
   const [submitStatus, setSubmitStatus] = useState('pending')
