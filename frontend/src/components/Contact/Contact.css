@@ -128,7 +128,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
     width: 100%;
 }
@@ -147,11 +147,33 @@
     margin: 10px 0;
     padding: 10px;
     border-radius: 8px;
+    min-height: 100%;
+}
+
+.phone-numbers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+}
+
+.phone-numbers a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#social-email {
+    margin-top: 0px;
 }
 
 .social-logos {
     display: flex;
     gap: 10px;
+}
+
+#contact-whatsapp {
+    font-size: 30px;
 }
 
 .social-item p {
@@ -161,11 +183,10 @@
 }
 
 .social-item a {
-    margin-top: 10px;
-    font-size: 18px;
-    color: var(--black-color);
-    text-decoration: none;
+    font-weight: bold;
+    color: var(--secondary-color);
 }
+
 
 .social-item img {
     margin-right: 10px;
@@ -173,6 +194,48 @@
     max-width: 30px;
     max-height: 30px;
 }
+
+.branch-locations {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: var(--text-color);
+    padding: 20px;
+}
+
+.branch-locations h4 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+.branch-items-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+}
+
+.branch-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px;
+}
+
+.branch-item p {
+    font-weight: bold;
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+.branch-item span {
+    font-size: 14px;
+    color: var(--text-color);
+}
+
 
 /* Google Maps */
 .map-container {

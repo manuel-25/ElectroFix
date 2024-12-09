@@ -7,16 +7,43 @@ export const products = [
     { id: 6, name: 'Microondas' },
     { id: 7, name: 'Horno Eléctrico' },
     { id: 8, name: 'Cafetera' },
-    { id: 9, name: 'Pava Eléctrica' },
-    { id: 10, name: 'Tostadora' },
-    { id: 11, name: 'Plancha' },
-    { id: 12, name: 'Secadora de Pelo' },
-    { id: 13, name: 'Planchita de Pelo' },
     { id: 14, name: 'Cava de Vino' },
     { id: 15, name: 'Ventilador' },
-    { id: 16, name: 'Estufa' },
+    { id: 16, name: 'Estufa eléctrica' },
     { id: 17, name: 'Aspiradora' },
-    { id: 18, name: 'Minipimer' },
+]
+
+export const additionalDetailsConfig = [
+    {
+        categoryId: 3,
+        categoryName: "Televisor",
+        label: "¿Su televisor es Smart TV?",
+        type: "select",
+        options: [
+            { value: "si", label: "Sí" },
+            { value: "no", label: "No" }
+        ]
+    },
+    {
+        categoryId: 7,
+        categoryName: "Horno Eléctrico",
+        label: "¿Su horno eléctrico es empotrable?",
+        type: "select",
+        options: [
+            { value: "si", label: "Sí" },
+            { value: "no", label: "No" }
+        ]
+    },
+    {
+        categoryId: 15,
+        categoryName: "Ventilador",
+        label: "¿Su ventilador es de ...?",
+        type: "select",
+        options: [
+            { value: "piso", label: "Piso" },
+            { value: "pared", label: "Pared" },
+        ]
+    }
 ]
 
 export const detailedBrandsByCategory = {
@@ -101,7 +128,7 @@ export const detailedBrandsByCategory = {
     4: {
         name: 'Consola',
         brands: {
-            'Sony': ['PlayStation 5', 'PlayStation 4 Pro', 'PlayStation 4 Slim', 'PlayStation 3', 'PlayStation 2', 'PS Vita'],
+            'Sony': ['PlayStation 5','PlayStation 5 Pro' ,'PlayStation 4 Pro', 'PlayStation 4 Slim', 'PlayStation 4', 'PlayStation 3'],
             'Microsoft': ['Xbox Series X', 'Xbox Series S', 'Xbox One X', 'Xbox One S', 'Xbox 360', 'Original Xbox'],
             'Nintendo': ['Switch', 'Switch Lite', 'Switch OLED', '3DS XL', '2DS', 'Wii U'],
             'Otros': []
@@ -185,18 +212,6 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }    
     },
-    9: {
-        name: 'Pava Eléctrica',
-        brands: {
-            'Breville': [],
-            'Cuisinart': [],
-            'Hamilton Beach': [],
-            'KitchenAid': [],
-            'Mueller': [],
-            'Ovente': [],
-            'Otros': []
-        }
-    },
     10: {
         name: 'Tostadora',
         brands: {
@@ -207,57 +222,6 @@ export const detailedBrandsByCategory = {
             'Oster': [],
             'Philips': [],
             'Smart Life': [],
-            'Otros': []
-        }
-    },
-    11:{
-        name: 'Plancha',
-        brands: {
-            'Philips': [],
-            'Rowenta': [],
-            'Panasonic': [],
-            'Sunbeam': [],
-            'Black & Decker': [],
-            'Hamilton Beach': [],
-            'Winco': [],
-            'GA.MA': [],
-            'Ultracomb': [],
-            'Philco': [],
-            'Gadnic': [],
-            'Liliana': [],
-            'Otros': []
-        }
-    },    
-    12: {
-        name: 'Secadora de Pelo',
-        brands: {
-            'Rowenta': ['Infini Pro Elite'],
-            'Dyson': ['Supersonic'],
-            'BaBylissPRO': ['Nano Titanium', 'Ceramix Xtreme', 'Rapido'],
-            'T3': ['Cura', 'Featherweight 2', 'Fit'],
-            'Conair': ['InfinitiPro', '1875W Ionic Ceramic', '1875 Watt Turbo'],
-            'Revlon': ['1875W Infrared', 'One-Step Volumizer', '1875W Volume Booster'],
-            'Remington': ['D3190 Damage Protection', 'AC2015', 'Pro Hair Dryer with Pearl Ceramic'],
-            'GA.MA': [],
-            'Fidelite': [],
-            'Winco': [],
-            'Atma': [],
-            'Braun': [],
-            'Otros': []
-        }
-    },
-    13: {
-        name: 'Planchita de Pelo',
-        brands: {
-            'GHD': [],
-            'BaBylissPRO': [],
-            'Chi': [],
-            'Dyson': [],
-            'Remington': [],
-            'T3': [],
-            'GA.MA': [],
-            'BaByliss PRO': [],
-            'Philips': [],
             'Otros': []
         }
     },
@@ -282,18 +246,13 @@ export const detailedBrandsByCategory = {
     15: {
         name: 'Ventilador',
         brands: {
-            'Dyson': ['Cool AM07', 'Pure Hot + Cool', 'AM09 Hot + Cool'],
-            'Honeywell': ['HT-900', 'TurboForce'],
-            'Lasko': ['2551 Wind Curve'],
-            'Vornado': ['VH10'],
-            'Rowenta': [],
-            'Holmes': ['HAPF623R', 'Blizzard'],
-            'Sunbeam': ['SteamMaster'],
+            'Liliana': [],
+            'Electrolux': [],
             'Otros': []
         }
     },
     16: {
-        name: 'Estufa',
+        name: 'Estufa eléctrica',
         brands: {
             'Dyson': ['AM09 Hot + Cool', 'AM09 Hot + Cool'],
             'DeLonghi': [],
@@ -326,36 +285,18 @@ export const detailedBrandsByCategory = {
             'Suono': [],
             'Otros': []
         }
-    },
-    18: {
-        name: 'Minipimer',
-        brands: {
-            'Atma': [],
-            'UltraComb': [],
-            'Spica': [],
-            'Yelmo': [],
-            'Winco': [],
-            'Oster': [],
-            'Philips': [],
-            'Kanji': [],
-            'Liliana': [],
-            'Turbomix': [],
-            'Daewoo': [],
-            'Otros': []
-        }
-    }    
+    }  
 }
 
 export const categories = [
     'Air Fryer', 'Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
-    'Pava Eléctrica', 'Tostadora', 'Plancha', 'Secadora de Pelo', 'Planchita de Pelo',
-    'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa', 'Microondas', 'Aspiradora', 'Minipimer'
+    'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa eléctrica', 'Microondas', 'Aspiradora'
 ]
 
 export const faultsByCategory = {
     1: ['No enciende', 'No calienta', 'Cocción desigual', 'Ruidos extraños', 'Salen chispas', 'Humo', 'Olor a quemado', 'La pantalla no funciona', 'El temporizador no funciona', 'Se apaga sola', 'Fugas de aceite', 'Mantenimiento / Limpieza', 'Otra'],
     2: ['No enciende', 'No inicia sistema', 'Pantalla rota / dañada', 'Falla pantalla táctil', 'Pantalla en negro / con líneas', 'No carga', 'Falla el audio', 'Problemas de batería', 'Problemas de software', 'Tapa trasera dañada', 'Otra'],
-    3: ['No enciende', 'No hay imagen', 'Sin sonido', 'Imagen distorsionada', 'Problemas con el control remoto', 'Problemas con las conexiones HDMI/AV', 'Otra'],
+    3: ['No enciende', 'No hay imagen', 'Sin sonido', 'Imagen distorsionada', 'Pantalla rota / golpeada', 'Problemas con el control remoto', 'Problemas con las conexiones HDMI/AV', 'Otra'],
     4: ['No enciende', 'Errores de sistema', 'No lee discos', 'Problemas con los joystick', 'Pantalla en negro', 'Sobrecalentamiento', 'Se congela', 'Falla de almacenamiento', 'Mantenimiento / Limpieza', 'Otra'],
     5: ['No enciende', 'No inicia sistema operativo', 'Pantalla rota', 'Pantalla Azul', 'No carga / problema con el cargador', 'Falla del teclado', 'Bisagras dañadas / rotas', 'No hay imagen', 'Se sobrecalienta', 'Se apaga', 'Mantenimiento / limpieza', 'Virus', 'Olvidé la contraseña', 'Ingreso líquido / se mojó', 'Batería dura poco / no anda', 'Problemas de teclado', 'Otra'],
     6: ['No enciende', 'Enciende no calienta', 'Ruidos fuertes', 'Salen chispas', 'Problemas con el temporizador', 'Se apaga solo', 'Al inicio ruido fuerte','No gira el plato', 'Falla el teclado','Otra'],
@@ -509,4 +450,19 @@ export const bannerTexts = [
     "¡Aprendé a reparar electrodomésticos! Curso presencial en Barracas, CABA.",
     "Inscripciones abiertas, cupos limitados.",
     "No te pierdas esta oportunidad de capacitarte con los mejores."
+]
+
+export const barriosCABA = [
+    'Palermo', 'San Telmo', 'Puerto Madero', 'Recoleta', 'Belgrano',
+    'Caballito', 'La Boca', 'Flores', 'Barracas', 'Almagro', 
+    'Villa Devoto', 'Villa Urquiza', 'Saavedra', 'Villa Luro', 
+    'Villa del Parque', 'Colegiales', 'Avellaneda', 'Mataderos', 
+    'Liniers', 'Vélez Sarsfield', 'Nueva Pompeya', 'San Cristóbal', 
+    'San Nicolás', 'Retiro', 'Monserrat', 'San Fernando', 
+    'Balvanera', 'Villa Riachuelo', 'Constitución', 'San Carlos', 
+    'Parque Chacabuco', 'Parque Patricios', 'Boedo', 'Paternal', 
+    'Chacarita', 'Nuñez', 'Boca', 'La Paternal', 
+    'Agronomía', 'Villa Ortúzar', 'Floresta', 'Parque Centenario',
+    'Villa Crespo', 'Villa del Parque', 'Devoto', 'Monte Castro',
+    'Cerro de la Gloria', 'San José'
 ]

@@ -1,7 +1,10 @@
 import React from 'react'
 import './ProgressBar.css'
+import { TiTick } from 'react-icons/ti'
 
-const ProgressBar = ({ step, prevStep }) => {
+const ProgressBar = ({ step, handlePrevStep }) => {
+  const steps = ["Categoría", "Marca", "Modelo", "Falla", "Datos"]
+
   const createRipple = (event) => {
     const button = event.currentTarget
     const rect = button.getBoundingClientRect()
@@ -16,7 +19,7 @@ const ProgressBar = ({ step, prevStep }) => {
 
     setTimeout(() => {
       ripple.remove()
-    }, 600) // Duración de la animación en ms (debe coincidir con la duración en CSS)
+    }, 600)
   }
 
   const handleBackClick = (e) => {
@@ -24,20 +27,26 @@ const ProgressBar = ({ step, prevStep }) => {
     if (step === 1) {
       window.history.back()
     } else {
-      prevStep()
+      handlePrevStep()
     }
   }
 
   return (
     <div className={`progress-container ${step >= 6 ? 'none' : ''}`}>
       <div className="progress-bar">
-        <div className={`progress-step ${step >= 1 ? 'completed' : ''}`}>Categoría</div>
-        <div className={`progress-step ${step >= 2 ? 'completed' : ''}`}>Marca</div>
-        <div className={`progress-step ${step >= 3 ? 'completed' : ''}`}>Modelo</div>
-        <div className={`progress-step ${step >= 4 ? 'completed' : ''}`}>Falla</div>
-        <div className={`progress-step ${step >= 5 ? 'completed' : ''}`}>Información</div>
+        {steps.map((stepName, index) => (
+          <div key={index} className={`progress-step ${step > index ? 'completed' : ''} ${step === index + 1 ? 'current' : ''}`}>
+            <div className="step-container">
+              <div className="step-icon">
+                {step > index ? <TiTick size={24} /> : index + 1}
+              </div>
+            </div>
+            <div className={`connector-line ${step > index ? 'completed' : ''}`} />
+            <p>{stepName}</p>
+          </div>
+        ))}
       </div>
-      <div className={`back-container ${step >= 6 ? 'hide' : ''}`}>
+      <div className={`back-container ${(step === 1 || step >= 6) ? 'hide' : ''}`}>
         <button className="back-button" onClick={handleBackClick}>Volver</button>
       </div>
     </div>

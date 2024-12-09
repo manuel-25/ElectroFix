@@ -81,18 +81,38 @@ const Contact = () => {
                 <span>¿Seguís con dudas? ¡Comunicate!</span>
                 <div className="socials-container">
                     <div className="social-item">
-                        <p>Llámanos al</p>
-                        <a href="tel:5491139148766"><FontAwesomeIcon icon={faPhone} className="social-icon" /> +54 911 3914-8766</a>
+                        <p><FontAwesomeIcon icon={faPhone} className="social-icon" /> Llámanos a</p>
+                        <div class="phone-numbers">
+                            <p><strong>Barracas:</strong> <a href="tel:5491139148766">+54 911 3914-8766</a></p>
+                            <p><strong>Quilmes:</strong> <a href="tel:5491178967720">+54 911 7896-7720</a></p>
+                        </div>
                     </div>
                     <div className="social-item">
-                        <p>Envíanos un mail</p>
-                        <a href="mailto:electrosafeservice@gmail.com"><FontAwesomeIcon icon={faEnvelope} className="social-icon" /> electrosafeservice@gmail.com</a>
+                        <p><FontAwesomeIcon icon={faEnvelope} className="social-icon" /> Envíanos un mail</p>
+                        <a href="mailto:electrosafeservice@gmail.com" id='social-email'>electrosafeservice@gmail.com</a>
                     </div>
                     <div className="social-item">
-                        <p>Contactanos por</p>
+                        <p>Nuestras redes sociales</p>
                         <div className='social-logos'>
-                            <a href="https://wa.me/5491139148766" target="_blank" rel="noopener noreferrer"><img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" /></a>
-                            <a href="https://www.instagram.com/electrosafeok/" target="_blank" rel="noopener noreferrer"><img src="/images/Instagram.webp" alt="Logotipo de Instagram" /></a>
+                            <a href="https://wa.me/5491139148766" target="_blank" rel="noopener noreferrer">
+                                <img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" id='contact-whatsapp'/>
+                            </a>
+                            <a href="https://www.instagram.com/electrosafeok/" target="_blank" rel="noopener noreferrer">
+                                <img src="/images/Instagram.webp" alt="Logotipo de Instagram" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div className="branch-locations">
+                    <h4>Nuestras sucursales</h4>
+                    <div className="branch-items-container">
+                        <div className="branch-item">
+                            <p>Barracas:</p>
+                            <span>Rocha 1752</span>
+                        </div>
+                        <div className="branch-item">
+                            <p>Quilmes:</p>
+                            <span>Av. Vicente López 770</span>
                         </div>
                     </div>
                 </div>

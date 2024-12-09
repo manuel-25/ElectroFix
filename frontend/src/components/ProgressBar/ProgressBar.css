@@ -1,56 +1,169 @@
-.hide {
-  visibility: hidden;
+/* Contenedor principal de la barra de progreso */
+.back-container.hide {
+  display: none;
   opacity: 0;
-}
-
-.none {
-  display: none !important;
+  visibility: hidden;
+  position: absolute;
 }
 
 .progress-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  margin: 20px;
 }
 
+/* Barra de progreso */
 .progress-bar {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 5px;
-}
-
-.progress-step {
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
   position: relative;
-  padding: 10px;
+  flex-wrap: nowrap;
+}
+
+/* Paso individual de la barra de progreso */
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  color: var(--gray-color);
+  font-weight: 500;
+  font-size: 14px;
   flex-grow: 1;
-  text-align: center;
+  margin-top: 15px;
+  padding-bottom: 15px;
 }
 
-.progress-step::before {
-  content: '';
+/* Línea de conexión entre los pasos */
+.progress-step .connector-line {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--intermediate-grey-color);
   position: absolute;
-  top: 0;
+  top: 24%;
   left: 0;
-  width: 0;
-  height: 100%;
-  border-bottom: 2px solid var(--green-color);
-  transition: width 0.5s ease-in-out;
+  z-index: 1;
 }
 
+/* Estilo para la primera línea de conexión (paso inicial) */
+.progress-step:first-child .connector-line {
+  width: 50%;
+  left: 50%;
+}
+
+/* Modificación del color de la línea de conexión del primer paso cuando está "current" */
+.progress-bar .progress-step:first-child.current .connector-line {
+  background-color: var(--intermediate-grey-color);
+}
+
+/* Línea de conexión del último paso */
+.progress-step:last-child .connector-line {
+  width: 50%;
+  left: 0;
+}
+
+/* Estilo de los pasos completados */
 .progress-step.completed {
   color: var(--green-color);
 }
 
-.progress-step.completed::before {
-  width: 100%;
+/* Línea de conexión de los pasos completados */
+.progress-step.completed .connector-line {
+  background-color: var(--green-color);
 }
 
-/* Buttons */
+/* Estilo de la línea de conexión del paso "current" */
+.progress-step.current .connector-line {
+  background-color: var(--green-color);
+  height: 2px;
+  transition: background-color 0.3s, height 0.3s;
+}
+
+/* Ajuste de la línea de conexión para el primer paso cuando está "current" */
+.progress-step:first-child.current .connector-line {
+  left: 50%;
+  width: 50%;
+}
+
+/* Ajuste de la línea de conexión del paso "current" */
+.progress-step.current .connector-line {
+  width: 50%;
+  left: 0;
+}
+
+/* Línea adicional que aparece sobre la línea de conexión en el paso "current" */
+.progress-step.current .connector-line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 80%;
+  width: 200%;
+  height: 2px;
+  background-color: var(--intermediate-grey-color);
+}
+
+/* Eliminación de la línea adicional en el último paso */
+.progress-step:last-child .connector-line::after {
+  width: 0;
+}
+
+/* Estilo del icono del paso "current" */
+.progress-step.current .step-icon {
+  background-color: transparent;
+  border: 2px solid var(--green-color);
+  color: var(--green-color);
+}
+
+/* Contenedor del icono del paso */
+.step-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  background-color: var(--background-color);
+  border-radius: 50%;
+  color: var(--white-color);
+  position: relative;
+  z-index: 2;
+}
+
+/* Estilo inicial del icono del paso */
+.step-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: var(--intermediate-grey-color);
+  color: var(--white-color);
+  border-radius: 50%;
+  position: relative;
+  z-index: 49;
+  margin-bottom: 5px;
+  border: 2px solid var(--intermediate-grey-color);
+}
+
+/* Estilo del icono cuando el paso está completado */
+.completed .step-icon {
+  background-color: var(--green-color);
+  border: 2px solid var(--green-color);
+  color: var(--white-color);
+}
+
+/* Contenedor del botón de retroceso */
 .back-container {
   width: 100%;
   display: flex;
   margin: 30px 10px 10px;
 }
 
+/* Estilo del botón de retroceso */
 .back-container button {
   position: relative;
   overflow: hidden;
@@ -71,10 +184,12 @@
   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
 }
 
+/* Estilo del botón de retroceso al pasar el cursor */
 .back-container button:hover {
   box-shadow: rgba(0, 0, 0, 0.3) 0px 6px 8px -5px, rgba(0, 0, 0, 0.22) 0px 8px 12px 2px;
 }
 
+/* Estilo de la animación "ripple" para el botón de retroceso */
 .back-container button span {
   position: absolute;
   border-radius: 50%;
@@ -83,41 +198,18 @@
   animation: ripple 0.6s linear;
 }
 
+/* Estilo del botón de retroceso en el estado por defecto */
 .back-button {
   background-color: var(--white-color);
   border-radius: 30px;
 }
 
-@keyframes ripple {
-  from {
-    width: 0;
-    height: 0;
-    opacity: 1;
-  }
-  to {
-    width: 300%;
-    height: 300%;
-    opacity: 0;
-  }
-}
-
-@media screen and (max-width: 650px) {
-  .progress-bar {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .progress-step {
-    font-size: 14px;
-    padding: 5px;
-  }
-}
-
-
+/* Estilo del botón siguiente */
 .next-button button {
   overflow: hidden;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
   min-width: 65px;
   height: 40px;
@@ -143,6 +235,22 @@
   background-color: grey;
 }
 
+
+/* Animación "ripple" para el botón siguiente */
+@keyframes ripple {
+  from {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  to {
+    width: 300%;
+    height: 300%;
+    opacity: 0;
+  }
+}
+
+/* Pantallas medianas (650px a 900px) */
 @media screen and (max-width: 900px) {
   .next-button {
     position: fixed;
@@ -157,5 +265,67 @@
 
   .next-button button {
     margin: 0 auto;
+  }
+
+  .progress-container {
+    margin: 10px;
+  }
+
+  .progress-step .connector-line {
+    top: 27%;
+  }
+
+  .back-container {
+    margin: 10px;
+  }
+}
+
+/* Pantallas pequeñas (máximo 650px) */
+@media screen and (max-width: 650px) {
+  /* Ajustes para pantallas pequeñas */
+  .progress-bar {
+    flex-wrap: nowrap;
+  }
+
+  .progress-step {
+    font-size: 12px;
+    padding: 5px;
+    margin-top: 10px
+  }
+
+  .step-container {
+    width: 50px;
+    height: 50px;
+  }
+
+  .step-icon {
+    width: 25px;
+    height: 25px;
+    font-size: 10px;
+  }
+
+  .progress-container {
+    margin: 10px;
+  }
+
+  .progress-step .connector-line {
+    top: 34%;
+  }
+
+  .progress-step p {
+    font-size: 12px;
+  }
+
+  .next-button button {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .back-container {
+    margin: 10px;
+  }
+
+  .selection-container h3 {
+    font-size: 22px;
   }
 }

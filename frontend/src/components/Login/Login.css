@@ -1,0 +1,68 @@
+.login-container {
+    max-width: 400px;
+    margin: 100px auto; /* Añadir margen superior para centrar verticalmente */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: var(--white-color);
+    font-family: var(--primary-font);
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px; /* Un poco más de padding para entradas */
+    margin: 10px 0;
+    border: 1px solid var(--secondary-color);
+    border-radius: 28px;
+    outline: none;
+    box-sizing: border-box;
+    font-family: var(--secondary-font);
+}
+
+.login-container p {
+    color: var(--red-color);
+    text-align: center;
+}
+
+.login-container button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 64px;
+    height: 30px;
+    width: 100%;
+    padding: 25px 30px;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    border-radius: 28px;
+    font-weight: bold;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    letter-spacing: 0.02857em;
+    gap: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: 0;
+    border: 0;
+    margin: 0;
+    user-select: none;
+    vertical-align: middle;
+    appearance: none;
+    text-decoration: none;
+}
+
+.login-container button:disabled {
+    background-color: var(--grey-color); /* Color del botón mientras carga */
+    cursor: not-allowed;
+}
+
+.login-container button:hover:not(:disabled) {
+    background-color: var(--primary-color-hover); /* Color del botón al pasar el mouse */
+}

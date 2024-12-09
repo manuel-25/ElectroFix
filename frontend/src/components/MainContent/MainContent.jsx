@@ -1,59 +1,47 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import QuoteButton from '../QuoteButton/QuoteButton'
 import './MainContent.css'
 import { ReactTyped } from 'react-typed'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck, faStore, faTruck, faHome } from '@fortawesome/free-solid-svg-icons'
+import { faCircleCheck, faStore, faTruck, faHome, faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from 'react-router-dom'
 import { brandLogos, reviews, detailedBrandsByCategory } from '../../utils/productsData'
 import MiniBanner from '../MiniBanner/MiniBanner'
 
 function MainContent() {
-  /* SEARCH BAR */
   const [searchTerm, setSearchTerm] = useState('')
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const inputRef = useRef(null)
-  const suggestionsRef = useRef(null)
   const navigate = useNavigate()
 
-  // Función para filtrar items según el término de búsqueda
-  const filteredItems = Object.values(detailedBrandsByCategory).flatMap(category => {
-    // Limpiar el término de búsqueda y dividirlo en palabras clave
-    const searchTerms = searchTerm.toLowerCase().replace(/\s+/g, ' ').trim().split(' ');
-  
-    const matchingBrands = Object.entries(category.brands).flatMap(([brand, models]) => {
-      const matchingModels = models
-        .filter(model =>
-          searchTerms.every(term => model.toLowerCase().includes(term))
-        )
-        .map(model => ({ category: category.name, brand, model }));
-  
-      // Verifica si todas las palabras clave coinciden con la marca o sus modelos
-      if (searchTerms.every(term => brand.toLowerCase().includes(term)) || matchingModels.length > 0) {
-        return matchingModels.length > 0
-          ? matchingModels
-          : [{ category: category.name, brand, model: '' }];
-      }
-  
-      return [];
-    });
-  
-    // Verifica si todas las palabras clave coinciden con la categoría
-    if (matchingBrands.length === 0 && searchTerms.every(term => category.name.toLowerCase().includes(term))) {
-      return Object.keys(category.brands).map(brand => ({
-        category: category.name,
-        brand,
-        model: ''
-      }));
-    }
-  
-    return matchingBrands.length > 0 ? matchingBrands : [];
-  }).slice(0, 6);
-  
-  
-  
-  
+  // Memoizar el filtrado de items para evitar recálculos en cada renderizado
+  const filteredItems = useMemo(() => {
+    const searchTerms = searchTerm.toLowerCase().replace(/\s+/g, ' ').trim().split(' ')
+    return Object.values(detailedBrandsByCategory)
+      .flatMap(category => {
+        const matchingBrands = Object.entries(category.brands).flatMap(([brand, models]) => {
+          const matchingModels = models
+            .filter(model => searchTerms.every(term => model.toLowerCase().includes(term)))
+            .map(model => ({ category: category.name, brand, model }))
+          if (searchTerms.every(term => brand.toLowerCase().includes(term)) || matchingModels.length > 0) {
+            return matchingModels.length > 0
+              ? matchingModels
+              : [{ category: category.name, brand, model: '' }]
+          }
+          return []
+        })
+        if (matchingBrands.length === 0 && searchTerms.every(term => category.name.toLowerCase().includes(term))) {
+          return Object.keys(category.brands).map(brand => ({
+            category: category.name,
+            brand,
+            model: ''
+          }))
+        }
+        return matchingBrands.length > 0 ? matchingBrands : []
+      })
+      .slice(0, 6)
+  }, [searchTerm])
 
   const handleSearchChange = (event) => {
     const inputKeywords = event.target.value
@@ -62,96 +50,48 @@ function MainContent() {
     setSelectedIndex(-1)
   }
 
-  const handleSuggestionClick = (suggestion) => {
+  const handleSuggestionClick = useCallback((suggestion) => {
     const { category, brand, model } = suggestion
     navigate(`/reparacion-electrodomesticos?category=${encodeURIComponent(category || '')}&brand=${encodeURIComponent(brand || '')}&model=${encodeURIComponent(model || '')}`)
     setSearchTerm('')
     setShowSuggestions(false)
     inputRef.current.focus()
-  }
+  }, [navigate])
 
-  const handleFocus = () => {
-    if (searchTerm.length > 0) {
-      setShowSuggestions(true)
+  const handleKeyDown = useCallback((event) => {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+      event.preventDefault()
+      setSelectedIndex(prevIndex => {
+        const newIndex = event.key === 'ArrowUp' ? (prevIndex > 0 ? prevIndex - 1 : filteredItems.length - 1)
+          : (prevIndex < filteredItems.length - 1 ? prevIndex + 1 : 0)
+        return newIndex
+      })
+    } else if (event.key === 'Enter' && selectedIndex >= 0 && selectedIndex < filteredItems.length) {
+      handleSuggestionClick(filteredItems[selectedIndex])
     }
-  }
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'ArrowUp') {
-      event.preventDefault()
-      setSelectedIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : filteredItems.length - 1))
-    } else if (event.key === 'ArrowDown') {
-      event.preventDefault()
-      setSelectedIndex(prevIndex => (prevIndex < filteredItems.length - 1 ? prevIndex + 1 : 0))
-    } else if (event.key === 'Enter') {
-      event.preventDefault()
-      if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
-        handleSuggestionClick(filteredItems[selectedIndex])
-      } else if (searchTerm) {
-        const searchTermParts = searchTerm.split(' ')
-        const model = searchTermParts.pop() // Último elemento es el modelo
-        const brand = searchTermParts.pop() // Penúltimo elemento es la marca
-        const category = searchTermParts.join(' ') // El resto es la categoría
-        const categoryParam = encodeURIComponent(category || '')
-        const brandParam = encodeURIComponent(brand || '')
-        const modelParam = encodeURIComponent(model || '')
-        navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
-      } else {
-        navigate(`/reparacion-electrodomesticos`)
-      }
-    }
-  }
+  }, [selectedIndex, filteredItems, handleSuggestionClick])
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown)
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [selectedIndex, filteredItems, searchTerm])
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [handleKeyDown])
 
-  const handleQuoteButtonClick = () => {
-    if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
-      handleSuggestionClick(filteredItems[selectedIndex])
-    } else if (searchTerm) {
-      const searchTermParts = searchTerm.split(' ')
-      const model = searchTermParts.pop() // Último elemento es el modelo
-      const brand = searchTermParts.pop() // Penúltimo elemento es la marca
-      const category = searchTermParts.join(' ') // El resto es la categoría
-      const categoryParam = encodeURIComponent(category || '')
-      const brandParam = encodeURIComponent(brand || '')
-      const modelParam = encodeURIComponent(model || '')
-      navigate(`/reparacion-electrodomesticos?category=${categoryParam}&brand=${brandParam}&model=${modelParam}`)
-    } else {
-      navigate(`/reparacion-electrodomesticos`)
-    }
-  }
-
-  // Animaciones de elementos
-  function isElementInViewport(element) {
-    const rect = element.getBoundingClientRect()
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight
-    return (rect.top <= windowHeight * 0.75)
-  }
-
-  function handleScroll() {
+  const handleScroll = useCallback(_.throttle(() => {
     const elements = document.querySelectorAll('.animated-element')
     elements.forEach(element => {
       const rect = element.getBoundingClientRect()
-      const windowHeight = window.innerHeight || document.documentElement.clientHeight
-      if (isElementInViewport(element)) {
+      if (rect.top <= window.innerHeight * 0.75) {
         element.classList.add('visible')
-      } else if (rect.top < windowHeight) {
+      } else if (rect.top < window.innerHeight) {
         element.classList.remove('visible')
       }
     })
-  }
+  }, 200), [])
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [handleScroll])
 
   return (
     <div>
@@ -170,11 +110,11 @@ function MainContent() {
               placeholder="Buscar por categoría, marca o modelo"
               value={searchTerm}
               onChange={handleSearchChange}
-              onFocus={handleFocus}
+              onFocus={() => searchTerm && setShowSuggestions(true)}
               ref={inputRef}
             />
             {showSuggestions && (
-              <div className="suggestions-container" ref={suggestionsRef}>
+              <div className="suggestions-container">
                 {filteredItems.map((item, index) => (
                   <div
                     key={index}
@@ -186,7 +126,7 @@ function MainContent() {
                 ))}
               </div>
             )}
-            <QuoteButton text="Cotizar Ahora!" onClick={handleQuoteButtonClick} />
+            <QuoteButton text="Cotizar Ahora!" onClick={() => handleSuggestionClick(filteredItems[selectedIndex] || {})} />
           </div>
         </section>
       </div>
@@ -210,7 +150,7 @@ function MainContent() {
             <FontAwesomeIcon icon={faCircleCheck} className='feature-icon' />
             <div className='feature-text'>
               <span className='feature-light'>Garantía</span>
-              <span className='feature-bold'>Por 90 días</span>
+              <span className='feature-bold'>Por 30 días</span>
             </div>
           </li>
           <li className='feature'>
@@ -223,7 +163,7 @@ function MainContent() {
         </ul>
       </section>
       <article className='services-container'>
-        <h2>Servicios de Reparación</h2>
+        <h2>Nuestros Servicios</h2>
         <section className='services-card-container'>
           <div className='service-item'>
             <FontAwesomeIcon icon={faStore} size="3x" className='service-icon'/>
@@ -240,6 +180,11 @@ function MainContent() {
             <h3>Retiro a Domicilio</h3>
             <p>Podemos recoger el equipo en tu domicilio, sujeto a disponibilidad según tu ubicación.
             </p>
+          </div>
+          <div className='service-item'>
+            <FontAwesomeIcon icon={faHandHoldingDollar} size="3x" className='service-icon' />
+            <h3>Presupuestos Membretados</h3>
+            <p>Presupuestos con Membrete para presentar a quien corresponda.</p>
           </div>
         </section>
       </article>
@@ -303,12 +248,12 @@ function MainContent() {
                 <p className='attribution'><span className='powered-by-google' title="Powered by Google"></span></p>
             </section>
             <div className='whatsapp-float'>
-                <a href="https://wa.me/5491178967720" target="_blank" rel="noopener noreferrer">
-                    <img src='/images/whatsappLogo.svg' alt='WhatsApp' />
-                </a>
-            </div>
-        </div>
-    )
+              <a href="https://wa.me/5491139148766?text=Hola,%20me%20comunico%20desde%20la%20web%20de%20Electrosafe." target="_blank" rel="noopener noreferrer">
+                  <img src='/images/whatsappLogo.svg' alt='WhatsApp' />
+              </a>
+          </div>
+    </div>
+  )
 }
 
-export default MainContent
+export default React.memo(MainContent)
