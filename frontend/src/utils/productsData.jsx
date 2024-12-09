@@ -449,7 +449,7 @@ export const faqs = [
 export const bannerTexts = [
     "¡Aprendé a reparar electrodomésticos! Curso presencial en Barracas, CABA.",
     "Inscripciones abiertas, cupos limitados.",
-    "No te pierdas esta oportunidad de capacitarte con los mejores."
+    "No te pierdas esta oportunidad de capacitarte. ¡Click acá! "
 ]
 
 export const barriosCABA = [
