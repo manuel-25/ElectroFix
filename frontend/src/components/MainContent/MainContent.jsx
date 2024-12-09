@@ -7,6 +7,7 @@ import { faCircleCheck, faStore, faTruck, faHome, faHandHoldingDollar } from '@f
 import { Link, useNavigate } from 'react-router-dom'
 import { brandLogos, reviews, detailedBrandsByCategory } from '../../utils/productsData'
 import MiniBanner from '../MiniBanner/MiniBanner'
+import _ from 'lodash'
 
 function MainContent() {
   const [searchTerm, setSearchTerm] = useState('')
