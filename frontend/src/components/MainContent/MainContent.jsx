@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faStore, faTruck, faHome } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from 'react-router-dom'
 import { brandLogos, reviews, detailedBrandsByCategory } from '../../utils/productsData'
+import MiniBanner from '../MiniBanner/MiniBanner'
 
 function MainContent() {
   /* SEARCH BAR */
@@ -154,6 +155,7 @@ function MainContent() {
 
   return (
     <div>
+      <MiniBanner/>
       <div className="reparation-container">
         <section className="section-reparation">
           <div className='reparation-top'>

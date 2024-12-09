@@ -1,5 +1,5 @@
 .navbar {
-    z-index: 100;
+    z-index: 1000;
     width: 100vw;
     padding: 10px 20px;
     background-color: var(--white-color);

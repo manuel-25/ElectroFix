@@ -1,0 +1,63 @@
+.mini-banner {
+    background-color: #333; /* Fondo gris oscuro */
+    color: #fff; /* Texto blanco */
+    text-align: center;
+    padding: 8px; /* Espacio general */
+    font-size: 14px; /* Tamaño base */
+    font-weight: bold; /* Texto más audaz */
+    font-family: 'Arial', sans-serif; /* Tipografía limpia */
+    position: sticky; /* Fijo al desplazarse */
+    top: 0; /* Ubicado en la parte superior */
+    z-index: 900; /* Por encima de otros elementos */
+    overflow: hidden; /* Esconde contenido fuera del contenedor */
+  }
+  
+  .mini-banner-content {
+    display: inline-block;
+    white-space: nowrap; /* Evita saltos de línea */
+    animation: scroll-left 40s linear infinite; /* Animación continua */
+  }
+  
+  .banner-text {
+    display: inline;
+  }
+  
+  .spacer {
+    margin: 0 30px; /* Espacio horizontal entre los textos */
+    color: #aaa; /* Separador más tenue */
+    font-weight: normal; /* Hacer que el separador sea menos llamativo */
+  }
+  
+  /* Animación para el desplazamiento */
+  @keyframes scroll-left {
+    from {
+      transform: translateX(100%); /* Empieza fuera del contenedor */
+    }
+    to {
+      transform: translateX(-100%); /* Termina fuera del contenedor en el otro lado */
+    }
+  }
+  
+  /* Responsividad para dispositivos pequeños */
+  @media (max-width: 768px) {
+    .mini-banner {
+      font-size: 12px; /* Tamaño de texto más pequeño */
+      padding: 6px; /* Menor espacio para móviles */
+    }
+  
+    .spacer {
+      margin: 0 20px; /* Espacio ligeramente reducido en móviles */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .mini-banner {
+      font-size: 10px; /* Texto más pequeño */
+      padding: 4px; /* Espacio reducido */
+    }
+  
+    .spacer {
+      margin: 0 15px; /* Aún menos espacio en pantallas muy pequeñas */
+    }
+  }
+  

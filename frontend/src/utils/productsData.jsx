@@ -503,3 +503,10 @@ export const faqs = [
         answer: "Contamos con años de experiencia y técnicos altamente calificados. Nuestro compromiso es ofrecer un servicio de alta calidad y rapidez."
     }
 ]
+
+
+export const bannerTexts = [
+    "¡Aprendé a reparar electrodomésticos! Curso presencial en Barracas, CABA.",
+    "Inscripciones abiertas, cupos limitados.",
+    "No te pierdas esta oportunidad de capacitarte con los mejores."
+]
