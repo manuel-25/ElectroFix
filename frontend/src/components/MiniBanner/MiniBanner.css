@@ -10,56 +10,76 @@
   top: 0;
   z-index: 900;
   overflow: hidden;
+  width: 100%;
 }
 
 .mini-banner-content {
   display: inline-block;
   white-space: nowrap;
-  animation: scroll-left 40s linear infinite;
+  animation: scroll-left 60s linear infinite; /* Animación por defecto para pantallas grandes */
+}
+
+.mini-banner-content span {
+  margin-right: 60px; /* Espaciado entre los textos (duplicado) */
+  margin-left: 60px; /* Espaciado adicional */
+}
+
+/* Animación para pantallas grandes */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(60%); /* Inicia fuera del área visible (derecha) */
+  }
+  10% {
+    transform: translateX(50%); /* Deja un espacio al final antes de volver a empezar */
+  }
+  100% {
+    transform: translateX(-100%); /* Desplaza completamente hacia la izquierda */
+  }
+}
+
+/* Animación para pantallas móviles */
+@media (max-width: 768px) {
+  .mini-banner-content {
+    animation: scroll-left-mobile 60s linear infinite; /* Animación ajustada para dispositivos móviles */
+  }
+
+  @keyframes scroll-left-mobile {
+    0% {
+      transform: translateX(20%); /* Inicia fuera del área visible (derecha) */
+    }
+
+    100% {
+      transform: translateX(-100%); /* Desplaza completamente hacia la izquierda */
+    }
+  }
+
+  .mini-banner-content span {
+    margin-right: 30px;
+    margin-left: 30px;
+  }
+}
+
+/* Animación para pantallas muy pequeñas (móviles pequeños) */
+@media (max-width: 480px) {
+  .mini-banner {
+    padding: 6px;
+  }
+
+  .mini-banner-content span {
+    margin-right: 15px;
+    margin-left: 15px;
+  }
+
+  .mini-banner-content {
+    animation: scroll-left-mobile 40s linear infinite; /*  Velocidad de movimiento  */
+  }
 }
 
 .banner-text {
   display: inline;
 }
 
-.spacer {
-  margin: 0 30px;
-  color: #aaa;
-  font-weight: normal;
-}
-
 .mini-banner-link {
   text-decoration: none;
   color: inherit;
-}
-
-@keyframes scroll-left {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-@media (max-width: 768px) {
-  .mini-banner {
-    font-size: 12px;
-    padding: 6px;
-  }
-
-  .spacer {
-    margin: 0 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .mini-banner {
-    font-size: 10px;
-    padding: 4px;
-  }
-
-  .spacer {
-    margin: 0 15px;
-  }
 }
