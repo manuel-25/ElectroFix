@@ -16,7 +16,7 @@
 .mini-banner-content {
   display: inline-block;
   white-space: nowrap;
-  animation: scroll-left 60s linear infinite; /* Animación por defecto para pantallas grandes */
+  animation: scroll-left 50s linear infinite; /* Animación por defecto para pantallas grandes */
 }
 
 .mini-banner-content span {
@@ -29,9 +29,6 @@
   0% {
     transform: translateX(60%); /* Inicia fuera del área visible (derecha) */
   }
-  10% {
-    transform: translateX(50%); /* Deja un espacio al final antes de volver a empezar */
-  }
   100% {
     transform: translateX(-100%); /* Desplaza completamente hacia la izquierda */
   }
@@ -40,7 +37,7 @@
 /* Animación para pantallas móviles */
 @media (max-width: 768px) {
   .mini-banner-content {
-    animation: scroll-left-mobile 60s linear infinite; /* Animación ajustada para dispositivos móviles */
+    animation: scroll-left-mobile 40s linear infinite; /* Animación ajustada para dispositivos móviles */
   }
 
   @keyframes scroll-left-mobile {
