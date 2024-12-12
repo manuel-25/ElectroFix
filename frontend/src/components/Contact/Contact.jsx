@@ -81,14 +81,14 @@ const Contact = () => {
                 <span>¿Seguís con dudas? ¡Comunicate!</span>
                 <div className="socials-container">
                     <div className="social-item">
-                        <p><FontAwesomeIcon icon={faPhone} className="social-icon" /> Llámanos a</p>
+                        <p>📱 Llámanos a</p>
                         <div class="phone-numbers">
                             <p><strong>Barracas:</strong> <a href="tel:5491139148766">+54 911 3914-8766</a></p>
                             <p><strong>Quilmes:</strong> <a href="tel:5491178967720">+54 911 7896-7720</a></p>
                         </div>
                     </div>
                     <div className="social-item">
-                        <p><FontAwesomeIcon icon={faEnvelope} className="social-icon" /> Envíanos un mail</p>
+                        <p>📧 Envíanos un mail</p>
                         <a href="mailto:electrosafeservice@gmail.com" id='social-email'>electrosafeservice@gmail.com</a>
                     </div>
                     <div className="social-item">
@@ -107,11 +107,11 @@ const Contact = () => {
                     <h4>Nuestras sucursales</h4>
                     <div className="branch-items-container">
                         <div className="branch-item">
-                            <p>Barracas:</p>
-                            <span>Rocha 1752</span>
+                            <p>📍 Barracas:</p>
+                            <span> Rocha 1752</span>
                         </div>
                         <div className="branch-item">
-                            <p>Quilmes:</p>
+                            <p>📍 Quilmes:</p>
                             <span>Av. Vicente López 770</span>
                         </div>
                     </div>
