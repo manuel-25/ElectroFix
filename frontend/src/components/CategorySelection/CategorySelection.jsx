@@ -2,9 +2,7 @@ import React from 'react';
 import './CategorySelection.css'
 import { products } from '../../utils/productsData'
 import NewTag from '../NewTag/NewTag'
-
-// Lista de IDs de categorías con NEW TAG
-const newCategoryIds = [1, 17, 18]
+import { newCategoryIds } from '../../utils/productsData'
 
 const CategorySelection = ({ nextStep, updateFormData}) => {
   const handleCategorySelect = (category) => {

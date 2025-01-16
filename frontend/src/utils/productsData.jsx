@@ -1,5 +1,7 @@
+//Lista de Categorias en orden que aparecen
 export const products = [
     { id: 1, name: 'Air Fryer' },
+    { id: 9, name: 'Aspiradora Robot' },
     { id: 2, name: 'Smartphone' },
     { id: 3, name: 'Televisor' },
     { id: 4, name: 'Consola' },
@@ -13,17 +15,11 @@ export const products = [
     { id: 17, name: 'Aspiradora' },
 ]
 
+// Lista de IDs de categorías con NEW TAG
+export const newCategoryIds = [1, 9]
+
+//Detalles adicionales por Categorias
 export const additionalDetailsConfig = [
-    {
-        categoryId: 3,
-        categoryName: "Televisor",
-        label: "¿Su televisor es Smart TV?",
-        type: "select",
-        options: [
-            { value: "si", label: "Sí" },
-            { value: "no", label: "No" }
-        ]
-    },
     {
         categoryId: 7,
         categoryName: "Horno Eléctrico",
@@ -46,6 +42,7 @@ export const additionalDetailsConfig = [
     }
 ]
 
+//Marcas por Categorias
 export const detailedBrandsByCategory = {
     1: {
         name: 'Air Fryer',
@@ -212,6 +209,21 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }    
     },
+    9: {
+        name: 'Aspiradora Robot',
+        brands: {
+            'Samsung': ['Powerbot-e', 'Jet Bot+', 'Jet Bot'],
+            'iRobot': ['Roomba 675', 'Roomba 675 Wi-Fi'],
+            'Smart Tek': ['Ava Mini','Ava Mini 2', 'Ava Pro Max', 'Ava Pro X'],
+            'Xiaomi': ['E10', 'S10', 'E5', 'X20+', 'E10C', 'X10', 'Q8 Max', 'X20 Pro'],
+            'Unnic': ['R10'],
+            'Gadnic': ['Clean Duo Z900', 'Z1800', 'Z2000','3' ,'4', '5'],
+            'Yelmo': ['As-7070'],
+            'Daewoo': ['Delta', 'Sena', 'Maxpro', 'Rider'],
+            'Fika': [],
+            'Otros': []
+        }
+    },
     10: {
         name: 'Tostadora',
         brands: {
@@ -289,10 +301,11 @@ export const detailedBrandsByCategory = {
 }
 
 export const categories = [
-    'Air Fryer', 'Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
+    'Air Fryer', 'Aspiradora Robot','Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
     'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa eléctrica', 'Microondas', 'Aspiradora'
 ]
 
+//Fallas por Categorias
 export const faultsByCategory = {
     1: ['No enciende', 'No calienta', 'Cocción desigual', 'Ruidos extraños', 'Salen chispas', 'Humo', 'Olor a quemado', 'La pantalla no funciona', 'El temporizador no funciona', 'Se apaga sola', 'Fugas de aceite', 'Mantenimiento / Limpieza', 'Otra'],
     2: ['No enciende', 'No inicia sistema', 'Pantalla rota / dañada', 'Falla pantalla táctil', 'Pantalla en negro / con líneas', 'No carga', 'Falla el audio', 'Problemas de batería', 'Problemas de software', 'Tapa trasera dañada', 'Otra'],
@@ -302,7 +315,7 @@ export const faultsByCategory = {
     6: ['No enciende', 'Enciende no calienta', 'Ruidos fuertes', 'Salen chispas', 'Problemas con el temporizador', 'Se apaga solo', 'Al inicio ruido fuerte','No gira el plato', 'Falla el teclado','Otra'],
     7: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con el temporizador', 'No cierra la puerta', 'No corta Temperatura', 'Velas Quemadas', 'Salta la térmica', 'Mantenimiento / Limpieza', 'Otra'],
     8: ['No enciende', 'Enciende no calienta', 'Enciende pero no traba','Pierde agua', 'No muele café', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con la bomba de agua', 'Mantenimiento / Limpieza', 'Otra'],
-    9: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Problemas con el termostato', 'Mantenimiento / Limpieza', 'Otra'],
+    9: ["No enciende", "Ruidos extraños", "Problemas con el motor", "Fugas de líquido", "Se apaga", "Se sobrecalienta", "Cambio de baterias", "Problemas con los accesorios", "Mantenimiento / Limpieza", "Otra"],
     10: ['No enciende', 'No calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Problemas con el temporizador', 'Mantenimiento / Limpieza', 'Otra'],
     11: ['No enciende', 'No calienta', 'Olor a quemado', 'Problemas con el rociador de vapor', 'Base dañada', 'Otra'],
     12: ['No enciende', 'No calienta', 'Olor a quemado', 'Ruidos fuertes', 'Se apaga sola', 'Problemas con el motor', 'Mantenimiento / Limpieza', 'Otra'],
@@ -465,3 +478,18 @@ export const barriosCABA = [
     'Villa Crespo', 'Villa del Parque', 'Devoto', 'Monte Castro',
     'Cerro de la Gloria', 'San José'
 ]
+
+export const alertConfig = [
+    {
+      category: "Televisor",
+      fault: "Pantalla rota / golpeada",
+      title: "Pantallas rotas o golpeadas",
+      message: "Lamentablemente las pantallas que se rompen por golpes/caídas no tienen reparación, ni reemplazo viable ya que no se fabrican para repuesto. Si cuentas con un seguro de hogar, podemos emitir un presupuesto membretado para que lo presentes a tu aseguradora. Consulte el valor según el modelo de su equipo.",
+      buttons: [
+        { label: "Continuar", action: "continue" },
+        { label: "Volver al inicio", action: "restart" },
+      ],
+    },
+    // Agrega más alertas aca según sea necesario
+]
+  
