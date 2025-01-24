@@ -33,6 +33,17 @@ class ServiceRequestController {
             adjustedDate.setHours(adjustedDate.getHours() + 3)
             req.body.date = adjustedDate
 
+            // Validación de datos esenciales
+            if (!userData || !userData.firstName || !userData.lastName || !userData.email || !userData.phone) {
+                return res.status(400).send({ error: 'Faltan datos del usuario' })
+            }
+            if (!category || !category.name) {
+                category.name = 'Categoría no proporcionada'
+            }
+            if (!faults || !Array.isArray(faults) || faults.length === 0) {
+                faults = ['Falla no proporcionada']
+            }
+
             // Verificar si el cliente ya existe por email
             const existingClient = await ClientManager.findByEmail(userData.email)
             
