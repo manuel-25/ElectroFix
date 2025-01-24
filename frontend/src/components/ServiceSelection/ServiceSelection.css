@@ -1,0 +1,113 @@
+.selection-container {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .optional-text {
+    font-size: 0.9rem;
+    color: var(--grey-color);
+    margin-bottom: 20px;
+  }
+  
+  .branch-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .branch-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: var(--white-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 800px; /* Ancho máximo */
+  }
+  
+  .branch-card.selected {
+    border: 1px solid var(--primary-color);
+    background-color: var(--hover-color-light);
+  }
+  
+  .branch-card:hover {
+    background-color: var(--hover-color-light);
+  }
+  
+  .branch-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+  }
+  
+  .branch-card img.branch-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }
+
+  .branch-text {
+    width: 100%;
+  }
+  
+  .branch-card h4 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--text-color);
+  }
+  
+  .branch-card p {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--grey-color);
+  }
+  
+  .error-text {
+    color: var(--red-color);
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .next-button button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .next-button button:hover {
+    background-color: var(--primary-color-hover);
+  }
+  
+  .next-button button.disabled {
+    background-color: var(--grey-color);
+    cursor: not-allowed;
+  }
+
+  .branch-icon {
+    width: 60px;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+  }
+
+  .branch-mail {
+    font-size: 2.5rem;
+    color: var(--black-color);
+  }
+  
+  .branch-card img.branch-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }
+  
+  

@@ -19,7 +19,7 @@ const quoteSchema = new Schema({
     faults: { type: [String] },
     details: { type: String, default: "N/A"} ,
     userData: {
-        additionalDetails: String,
+        additionalDetails: { type: String, default: 'N/A' },
         discountCode: String,
         email: { type: String, required: true },
         firstName: { type: String, required: true },
@@ -29,6 +29,7 @@ const quoteSchema = new Schema({
         province: String
     },
     review: { type: String },
+    branch: {type: String},
     status: { 
         type: String, 
         enum: ['En revisión', 'Presupuesto Enviado', 'Aprobada', 'Rechazada', 'Listo para devolución'], 

@@ -48,6 +48,7 @@ const FormSubmissionStatus = ({ status, name, customerNumber, serviceRequestNumb
               Número de Solicitud: <strong>{serviceRequestNumber}</strong> | Número de Cliente: <strong>{customerNumber}</strong>
             </p>
           </div>
+          <div><img className='logo-electrosafe' src="./ELECTROSAFE.svg" alt="Electrosafe logo" /></div>
         </div>
       )}
       {status === 'error' && (

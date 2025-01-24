@@ -300,6 +300,9 @@ export const detailedBrandsByCategory = {
     }  
 }
 
+//Steps para barra de progreso y variables dinamicas
+export const steps = ["Categoría", "Marca", "Modelo", "Falla", "Datos", "Servicio"]
+
 export const categories = [
     'Air Fryer', 'Aspiradora Robot','Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
     'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa eléctrica', 'Microondas', 'Aspiradora'

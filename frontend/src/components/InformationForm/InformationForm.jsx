@@ -81,7 +81,7 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     if (validateForm()) {
       const userData = {
         firstName,
@@ -93,7 +93,7 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
         discountCode,
         additionalDetails,
       }
-      updateFormData('userData', userData)
+      updateFormData('userData', userData);
       nextStep()
     }
   }
@@ -246,7 +246,7 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
         />
       </div>
       <div className='next-button'>
-        <button onClick={handleSubmit}>Finalizar</button>
+        <button onClick={handleSubmit}>Siguiente</button>
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { products, additionalDetailsConfig } from '../../utils/productsData.jsx'
+import { steps } from '../../utils/productsData.jsx'
 import './Services.css'
 
 // Importar los subcomponentes
@@ -12,6 +13,7 @@ import InformationForm from '../InformationForm/InformationForm'
 import FormSubmissionStatus from '../FormSubmissionStatus/FormSubmissionStatus'
 import ProgressBar from '../ProgressBar/ProgressBar'
 import AdditionalDetailsStep from '../AdditionalDetailsStep/AdditionalDetailsStep'
+import ServiceSelection from '../ServiceSelection/ServiceSelection.jsx'
 
 const Services = () => {
   const location = useLocation()
@@ -27,7 +29,8 @@ const Services = () => {
     faults: '', 
     additionalDetails: {},
     details: 'N/A',
-    userData: { customerNumber: '', serviceRequestNumber: '', firstName: '' }
+    userData: { customerNumber: '', serviceRequestNumber: '', firstName: '' },
+    branch: ''
   })
   const [submitStatus, setSubmitStatus] = useState('pending')
   const [showAdditionalDetails, setShowAdditionalDetails] = useState(false)
@@ -110,8 +113,10 @@ const Services = () => {
   const handleSubmit = async () => {
     const date = new Date(new Date().getTime() - (3 * 60 * 60 * 1000))
     const updatedFormData = { ...formData, date }
+    console.log("Datos enviados:", updatedFormData)
 
     try {
+      console.log('branch: ', updatedFormData.branch, typeof(updatedFormData.branch))
       const response = await fetch('https://electrosafeweb.com/api/service-requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -141,9 +146,10 @@ const Services = () => {
     }
   }
 
-  // Llamar al envío cuando el paso es 6
+  // Llamar al envío cuando el ultimo paso
   useEffect(() => {
-    if (step === 6) {
+    console.log(formData)
+    if (step === steps.length + 1) {
       handleSubmit()
     }
   }, [step])
@@ -156,7 +162,8 @@ const Services = () => {
       {step === 3 && !showAdditionalDetails && <ModelSelection selectedCategory={formData.category} brand={formData.brand} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
       {step === 4 && !showAdditionalDetails && <FaultSelection selectedCategory={formData.category} formData={formData} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
       {step === 5 && !showAdditionalDetails && <InformationForm nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
-      {step === 6 && !showAdditionalDetails && <FormSubmissionStatus status={submitStatus} name={formData.userData.firstName} customerNumber={formData.userData.customerNumber} serviceRequestNumber={formData.userData.serviceRequestNumber} />}
+      {step === 6 && !showAdditionalDetails && <ServiceSelection selectedProvince={formData.userData.province} selectedMunicipio={formData.userData.municipio} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
+      {step === 7 && !showAdditionalDetails && <FormSubmissionStatus status={submitStatus} name={formData.userData.firstName} customerNumber={formData.userData.customerNumber} serviceRequestNumber={formData.userData.serviceRequestNumber} />}
       {showAdditionalDetails && <AdditionalDetailsStep onConfirm={handleAdditionalDetailsConfirm} updateFormData={updateFormData} categoryId={formData.category.id} />}
     </div>
   )  

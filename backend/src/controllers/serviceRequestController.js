@@ -20,7 +20,7 @@ class ServiceRequestController {
     static async createServiceRequest(req, res, next) {
         try {
             // Normalizar los datos del cliente antes de guardarlos
-            let { userData, category, brand, model, faults, details } = req.body
+            let { userData, category, brand, model, faults, details, branch } = req.body
 
             // Normalizar el nombre y el apellido
             userData.firstName = normalizeName(userData.firstName)
@@ -96,6 +96,7 @@ class ServiceRequestController {
                         <p><strong>Teléfono:</strong> +54 9 ${userData.phone}</p>
                         <p><strong>Provincia:</strong> ${userData.province}</p>
                         <p><strong>Municipio:</strong> ${userData.municipio}</p>
+                        <p><strong>Sucursal:</strong> ${branch}</p>
                         <p><strong>Código de descuento:</strong> ${userData.discountCode || 'N/A'}</p>
                         <p style="text-align: center; margin-top: 20px;">
                             <a href="https://wa.me/549${userData.phone}?text=Hola, ${userData.firstName}! Nos comunicamos del equipo de logística Electrosafe, recibimos tu solicitud de cotización (Nº ${serviceRequestNumber}) en nuestra web y quería comentarte las opciones y promociones que tenemos para reparación de tu ${category.name}."

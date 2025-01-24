@@ -1,9 +1,9 @@
 import React from 'react'
 import './ProgressBar.css'
 import { TiTick } from 'react-icons/ti'
+import { steps } from '../../utils/productsData'
 
 const ProgressBar = ({ step, handlePrevStep }) => {
-  const steps = ["Categoría", "Marca", "Modelo", "Falla", "Datos"]
 
   const createRipple = (event) => {
     const button = event.currentTarget
@@ -32,7 +32,7 @@ const ProgressBar = ({ step, handlePrevStep }) => {
   }
 
   return (
-    <div className={`progress-container ${step >= 6 ? 'none' : ''}`}>
+    <div className={`progress-container ${step >= steps.length ? 'none' : ''}`}>
       <div className="progress-bar">
         {steps.map((stepName, index) => (
           <div key={index} className={`progress-step ${step > index ? 'completed' : ''} ${step === index + 1 ? 'current' : ''}`}>
@@ -46,7 +46,7 @@ const ProgressBar = ({ step, handlePrevStep }) => {
           </div>
         ))}
       </div>
-      <div className={`back-container ${(step === 1 || step >= 6) ? 'hide' : ''}`}>
+      <div className={`back-container ${(step === 1 || step >= steps.length + 1) ? 'hide' : ''}`}>
         <button className="back-button" onClick={handleBackClick}>Volver</button>
       </div>
     </div>
