@@ -329,3 +329,33 @@
     font-size: 22px;
   }
 }
+
+@media screen and (max-width: 400px) {
+  .progress-bar {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    justify-content: space-between; /* Distribuye bien los elementos */
+  }
+
+  .progress-step {
+    font-size: 10px; /* Reduce el tamaño del texto */
+    padding: 0 2px; /* Reduce el espacio lateral */
+    margin-top: 5px;
+  }
+
+  .step-container {
+    width: 40px; /* Reduce el tamaño de los íconos */
+    height: 40px;
+  }
+
+  .step-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 8px; /* Texto más pequeño */
+  }
+
+  .progress-step .connector-line {
+    height: 1.5px; /* Línea más delgada */
+  }
+}
