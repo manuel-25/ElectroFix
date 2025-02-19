@@ -19,6 +19,8 @@ export const products = [
 // Lista de IDs de categorías con NEW TAG
 export const newCategoryIds = [1, 3, 8]
 
+export const discountCategoryIds = [10, 9]
+
 //Detalles adicionales por Categorias
 export const additionalDetailsConfig = [
     {

@@ -3,6 +3,7 @@ import './CategorySelection.css'
 import { products } from '../../utils/productsData'
 import NewTag from '../NewTag/NewTag'
 import { newCategoryIds } from '../../utils/productsData'
+import { discountCategoryIds } from '../../utils/productsData';
 
 const CategorySelection = ({ nextStep, updateFormData}) => {
   const handleCategorySelect = (category) => {
@@ -24,6 +25,9 @@ const CategorySelection = ({ nextStep, updateFormData}) => {
             <span>{category.name}</span>
             {newCategoryIds.includes(category.id) && (
               <NewTag text="Nuevo" color="var(--green-color)" />
+            )}
+            {discountCategoryIds.includes(category.id) && (
+              <NewTag text="-10%" color="var(--primary-color)" />
             )}
           </div>
         ))}
