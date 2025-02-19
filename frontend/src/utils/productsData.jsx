@@ -1,22 +1,23 @@
 //Lista de Categorias en orden que aparecen
 export const products = [
     { id: 1, name: 'Air Fryer' },
-    { id: 9, name: 'Aspiradora Robot' },
-    { id: 2, name: 'Smartphone' },
-    { id: 3, name: 'Televisor' },
-    { id: 4, name: 'Consola' },
-    { id: 5, name: 'Notebook' },
-    { id: 6, name: 'Microondas' },
-    { id: 7, name: 'Horno Eléctrico' },
-    { id: 8, name: 'Cafetera' },
-    { id: 14, name: 'Cava de Vino' },
-    { id: 15, name: 'Ventilador' },
-    { id: 16, name: 'Estufa eléctrica' },
-    { id: 17, name: 'Aspiradora' },
-]
+    { id: 3, name: 'Aspiradora Robot' },
+    { id: 2, name: 'Aspiradora' },
+    { id: 4, name: 'Cafetera' },
+    { id: 5, name: 'Cava de Vino' },
+    { id: 6, name: 'Consola' },
+    { id: 7, name: 'Estufa eléctrica' },
+    { id: 8, name: 'Freidora Industrial' },
+    { id: 9, name: 'Horno Eléctrico' },
+    { id: 10, name: 'Microondas' },
+    { id: 11, name: 'Notebook' },
+    { id: 12, name: 'Smartphone' },
+    { id: 13, name: 'Televisor' },
+    { id: 14, name: 'Ventilador' },
+  ]
 
 // Lista de IDs de categorías con NEW TAG
-export const newCategoryIds = [1, 9]
+export const newCategoryIds = [1, 3, 8]
 
 //Detalles adicionales por Categorias
 export const additionalDetailsConfig = [
@@ -61,7 +62,7 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }
     },
-    2: {
+    12: {
         name: 'Smartphone',
         brands: {
             'Apple': [
@@ -100,7 +101,7 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }
     },
-    3: {
+    13: {
         name: 'Televisor',
         brands: {
             'Samsung': [],
@@ -122,7 +123,7 @@ export const detailedBrandsByCategory = {
             'Otros': [],
         }
     },   
-    4: {
+    6: {
         name: 'Consola',
         brands: {
             'Sony': ['PlayStation 5','PlayStation 5 Pro' ,'PlayStation 4 Pro', 'PlayStation 4 Slim', 'PlayStation 4', 'PlayStation 3'],
@@ -131,7 +132,7 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }
     },
-    5: {
+    11: {
         name: 'Notebook',
         brands: {
             'Apple': ['MacBook Air', 'MacBook Pro 14', 'MacBook Pro 16', 'MacBook Air 13', 'MacBook Pro 13', 'MacBook 12'],
@@ -146,7 +147,7 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }
     },
-    6: {
+    10: {
         name: 'Microondas',
         brands: {
             'Samsung': [],
@@ -169,7 +170,7 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }    
     },
-    7: {
+    9: {
         name: 'Horno Eléctrico',
         brands: {
             'Breville': [],
@@ -191,7 +192,7 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }
     },
-    8: {
+    4: {
         name: 'Cafetera',
         brands: {
             'Nespresso': ['Essenza Mini', 'Pixie', 'Citiz', 'Lattissima Pro', 'VertuoPlus', 'Inissia', 'Creatista', 'Maestria'],
@@ -209,7 +210,7 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }    
     },
-    9: {
+    3: {
         name: 'Aspiradora Robot',
         brands: {
             'Samsung': ['Powerbot-e', 'Jet Bot+', 'Jet Bot'],
@@ -224,20 +225,7 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }
     },
-    10: {
-        name: 'Tostadora',
-        brands: {
-            'Breville': [],
-            'Cuisinart': [],
-            'Hamilton Beach': [],
-            'KitchenAid': [],
-            'Oster': [],
-            'Philips': [],
-            'Smart Life': [],
-            'Otros': []
-        }
-    },
-    14: {
+    5: {
         name: 'Cava de Vino',
         brands: {
             'Whynter': [],
@@ -255,7 +243,7 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }
     },
-    15: {
+    14: {
         name: 'Ventilador',
         brands: {
             'Liliana': [],
@@ -263,7 +251,7 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }
     },
-    16: {
+    7: {
         name: 'Estufa eléctrica',
         brands: {
             'Dyson': ['AM09 Hot + Cool', 'AM09 Hot + Cool'],
@@ -279,7 +267,7 @@ export const detailedBrandsByCategory = {
             'Otros': []
         }    
     },
-    17: {
+    2: {
         name: 'Aspiradora',
         brands: {
             'Samsung': [],
@@ -297,38 +285,55 @@ export const detailedBrandsByCategory = {
             'Suono': [],
             'Otros': []
         }
+    },
+    8: {
+        name: 'Freidora Industrial',
+        brands: {
+            'Daewoo': [],
+            'Sol Real': [],
+            'Turboblender': [],
+            'Morelli': [],
+            'Depaolo': [],
+            'Otros': []
+        }
     }  
 }
 
 //Steps para barra de progreso y variables dinamicas
 export const steps = ["Categoría", "Marca", "Modelo", "Falla", "Datos", "Servicio"]
 
-export const categories = [
-    'Air Fryer', 'Aspiradora Robot','Smartphone', 'Consola', 'Televisor', 'Horno Eléctrico', 'Cafetera',
-    'Notebook', 'Cava de Vino', 'Ventilador', 'Estufa eléctrica', 'Microondas', 'Aspiradora'
-]
-
 //Fallas por Categorias
 export const faultsByCategory = {
-    1: ['No enciende', 'No calienta', 'Cocción desigual', 'Ruidos extraños', 'Salen chispas', 'Humo', 'Olor a quemado', 'La pantalla no funciona', 'El temporizador no funciona', 'Se apaga sola', 'Fugas de aceite', 'Mantenimiento / Limpieza', 'Otra'],
-    2: ['No enciende', 'No inicia sistema', 'Pantalla rota / dañada', 'Falla pantalla táctil', 'Pantalla en negro / con líneas', 'No carga', 'Falla el audio', 'Problemas de batería', 'Problemas de software', 'Tapa trasera dañada', 'Otra'],
-    3: ['No enciende', 'No hay imagen', 'Sin sonido', 'Imagen distorsionada', 'Pantalla rota / golpeada', 'Problemas con el control remoto', 'Problemas con las conexiones HDMI/AV', 'Otra'],
-    4: ['No enciende', 'Errores de sistema', 'No lee discos', 'Problemas con los joystick', 'Pantalla en negro', 'Sobrecalentamiento', 'Se congela', 'Falla de almacenamiento', 'Mantenimiento / Limpieza', 'Otra'],
-    5: ['No enciende', 'No inicia sistema operativo', 'Pantalla rota', 'Pantalla Azul', 'No carga / problema con el cargador', 'Falla del teclado', 'Bisagras dañadas / rotas', 'No hay imagen', 'Se sobrecalienta', 'Se apaga', 'Mantenimiento / limpieza', 'Virus', 'Olvidé la contraseña', 'Ingreso líquido / se mojó', 'Batería dura poco / no anda', 'Problemas de teclado', 'Otra'],
-    6: ['No enciende', 'Enciende no calienta', 'Ruidos fuertes', 'Salen chispas', 'Problemas con el temporizador', 'Se apaga solo', 'Al inicio ruido fuerte','No gira el plato', 'Falla el teclado','Otra'],
-    7: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con el temporizador', 'No cierra la puerta', 'No corta Temperatura', 'Velas Quemadas', 'Salta la térmica', 'Mantenimiento / Limpieza', 'Otra'],
-    8: ['No enciende', 'Enciende no calienta', 'Enciende pero no traba','Pierde agua', 'No muele café', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con la bomba de agua', 'Mantenimiento / Limpieza', 'Otra'],
-    9: ["No enciende", "Ruidos extraños", "Problemas con el motor", "Fugas de líquido", "Se apaga", "Se sobrecalienta", "Cambio de baterias", "Problemas con los accesorios", "Mantenimiento / Limpieza", "Otra"],
-    10: ['No enciende', 'No calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Problemas con el temporizador', 'Mantenimiento / Limpieza', 'Otra'],
-    11: ['No enciende', 'No calienta', 'Olor a quemado', 'Problemas con el rociador de vapor', 'Base dañada', 'Otra'],
-    12: ['No enciende', 'No calienta', 'Olor a quemado', 'Ruidos fuertes', 'Se apaga sola', 'Problemas con el motor', 'Mantenimiento / Limpieza', 'Otra'],
-    13: ['No enciende', 'No calienta', 'Olor a quemado', 'Problemas con las placas', 'Cable dañado', 'Otra'],
-    14: ['No enciende', 'No enfría', 'Ruidos fuertes', 'Problemas con el termostato', 'Fugas de líquido refrigerante', 'Otra'],
-    15: ['No enciende', 'Ruidos fuertes', 'No gira', 'Problemas con el motor', 'Vibración excesiva', 'Mantenimiento / Limpieza', 'Otra'],
-    16: ['No enciende', 'No calienta', 'Olor a quemado', 'Salta la térmica', 'Problemas con el termostato', 'Se apaga sola', 'Otra'],
-    17: ['No enciende', 'Pérdida de succión', 'Ruidos extraños', 'Fugas de aire', 'Problemas con el cable de alimentación', 'Problemas con el filtro', 'Problemas con el cepillo', 'Se apaga sola', 'Fugas de polvo', 'Mantenimiento / Limpieza', 'Otra'],
-    18: ['No enciende', 'No mezcla bien', 'Ruidos extraños', 'Problemas con el motor', 'Fugas de líquido', 'Problemas con los accesorios', 'No responde al control', 'Se sobrecalienta', 'Falla en las cuchillas', 'Fugas de aceite', 'Mantenimiento / Limpieza', 'Otra']
+    // Air Fryer
+    1: ['No enciende', 'No calienta', 'Cocción desigual', 'Ruidos extraños', 'Salen chispas','Humo', 'Olor a quemado', 'La pantalla no funciona', 'El temporizador no funciona','Se apaga sola', 'Fugas de aceite', 'Mantenimiento / Limpieza', 'Otra',],
+    // Aspiradora
+    2: ['No enciende', 'Pérdida de succión', 'Ruidos extraños', 'Fugas de aire','Problemas con el cable de alimentación', 'Problemas con el filtro','Problemas con el cepillo', 'Se apaga sola', 'Fugas de polvo', 'Mantenimiento / Limpieza', 'Otra',],
+    // Aspiradora Robot
+    3: ['No enciende', 'Ruidos extraños', 'Problemas con el motor', 'Fugas de líquido','Se apaga', 'Se sobrecalienta', 'Cambio de baterías', 'Problemas con los accesorios','Mantenimiento / Limpieza', 'Otra',],
+    // Cafetera
+    4: ['No enciende', 'Enciende no calienta', 'Enciende pero no traba', 'Pierde agua','No muele café', 'Olor a quemado', 'Salen chispas', 'Humo','Problemas con la bomba de agua', 'Mantenimiento / Limpieza', 'Otra',],
+    // Cava de Vino
+    5: ['No enciende', 'No enfría', 'Ruidos fuertes', 'Problemas con el termostato','Fugas de líquido refrigerante', 'Otra',],
+    // Consola
+    6: ['No enciende', 'Errores de sistema', 'No lee discos', 'Problemas con los joystick','Pantalla en negro', 'Sobrecalentamiento', 'Se congela', 'Falla de almacenamiento','Mantenimiento / Limpieza', 'Otra',],
+    // Estufa eléctrica
+    7: ['No enciende', 'No calienta', 'Olor a quemado', 'Salta la térmica','Problemas con el termostato', 'Se apaga sola', 'Otra',],
+    // Freidora Industrial
+    8: ['No enciende', 'No calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Fuga de aceite', 'Problemas con el temporizador', 'Se apaga', 'Mantenimiento / Limpieza', 'Otra',],
+    // Horno Eléctrico
+    9: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Humo','Problemas con el temporizador', 'No cierra la puerta', 'No corta Temperatura','Velas Quemadas', 'Salta la térmica', 'Mantenimiento / Limpieza', 'Otra',],
+    // Microondas
+    10: ['No enciende', 'Enciende no calienta', 'Ruidos fuertes', 'Salen chispas','Problemas con el temporizador', 'Se apaga solo', 'Al inicio ruido fuerte','No gira el plato', 'Falla el teclado', 'Otra',],
+    // Notebook
+    11: ['No enciende', 'No inicia sistema operativo', 'Pantalla rota', 'Pantalla Azul','No carga / problema con el cargador', 'Falla del teclado', 'Bisagras dañadas / rotas','No hay imagen', 'Se sobrecalienta', 'Se apaga', 'Mantenimiento / limpieza','Virus', 'Olvidé la contraseña', 'Ingreso líquido / se mojó', 'Batería dura poco / no anda','Problemas de teclado', 'Otra',],
+    // Smartphone
+    12: ['No enciende', 'No inicia sistema', 'Pantalla rota / dañada', 'Falla pantalla táctil','Pantalla en negro / con líneas', 'No carga', 'Falla el audio', 'Problemas de batería','Problemas de software', 'Tapa trasera dañada', 'Otra',],
+    // Televisor
+    13: ['No enciende', 'No hay imagen', 'Sin sonido', 'Imagen distorsionada','Pantalla rota / golpeada', 'Problemas con el control remoto','Problemas con las conexiones HDMI/AV', 'Otra'],
+    // Ventilador
+    14: ['No enciende', 'Ruidos fuertes', 'No gira', 'Problemas con el motor','Vibración excesiva', 'Mantenimiento / Limpieza', 'Otra'],
 }
+  
 
 export const brandLogos = [
     { src: '/brands/apple.png', alt: 'Apple' },
