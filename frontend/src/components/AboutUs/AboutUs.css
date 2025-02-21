@@ -28,6 +28,11 @@
     width: 100%;
     padding: 4rem 0;
   }
+
+  #communication {
+    background-image: url(https://www.vidyard.com/wp-content/themes/vidyard-website/img/pages/company/about-us/group-doodle.svg);
+    background-position: left;
+  }
   
   /* Banner secundario */
   .about-us-secondary-banner {
@@ -58,6 +63,10 @@
     font-family: var(--font-logo);
     margin-bottom: 1rem;
   }
+
+  .about-us-text h5 {
+    font-weight: 100;
+  }
   
   .about-us-text p {
     font-size: 1rem;
@@ -71,6 +80,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 20px auto;
   }
   
   .about-us-image img {
@@ -136,26 +146,64 @@
     }
   }
   
-  /* Responsividad */
-  @media (max-width: 768px) {
-    .about-us-mainbanner,
-    .about-us-secondary-banner {
-      flex-direction: column;
-      text-align: center;
-      padding: 2rem;
-    }
-    
-    .about-us-text {
-      width: 100%;
-      padding: 1rem 0;
-    }
-    
-    .about-us-image img {
-      max-width: 100%;
-    }
-    
-    .about-us-stats {
-      grid-template-columns: 1fr;
-    }
+  /* Responsividad para pantallas hasta 900px */
+@media (max-width: 900px) {
+  .about-us-mainbanner,
+  .about-us-secondary-banner {
+    flex-direction: column !important;
+    padding: 2rem;
   }
+
+  .about-us-text {
+    width: 80%;
+  }
+  
+  .about-us-text h1 {
+    font-size: 2.2rem;
+  }
+  
+  .about-us-text p {
+    font-size: 0.95rem;
+  }
+  
+  .about-us-image img {
+    max-width: 90%;
+  }
+  
+  .space-line {
+    margin: 60px auto;
+  }
+}
+
+/* Responsividad para pantallas hasta 650px */
+@media (max-width: 650px) {
+  .about-us-mainbanner,
+  .about-us-secondary-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  
+  .about-us-text {
+    width: 100%;
+    padding: 1rem 0;
+  }
+  
+  .about-us-text h1 {
+    font-size: 2rem;
+  }
+  
+  .about-us-text p {
+    font-size: 0.9rem;
+  }
+  
+  .about-us-image {
+    margin-top: 1rem;
+  }
+  
+  .about-us-stats {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+  }
+}
   

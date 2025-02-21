@@ -1,5 +1,6 @@
 import React from 'react';
 import './AboutUs.css';
+import CountUp from '../CountUp/CountUp.jsx';
 
 const AboutUs = () => {
   return (
@@ -7,6 +8,7 @@ const AboutUs = () => {
       {/* Banner principal */}
       <div className="about-us-mainbanner">
         <div className="about-us-text">
+          <h5>Sobre Nosotros</h5>  
           <h1>Electrosafe transforma la forma de reparar electrodomésticos</h1>
           <p>
             Nos esforzamos por ofrecer una experiencia ágil y clara, brindando presupuestos aproximados para que puedas traer tus equipos a nuestra sucursal sin complicaciones.
@@ -21,7 +23,7 @@ const AboutUs = () => {
         </div>
       </div>
 
-      <section className="about-us-communication">
+      <section className="about-us-communication" id="communication">
         {/* Banner secundario: Cotizá online */}
         <div className="about-us-secondary-banner">
           <div className="about-us-text">
@@ -44,15 +46,15 @@ const AboutUs = () => {
         {/* Estadísticas */}
         <div className="about-us-stats">
           <div className="about-us-stats-card">
-            <h2>3+ años</h2>
+            <h2><CountUp end={3} duration={1500} decimals={0} />+ años</h2>
             <p>Más de 3 años de experiencia revolucionando el rubro.</p>
           </div>
           <div className="about-us-stats-card">
-            <h2>2.000+</h2>
-            <p>Desde 2021 reparamos más de 2.000 electrodomésticos de manera exitosa.</p>
+            <h2><CountUp end={2500} duration={2000} decimals={0}></CountUp>+</h2>
+            <p>Desde 2021 reparamos más de 3.000 electrodomésticos de manera exitosa.</p>
           </div>
           <div className="about-us-stats-card">
-            <h2>10.000+</h2>
+            <h2><CountUp end={10000} duration={3500} decimals={0}></CountUp>+</h2>
             <p>Más de 10.000 cotizaciones enviadas desde nuestra Web.</p>
           </div>
         </div>
