@@ -1,5 +1,5 @@
 .footer {
-    background-color: var(--text-color);
+    background-color: var(--text-color-secondary);
     color: var(--text-color-light);
     padding: 20px;
     z-index: 99;

@@ -8,7 +8,10 @@
     --secondary-color: #003366; /* Azul Oscuro */
     --secondary-color-hover: #002147; /* Azul Oscuro más intenso para :hover */
     
-    --text-color: #333333; /* Gris Oscuro para texto */
+    --title-color: #232938;
+    --text-color: #5b627d;; /* Gris para texto */
+    
+    --text-color-secondary: #333333; /* Gris Oscuro para texto */
     --intermediate-grey-color: #a3a9b4;
     --grey-color: #70757A;
     --text-color-light: #F2F2F2; /* Gris Claro para fondos o textos sobre fondos oscuros */

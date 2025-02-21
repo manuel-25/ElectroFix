@@ -2,38 +2,80 @@ import React from 'react';
 import './AboutUs.css';
 
 const AboutUs = () => {
-    return (
-        <section className="about-us-section">
-            <div className="about-us-content">
-                <h2>Sabemos de dónde venimos</h2>
-                <img src="/images/sabemosdedondevenimos.webp" alt="Banner del equipo" className="about-us-image"/>
-                <p>
-                   Electrosafe, donde la pasión por la tecnología se fusiona con la dedicación al servicio al cliente. Desde nuestros humildes comienzos, hemos crecido hasta convertirnos en líderes en la reparación de electrodomésticos, impulsados por nuestro compromiso inquebrantable con la calidad, la rapidez y la eficiencia. Nuestros clientes nos describen como responsables y eficientes, y nos esforzamos cada día por superar sus expectativas con un trabajo bien hecho y un servicio rápido y confiable.
-                </p>
-                
-                <div className="values-section">
-                    <h3>Nuestros Valores</h3>
-                    <p>
-                        En Electrosafe, nuestros valores fundamentales son la honestidad, la integridad y la responsabilidad. Nos enorgullecemos de ofrecer servicios transparentes y fiables, asegurándonos de que cada cliente reciba la mejor atención posible.
-                    </p>
-                </div>
+  return (
+    <section className="about-us-container">
+      {/* Banner principal */}
+      <div className="about-us-mainbanner">
+        <div className="about-us-text">
+          <h1>Electrosafe transforma la forma de reparar electrodomésticos</h1>
+          <p>
+            Nos esforzamos por ofrecer una experiencia ágil y clara, brindando presupuestos aproximados para que puedas traer tus equipos a nuestra sucursal sin complicaciones.
+            Nos apasiona ayudar a que tus electrodomésticos vuelvan a funcionar como nuevos, sin perder tiempo ni energía.
+          </p>
+        </div>
+        <div className="about-us-image">
+          <img 
+            src="/images/WhatsApp Image 2025-02-18 at 22.16.53_9f8c5a73.jpg" 
+            alt="Equipo Electrosafe en acción" 
+          />
+        </div>
+      </div>
 
-                <div className="experience-section">
-                    <h3>Experiencia y Profesionalismo</h3>
-                    <p>
-                        Contamos con un equipo de técnicos altamente capacitados con años de experiencia en la reparación de todo tipo de electrodomésticos. Utilizamos herramientas y técnicas de vanguardia para garantizar que cada reparación sea efectiva y duradera.
-                    </p>
-                </div>
+      <section className="about-us-communication">
+        {/* Banner secundario: Cotizá online */}
+        <div className="about-us-secondary-banner">
+          <div className="about-us-text">
+            <h1>Cotizá online</h1>
+            <p>
+              Nuestro servicio te permite obtener un presupuesto online en cuestión de minutos, sin importar en qué punto de Argentina te encuentres.
+              Gracias a nuestra plataforma, eliminamos demoras y complicaciones, ofreciéndote un diagnóstico rápido y transparente que se traduce en soluciones seguras.
+            </p>
+          </div>
+          <div className="about-us-image">
+            <img 
+              src="/images/WhatsApp Image 2025-02-18 at 22.16.55_ca03b78c.jpg" 
+              alt="Proceso de cotización online" 
+            />
+          </div>
+        </div>
 
-                <div className="contact-section">
-                    <h3>Llámanos Hoy Mismo</h3>
-                    <p>
-                        ¿Tienes un electrodoméstico que necesita reparación? No dudes en contactarnos. Estamos aquí para ayudarte a que tus equipos vuelvan a funcionar como nuevos.
-                    </p>
-                </div>
-            </div>
-        </section>
-    );
+        <div className="space-line"></div>
+
+        {/* Estadísticas */}
+        <div className="about-us-stats">
+          <div className="about-us-stats-card">
+            <h2>3+ años</h2>
+            <p>Más de 3 años de experiencia revolucionando el rubro.</p>
+          </div>
+          <div className="about-us-stats-card">
+            <h2>2.000+</h2>
+            <p>Desde 2021 reparamos más de 2.000 electrodomésticos de manera exitosa.</p>
+          </div>
+          <div className="about-us-stats-card">
+            <h2>10.000+</h2>
+            <p>Más de 10.000 cotizaciones enviadas desde nuestra Web.</p>
+          </div>
+        </div>
+
+        {/* Banner secundario: La historia */}
+        <div className="about-us-secondary-banner inverse">
+          <div className="about-us-text">
+            <h1>La historia de Electrosafe</h1>
+            <p>
+              Desde nuestros inicios, hemos innovado en la forma de reparar electrodomésticos, combinando tecnología y atención personalizada.
+              Nuestro compromiso es facilitar el acceso a servicios de calidad, eliminando las barreras tradicionales de la reparación y convirtiéndonos en referentes de confianza en todo el país.
+            </p>
+          </div>
+          <div className="about-us-image">
+            <img 
+              src="/images/WhatsApp Image 2025-02-18 at 22.28.44_3266af07.jpg" 
+              alt="Historia de Electrosafe" 
+            />
+          </div>
+        </div>
+      </section>
+    </section>
+  );
 };
 
 export default AboutUs;
