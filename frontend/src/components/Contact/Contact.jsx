@@ -1,7 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react'
 import './Contact.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'  //faEnvelope, faPhone 
 import { faqs } from '../../utils/productsData'
 import { GoogleMap, useLoadScript, MarkerF } from '@react-google-maps/api'
 
@@ -85,6 +85,7 @@ const Contact = () => {
                         <div class="phone-numbers">
                             <p><strong>Barracas:</strong> <a href="tel:5491139148766">+54 911 3914-8766</a></p>
                             <p><strong>Quilmes:</strong> <a href="tel:5491178967720">+54 911 7896-7720</a></p>
+                            <p><strong>Cotizaciones Web:</strong> <a href="tel:5491178967720">+54 9 11 7066-4306</a></p>
                         </div>
                     </div>
                     <div className="social-item">
@@ -107,11 +108,11 @@ const Contact = () => {
                     <h4>Nuestras sucursales</h4>
                     <div className="branch-items-container">
                         <div className="branch-item">
-                            <p>📍 Barracas:</p>
+                            <p><img src="/logo.png" alt="Logo Electrosafe" className="branch-item-icon" /> Barracas:</p>
                             <span> Rocha 1752</span>
                         </div>
                         <div className="branch-item">
-                            <p>📍 Quilmes:</p>
+                            <p><img src="/logo.png" alt="Logo Electrosafe" className="branch-item-icon" /> Quilmes:</p>
                             <span>Av. Vicente López 770</span>
                         </div>
                     </div>

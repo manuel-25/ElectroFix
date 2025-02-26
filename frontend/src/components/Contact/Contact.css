@@ -177,7 +177,7 @@
 }
 
 .social-item p {
-    margin: 0;
+    margin-bottom: 10px;
     font-size: 16px;
     color: var(--text-color);
 }
@@ -225,10 +225,19 @@
     font-size: 16px;
 }
 
+.branch-item-icon {
+    width: 25px;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
 .branch-item p {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    gap: 5px;
     font-weight: bold;
     color: var(--secondary-color);
-    margin: 0;
 }
 
 .branch-item span {
