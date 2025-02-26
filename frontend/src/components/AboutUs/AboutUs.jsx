@@ -1,6 +1,6 @@
-import React from 'react';
-import './AboutUs.css';
-import CountUp from '../CountUp/CountUp.jsx';
+import React from 'react'
+import './AboutUs.css'
+import CountUp from '../CountUp/CountUp.jsx'
 
 const AboutUs = () => {
   return (
@@ -64,8 +64,10 @@ const AboutUs = () => {
           <div className="about-us-text">
             <h1>La historia de Electrosafe</h1>
             <p>
-              Desde nuestros inicios, hemos innovado en la forma de reparar electrodomésticos, combinando tecnología y atención personalizada.
-              Nuestro compromiso es facilitar el acceso a servicios de calidad, eliminando las barreras tradicionales de la reparación y convirtiéndonos en referentes de confianza en todo el país.
+            Electrosafe nació en 2021 cuando Lucas, en plena pandemia, descubrió que reparar electrodomésticos era más que un hobby:
+             era darles una segunda vida.* Lo que empezó arreglando microondas en su departamento para amigos,
+              creció con el boca a boca hasta convertirse en un taller profesional. El nombre Electrosafe nace de la idea de "safar" de lo descartable:
+             preferimos reparar con seguridad antes que recomprar. Hoy, con dos sucursales y una comunidad que nos elige, seguimos fieles a ese primer propósito.
             </p>
           </div>
           <div className="about-us-image">
@@ -77,7 +79,7 @@ const AboutUs = () => {
         </div>
       </section>
     </section>
-  );
-};
+  )
+}
 
-export default AboutUs;
+export default AboutUs
