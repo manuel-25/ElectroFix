@@ -24,17 +24,7 @@ export const discountCategoryIds = [10, 9]
 //Detalles adicionales por Categorias
 export const additionalDetailsConfig = [
     {
-        categoryId: 7,
-        categoryName: "Horno Eléctrico",
-        label: "¿Su horno eléctrico es empotrable?",
-        type: "select",
-        options: [
-            { value: "si", label: "Sí" },
-            { value: "no", label: "No" }
-        ]
-    },
-    {
-        categoryId: 15,
+        categoryId: 14,
         categoryName: "Ventilador",
         label: "¿Su ventilador es de ...?",
         type: "select",
