@@ -15,6 +15,7 @@
 
 #form-discount {
     margin-top: 30px;
+    margin-bottom: 120px;
 }
 
 /* Campos de formulario */
@@ -240,5 +241,9 @@ button.error {
 
     #form-discount {
         margin-bottom: 30px;
+    }
+
+    .blank-space {
+        height: 60px;
     }
 }

@@ -68,7 +68,7 @@ const FaultSelection = ({ selectedCategory, nextStep, updateFormData }) => {
     <div className="selection-container">
       <h3>¿Cuál es el problema con tu {selectedCategory?.name || "dispositivo"}?</h3>
       <AlertMessage alert={currentAlert} onAction={handleAlertAction} />
-      <div className="selection-list">
+      <div className="selection-list" id="selection-list-margin">
         {categoryFaults.map((fault, index) => (
           <label
             key={index}

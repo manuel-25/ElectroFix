@@ -14,6 +14,10 @@ export const products = [
     { id: 12, name: 'Smartphone' },
     { id: 13, name: 'Televisor' },
     { id: 14, name: 'Ventilador' },
+    { id: 15, name: 'Horno Empotrable' },
+    { id: 16, name: 'Anafe eléctrico' },
+    { id: 17, name: 'Anafe a Inducción' },
+    { id: 18, name: 'Cocina Eléctrica' }
   ]
 
 // Lista de IDs de categorías con NEW TAG
@@ -288,7 +292,62 @@ export const detailedBrandsByCategory = {
             'Depaolo': [],
             'Otros': []
         }
-    }  
+    },
+    15: {
+        name: 'Horno Empotrable',
+        brands: {
+            'Atma': [],
+            'Samsung': [],
+            'Longvie': [],
+            'Maverick': [],
+            'Florencia': [],
+            'Whirpool': [],
+            'LG': [],
+            'Vondom': [],
+            'Morelli': [],
+            'Otros': []
+        }
+    },
+    16: {
+        name: 'Anafe eléctrico',
+        brands: {
+            'Westinghouse': [],
+            'Oryx': [],
+            'Winco': [],
+            'Liliana': [],
+            'Spica': [],
+            'Ultracomb': [],
+            'Otros': []
+        }
+    },
+    17: {
+        name: 'Anafe a Inducción',
+        brands: {
+            'Samsung': [],
+            'Ormay': [],
+            'Telefunken': [],
+            'Vondom': [],
+            'Electrolux': [],
+            'Whirpool': [],
+            'Ariston': [],
+            'Florencia': [],
+            'Top House': [],
+            'Otros': []
+        }
+    },
+    18: {
+        name: 'Cocina Eléctrica',
+        brands: {
+            'Philco': [],
+            'Atma': [],
+            'Vitta': [],
+            'Kanji': [],
+            'Electrolux': [],
+            'Ariston': [],
+            'Kacemaster': [],
+            'Otros': []
+        }
+    }
 }
 
 //Steps para barra de progreso y variables dinamicas
@@ -297,34 +356,43 @@ export const steps = ["Categoría", "Marca", "Modelo", "Falla", "Datos", "Servic
 //Fallas por Categorias
 export const faultsByCategory = {
     // Air Fryer
-    1: ['No enciende', 'No calienta', 'Cocción desigual', 'Ruidos extraños', 'Salen chispas','Humo', 'Olor a quemado', 'La pantalla no funciona', 'El temporizador no funciona','Se apaga sola', 'Fugas de aceite', 'Mantenimiento / Limpieza', 'Otra',],
+    1: ['No enciende', 'No calienta', 'Cocción desigual', 'Ruidos extraños', 'Salen chispas', 'Humo', 'Olor a quemado', 'La pantalla no funciona', 'El temporizador no funciona', 'Se apaga sola', 'Fugas de aceite', 'Mantenimiento / Limpieza', 'Otra'],
     // Aspiradora
-    2: ['No enciende', 'Pérdida de succión', 'Ruidos extraños', 'Fugas de aire','Problemas con el cable de alimentación', 'Problemas con el filtro','Problemas con el cepillo', 'Se apaga sola', 'Fugas de polvo', 'Mantenimiento / Limpieza', 'Otra',],
+    2: ['No enciende', 'Pérdida de succión', 'Ruidos extraños', 'Fugas de aire', 'Problemas con el cable de alimentación', 'Problemas con el filtro', 'Problemas con el cepillo', 'Se apaga sola', 'Fugas de polvo', 'Mantenimiento / Limpieza', 'Otra'],
     // Aspiradora Robot
-    3: ['No enciende', 'Ruidos extraños', 'Problemas con el motor', 'Fugas de líquido','Se apaga', 'Se sobrecalienta', 'Cambio de baterías', 'Problemas con los accesorios','Mantenimiento / Limpieza', 'Otra',],
+    3: ['No enciende', 'Ruidos extraños', 'Problemas con el motor', 'Fugas de líquido', 'Se apaga', 'Se sobrecalienta', 'Cambio de baterías', 'Problemas con los accesorios', 'Mantenimiento / Limpieza', 'Otra'],
     // Cafetera
-    4: ['No enciende', 'Enciende no calienta', 'Enciende pero no traba', 'Pierde agua','No muele café', 'Olor a quemado', 'Salen chispas', 'Humo','Problemas con la bomba de agua', 'Mantenimiento / Limpieza', 'Otra',],
+    4: ['No enciende', 'Enciende no calienta', 'Enciende pero no traba', 'Pierde agua', 'No muele café', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con la bomba de agua', 'Mantenimiento / Limpieza', 'Otra'],
     // Cava de Vino
-    5: ['No enciende', 'No enfría', 'Ruidos fuertes', 'Problemas con el termostato','Fugas de líquido refrigerante', 'Otra',],
+    5: ['No enciende', 'No enfría', 'Ruidos fuertes', 'Problemas con el termostato', 'Fugas de líquido refrigerante', 'Otra'],
     // Consola
-    6: ['No enciende', 'Errores de sistema', 'No lee discos', 'Problemas con los joystick','Pantalla en negro', 'Sobrecalentamiento', 'Se congela', 'Falla de almacenamiento','Mantenimiento / Limpieza', 'Otra',],
+    6: ['No enciende', 'Errores de sistema', 'No lee discos', 'Problemas con los joystick', 'Pantalla en negro', 'Sobrecalentamiento', 'Se congela', 'Falla de almacenamiento', 'Mantenimiento / Limpieza', 'Otra'],
     // Estufa eléctrica
-    7: ['No enciende', 'No calienta', 'Olor a quemado', 'Salta la térmica','Problemas con el termostato', 'Se apaga sola', 'Otra',],
+    7: ['No enciende', 'No calienta', 'Olor a quemado', 'Salta la térmica', 'Problemas con el termostato', 'Se apaga sola', 'Otra'],
     // Freidora Industrial
-    8: ['No enciende', 'No calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Fuga de aceite', 'Problemas con el temporizador', 'Se apaga', 'Mantenimiento / Limpieza', 'Otra',],
+    8: ['No enciende', 'No calienta', 'Olor a quemado', 'Salen chispas', 'Ruidos fuertes', 'Fuga de aceite', 'Problemas con el temporizador', 'Se apaga', 'Mantenimiento / Limpieza', 'Otra'],
     // Horno Eléctrico
-    9: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Humo','Problemas con el temporizador', 'No cierra la puerta', 'No corta Temperatura','Velas Quemadas', 'Salta la térmica', 'Mantenimiento / Limpieza', 'Otra',],
+    9: ['No enciende', 'Enciende no calienta', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con el temporizador', 'No cierra la puerta', 'No corta Temperatura', 'Velas Quemadas', 'Salta la térmica', 'Mantenimiento / Limpieza', 'Otra'],
     // Microondas
-    10: ['No enciende', 'Enciende no calienta', 'Ruidos fuertes', 'Salen chispas','Problemas con el temporizador', 'Se apaga solo', 'Al inicio ruido fuerte','No gira el plato', 'Falla el teclado', 'Otra',],
+    10: ['No enciende', 'Enciende no calienta', 'Ruidos fuertes', 'Salen chispas', 'Problemas con el temporizador', 'Se apaga solo', 'Al inicio ruido fuerte', 'No gira el plato', 'Falla el teclado', 'Otra'],
     // Notebook
-    11: ['No enciende', 'No inicia sistema operativo', 'Pantalla rota', 'Pantalla Azul','No carga / problema con el cargador', 'Falla del teclado', 'Bisagras dañadas / rotas','No hay imagen', 'Se sobrecalienta', 'Se apaga', 'Mantenimiento / limpieza','Virus', 'Olvidé la contraseña', 'Ingreso líquido / se mojó', 'Batería dura poco / no anda','Problemas de teclado', 'Otra',],
+    11: ['No enciende', 'Pantalla rota', 'Pantalla Azul', 'No carga / problema con el cargador', 'Bisagras dañadas / rotas', 'No hay imagen', 'Se sobrecalienta', 'Se apaga', 'Mantenimiento / limpieza', 'Ingreso líquido / se mojó', 'Batería dura poco / no anda', 'Problemas de teclado', 'Otra'],
     // Smartphone
-    12: ['No enciende', 'No inicia sistema', 'Pantalla rota / dañada', 'Falla pantalla táctil','Pantalla en negro / con líneas', 'No carga', 'Falla el audio', 'Problemas de batería','Problemas de software', 'Tapa trasera dañada', 'Otra',],
+    12: ['No enciende', 'No inicia sistema', 'Pantalla rota / dañada', 'Falla pantalla táctil', 'Pantalla en negro / con líneas', 'No carga', 'Falla el audio', 'Problemas de batería', 'Problemas de software', 'Tapa trasera dañada', 'Otra'],
     // Televisor
-    13: ['No enciende', 'No hay imagen', 'Sin sonido', 'Imagen distorsionada','Pantalla rota / golpeada', 'Problemas con el control remoto','Problemas con las conexiones HDMI/AV', 'Otra'],
+    13: ['No enciende', 'No hay imagen', 'Sin sonido', 'Imagen distorsionada', 'Pantalla rota / golpeada', 'Problemas con el control remoto', 'Problemas con las conexiones HDMI/AV', 'Otra'],
     // Ventilador
-    14: ['No enciende', 'Ruidos fuertes', 'No gira', 'Problemas con el motor','Vibración excesiva', 'Mantenimiento / Limpieza', 'Otra'],
+    14: ['No enciende', 'Ruidos fuertes', 'No gira', 'Problemas con el motor', 'Vibración excesiva', 'Mantenimiento / Limpieza', 'Otra'],
+    // Horno Empotrable
+    15: ['No enciende', 'Enciende pero no calienta', 'Olor a quemado', 'Salen chispas', 'Humo', 'Problemas con el temporizador', 'No cierra la puerta', 'Salta la térmica', 'Mantenimiento / Limpieza', 'Otra'],
+    // Anafe eléctrico
+    16: ['No enciende', 'No calienta', 'Olor a quemado', 'Salta la térmica', 'Problemas con el termostato', 'Se apaga sola', 'Mantenimiento / Limpieza', 'Otra'],
+    // Anafe a Inducción
+    17: ['No enciende', 'No calienta', 'Error en el sensor', 'Pantalla táctil no responde', 'Se apaga sola', 'Mantenimiento / Limpieza', 'Otra'],
+    // Cocina Eléctrica
+    18: ['No enciende', 'No calienta', 'Olor a quemado', 'Salta la térmica', 'Problemas con el termostato', 'Se apaga sola', 'Mantenimiento / Limpieza', 'Otra'],
 }
+
   
 
 export const brandLogos = [

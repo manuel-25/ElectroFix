@@ -245,6 +245,7 @@ const InformationForm = ({ nextStep, prevStep, updateFormData }) => {
           onChange={(e) => setDiscountCode(e.target.value)}
         />
       </div>
+      <div className="blank-space"></div>
       <div className='next-button'>
         <button onClick={handleSubmit}>Siguiente</button>
       </div>
