@@ -5,23 +5,23 @@ export const products = [
     { id: 2, name: 'Aspiradora' },
     { id: 4, name: 'Cafetera' },
     { id: 5, name: 'Cava de Vino' },
-    { id: 6, name: 'Consola' },
+    { id: 13, name: 'Televisor' },
     { id: 7, name: 'Estufa eléctrica' },
     { id: 8, name: 'Freidora Industrial' },
     { id: 9, name: 'Horno Eléctrico' },
-    { id: 10, name: 'Microondas' },
-    { id: 11, name: 'Notebook' },
-    { id: 12, name: 'Smartphone' },
-    { id: 13, name: 'Televisor' },
-    { id: 14, name: 'Ventilador' },
     { id: 15, name: 'Horno Empotrable' },
+    { id: 10, name: 'Microondas' },
+    { id: 14, name: 'Ventilador' },
     { id: 16, name: 'Anafe eléctrico' },
     { id: 17, name: 'Anafe a Inducción' },
-    { id: 18, name: 'Cocina Eléctrica' }
+    { id: 18, name: 'Cocina Eléctrica' },
+    { id: 11, name: 'Notebook' },
+    { id: 12, name: 'Smartphone' },
+    { id: 6, name: 'Consola' },
   ]
 
 // Lista de IDs de categorías con NEW TAG
-export const newCategoryIds = [1, 3, 8]
+export const newCategoryIds = [8, 16, 17, 18]
 
 export const discountCategoryIds = [10, 9]
 
