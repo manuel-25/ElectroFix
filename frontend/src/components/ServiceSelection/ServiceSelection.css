@@ -20,6 +20,7 @@
 
 .branch-card {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 20px;
   background-color: var(--white-color);
@@ -29,7 +30,7 @@
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
-  max-width: 800px;
+  max-width: 600px;
 }
 
 .branch-card:hover {
@@ -56,7 +57,7 @@
 }
 
 .branch-text {
-  width: 100%;
+  width: 50%;
 }
 
 .branch-card h4 {
@@ -96,10 +97,6 @@
 .next-button button.disabled {
   background-color: var(--grey-color);
   cursor: not-allowed;
-}
-
-#retiroyentrega {
-  color: var(--black-color);
 }
 
 /* Estilos responsivos */
