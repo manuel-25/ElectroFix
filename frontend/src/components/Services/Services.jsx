@@ -162,7 +162,7 @@ const Services = () => {
       {step === 3 && !showAdditionalDetails && <ModelSelection selectedCategory={formData.category} brand={formData.brand} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
       {step === 4 && !showAdditionalDetails && <FaultSelection selectedCategory={formData.category} formData={formData} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
       {step === 5 && !showAdditionalDetails && <InformationForm nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
-      {step === 6 && !showAdditionalDetails && <ServiceSelection selectedProvince={formData.userData.province} selectedMunicipio={formData.userData.municipio} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
+      {step === 6 && !showAdditionalDetails && <ServiceSelection selectedProvince={formData.userData.province} selectedMunicipio={formData.userData.municipio} selectedCategory={formData.category.id} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
       {step === 7 && !showAdditionalDetails && <FormSubmissionStatus status={submitStatus} name={formData.userData.firstName} customerNumber={formData.userData.customerNumber} serviceRequestNumber={formData.userData.serviceRequestNumber} />}
       {showAdditionalDetails && <AdditionalDetailsStep onConfirm={handleAdditionalDetailsConfirm} updateFormData={updateFormData} categoryId={formData.category.id} />}
     </div>

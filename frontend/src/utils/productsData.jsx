@@ -112,7 +112,7 @@ export const detailedBrandsByCategory = {
             'ADMIRAL': [],
             'JVC': [],
             'THC': [],
-            'TOP HOUSE': [],
+            'Top House': [],
             'RCA': [],
             'Ken Brown': [],
             'Sanyo': [],
@@ -527,8 +527,8 @@ export const faqs = [
 ]
 
 export const bannerTexts = [
-    "🔥 ¡Aprendé a reparar electrodomésticos! Curso presencial en Barracas, CABA. 📍 ",
-    "📢 Inscripciones abiertas, cupos limitados.",
+    "🔥 ¡Aprendé a reparar electrodomésticos! Curso presencial en Barracas, CABA. 📍",
+    "📢 Inscripciones abiertas Junio 2025, cupos limitados.",
     "No te pierdas esta oportunidad de capacitarte. ¡Click acá! 🚀"
 ]
 

@@ -83,9 +83,9 @@ const Contact = () => {
                     <div className="social-item">
                         <p>📱 Llámanos a</p>
                         <div class="phone-numbers">
+                            <p><strong>Cotizaciones Web:</strong> <a href="tel:5491178967720">+54 9 11 7066-4306</a></p>
                             <p><strong>Barracas:</strong> <a href="tel:5491139148766">+54 911 3914-8766</a></p>
                             <p><strong>Quilmes:</strong> <a href="tel:5491178967720">+54 911 7896-7720</a></p>
-                            <p><strong>Cotizaciones Web:</strong> <a href="tel:5491178967720">+54 9 11 7066-4306</a></p>
                         </div>
                     </div>
                     <div className="social-item">

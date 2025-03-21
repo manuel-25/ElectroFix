@@ -38,6 +38,7 @@ const FormSubmissionStatus = ({ status, name, customerNumber, serviceRequestNumb
           <div className="next-steps">
             <h4 className="next-steps-header">Pasos a seguir:</h4>
             <ol className="steps-list">
+              <li className="step-item">Tenga a mano fotos o videos de su equipo donde se vea la etiqueta y la falla.</li>
               <li className="step-item">Esperar a ser contactado por nuestro equipo</li>
               <li className="step-item">Coordinar la reparación con uno de nuestros técnicos</li>
               <li className="step-item">Recuperar su equipo reparado</li>
