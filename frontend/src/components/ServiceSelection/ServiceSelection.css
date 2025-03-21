@@ -99,6 +99,10 @@
   cursor: not-allowed;
 }
 
+#retiroyentrega {
+  color: var(--black-color);
+}
+
 /* Estilos responsivos */
 @media (max-width: 768px) {
   .branch-cards {
