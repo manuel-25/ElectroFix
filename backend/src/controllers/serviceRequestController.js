@@ -85,6 +85,8 @@ class ServiceRequestController {
             // Crear la solicitud en la base de datos
             const serviceRequest = await QuoteManager.create(req.body)
 
+            const whatsappMessage = encodeURIComponent(`Hola, ${userData.firstName}! Nos comunicamos del equipo de logística Electrosafe, recibimos tu solicitud de cotización (Nº ${serviceRequestNumber}) en nuestra web y quería comentarte las opciones y promociones que tenemos para reparación de tu ${category.name}.`)
+            const whatsappUrl = `https://wa.me/549${userData.phone}?text=${whatsappMessage}`
             const emailContent = `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; background-color: #F5F7FA; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
                     <h2 style="background-color: #70757A; color: white; padding: 10px; text-align: center; border-radius: 10px 10px 0 0;">Nueva Solicitud de Servicio</h2>
@@ -110,7 +112,7 @@ class ServiceRequestController {
                         <p><strong>Sucursal:</strong> ${branch}</p>
                         <p><strong>Código de descuento:</strong> ${userData.discountCode || 'N/A'}</p>
                         <p style="text-align: center; margin-top: 20px;">
-                            <a href="https://wa.me/549${userData.phone}?text=Hola, ${userData.firstName}! Nos comunicamos del equipo de logística Electrosafe, recibimos tu solicitud de cotización (Nº ${serviceRequestNumber}) en nuestra web y quería comentarte las opciones y promociones que tenemos para reparación de tu ${category.name}."
+                            <a href=${whatsappUrl}
                                 style="background-color: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
                                 Contactar por WhatsApp
                             </a>
@@ -118,6 +120,7 @@ class ServiceRequestController {
                     </div>
                 </div>
             `
+
 
             // Verificar que el destinatario del correo esté configurado
             const recipientEmail = config.GMAIL_USER
