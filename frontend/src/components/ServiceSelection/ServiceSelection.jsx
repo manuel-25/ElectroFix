@@ -39,7 +39,7 @@ const ServiceSelection = ({ selectedProvince, selectedMunicipio, selectedCategor
               <img src="/logo.png" alt="Logo Electrosafe" className="branch-icon" />
               <div className="branch-text">
                 <h4>Sucursal Barracas</h4>
-                <p>📍 Rocha 175</p>
+                <p>📍 Rocha 1752</p>
               </div>
             </div>
 
