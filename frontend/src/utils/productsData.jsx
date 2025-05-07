@@ -477,54 +477,54 @@ export const reviews = [
 
 export const faqs = [
     {
-        question: "¿Cómo funciona nuestro servicio?",
-        answer: "Nuestro servicio es sencillo. Usted realiza la cotización de su equipo en nuestra web y luego nos envía su electrodoméstico mediante correo, lo revisamos y le enviamos una cotización final. Una vez aprobado, realizamos la reparación, lo probamos y se lo devolvemos."
+      question: "¿Cómo funciona nuestro servicio?",
+      answer: "Completás el formulario en la web y te contactamos por WhatsApp. Ahí te pedimos fotos o videos del problema (y de la etiqueta del equipo) para darte una cotización aproximada. Si estás de acuerdo, te generamos un código para que puedas traerlo a la sucursal, coordinar un retiro a domicilio (según tu ubicación) o enviarlo por correo. Al revisar el equipo, respetamos el valor cotizado siempre que coincida con lo que vimos en las fotos. Al hacer el proceso online, accedés a mejores precios."
     },
     {
-        question: "¿Cómo es el proceso de cotización?",
-        answer: "La cotización web es estimada y se realizara una vez que recibimos y revisamos su electrodoméstico. Un técnico especializado evaluará el daño y le enviaremos un presupuesto detallado."
+      question: "¿Cómo se realiza la cotización?",
+      answer: "Todo se hace por WhatsApp. Te pedimos fotos o videos del problema y la etiqueta del equipo. Con eso te damos una cotización aproximada y, si estás de acuerdo, te generamos un código para avanzar con el ingreso."
     },
     {
-        question: "¿Qué opciones tengo para realizar el envío?",
-        answer: "Puede enviar su electrodoméstico a través de Correo Argentino o Andreani."
+      question: "¿Qué opciones tengo para enviar o acercar el equipo?",
+      answer: "Podés traerlo personalmente a nuestras sucursales (recomendado), pedir un retiro a domicilio (según zona) o enviarlo por Correo Argentino o Andreani. Siempre coordinamos antes por WhatsApp."
     },
     {
-        question: "¿Cómo se lleva a cabo la revisión del equipo?",
-        answer: "Un técnico especializado revisará su electrodoméstico para identificar el problema y determinar las reparaciones necesarias."
+      question: "¿Dónde están ubicados?",
+      answer: "Contamos con dos sucursales: una en Quilmes y otra en Barracas."
     },
     {
-        question: "¿Cuánto tardaré en recibir la cotización del producto?",
-        answer: "Una vez que recibimos su electrodoméstico, el tiempo estimado para enviarle la cotización es de 2 a 3 días hábiles."
+      question: "¿Qué pasa si decido no avanzar con la reparación?",
+      answer: "En ese caso, se cobra el costo de revisión. También se cobra si el equipo no tiene reparación posible."
     },
     {
-        question: "¿Hay distintas opciones de reparación?",
-        answer: "Sí, ofrecemos varias opciones de reparación según el tipo de daño y el costo. Le proporcionaremos todas las opciones disponibles en la cotización."
+      question: "¿La revisión tiene algún costo?",
+      answer: "Sí, solo si no querés hacer el arreglo o si el equipo no tiene solución. Si aceptás el presupuesto, la revisión ya está incluida."
     },
     {
-        question: "¿Cómo se devuelve el equipo reparado?",
-        answer: "Una vez reparado, le enviaremos su electrodoméstico a través del mismo servicio de mensajería que utilizó para enviarlo."
+      question: "¿Cuánto tarda el presupuesto final?",
+      answer: "Una vez recibido el equipo, el tiempo estimado de revisión y envío de presupuesto es de 3 a 5 días hábiles."
     },
     {
-        question: "¿Mis datos están seguros?",
-        answer: "Sí, tomamos la seguridad de sus datos muy en serio y utilizamos protocolos de seguridad para proteger su información personal."
+      question: "¿Qué incluye la garantía?",
+      answer: "Ofrecemos 30 días de garantía sobre la reparación realizada. Cubre exclusivamente el problema que se arregló."
     },
     {
-        question: "¿Qué sucede si no estoy satisfecho con la reparación?",
-        answer: "Si no está satisfecho con la reparación, contáctenos para resolver el problema. Ofrecemos garantía de hasta 6 meses."
+      question: "¿Cómo hago el seguimiento del equipo?",
+      answer: "Podés consultarnos directamente con su código por WhatsApp en cualquier momento."
     },
     {
-        question: "¿Se puede realizar seguimiento?",
-        answer: "Sí, puede hacer seguimiento del estado de su reparación a través de nuestro sitio web o contactándonos directamente."
+      question: "¿Qué métodos de pago aceptan?",
+      answer: "Podés pagar con tarjeta de crédito, débito, transferencia bancaria o Mercado Pago."
     },
     {
-        question: "¿Qué métodos de pago se aceptan?",
-        answer: "Aceptamos tarjetas de crédito, débito, transferencias bancarias y mercado pago."
+      question: "¿Mis datos están seguros?",
+      answer: "Sí. Almacenamos tu información en servidores seguros y aplicamos protocolos de seguridad estándar en la industria. Solo usamos tus datos para contactarte y hacer el seguimiento del servicio, y no los compartimos con terceros bajo ningún motivo."
     },
     {
-        question: "¿Por qué confiar en nosotros?",
-        answer: "Contamos con años de experiencia y técnicos altamente calificados. Nuestro compromiso es ofrecer un servicio de alta calidad y rapidez."
+      question: "¿Por qué confiar en nosotros?",
+      answer: "Porque hacemos todo el proceso transparente desde el inicio, ofrecemos precios especiales online y trabajamos con técnicos especializados. Usamos repuestos de calidad, probamos el equipo antes de devolverlo y te enviamos fotos o videos del equipo funcionando para tu seguridad."
     }
-]
+]  
 
 export const bannerTexts = [
     "🔥 ¡Aprendé a reparar electrodomésticos! Curso presencial en Barracas, CABA. 📍",
