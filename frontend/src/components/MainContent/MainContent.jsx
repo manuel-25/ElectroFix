@@ -89,10 +89,21 @@ function MainContent() {
     })
   }, 200), [])
 
+  // Reviews Expand
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [handleScroll])
+
+  const [expandedReviews, setExpandedReviews] = useState({});
+
+  const toggleExpand = (id) => {
+    setExpandedReviews(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+  
 
   return (
     <div>
@@ -214,15 +225,15 @@ function MainContent() {
                     <p>Av. Vicente López 770 B1878, Quilmes, Provincia de Buenos Aires</p>
                 </div>
                 <p className='rating'>
-                    <span className='rating-number'>4.7</span>
+                    <span className='rating-number'>5.0</span>
                     <span className='stars-container'>
                         <span className='star'></span>
                         <span className='star'></span>
                         <span className='star'></span>
                         <span className='star'></span>
-                        <span className='star half'></span>
+                        <span className='star'></span>
                     </span>
-                    <a href="https://www.google.com/search?q=electrosafe+quilmes&sca_esv=a0e417c138758ffa&hl=es-419&gl=ar&sxsrf=ADLYWIL3yPa3TtrqufPpEYP-tPt-nsSfxQ%3A1718729648775&ei=sLtxZun6LovY1sQPp5eKsAQ&oq=electrosa&gs_lp=Egxnd3Mtd2l6LXNlcnAiCWVsZWN0cm9zYSoCCAAyChAjGIAEGCcYigUyChAjGIAEGCcYigUyExAuGIAEGBQYxwEYhwIYjgUYrwEyBRAAGIAEMgUQABiABDIFEAAYgAQyCxAuGIAEGMcBGK8BMgsQLhiABBjHARivATIFEAAYgAQyBRAAGIAESP0TUABYpQtwAHgBkAEAmAGUAaAB2AeqAQMyLje4AQPIAQD4AQGYAgmgAvMHwgIEECMYJ8ICCxAuGIAEGLEDGIMBwgIREC4YgAQYsQMY0QMYgwEYxwHCAgsQABiABBixAxiDAcICDhAAGIAEGLEDGIMBGIoFwgIIEC4YgAQYsQMYxwEYrwHCAggQABiABBixA8ICFBAuGIAEGLEDGIMBGMcBGI4FGK8BmAMAkgcDMC45oAefeA&sclient=gws-wiz-serp#ip=1&lrd=0x95a3332dc6e1e2eb:0x91e0a93b10ba873,1,,,," target="_blank" rel="noopener noreferrer">115 opiniones</a>
+                    <a href="https://www.google.com/search?q=electrosafe+quilmes&sca_esv=a0e417c138758ffa&hl=es-419&gl=ar&sxsrf=ADLYWIL3yPa3TtrqufPpEYP-tPt-nsSfxQ%3A1718729648775&ei=sLtxZun6LovY1sQPp5eKsAQ&oq=electrosa&gs_lp=Egxnd3Mtd2l6LXNlcnAiCWVsZWN0cm9zYSoCCAAyChAjGIAEGCcYigUyChAjGIAEGCcYigUyExAuGIAEGBQYxwEYhwIYjgUYrwEyBRAAGIAEMgUQABiABDIFEAAYgAQyCxAuGIAEGMcBGK8BMgsQLhiABBjHARivATIFEAAYgAQyBRAAGIAESP0TUABYpQtwAHgBkAEAmAGUAaAB2AeqAQMyLje4AQPIAQD4AQGYAgmgAvMHwgIEECMYJ8ICCxAuGIAEGLEDGIMBwgIREC4YgAQYsQMY0QMYgwEYxwHCAgsQABiABBixAxiDAcICDhAAGIAEGLEDGIMBGIoFwgIIEC4YgAQYsQMYxwEYrwHCAggQABiABBixA8ICFBAuGIAEGLEDGIMBGMcBGI4FGK8BmAMAkgcDMC45oAefeA&sclient=gws-wiz-serp#ip=1&lrd=0x95a3332dc6e1e2eb:0x91e0a93b10ba873,1,,,," target="_blank" rel="noopener noreferrer">122 opiniones</a>
                 </p>
                 <ul className='review-listing'>
                     {reviews.map(review => (
@@ -242,7 +253,15 @@ function MainContent() {
                                 </div>
                                 <div className='review-time'>{review.timeAgo}</div>
                             </div>
-                            <p className='review-comment'>{review.comment}</p>
+                            <p className={`review-comment ${expandedReviews[review.id] ? 'expanded' : 'collapsed'}`}>
+                              {review.comment}
+                            </p>
+
+                            {review.comment.length > 200 && (
+                              <button onClick={() => toggleExpand(review.id)} className="toggle-comment">
+                                {expandedReviews[review.id] ? 'Ver menos' : 'Ver más'}
+                              </button>
+                            )}
                         </li>
                     ))}
                 </ul>

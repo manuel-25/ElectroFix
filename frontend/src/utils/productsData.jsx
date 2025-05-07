@@ -421,24 +421,42 @@ export const brandLogos = [
 export const reviews = [
     {
         id: 1,
-        name: 'Daniel Petrone',
+        name: 'marianocavallo',
         rating: 5,
-        comment: 'Exelente atencion , muy buen trabajo y rapido, todo perfecto , muy recomendable',
-        profilePic: 'https://lh3.googleusercontent.com/a/ACg8ocLZermqMpgm-jmmOuqM5wQXxGtoUSSW0TKFje0IDSdYzZ57HA=w60-h60-p-rp-mo-br100',
-        timeAgo: 'Hace un mes',
-        url: 'https://www.google.com/maps/contrib/103782907861104787038/reviews/@-37.741386,-64.957331,6z/data=!4m3!8m2!3m1!1e1?hl=es-419&entry=ttu'
+        comment: 'El arreglo excelente y buscaron la forma de que sea mas económico por eso se merecen 5 estrellas, la unica sugerencia es que podrian haberle pasado un trapito aunque sea antes de entregarme la cafetera estaba muy sucia.',
+        profilePic: 'https://lh3.googleusercontent.com/a-/ALV-UjWntJCKgN8yXnVDnoueAlxpEZIqQ_cn_wUbx2EV0OUDuqjR6Cfu=w72-h72-p-rp-mo-br100',
+        timeAgo: 'Hace 3 semanas',
+        url: 'https://www.google.com/maps/place/Electrosafe+Service+Reparaciones+de+Electrodomesticos/@-34.6448907,-58.3729082,15.75z/data=!4m8!3m7!1s0x95a32f86a4e7a6f9:0x48efe2a55af0f759!8m2!3d-34.6428301!4d-58.3745474!9m1!1b1!16s%2Fg%2F11rtm81rkx?entry=ttu&g_ep=EgoyMDI1MDUwMy4wIKXMDSoASAFQAw%3D%3D'
     },
     {
         id: 2,
-        name: 'Eugenia Andujar',
+        name: 'Telmo Gomez',
         rating: 5,
-        comment: 'Unos genios!! Arreglaron el ventilador en re poco tiempo y funciona re bien. Nos explicaron cada paso. Son muy amables. Muchas gracias! :)',
-        profilePic: 'https://lh3.googleusercontent.com/a/ACg8ocKLTtxu6h20QVrZeama3LwfX55guZj3cVMCB8_H-ISt4QCIpg=w60-h60-p-rp-mo-br100',
-        timeAgo: 'Hace 4 meses',
-        url: 'https://www.google.com/maps/contrib/108126814334509832821?hl=es-419&ved=1t:31294&ictx=111'
+        comment: 'Me pasaron presupuesto rápido y por Whatsapp, llevé un horno eléctrico con anafes que no funcionaba uno de los anafes, luego de que lo llevé me dicen que se salvaban unas piezas así que me iba a salir la mitad más barato del presupuesto inicial. El técnico fue muy amable y claro es su explicación. El precio bastante accesible y fueron rápidos para resolverlo. MUY RECOMENDABLE !!!!',
+        profilePic: 'https://lh3.googleusercontent.com/a-/ALV-UjVkaXiEWPzEjWIQ7MpItPw5i6_n8d5QSD3YYLWUtteLTiG3jd9G4w=w72-h72-p-rp-mo-ba3-br100',
+        timeAgo: 'Hace 1 mes',
+        url: 'https://www.google.com/maps/contrib/117480275805563837801/place/ChIJ-abnpIYvo5URWffwWqXi70g/@-32.7737796,-61.4454994,7z/data=!4m6!1m5!8m4!1e1!2s117480275805563837801!3m1!1e1?hl=en&entry=ttu&g_ep=EgoyMDI1MDUwMy4wIKXMDSoASAFQAw%3D%3D'
     },
     {
         id: 3,
+        name: 'Vidalia Avalos',
+        rating: 5,
+        comment: 'Muy buen servicio!!! Increible el trabajo, funciona como nuevo, todo perfecto! Lo recomiendo👌👌 …',
+        profilePic: 'https://lh3.googleusercontent.com/a/ACg8ocLZermqMpgm-jmmOuqM5wQXxGtoUSSW0TKFje0IDSdYzZ57HA=w60-h60-p-rp-mo-br100',
+        timeAgo: 'Hace 1 mes',
+        url: 'https://www.google.com/maps/contrib/105021577541357827002/place/ChIJ-abnpIYvo5URWffwWqXi70g/@-31.263779,-62.902739,7z/data=!4m6!1m5!8m4!1e1!2s105021577541357827002!3m1!1e1?hl=en&entry=ttu&g_ep=EgoyMDI1MDUwMy4wIKXMDSoASAFQAw%3D%3Dhttps://lh3.googleusercontent.com/a-/ALV-UjXIvBS1tWHIzct7jS8DfNqIaX848yaKvpFsQ6TUPijVnK8qmnvj=w72-h72-p-rp-mo-ba2-br100'
+    },
+    {
+        id: 4,
+        name: 'Marcela Lattanzio',
+        rating: 5,
+        comment: 'Muy buen servicio, repararon mi microondas en dos días. Son muy amables en su atencion. Los recomiendo!!!',
+        profilePic: 'https://lh3.googleusercontent.com/a-/ALV-UjW22pDPAtmOifY3xgE_DEQ9tLtrachkVLbB2FGVFJOHGqEUQQfqxA=w72-h72-p-rp-mo-br100',
+        timeAgo: 'Hace 5 meses',
+        url: 'https://www.google.com/maps/contrib/101441228288363802163/place/ChIJ-abnpIYvo5URWffwWqXi70g/@-36.7500741,-60.810749,7z/data=!4m6!1m5!8m4!1e1!2s101441228288363802163!3m1!1e1?hl=en&entry=ttu&g_ep=EgoyMDI1MDUwMy4wIKXMDSoASAFQAw%3D%3D'
+    },
+    {
+        id: 5,
         name: 'Maria Florencia Gianni',
         rating: 5,
         comment: 'Super recomiendo! unos genios los chicos me solucionaron el problema de mi plancha de un dia para otro!',
@@ -447,7 +465,7 @@ export const reviews = [
         url: 'https://www.google.com/maps/contrib/102927586818368431798?hl=es-419&ved=1t:31294&ictx=111'
     },
     {
-        id: 4,
+        id: 6,
         name: 'Liliana Camaron',
         rating: 5,
         comment: 'Excelente atención, muy profesionales y  cumplen con los tiempos de entrega. Muy recomendables',
@@ -456,7 +474,7 @@ export const reviews = [
         url: 'https://www.google.com/maps/contrib/110487861240920629631?hl=es-419&ved=1t:31294&ictx=111'
     },
     {
-        id: 5,
+        id: 7,
         name: 'Lucio Mejias',
         rating: 5,
         comment: 'Muy profesionales! Tenía una cava de vinos que parecía perdida y me la recuperaron! El mejor de service de Quilmes!',
@@ -465,14 +483,23 @@ export const reviews = [
         url: 'https://www.google.com/maps/contrib/112499526229381407473?hl=es-419&ved=1t:31294&ictx=111'
     },
     {
-        id: 6,
-        name: 'Rosana R. Kogan',
-        rating: 4,
-        comment: 'Pude reparar mi horno eléctrico, lo mejor es que lo retiraron a domicilio!',
-        profilePic: 'https://lh3.googleusercontent.com/a-/ALV-UjUZviKLwMreDInY68ixgCsgYgicOf2yEX2YC3r75aaisf87ycM=w60-h60-p-rp-mo-br100',
+        id: 8,
+        name: 'Carina Vidal',
+        rating: 5,
+        comment: 'Muy buena atención la freidora funciona muy bien después de la reparación',
+        profilePic: 'https://lh3.googleusercontent.com/a/ACg8ocJFfxX8L9WdeWo6CFXhe19yxiae9eQRFzgk15S4q0Rr7ZK_Xg=w36-h36-p-rp-mo-br100',
         timeAgo: 'Hace un año',
-        url: 'https://www.google.com/maps/contrib/110740870314712365654?hl=es-419&ved=1t:31294&ictx=111'
+        url: 'https://www.google.com/maps/contrib/118024432678148743515/place/ChIJ-abnpIYvo5URWffwWqXi70g/@-34.6428301,-58.3745474,17z/data=!4m6!1m5!8m4!1e1!2s118024432678148743515!3m1!1e1?hl=en&entry=ttu&g_ep=EgoyMDI1MDUwMy4wIKXMDSoASAFQAw%3D%3D'
     },
+    {
+        id: 9,
+        name: 'maria fernanda Valdez',
+        rating: 5,
+        comment: 'Muy serio, repararon mi horno de pan, tenía otra falla y siguieron el tema hasta que lo solucionaron. Recomendable por la seriedad.',
+        profilePic: 'https://lh3.googleusercontent.com/a/ACg8ocJFfxX8L9WdeWo6CFXhe19yxiae9eQRFzgk15S4q0Rr7ZK_Xg=w36-h36-p-rp-mo-br100',
+        timeAgo: 'Hace un año',
+        url: 'https://www.google.com/maps/contrib/106788830544499982223/place/ChIJ-abnpIYvo5URWffwWqXi70g/@-33.823181,-59.101088,9z/data=!4m6!1m5!8m4!1e1!2s106788830544499982223!3m1!1e1?hl=en&entry=ttu&g_ep=EgoyMDI1MDUwMy4wIKXMDSoASAFQAw%3D%3D'
+    }
 ]
 
 export const faqs = [
