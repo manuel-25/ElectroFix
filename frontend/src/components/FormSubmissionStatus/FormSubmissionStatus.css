@@ -111,28 +111,28 @@
 }
 
 .steps-list {
-    list-style-type: none; 
-    padding: 0; 
+    list-style-type: none;
+    padding: 0;
 }
 
 .step-item {
-    font-size: 16px; 
-    color: #666; 
-    margin-bottom: 8px; 
-    position: relative; 
-    padding-left: 20px; 
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 28px; /* espacio para el tilde */
+    line-height: 1.5; /* ayuda a mantener proporción vertical */
 }
 
 .step-item::before {
-    content: ''; 
-    position: absolute; 
-    left: 0; 
-    top: 50%; 
-    transform: translateY(-50%); 
-    width: 8px; 
-    height: 8px; 
-    background-color: var(--text-color); 
-    border-radius: 50%;
+    content: '✔'; /* o '✔️' o '\2714' */
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px; /* más grande que 16px */
+    color: #28a745; 
+    line-height: 1; /* importante para evitar que se vea desalineado */
 }
 
 .errorBack-button {
@@ -157,14 +157,14 @@
 }
 
 .number-detail {
-    margin-top: 20px; 
+    margin-top: 40px; 
     font-size: 18px; 
     color: #333; 
 }
 
 .logo-electrosafe {
-    height: 80px;
-    margin-top: 20px;
+    height: 100px;
+    margin-top: 30px;
 }
 
 /* Estilos responsivos */
