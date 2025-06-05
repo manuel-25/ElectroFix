@@ -74,6 +74,7 @@
 
 .reparation-bottom input::placeholder {
     font-size: 20px;
+    color: var(--secondary-color);
 }
 
 /* Suggestion list */
@@ -433,8 +434,8 @@
 }
 
 .attribution {
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .attribution .powered-by-google{
@@ -501,6 +502,10 @@
         font-size: 22px;
     }
 
+    .reparation-bottom input::placeholder {
+    font-size: 15px;
+    }
+
     .features-container {
         max-width: 90vw;
     }
@@ -557,6 +562,10 @@
     .reparation-bottom input[type="text"] {
         width: 100%;
         max-width: 100%;
+    }
+
+    .reparation-bottom input::placeholder {
+    font-size: 12px;
     }
 
     .suggestions-container {

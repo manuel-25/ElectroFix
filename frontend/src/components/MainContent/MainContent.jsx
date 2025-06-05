@@ -200,73 +200,72 @@ function MainContent() {
           </div>
         </section>
       </article>
+      <section className='reviews-section animated-element horizontal-animation'>
+        <div className='title-review-container'>
+          <h2>Opiniones de Nuestros Clientes</h2>
+        </div>
+        <div className='review-location'>
+          <h2>
+            <span className='icon'></span>
+          </h2>
+          <p>Av. Vicente López 770 B1878, Quilmes, Provincia de Buenos Aires</p>
+        </div>
+        <p className='rating'>
+          <span className='rating-number'>5.0</span>
+          <span className='stars-container'>
+            <span className='star'></span>
+            <span className='star'></span>
+            <span className='star'></span>
+            <span className='star'></span>
+            <span className='star'></span>
+          </span>
+          <a href="https://www.google.com/search?q=electrosafe+quilmes&sca_esv=a0e417c138758ffa&hl=es-419&gl=ar&sxsrf=ADLYWIL3yPa3TtrqufPpEYP-tPt-nsSfxQ%3A1718729648775&ei=sLtxZun6LovY1sQPp5eKsAQ&oq=electrosa&gs_lp=Egxnd3Mtd2l6LXNlcnAiCWVsZWN0cm9zYSoCCAAyChAjGIAEGCcYigUyChAjGIAEGCcYigUyExAuGIAEGBQYxwEYhwIYjgUYrwEyBRAAGIAEMgUQABiABDIFEAAYgAQyCxAuGIAEGMcBGK8BMgsQLhiABBjHARivATIFEAAYgAQyBRAAGIAESP0TUABYpQtwAHgBkAEAmAGUAaAB2AeqAQMyLje4AQPIAQD4AQGYAgmgAvMHwgIEECMYJ8ICCxAuGIAEGLEDGIMBwgIREC4YgAQYsQMY0QMYgwEYxwHCAgsQABiABBixAxiDAcICDhAAGIAEGLEDGIMBGIoFwgIIEC4YgAQYsQMYxwEYrwHCAggQABiABBixA8ICFBAuGIAEGLEDGIMBGMcBGI4FGK8BmAMAkgcDMC45oAefeA&sclient=gws-wiz-serp#ip=1&lrd=0x95a3332dc6e1e2eb:0x91e0a93b10ba873,1,,,," target="_blank" rel="noopener noreferrer">122 opiniones</a>
+        </p>
+        <ul className='review-listing'>
+          {reviews.map(review => (
+            <li key={review.id} className='review-item'>
+              <a href={review.url} target="_blank" rel="noopener noreferrer"><img src={review.profilePic} alt={`${review.name}'s profile`} className='profile-pic' loading="lazy"/></a>
+              <div className='review-name'><a href={review.url} target="_blank" rel="noopener noreferrer">{review.name}</a></div>
+              <div className='review-details'>
+                <div className='review-rating'>
+                  {[...Array(5)].map((_, i) => (
+                    <img
+                      key={i}
+                      src={`/images/${i < review.rating ? 'star' : 'halfstar'}.svg`}
+                      alt={i < review.rating ? 'Star' : 'Half Star'}
+                      className='star-icon'
+                    />
+                  ))}
+                </div>
+                <div className='review-time'>{review.timeAgo}</div>
+              </div>
+              <p className={`review-comment ${expandedReviews[review.id] ? 'expanded' : 'collapsed'}`}>
+                {review.comment}
+              </p>
+              {review.comment.length > 200 && (
+                <button onClick={() => toggleExpand(review.id)} className="toggle-comment">
+                  {expandedReviews[review.id] ? 'Ver menos' : 'Ver más'}
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+        <p className='attribution'><span className='powered-by-google' title="Powered by Google"></span></p>
+      </section>
       <article className='brands-container animated-element vertical-animation'>
-                <h2>Trabajamos con todas las marcas</h2>
-                <h3>Las mejores marcas a tu servicio</h3>
-                <section className='brands-logo-container'>
-                    {brandLogos.map((logo, index) => (
-                        <div key={index} className='brand-logo-item'>
-                            <img src={logo.src} alt={logo.alt} className='brand-logo' loading="lazy"/>
-                        </div>
-                    ))}
-                </section>
-                <Link to="/reparacion-electrodomesticos">
-                    <QuoteButton text="Cotizar Ahora" />
-                </Link>
-            </article>
-            <section className='reviews-section animated-element horizontal-animation'>
-                <div className='title-review-container'>
-                    <h2>Opiniones de Nuestros Clientes</h2>
-                </div>
-                <div className='review-location'>
-                    <h2>
-                        <span className='icon'></span>
-                    </h2>
-                    <p>Av. Vicente López 770 B1878, Quilmes, Provincia de Buenos Aires</p>
-                </div>
-                <p className='rating'>
-                    <span className='rating-number'>5.0</span>
-                    <span className='stars-container'>
-                        <span className='star'></span>
-                        <span className='star'></span>
-                        <span className='star'></span>
-                        <span className='star'></span>
-                        <span className='star'></span>
-                    </span>
-                    <a href="https://www.google.com/search?q=electrosafe+quilmes&sca_esv=a0e417c138758ffa&hl=es-419&gl=ar&sxsrf=ADLYWIL3yPa3TtrqufPpEYP-tPt-nsSfxQ%3A1718729648775&ei=sLtxZun6LovY1sQPp5eKsAQ&oq=electrosa&gs_lp=Egxnd3Mtd2l6LXNlcnAiCWVsZWN0cm9zYSoCCAAyChAjGIAEGCcYigUyChAjGIAEGCcYigUyExAuGIAEGBQYxwEYhwIYjgUYrwEyBRAAGIAEMgUQABiABDIFEAAYgAQyCxAuGIAEGMcBGK8BMgsQLhiABBjHARivATIFEAAYgAQyBRAAGIAESP0TUABYpQtwAHgBkAEAmAGUAaAB2AeqAQMyLje4AQPIAQD4AQGYAgmgAvMHwgIEECMYJ8ICCxAuGIAEGLEDGIMBwgIREC4YgAQYsQMY0QMYgwEYxwHCAgsQABiABBixAxiDAcICDhAAGIAEGLEDGIMBGIoFwgIIEC4YgAQYsQMYxwEYrwHCAggQABiABBixA8ICFBAuGIAEGLEDGIMBGMcBGI4FGK8BmAMAkgcDMC45oAefeA&sclient=gws-wiz-serp#ip=1&lrd=0x95a3332dc6e1e2eb:0x91e0a93b10ba873,1,,,," target="_blank" rel="noopener noreferrer">122 opiniones</a>
-                </p>
-                <ul className='review-listing'>
-                    {reviews.map(review => (
-                        <li key={review.id} className='review-item'>
-                            <a href={review.url} target="_blank" rel="noopener noreferrer"><img src={review.profilePic} alt={`${review.name}'s profile`} className='profile-pic' loading="lazy"/></a>
-                            <div className='review-name'><a href={review.url} target="_blank" rel="noopener noreferrer">{review.name}</a></div>
-                            <div className='review-details'>
-                                <div className='review-rating'>
-                                    {[...Array(5)].map((_, i) => (
-                                        <img
-                                            key={i}
-                                            src={`/images/${i < review.rating ? 'star' : 'halfstar'}.svg`}
-                                            alt={i < review.rating ? 'Star' : 'Half Star'}
-                                            className='star-icon'
-                                        />
-                                    ))}
-                                </div>
-                                <div className='review-time'>{review.timeAgo}</div>
-                            </div>
-                            <p className={`review-comment ${expandedReviews[review.id] ? 'expanded' : 'collapsed'}`}>
-                              {review.comment}
-                            </p>
-
-                            {review.comment.length > 200 && (
-                              <button onClick={() => toggleExpand(review.id)} className="toggle-comment">
-                                {expandedReviews[review.id] ? 'Ver menos' : 'Ver más'}
-                              </button>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-                <p className='attribution'><span className='powered-by-google' title="Powered by Google"></span></p>
-            </section>
+        <h2>Trabajamos con todas las marcas</h2>
+        <h3>Las mejores marcas a tu servicio</h3>
+        <section className='brands-logo-container'>
+          {brandLogos.map((logo, index) => (
+            <div key={index} className='brand-logo-item'>
+              <img src={logo.src} alt={logo.alt} className='brand-logo' loading="lazy"/>
+            </div>
+          ))}
+        </section>
+        <Link to="/reparacion-electrodomesticos">
+          <QuoteButton text="Cotizar Ahora" />
+        </Link>
+      </article>
             <div className='whatsapp-float'>
             <a href="https://wa.me/5491170664306?text=Hola,%20me%20comunico%20desde%20la%20web%20de%20Electrosafe%20para%20recibir%20la%20mejor%20cotización." target="_blank" rel="noopener noreferrer">
                   <img src='/images/whatsappLogo.svg' alt='WhatsApp' />
