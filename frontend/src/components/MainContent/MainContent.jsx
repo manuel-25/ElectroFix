@@ -106,7 +106,7 @@ function MainContent() {
   
 
   return (
-    <div>
+    <div className='mainContent-container'>
       <MiniBanner/>
       <div className="reparation-container">
         <section className="section-reparation">

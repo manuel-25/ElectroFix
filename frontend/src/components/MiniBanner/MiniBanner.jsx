@@ -12,7 +12,6 @@ const MiniBanner = () => {
         className="mini-banner-link"
       >
         <div className="mini-banner-content">
-          {/* Duplicamos el contenido para un bucle continuo */}
           {[...bannerTexts, ...bannerTexts].map((text, index) => (
             <span key={index} className="banner-text">
               {text}

@@ -30,7 +30,7 @@
   }
 
   #communication {
-    background-image: url(https://www.vidyard.com/wp-content/themes/vidyard-website/img/pages/company/about-us/group-doodle.svg);
+    background-image: url('../../../public/images/group-doodle.svg');
     background-position: left;
   }
   

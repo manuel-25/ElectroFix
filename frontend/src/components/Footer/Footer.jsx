@@ -6,7 +6,7 @@ function Footer() {
         <footer className="footer">
             <div className="footer-content">
                 <div className="footer-logo">
-                    <img className="logo" src="/ELECTROSAFEwhite.svg" alt="Electrosafe logo" />
+                    <img className="logo" src="/images/ELECTROSAFELOGOBLACK333333.png" alt="Electrosafe logo" />
                 </div>
                 <div className="images">
                     <a href="http://qr.afip.gob.ar/?qr=ueZdOH3wUQcOvPEgt_JCjw,," target="_F960AFIPInfo">
