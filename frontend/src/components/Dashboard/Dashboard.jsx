@@ -1,210 +1,242 @@
-import React, { useEffect, useState, useContext } from 'react';
-import Loading from '../Loading/Loading.jsx';
-import axios from 'axios';
-import './Dashboard.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { getApiUrl } from '../../config.js';
-import { AuthContext } from '../../Context/AuthContext.jsx';
-import SearchClient from '../SearchClient/SearchClient.jsx';
-import SearchQuote from '../SearchQuote/SearchQuote.jsx';
+import React, { useEffect, useState, useContext } from 'react'
+import axios from 'axios'
+import { getApiUrl } from '../../config'
+import { AuthContext } from '../../Context/AuthContext'
+import './Dashboard.css'
+
+const ITEMS_PER_PAGE = 50
 
 const Dashboard = () => {
-  const [cotizaciones, setCotizaciones] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [isTableContentVisible, setIsTableContentVisible] = useState(true);
-  const [customerNumber, setCustomerNumber] = useState(''); // Para buscar cliente
-  const [clientData, setClientData] = useState(null); // Para mostrar datos del cliente
-  const [quoteNumber, setQuoteNumber] = useState('');
+  const [quotes, setQuotes] = useState([])
+  const [search, setSearch] = useState('')
+  const [error, setError] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [sortConfig, setSortConfig] = useState({ key: 'serviceRequestNumber', direction: 'desc' })
 
-  const { auth } = useContext(AuthContext);
-
+  const { auth } = useContext(AuthContext)
 
   useEffect(() => {
-    const fetchCotizaciones = async () => {
-      try {
-        const response = await axios.get(`${getApiUrl()}/api/quotes`);
-        const sortedCotizaciones = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
-        setCotizaciones(sortedCotizaciones);
-      } catch (err) {
-        setError('Error al cargar las cotizaciones');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCotizaciones();
-  }, []);
-
-  const handleStatusChange = async (serviceRequestNumber, newStatus) => {
+  const fetchQuotes = async () => {
     try {
-      await axios.put(`${getApiUrl()}/api/quotes/${serviceRequestNumber}`, { status: newStatus });
-      setCotizaciones(cotizaciones.map(cotizacion =>
-        cotizacion.serviceRequestNumber === serviceRequestNumber ? { ...cotizacion, status: newStatus } : cotizacion
-      ));
+      const res = await axios.get(`${getApiUrl()}/api/quotes`)
+      console.log('Cotizaciones:', res.data) // 👈 acá podés revisar la estructura
+      setQuotes(res.data)
     } catch (err) {
-      setError('Error al actualizar el estado');
+      setError('Error al obtener las cotizaciones')
     }
-  };
+  }
+  fetchQuotes()
+}, [])
 
-  const handleReviewChange = (serviceRequestNumber, newReview) => {
-    setCotizaciones(cotizaciones.map(cotizacion =>
-      cotizacion.serviceRequestNumber === serviceRequestNumber ? { ...cotizacion, review: newReview } : cotizacion
-    ));
-  };
 
-  const handleReviewEdit = async (serviceRequestNumber, review) => {
+  const handleStatusChange = async (srn, status) => {
     try {
-      await axios.put(`${getApiUrl()}/api/quotes/${serviceRequestNumber}`, { review });
-      setCotizaciones(cotizaciones.map(cotizacion =>
-        cotizacion.serviceRequestNumber === serviceRequestNumber ? { ...cotizacion, review } : cotizacion
-      ));
-    } catch (err) {
-      setError('Error al actualizar la revisión');
+      await axios.put(`${getApiUrl()}/api/quotes/${srn}`, { status })
+      setQuotes(prev =>
+        prev.map(q =>
+          q.serviceRequestNumber === srn ? { ...q, status } : q
+        )
+      )
+    } catch {
+      setError('Error al cambiar el estado')
     }
-  };
+  }
 
-  const toggleTableContentVisibility = () => {
-    setIsTableContentVisible(prev => !prev);
-  };
+  const handleReviewUpdate = async (srn, newReview) => {
+    try {
+      await axios.put(`${getApiUrl()}/api/quotes/${srn}`, { review: newReview })
+      setQuotes(prev =>
+        prev.map(q =>
+          q.serviceRequestNumber === srn ? { ...q, review: newReview } : q
+        )
+      )
+    } catch {
+      setError('Error al actualizar la revisión')
+    }
+  }
 
-  const getStatusClass = (status) => {
+  const filteredQuotes = quotes.filter(q =>
+    q.serviceRequestNumber?.toString().includes(search.trim()) ||
+    q.customerNumber?.toString().includes(search.trim())
+  )
+
+  const sortedQuotes = [...filteredQuotes].sort((a, b) => {
+    const { key, direction } = sortConfig
+    let aVal = key === 'category' ? a.category?.name : a[key]
+    let bVal = key === 'category' ? b.category?.name : b[key]
+
+    if (typeof aVal === 'string') aVal = aVal.toLowerCase()
+    if (typeof bVal === 'string') bVal = bVal.toLowerCase()
+
+    if (aVal < bVal) return direction === 'asc' ? -1 : 1
+    if (aVal > bVal) return direction === 'asc' ? 1 : -1
+    return 0
+  })
+
+  const totalPages = Math.ceil(sortedQuotes.length / ITEMS_PER_PAGE)
+  const paginatedQuotes = sortedQuotes.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  )
+
+  const handleSort = (key) => {
+    let direction = 'asc'
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc'
+    }
+    setSortConfig({ key, direction })
+  }
+
+  const renderSortIcon = (key) => {
+    if (sortConfig.key !== key) return '⇅'
+    return sortConfig.direction === 'asc' ? '↑' : '↓'
+  }
+
+  const getRowClass = (status) => {
     switch (status) {
-      case 'En revisión':
-        return 'row-in-review';
-      case 'Presupuesto Enviado':
-        return 'row-budget-sent';
-      case 'Aprobada':
-        return 'row-approved';
-      case 'Rechazada':
-        return 'row-rejected';
-      case 'Listo para devolución':
-        return 'row-ready-for-return';
-      default:
-        return '';
+      case 'Rechazada': return 'row-rechazada'
+      case 'Presupuesto Enviado': return 'row-presupuesto'
+      case 'Aprobada': return 'row-aprobada'
+      case 'En revisión': return 'row-revision'
+      case 'Listo para devolución': return 'row-devolucion'
+      default: return ''
     }
-  };
+  }
 
-  const handleSearchClient = async () => {
-    if (!customerNumber) {
-      setError('Por favor ingrese un número de cliente.');
-      return
-    }
-  
-    if (!/^\d+$/.test(customerNumber)) { // Verifica si el número es solo dígitos
-      setError('El número de cliente debe ser un valor numérico válido.')
-      return
-    }
-  
-    try {
-      const response = await axios.get(`${getApiUrl()}/api/client/${customerNumber}`)
-      
-      setClientData(response.data)
-      setError(null)
-  
-    } catch (err) {
-      setClientData(null);
-      setError('Cliente no encontrado');
-    }
-  }  
+  const generateWhatsAppLink = (q) => {
+  const phone = (q.userData?.phone || '').toString().replace(/\D/g, '')
+  const name = q.userData?.firstName || 'cliente'
+  const equipo = q.category?.name || 'equipo'
+  const solicitud = q.serviceRequestNumber || ''
+  const message = `Hola, ${name}! Nos comunicamos del equipo de logística Electrosafe, recibimos tu solicitud de cotización (Nº ${solicitud}) en nuestra web y quería comentarte las opciones y promociones que tenemos para reparación de tu ${equipo}.`
+  return `https://wa.me/54${phone}?text=${encodeURIComponent(message)}`
+}
 
-  const handleSearchQuote = async () => {
-    if (!quoteNumber) {
-      setError('Por favor ingrese un número de cotización.');
-      return;
-    }
-  
-    try {
-      const response = await axios.get(`${getApiUrl()}/api/quotes/${quoteNumber}`);
-      const foundQuote = response.data;
-      if (foundQuote) {
-        setCotizaciones([foundQuote]);  // Solo muestra la cotización encontrada
-        setError(null);
-      } else {
-        setError('Cotización no encontrada.');
-      }
-    } catch (err) {
-      setError('Error al buscar la cotización');
-    }
-  };
-
-  if (loading) return <Loading />;
 
   return (
-    <div className="dashboard-container">
-      <h1>Bienvenido al Electro Dashboard</h1>
-      <p>Esta es una sección protegida y solo puede ser vista por usuarios autenticados. No compartir la información.</p>
+    <div className="dashboard-wrapper">
+      <h2 className="dashboard-title">📋 Lista de Servicios</h2>
 
-      {/* Componentes de búsqueda de cliente y cotización */}
-      <div className="search-section">
-        <SearchClient setError={setError} />
-        <SearchQuote setError={setError} />
+      <div className="search-wrapper">
+        <input
+          type="text"
+          placeholder="Buscar N° Solicitud o Cliente..."
+          className="search-input"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value)
+            setCurrentPage(1)
+          }}
+        />
       </div>
 
-      {/* Agrupamos botón y tabla */}
-      <div className="cotizaciones-section">
-        <button className="toggle-cotizaciones-button" onClick={toggleTableContentVisibility}>
-          {isTableContentVisible ? 'Ocultar Cotizaciones' : 'Mostrar Cotizaciones'}
-        </button>
+      {error && <p className="error-message">{error}</p>}
 
-        {isTableContentVisible && (
-          <table className="cotizaciones-table">
-            <thead>
-              <tr>
-                <th className="smaller-column"># Solicitud</th>
-                <th className="smaller-column"># Cliente</th>
-                <th className="smaller-column">Fecha</th>
-                <th className="appliance-column">Electrodoméstico</th>
-                <th className="status-column">Estado</th>
-                <th className="details-column">Detalles</th>
-                <th className="faults-column">Fallas</th>
-                <th className="location-column">Ubicación</th>
-                <th className="review-column">Revisión</th>
+      <div className="table-wrapper">
+        <table className="styled-table">
+          <thead className="table-head">
+            <tr>
+              <th className="fixed-col">N° Solicitud</th>
+              <th className="fixed-col">N° Cliente</th>
+              <th className="fixed-col">Fecha</th>
+              <th className="fixed-col">Equipo</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th className="details-cell">Descripción</th>
+              <th>Fallas</th>
+              <th>Sucursal</th>
+              <th>Ubicación</th>
+              <th>Estado</th>
+              <th>Revisión</th>
+              <th>Whatsapp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginatedQuotes.map((q) => (
+              <tr key={`${q.serviceRequestNumber}-${q.customerNumber}`} className={getRowClass(q.status)}>
+                <td>{q.serviceRequestNumber}</td>
+                <td>{q.customerNumber}</td>
+                <td>{new Date(q.date).toLocaleDateString()}</td>
+                <td>{q.category?.name || 'N/A'}</td>
+                <td>{q.brand}</td>
+                <td>{q.model || 'N/A'}</td>
+                <td className="details-cell">{q.userData?.additionalDetails || 'N/A'}</td>
+                <td>{q.faults?.join(', ') || 'N/A'}</td>
+                <td>{q.branch || 'N/A'}</td>
+                <td>{q.userData?.municipio ? `${q.userData.municipio}, ${q.userData.province}` : 'N/A'}</td>
+                <td>
+                  <select
+                    className="status-select"
+                    value={q.status}
+                    onChange={(e) => handleStatusChange(q.serviceRequestNumber, e.target.value)}
+                  >
+                    {['En revisión', 'Presupuesto Enviado', 'Aprobada', 'Rechazada', 'Listo para devolución'].map(s => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </td>
+                <td className="review-cell">
+                  <textarea
+                    className="review-textarea"
+                    defaultValue={q.review || ''}
+                    onBlur={(e) => handleReviewUpdate(q.serviceRequestNumber, e.target.value)}
+                  />
+                </td>
+                <td>
+                  {q.userData?.phone && (
+                    <a
+                      href={generateWhatsAppLink(q)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="whatsapp-btn"
+                    >
+                      <img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" id='contact-whatsapp'/>
+                    </a>
+                  )}
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {cotizaciones.map((cotizacion) => (
-                <tr key={cotizacion.serviceRequestNumber} className={getStatusClass(cotizacion.status)}>
-                  <td className="smaller-column">{cotizacion.serviceRequestNumber || 'Null'}</td>
-                  <td className="smaller-column">{cotizacion.customerNumber || 'Null'}</td>
-                  <td className="smaller-column">{new Date(cotizacion.date).toLocaleDateString()}</td>
-                  <td className="appliance-column">{`${cotizacion.category.name}, ${cotizacion.brand}, ${cotizacion.model || 'N/A'}`}</td>
-                  <td className="status-column">
-                    <select
-                      value={cotizacion.status}
-                      onChange={(e) => handleStatusChange(cotizacion.serviceRequestNumber, e.target.value)}
-                      className={`status-select ${getStatusClass(cotizacion.status)}`}
-                    >
-                      {['En revisión', 'Presupuesto Enviado', 'Aprobada', 'Rechazada', 'Listo para devolución'].map(status => (
-                        <option key={status} value={status}>{status}</option>
-                      ))}
-                    </select>
-                  </td>
-                  <td className="details-column">{cotizacion.userData?.additionalDetails || 'N/A'}</td>
-                  <td className="faults-column">{cotizacion.faults ? cotizacion.faults.join(', ') : 'N/A'}</td>
-                  <td className="location-column">{`${cotizacion.userData.municipio || 'N/A'}, ${cotizacion.userData.province || 'N/A'}`}</td>
-                  <td className="review-cell">
-                    <textarea
-                      value={cotizacion.review || ''}
-                      onChange={(e) => handleReviewChange(cotizacion.serviceRequestNumber, e.target.value)}
-                      placeholder="Escribe tu revisión"
-                      className="review-textarea"
-                    />
-                    <button
-                      className="edit-review-button"
-                      onClick={() => handleReviewEdit(cotizacion.serviceRequestNumber, cotizacion.review)}
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+            ))}
+          </tbody>
+        </table>
       </div>
-    </div>
-  );
-};
 
-export default Dashboard;
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="page-btn">◀</button>
+          {(() => {
+            const pages = []
+            const visiblePages = 5
+            const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2))
+            const endPage = Math.min(totalPages - 1, startPage + visiblePages - 1)
+
+            for (let i = startPage; i <= endPage; i++) {
+              pages.push(
+                <button key={i} className={`page-btn ${currentPage === i ? 'active' : ''}`} onClick={() => setCurrentPage(i)}>
+                  {i}
+                </button>
+              )
+            }
+
+            if (startPage > 1) {
+              pages.unshift(<span key="start-dots" className="page-dots">...</span>)
+              pages.unshift(<button key={1} className={`page-btn ${currentPage === 1 ? 'active' : ''}`} onClick={() => setCurrentPage(1)}>1</button>)
+            }
+
+            if (endPage < totalPages - 1) {
+              pages.push(<span key="end-dots" className="page-dots">...</span>)
+            }
+
+            if (endPage < totalPages) {
+              pages.push(<button key={totalPages} className={`page-btn ${currentPage === totalPages ? 'active' : ''}`} onClick={() => setCurrentPage(totalPages)}>{totalPages}</button>)
+            }
+
+            return pages
+          })()}
+          <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} className="page-btn">▶</button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default Dashboard

@@ -554,9 +554,10 @@ export const faqs = [
 ]  
 
 export const bannerTexts = [
-    "🔥 ¡Aprendé a reparar electrodomésticos! Curso presencial en Barracas, CABA. 📍",
-    "📢 Inscripciones abiertas Junio 2025, cupos limitados.",
-    "No te pierdas esta oportunidad de capacitarte. ¡Click acá! 🚀"
+  "⚡️ Aprendé a reparar electrodomésticos en nuestros cursos presenciales en Barracas (CABA) y Quilmes.",
+  "📅 ¡Inscripciones abiertas para SEPTIEMBRE 2025! Cupos limitados.",
+  "🎯 Capacitación práctica, salida laboral real. ¿Qué estás esperando?",
+  "🚀 Formate como técnico especializado y cambiá tu futuro. ¡Click acá!"
 ]
 
 export const barriosCABA = [

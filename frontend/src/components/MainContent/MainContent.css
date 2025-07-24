@@ -363,19 +363,19 @@
 
 .review-comment.collapsed {
     display: -webkit-box;
-    line-clamp: 4; /* Muestra solo 4 líneas */
+    line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-height: 6em; /* Asegura que no se expanda más allá de 4 líneas */
-    transition: max-height 0.3s ease, opacity 0.3s ease; /* Animación suave */
+    max-height: 6em;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
     opacity: 1;
 }
   
 .review-comment.expanded {
     display: block;
-    max-height: 1000px; /* Permite que se expanda completamente */
-    transition: max-height 0.3s ease, opacity 0.3s ease; /* Animación suave */
+    max-height: 1000px;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
     opacity: 1;
 }
   
@@ -392,7 +392,7 @@
   
 .toggle-comment:hover {
     color: #1a73e8;
-    text-decoration: underline; /* Subraya el texto al pasar el mouse */
+    text-decoration: underline;
 }
   
 

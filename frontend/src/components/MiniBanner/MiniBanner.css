@@ -37,7 +37,7 @@
 /* Animación para pantallas móviles */
 @media (max-width: 768px) {
   .mini-banner {
-    font-size: 10px;
+    font-size: 8px;
   }
 
   .mini-banner-content {
@@ -63,7 +63,7 @@
 /* Animación para celulares */
 @media (max-width: 480px) {
   .mini-banner {
-    padding: 6px;
+    padding: 4px;
   }
 
   .mini-banner-content span {
