@@ -1,171 +1,29 @@
-.dashboard-wrapper {
-  padding: 30px;
-  font-family: Arial, sans-serif;
-  max-width: 100%;
+.card-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 
-.dashboard-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.search-wrapper {
-  margin-bottom: 20px;
-}
-
-.search-input {
-  padding: 8px;
-  width: 100%;
-  max-width: 300px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.table-wrapper {
-  overflow-x: auto;
-}
-
-.styled-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: auto;
-}
-
-.table-head {
-  height: 70px;
-}
-
-.styled-table th, .styled-table td {
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: left;
-  font-size: 13px;
-  vertical-align: top;
-}
-
-.styled-table th {
-  background-color: #f2f2f2;
-  color: #333;
-  cursor: pointer;
-  user-select: none;
-}
-
-/* Columnas con ancho fijo */
-.fixed-col {
-  width: 120px;
-  min-width: 120px;
-  max-width: 120px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Columna "Descripción" (campo additionalDetails) */
-.details-cell {
-  min-width: 300px;
-  max-width: 500px;  /* ✅ máximo de ancho */
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  padding: 10px;
-  vertical-align: top;
-  line-height: 1.5;
-}
-
-.review-cell {
-  padding: 0;
-}
-
-.review-textarea {
-  width: 100%;
-  min-height: 60px;
-  box-sizing: border-box;
-  padding: 6px;
-  font-size: 13px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical;
-}
-
-.pagination {
-  margin-top: 20px;
+.info-card {
+  background-color: #2e2e2e;
+  border-radius: 10px;
+  color: white;
+  padding: 20px;
+  width: 200px;
   text-align: center;
+  margin: 10px;
 }
 
-.page-btn {
-  margin: 0 4px;
-  padding: 6px 12px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  background-color: white;
-  cursor: pointer;
-}
+.info-card.blue { background-color: #00bcd4; }
+.info-card.red { background-color: #f44336; }
+.info-card.green { background-color: #4caf50; }
+.info-card.orange { background-color: #ff9800; }
 
-.page-btn.active {
-  background-color: #007bff;
-  color: white;
-  font-weight: bold;
-}
-
-.page-dots {
-  margin: 0 4px;
-  font-size: 16px;
-  color: #888;
-}
-
-.status-select {
-  width: 100%;
-  padding: 5px;
-  font-size: 13px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* Colores por estado (fila completa) */
-.row-rechazada {
-  background-color: #ffd5d5;
-  color: #a10000;
-}
-
-.row-presupuesto {
-  background-color: #fff8d3;
-  color: #a88000;
-}
-
-.row-aprobada {
-  background-color: #d3ffd7;
-  color: #2e7d32;
-}
-
-.row-revision {
-  background-color: var(--background-color);
-}
-
-.row-devolucion {
-  background-color: #e0f7fa;
-  color: #006064;
-}
-
-.whatsapp-btn {
-  display: inline-block;
-  background-color: #25d366;
-  color: white;
-  padding: 6px 10px;
-  margin: 0 auto;
-  font-size: 12px;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-  white-space: nowrap;
-}
-
-.whatsapp-btn:hover {
-  background-color: #1ebe5d;
-}
-
-#contact-whatsapp {
-  height: 25px;
+.chart-placeholder {
+  background: #fff;
+  border: 1px dashed #ccc;
+  padding: 40px;
+  text-align: center;
+  border-radius: 10px;
 }

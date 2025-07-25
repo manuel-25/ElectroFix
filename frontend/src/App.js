@@ -11,9 +11,11 @@ import TermsAndConditions from './components/TermsAndConditions/TermsAndConditio
 import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy'
 import Login from './components/Login/Login.jsx'
 import Dashboard from './components/Dashboard/Dashboard.jsx'
+import Cotizaciones from './components/Cotizaciones/Cotizaciones.jsx'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx'
 import { AuthProvider } from './Context/AuthContext.jsx'  // Importar correctamente el AuthProvider
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'
+import DashboardLayout from './components/DashboardLayout/DashboardLayout.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -31,12 +33,21 @@ function AppContent() {
           <Route path="/privacidad" element={<PrivacyPolicy />} />
           <Route path="/manager" element={<Login />} />
           
-          {/* Ruta protegida para el dashboard */}
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
+          {/* Rutas protegidas */}
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <DashboardLayout>
               <Dashboard />
-            </ProtectedRoute>
-          } />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/cotizaciones" element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Cotizaciones />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } />
         </Routes>
       </main>
       {/* Mostrar el Footer solo si no estamos en la ruta de servicios */}
