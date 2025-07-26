@@ -27,7 +27,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchQuotes = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/client`)
+        const res = await axios.get(`${getApiUrl()}/api/client`)
         console.log('Clientes:', res.data)
         setClients(res.data)
       } catch (err) {
