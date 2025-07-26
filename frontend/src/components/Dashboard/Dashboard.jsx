@@ -47,6 +47,22 @@ const Dashboard = () => {
     fetchData()
   }, [])
 
+  // Cotizaciones del mes actual
+  const now = new Date()
+  const thisMonth = now.getMonth()
+  const thisYear = now.getFullYear()
+  const today = now.toISOString().split('T')[0]
+
+  const quotesThisMonth = quotes.filter(q => {
+    const qDate = new Date(q.date)
+    return qDate.getMonth() === thisMonth && qDate.getFullYear() === thisYear
+  })
+
+  const quotesToday = quotes.filter(q => {
+    const qDateStr = new Date(q.date).toISOString().split('T')[0]
+    return qDateStr === today
+  })
+
   const filteredQuotes = quotes.filter(q => {
     const qDate = new Date(q.date)
     return qDate >= new Date(startDate) && qDate <= new Date(endDate)
@@ -104,6 +120,46 @@ const Dashboard = () => {
     }
   }
 
+  // Agrupa cotizaciones por mes en formato YYYY-MM
+  const monthlyCounts = quotes.reduce((acc, q) => {
+    const d = new Date(q.date)
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}` // Ej: "2025-07"
+    acc[key] = (acc[key] || 0) + 1
+    return acc
+  }, {})
+
+  // Si querés mostrarlo como "Jul 2025" podés transformar el label
+  const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+  const monthlyLabels = Object.keys(monthlyCounts).sort().map(key => {
+    const [year, month] = key.split('-')
+    return `${monthNames[Number(month) - 1]} ${year}`
+  })
+
+  const chartDataMonth = {
+    labels: monthlyLabels,
+    datasets: [
+      {
+        label: 'Cotizaciones por mes',
+        data: Object.entries(monthlyCounts).sort(([a], [b]) => new Date(a) - new Date(b)).map(([_, v]) => v),
+        backgroundColor: '#3b82f6',
+        borderRadius: 10,
+        maxBarThickness: 42,
+      }
+    ]
+  }
+
+  const chartOptionsMonth = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { mode: 'index', intersect: false }
+    },
+    scales: {
+      x: { title: { display: true, text: 'Mes' }},
+      y: { beginAtZero: true, precision: 0, title: { display: true, text: 'Cotizaciones' } }
+    }
+  }
+
   return (
     <DashboardLayout>
       <div className="dashboard-wrapper">
@@ -112,21 +168,24 @@ const Dashboard = () => {
           <div className="info-card blue">
             <p>SOLICITUD DE COTIZACIONES</p>
             <h3>{quotes.length}</h3>
+            <span className="card-icon">📋</span>
           </div>
           <div className="info-card red">
             <p>CLIENTES</p>
             <h3>{clients.length}</h3>
+            <span className="card-icon">👤</span>
           </div>
           <div className="info-card green">
-            <p>SERVICIOS DEL MES</p>
-            <h3>0</h3>
+            <p>COTIZACIONES DEL MES</p>
+            <h3>{quotesThisMonth.length}</h3>
+            <span className="card-icon">📆</span>
           </div>
           <div className="info-card orange">
-            <p>INGRESOS DEL MES</p>
-            <h3>$ 0.00</h3>
+            <p>COTIZACIONES DEL DIA</p>
+            <h3>{quotesToday.length}</h3>
+            <span className="card-icon">🗓️</span>
           </div>
         </div>
-
         <div className="chart-box">
           <div className="chart-header">
             <p>📈 Cotizaciones por día</p>
@@ -138,6 +197,13 @@ const Dashboard = () => {
             </div>
           </div>
           <Line data={chartData} options={chartOptions} />
+        </div>
+
+        <div className="chart-box" style={{ marginTop: 40 }}>
+          <div className="chart-header">
+            <p>📊 Cotizaciones por mes</p>
+          </div>
+          <Line data={chartDataMonth} options={chartOptionsMonth} />
         </div>
 
         {error && <p className="error-message">{error}</p>}
