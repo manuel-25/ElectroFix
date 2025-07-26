@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import axios from 'axios'
 import { getApiUrl } from '../../config'
 import { AuthContext } from '../../Context/AuthContext'
+import { Link } from 'react-router-dom'
 import DashboardLayout from '../DashboardLayout/DashboardLayout'
 import Loading from '../Loading/Loading'
 import './Cotizaciones.css'
@@ -23,7 +24,6 @@ const Cotizaciones = () => {
   const fetchQuotes = async () => {
     try {
       const res = await axios.get(`${getApiUrl()}/api/quotes`) //axios.get(`http://localhost:5000/api/quotes`)
-      console.log('Cotizaciones:', res.data)
       setQuotes(res.data)
     } catch (err) {
       setError('Error al obtener las cotizaciones')
@@ -140,7 +140,7 @@ const Cotizaciones = () => {
               value={itemsPerPage}
               onChange={e => {
                 setItemsPerPage(Number(e.target.value))
-                setCurrentPage(1) // Reinicia la página actual para evitar errores si el índice se vuelve inválido
+                setCurrentPage(1)
               }}
             >
               {[10, 25, 50, 100].map(n => (
@@ -204,7 +204,11 @@ const Cotizaciones = () => {
 
                   return (
                     <tr key={`${q.serviceRequestNumber}-${q.customerNumber}`}>
-                      <td>{q.serviceRequestNumber}</td>
+                      <td>
+                        <Link to={`/cotizaciones/${q.serviceRequestNumber}`} className="service-link">
+                          {q.serviceRequestNumber}
+                        </Link>
+                      </td>
                       <td>{q.customerNumber}</td>
                       <td>{new Date(q.date).toLocaleDateString()}</td>
                       <td>{q.category?.name || 'N/A'}</td>

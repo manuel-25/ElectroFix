@@ -17,7 +17,7 @@ import { AuthProvider } from './Context/AuthContext.jsx'
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'
 import DashboardLayout from './components/DashboardLayout/DashboardLayout.jsx'
 import Clients from './components/Clients/Clients.jsx'
-
+import QuoteDetail from './components/QuoteDetail/QuoteDetail.jsx' // <-- AGREGADO
 
 function AppContent() {
   const location = useLocation()
@@ -34,29 +34,36 @@ function AppContent() {
           <Route path="/terminos-condiciones" element={<TermsAndConditions />} />
           <Route path="/privacidad" element={<PrivacyPolicy />} />
           <Route path="/manager" element={<Login />} />
-          
+
           {/* Rutas protegidas */}
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <Dashboard />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/cotizaciones" element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <Cotizaciones />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/clientes" element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <Clients />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Dashboard />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/cotizaciones" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Cotizaciones />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/cotizaciones/:id" element={   /* <-- AGREGADO */
+            <ProtectedRoute>
+              <DashboardLayout>
+                <QuoteDetail />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/clientes" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Clients />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
         </Routes>
       </main>
       {/* Mostrar el Footer solo si no estamos en la ruta de servicios */}

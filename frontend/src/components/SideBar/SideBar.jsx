@@ -13,25 +13,25 @@ const Sidebar = () => {
       </div>
       <ul className="sidebar-nav">
         <li title="Solicitudes">
-          <Link to="/cotizaciones">
+          <Link to="/cotizaciones" className="sidebar-link">
             <FaClipboardList />
             <span>Cotizaciones</span>
           </Link>
         </li>
         <li title="Nuevo servicio">
-          <Link to="/nuevo-servicio">
+          <Link to="/nuevo-servicio" className="sidebar-link">
             <FaPlusCircle />
             <span>Nuevo Servicio</span>
           </Link>
         </li>
         <li title="Clientes">
-          <Link to="/clientes">
+          <Link to="/clientes" className="sidebar-link">
             <FaUsers />
             <span>Clientes</span>
           </Link>
         </li>
         <li title="Estadísticas">
-          <Link to="/estadisticas">
+          <Link to="/estadisticas" className="sidebar-link">
             <FaChartBar />
             <span>Estadísticas</span>
           </Link>
