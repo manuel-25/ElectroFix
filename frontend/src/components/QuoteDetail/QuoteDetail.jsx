@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { AuthContext } from '../../Context/AuthContext'
 import { getApiUrl } from '../../config'
-import Loading from '../Loading/Loading'   // 👈 Importá tu spinner!
+import Loading from '../Loading/Loading'
 import './QuoteDetail.css'
 
 const formatDateTime = (dateStr) => {
