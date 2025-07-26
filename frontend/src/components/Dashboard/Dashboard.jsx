@@ -1,41 +1,108 @@
 import React, { useEffect, useState, useContext } from 'react'
-import DashboardLayout from '../DashboardLayout/DashboardLayout'
-import { AuthContext } from '../../Context/AuthContext'
-import { getApiUrl } from '../../config'
 import axios from 'axios'
+import { getApiUrl } from '../../config'
+import { AuthContext } from '../../Context/AuthContext'
+import DashboardLayout from '../DashboardLayout/DashboardLayout'
+import { Line } from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend,
+  TimeScale
+} from 'chart.js'
+import 'chartjs-adapter-date-fns'
 import './Dashboard.css'
 
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, TimeScale)
+
 const Dashboard = () => {
-  const [error, setError] = useState(null)
   const [quotes, setQuotes] = useState([])
   const [clients, setClients] = useState([])
+  const [error, setError] = useState(null)
+  const [startDate, setStartDate] = useState(() => {
+    const d = new Date()
+    d.setDate(d.getDate() - 30)
+    return d.toISOString().split('T')[0]
+  })
+  const [endDate, setEndDate] = useState(() => new Date().toISOString().split('T')[0])
   const { auth } = useContext(AuthContext)
 
   useEffect(() => {
-    const fetchQuotes = async () => {
+    const fetchData = async () => {
       try {
-        const res = await axios.get(`${getApiUrl()}/api/quotes`)
-        console.log('Cotizaciones:', res.data)
-        setQuotes(res.data)
+        const [quotesRes, clientsRes] = await Promise.all([
+          axios.get(`${getApiUrl()}/api/quotes`),
+          axios.get(`${getApiUrl()}/api/client`)
+        ])
+        setQuotes(quotesRes.data)
+        setClients(clientsRes.data)
       } catch (err) {
-        setError('Error al obtener las cotizaciones')
+        setError('Error al obtener datos')
       }
     }
-    fetchQuotes()
+    fetchData()
   }, [])
 
-  useEffect(() => {
-    const fetchQuotes = async () => {
-      try {
-        const res = await axios.get(`${getApiUrl()}/api/client`)
-        console.log('Clientes:', res.data)
-        setClients(res.data)
-      } catch (err) {
-        setError('Error al obtener las cotizaciones')
+  const filteredQuotes = quotes.filter(q => {
+    const qDate = new Date(q.date)
+    return qDate >= new Date(startDate) && qDate <= new Date(endDate)
+  })
+
+  const dailyCounts = filteredQuotes.reduce((acc, q) => {
+    const day = new Date(q.date).toISOString().split('T')[0]
+    acc[day] = (acc[day] || 0) + 1
+    return acc
+  }, {})
+
+  const chartData = {
+    labels: Object.keys(dailyCounts).sort(),
+    datasets: [
+      {
+        label: 'Cotizaciones por día',
+        data: Object.entries(dailyCounts).sort(([a], [b]) => new Date(a) - new Date(b)).map(([_, v]) => v),
+        borderColor: '#4B8DF8',
+        backgroundColor: '#4B8DF880',
+        tension: 0.4,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        fill: false
+      }
+    ]
+  }
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        mode: 'index',
+        intersect: false
+      }
+    },
+    scales: {
+      x: {
+        type: 'time',
+        time: {
+          unit: 'day',
+          tooltipFormat: 'dd/MM/yyyy'
+        },
+        ticks: {
+          autoSkip: true,
+          maxTicksLimit: 10
+        }
+      },
+      y: {
+        beginAtZero: true,
+        precision: 0
       }
     }
-    fetchQuotes()
-  }, [])
+  }
 
   return (
     <DashboardLayout>
@@ -60,11 +127,20 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Podés agregar acá un gráfico tipo Chart.js, Recharts, o placeholder */}
-        <div className="chart-placeholder">
-          <p>📈 Gráfico de balance de los últimos 30 días</p>
-          <div className="fake-chart" />
+        <div className="chart-box">
+          <div className="chart-header">
+            <p>📈 Cotizaciones por día</p>
+            <div className="date-range">
+              <label>Desde:</label>
+              <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+              <label>Hasta:</label>
+              <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+            </div>
+          </div>
+          <Line data={chartData} options={chartOptions} />
         </div>
+
+        {error && <p className="error-message">{error}</p>}
       </div>
     </DashboardLayout>
   )
