@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import axios from 'axios'
-// import { getApiUrl } from '../../config'
+import { getApiUrl } from '../../config'
 import { AuthContext } from '../../Context/AuthContext'
 import DashboardLayout from '../DashboardLayout/DashboardLayout'
 import Loading from '../Loading/Loading'
@@ -18,7 +18,7 @@ const Clients = () => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/client`, { //`${getApiUrl()}/api/client`
+        const res = await axios.get(`${getApiUrl()}/api/client`, { //`${getApiUrl()}/api/client`
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${auth?.token}`
