@@ -17,7 +17,8 @@ import { AuthProvider } from './Context/AuthContext.jsx'
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'
 import DashboardLayout from './components/DashboardLayout/DashboardLayout.jsx'
 import Clients from './components/Clients/Clients.jsx'
-import QuoteDetail from './components/QuoteDetail/QuoteDetail.jsx' // <-- AGREGADO
+import QuoteDetail from './components/QuoteDetail/QuoteDetail.jsx'
+import NotFound from './components/NotFound/NotFound.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -64,6 +65,7 @@ function AppContent() {
               </DashboardLayout>
             </ProtectedRoute>
           } />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       {/* Mostrar el Footer solo si no estamos en la ruta de servicios */}

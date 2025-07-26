@@ -4,6 +4,7 @@ import QuoteButton from '../QuoteButton/QuoteButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-regular-svg-icons'
 import { faBars, faTimes, faCircleQuestion, faPhone, faUserFriends, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faUserShield, faGears } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../Context/AuthContext' // Importar el contexto de autenticación
 
@@ -41,19 +42,22 @@ function Navbar() {
                         <Link to="/contacto" className="nav-link">Contacto</Link>
                     </nav>
                     <div className="navbar-right">
-                        {auth?.token && (
-                            <Link to="/dashboard" className="nav-link logout-link" onClick={() => { closeMenu();}}>
-                                <FontAwesomeIcon icon={faUser} />
-                            </Link>
-                        )}
-                        <Link to="/reparacion-electrodomesticos">
-                            <QuoteButton text="Cotizar Ahora" onClick={handleQuoteClick} />
+                    {auth?.token && (
+                        <div className="admin-icons">
+                        <Link to="/dashboard" className="admin-icon" title="Panel">
+                            <FontAwesomeIcon icon={faGears} />
                         </Link>
-                        {auth?.token && (
-                            <Link to="/" className="nav-link logout-link" onClick={() => { closeMenu(); logout(); }}>
-                                <FontAwesomeIcon icon={faSignOutAlt} />
-                            </Link>
-                        )}
+                        <Link to="/dashboard" className="admin-icon" title="Mi perfil">
+                            <FontAwesomeIcon icon={faUserShield} />
+                        </Link>
+                        <button onClick={logout} className="admin-icon" title="Cerrar sesión">
+                            <FontAwesomeIcon icon={faSignOutAlt} />
+                        </button>
+                        </div>
+                    )}
+                    <Link to="/reparacion-electrodomesticos">
+                        <QuoteButton text="Cotizar Ahora" onClick={handleQuoteClick} />
+                    </Link>
                     </div>
                     <FontAwesomeIcon 
                         icon={faTimes} 

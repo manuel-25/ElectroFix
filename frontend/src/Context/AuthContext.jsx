@@ -22,58 +22,42 @@ export const AuthProvider = ({ children }) => {
         setLoading(false)
     }, [])
 
-    // Función de login
-    const login = async (email, password) => {
+    // Login con remember
+    const login = async (email, password, remember = true) => {
+        setLoading(true)
+        setError(null)
         try {
-            setLoading(true)
             const response = await fetch(`${getApiUrl()}/api/manager/login`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
-                credentials: 'include',
+                credentials: 'include'
             })
-            
-            if (!response.ok) {
-                throw new Error('Error en el inicio de sesión')
-            }
-
+            if (!response.ok) throw new Error('Credenciales inválidas')
             const data = await response.json()
-
-            // Almacena el token en la cookie
-            Cookies.set('authToken', data.token)
+            // Cookie expira a los 7 días solo si "recordar sesión"
+            Cookies.set('authToken', data.token, { expires: remember ? 7 : undefined, secure: true })
             setAuth({ token: data.token, user: data.user })
             setError(null)
             navigate('/dashboard')
-        } catch (error) {
-            console.error('Error en el inicio de sesión:', error)
-            setError('Error en las credenciales de inicio de sesión')
+        } catch (err) {
+            setError('Credenciales inválidas o error de conexión')
         } finally {
             setLoading(false)
         }
     }
 
-    // Función de logout
     const logout = async () => {
+        setLoading(true)
         try {
-            setLoading(true)
-            const token = auth?.token
-
             await axios.post(`${getApiUrl()}/api/manager/logout`, {}, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${auth?.token}` }
             })
-
-            Cookies.remove('authToken')
-            setAuth(null)
-            navigate('/manager')
-        } catch (err) {
-            console.error('Error al cerrar sesión:', err)
-        } finally {
-            setLoading(false)
-        }
+        } catch {}
+        Cookies.remove('authToken')
+        setAuth(null)
+        setLoading(false)
+        navigate('/manager')
     }
 
     return (
