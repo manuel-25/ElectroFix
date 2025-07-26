@@ -1,20 +1,54 @@
-import React from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import DashboardLayout from '../DashboardLayout/DashboardLayout'
+import { AuthContext } from '../../Context/AuthContext'
+import { getApiUrl } from '../../config'
+import axios from 'axios'
 import './Dashboard.css'
 
 const Dashboard = () => {
+  const [error, setError] = useState(null)
+  const [quotes, setQuotes] = useState([])
+  const [clients, setClients] = useState([])
+  const { auth } = useContext(AuthContext)
+
+  useEffect(() => {
+    const fetchQuotes = async () => {
+      try {
+        const res = await axios.get(`${getApiUrl()}/api/quotes`)
+        console.log('Cotizaciones:', res.data)
+        setQuotes(res.data)
+      } catch (err) {
+        setError('Error al obtener las cotizaciones')
+      }
+    }
+    fetchQuotes()
+  }, [])
+
+  useEffect(() => {
+    const fetchQuotes = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/api/client`)
+        console.log('Clientes:', res.data)
+        setClients(res.data)
+      } catch (err) {
+        setError('Error al obtener las cotizaciones')
+      }
+    }
+    fetchQuotes()
+  }, [])
+
   return (
     <DashboardLayout>
       <div className="dashboard-wrapper">
         <h2 className="dashboard-title">📊 Panel Principal</h2>
         <div className="card-container">
           <div className="info-card blue">
-            <p>EQUIPOS</p>
-            <h3>63</h3>
+            <p>SOLICITUD DE COTIZACIONES</p>
+            <h3>{quotes.length}</h3>
           </div>
           <div className="info-card red">
             <p>CLIENTES</p>
-            <h3>1878</h3>
+            <h3>{clients.length}</h3>
           </div>
           <div className="info-card green">
             <p>SERVICIOS DEL MES</p>

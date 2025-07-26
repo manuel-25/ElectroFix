@@ -13,9 +13,11 @@ import Login from './components/Login/Login.jsx'
 import Dashboard from './components/Dashboard/Dashboard.jsx'
 import Cotizaciones from './components/Cotizaciones/Cotizaciones.jsx'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx'
-import { AuthProvider } from './Context/AuthContext.jsx'  // Importar correctamente el AuthProvider
+import { AuthProvider } from './Context/AuthContext.jsx'
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'
 import DashboardLayout from './components/DashboardLayout/DashboardLayout.jsx'
+import Clients from './components/Clients/Clients.jsx'
+
 
 function AppContent() {
   const location = useLocation()
@@ -45,6 +47,13 @@ function AppContent() {
           <ProtectedRoute>
             <DashboardLayout>
               <Cotizaciones />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/clientes" element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Clients />
             </DashboardLayout>
           </ProtectedRoute>
         } />
