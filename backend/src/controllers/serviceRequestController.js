@@ -51,10 +51,12 @@ class ServiceRequestController {
             let serviceRequestNumber = await NumberGenerator.generateServiceRequestNumber()
 
             if (existingClient) {
-                // Cliente existente: reutilizar el número de cliente
                 customerNumber = existingClient.customerNumber
-                // Agregar el nuevo número de solicitud al cliente existente
                 existingClient.serviceRequestNumbers.push(serviceRequestNumber)
+
+                await ClientManager.update(existingClient._id, {
+                    serviceRequestNumbers: existingClient.serviceRequestNumbers
+                })
             } else {
                 // Cliente nuevo: generar un nuevo número de cliente
                 customerNumber = await NumberGenerator.generateCustomerNumber()

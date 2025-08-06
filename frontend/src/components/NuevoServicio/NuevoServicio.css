@@ -1,0 +1,130 @@
+.form-elegante {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  background: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  font-family: 'Segoe UI', sans-serif;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-section label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #2a2a2a;
+}
+
+.form-section input,
+.form-section select,
+.form-section textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: #fff;
+}
+
+.form-section input:focus,
+.form-section select:focus,
+.form-section textarea:focus {
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
+  outline: none;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.error-message {
+  grid-column: 1 / -1;
+  color: #d32f2f;
+  background: #fcebea;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-top: -10px;
+}
+
+.form-footer {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.btn-submit {
+  background-color: #111;
+  color: white;
+  padding: 10px 24px;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit:hover {
+  background-color: #ff6600;
+}
+
+.select-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.btn-nuevo {
+  background: #1d72b8;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-nuevo:hover {
+  background: #125a91;
+}
+
+/* React Select Overrides */
+.react-select__control {
+  border: 1px solid #ccc !important;
+  border-radius: 8px !important;
+  min-height: 42px;
+  font-size: 14px;
+}
+
+.react-select__menu {
+  z-index: 9999 !important;
+}
+
+.react-select__input input {
+  min-width: 140px !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-elegante {
+    grid-template-columns: 1fr;
+    padding: 24px;
+    gap: 16px;
+  }
+}

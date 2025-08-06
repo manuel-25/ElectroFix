@@ -19,9 +19,9 @@ const Sidebar = () => {
           </Link>
         </li>
         <li title="Nuevo servicio">
-          <Link to="/nuevo-servicio" className="sidebar-link">
+          <Link to="/servicios" className="sidebar-link">
             <FaPlusCircle />
-            <span>Nuevo Servicio</span>
+            <span>Servicios</span>
           </Link>
         </li>
         <li title="Clientes">

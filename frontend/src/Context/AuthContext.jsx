@@ -33,15 +33,19 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify({ email, password }),
                 credentials: 'include'
             })
-            if (!response.ok) throw new Error('Credenciales inválidas')
+            if (!response.ok) {
+                setError('Credenciales inválidas o error de conexión')
+                return false // <--- para que el frontend sepa que falló
+            }
             const data = await response.json()
-            // Cookie expira a los 7 días solo si "recordar sesión"
             Cookies.set('authToken', data.token, { expires: remember ? 7 : undefined, secure: true })
             setAuth({ token: data.token, user: data.user })
             setError(null)
             navigate('/dashboard')
+            return true // <--- éxito
         } catch (err) {
             setError('Credenciales inválidas o error de conexión')
+            return false
         } finally {
             setLoading(false)
         }

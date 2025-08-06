@@ -18,7 +18,9 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import DashboardLayout from './components/DashboardLayout/DashboardLayout.jsx'
 import Clients from './components/Clients/Clients.jsx'
 import QuoteDetail from './components/QuoteDetail/QuoteDetail.jsx'
+import Servicios from './components/Servicios/Servicios.jsx'
 import NotFound from './components/NotFound/NotFound.jsx'
+import NuevoServicio from './components/NuevoServicio/NuevoServicio.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -62,6 +64,20 @@ function AppContent() {
             <ProtectedRoute>
               <DashboardLayout>
                 <Clients />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/servicios" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Servicios />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/servicios/nuevo" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <NuevoServicio />
               </DashboardLayout>
             </ProtectedRoute>
           } />

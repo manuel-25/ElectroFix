@@ -1,0 +1,224 @@
+/* === ESTRUCTURA GENERAL === */
+.dashboard-wrapper {
+  margin-left: 60px;
+  padding: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 100%;
+  background-color: #f8f9fa;
+}
+.dashboard-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+  text-align: center;
+}
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 0;
+}
+.error-message {
+  color: #b00020;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* === BUSCADOR === */
+.search-wrapper {
+  margin: 12px auto;
+  max-width: 320px;
+}
+.search-input {
+  padding: 5px 8px;
+  width: 100%;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* === CONTROLES SUPERIORES === */
+.items-per-page {
+  margin: 10px 0 12px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.items-per-page select {
+  padding: 4px 6px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.right-controls {
+  margin-left: auto;
+}
+.btn-new-service {
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  background-color: #0d6efd;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+.btn-new-service:hover {
+  background-color: #0b5ed7;
+}
+
+/* === TABLA === */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  background-color: white;
+}
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  color: #333;
+}
+.table-head th {
+  font-size: 12px;
+  font-weight: 600;
+  background-color: #e9ecef;
+  color: #212529;
+  padding: 8px;
+  border: 1px solid #dee2e6;
+  white-space: nowrap;
+  cursor: pointer;
+  text-align: left;
+}
+.styled-table td {
+  padding: 6px 8px;
+  border: 1px solid #dee2e6;
+  vertical-align: top;
+}
+.styled-table tr:hover {
+  background-color: #f1f3f5;
+}
+
+/* === ENLACE DE SERVICIO === */
+.service-link {
+  color: var(--main-color, #1a73e8);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.service-link:hover {
+  color: #1251a1;
+  text-decoration: underline;
+}
+
+/* === SELECT DE ESTADO === */
+.status-select {
+  width: 100%;
+  padding: 4px;
+  font-size: 12px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+/* Colores por estado */
+.status-select.cell-pendiente {
+  background-color: #fff3cd;
+  color: #856404;
+  border-color: #ffeeba;
+}
+.status-select.cell-reparacion,
+.status-select.cell-revision {
+  background-color: #ffffff;
+  color: #212529;
+  border-color: #ced4da;
+}
+.status-select.cell-recibido {
+  background-color: #e2f0ff;
+  color: #004085;
+}
+.status-select.cell-pruebas {
+  background-color: #d4edda;
+  color: #155724;
+}
+.status-select.cell-listo,
+.status-select.cell-entregado {
+  background-color: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+
+/* === NOTAS === */
+.notes-textarea {
+  width: 100%;
+  font-size: 12px;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  min-height: 36px;
+  outline: none; /* elimina borde negro en focus */
+}
+.notes-textarea:focus {
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.25); /* ligero halo en focus */
+}
+
+/* === ACCIONES === */
+.acciones-cell {
+  white-space: nowrap;
+}
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin-right: 6px;
+  border: 1px solid #d0d7de;
+  border-radius: 4px;
+  font-size: 13px;
+  background: #fff;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.action-btn:hover {
+  background: #f6f8fa;
+  border-color: #c4ccd4;
+}
+.action-btn.print,
+.action-btn.edit {
+  font-size: 14px;
+}
+.action-btn.wa {
+  padding: 0 2px;
+}
+.wa-icon {
+  height: 16px;
+}
+
+/* === PAGINACIÓN === */
+.pagination {
+  margin-top: 12px;
+  text-align: center;
+}
+.page-btn {
+  margin: 0 2px;
+  padding: 4px 9px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+}
+.page-btn.active {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+.page-dots {
+  margin: 0 3px;
+  font-size: 13px;
+  color: #888;
+}

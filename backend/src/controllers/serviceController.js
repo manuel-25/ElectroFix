@@ -67,19 +67,27 @@ class ServiceController {
       const {
         userData, equipmentType, description, brand, model,
         serviceType, serviceValue, abono, repuestos, branch,
-        quoteReference, photos, receivedBy, lastModifiedBy, internalNotes
+        quoteReference, photos, receivedBy, lastModifiedBy,
+        internalNotes, code
       } = req.body
 
       if (!userData || !userData.email || !userData.phone) {
         return res.status(400).json({ error: 'Datos de cliente incompletos' })
       }
 
+      // Verificar existencia del cliente
       const existingClient = await ClientManager.findByEmail(userData.email)
-      if (!existingClient) return res.status(404).json({ error: 'Cliente no encontrado' })
+      if (!existingClient) {
+        return res.status(404).json({ error: 'Cliente no encontrado' })
+      }
 
-      const serviceNumber = await NumberGenerator.generateServiceCode(branch)
-      const code = `${branch}${serviceNumber.toString().padStart(3, '0')}`
+      // Verificar si el código ya existe
+      const existingService = await ServiceModel.findOne({ code })
+      if (existingService) {
+        return res.status(400).json({ error: 'Ya existe un servicio con este código' })
+      }
 
+      // Crear el nuevo servicio
       const newService = await ServiceModel.create({
         customerNumber: existingClient.customerNumber,
         quoteReference,
@@ -98,7 +106,7 @@ class ServiceController {
         serviceValue,
         abono,
         repuestos,
-        status: 'Recibido',
+        status: 'Pendiente',
         statusHistory: [{ status: 'Recibido', changedBy: 'Sistema' }],
         receivedBy: receivedBy || 'Web',
         lastModifiedBy: lastModifiedBy || 'Sistema',
@@ -111,6 +119,34 @@ class ServiceController {
     } catch (err) {
       logger.error('Error al crear servicio', err)
       res.status(500).json({ error: 'Error al crear servicio' })
+    }
+  }
+
+  // ✅ getLastCode
+  static async getLastCode(req, res) {
+    const { branch } = req.params;
+
+    if (!branch) {
+      return res.status(400).json({ error: 'Sucursal no especificada' });
+    }
+
+    try {
+      // Buscar el servicio más reciente con ese branch, ordenando por código descendente
+      const last = await ServiceModel.findOne({ branch }).sort({ code: -1 }).select('code');
+      let nextCode;
+
+      if (last && last.code) {
+        // Extraer el número secuencial del código: asumiendo formato 'Q001', 'Web1002'
+        const num = parseInt(last.code.replace(branch, ''), 10);
+        nextCode = branch + (num + 1);
+      } else {
+        nextCode = branch + '1000';
+      }
+
+      return res.json({ nextCode });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Error al obtener último código' });
     }
   }
 
