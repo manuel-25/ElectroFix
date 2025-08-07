@@ -21,6 +21,7 @@ import QuoteDetail from './components/QuoteDetail/QuoteDetail.jsx'
 import Servicios from './components/Servicios/Servicios.jsx'
 import NotFound from './components/NotFound/NotFound.jsx'
 import NuevoServicio from './components/NuevoServicio/NuevoServicio.jsx'
+import ClientDetail from './components/ClientDetail/ClientDetail.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -53,7 +54,7 @@ function AppContent() {
               </DashboardLayout>
             </ProtectedRoute>
           } />
-          <Route path="/cotizaciones/:id" element={   /* <-- AGREGADO */
+          <Route path="/cotizaciones/:id" element={
             <ProtectedRoute>
               <DashboardLayout>
                 <QuoteDetail />
@@ -64,6 +65,13 @@ function AppContent() {
             <ProtectedRoute>
               <DashboardLayout>
                 <Clients />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/clientes/:id" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ClientDetail />
               </DashboardLayout>
             </ProtectedRoute>
           } />

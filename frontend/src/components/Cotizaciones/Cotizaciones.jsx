@@ -209,7 +209,11 @@ const Cotizaciones = () => {
                           {q.serviceRequestNumber}
                         </Link>
                       </td>
-                      <td>{q.customerNumber}</td>
+                      <td>
+                        <Link to={`/clientes/${q.customerNumber}`} className="service-link">
+                          {q.customerNumber}
+                        </Link>
+                      </td>
                       <td>{new Date(q.date).toLocaleDateString()}</td>
                       <td>{q.category?.name || 'N/A'}</td>
                       <td>{q.brand}</td>
