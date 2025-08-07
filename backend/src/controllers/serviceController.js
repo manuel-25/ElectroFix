@@ -103,16 +103,20 @@ class ServiceController {
         brand,
         model,
         serviceType,
-        serviceValue,
-        abono,
+        approximateValue: serviceValue,
+        finalValue: abono,
         repuestos,
         status: 'Pendiente',
-        statusHistory: [{ status: 'Recibido', changedBy: 'Sistema' }],
+        statusHistory: [{
+          status: 'Recibido',
+          changedBy: req.user._id
+        }],
+        createdBy: req.user._id,
         receivedBy: receivedBy || 'Web',
-        lastModifiedBy: lastModifiedBy || 'Sistema',
+        lastModifiedBy: req.user._id || 'Sistema',
         warrantyExpiration: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         photos,
-        internalNotes: internalNotes || ''
+        notes: internalNotes || ''
       })
 
       res.status(201).json(newService)

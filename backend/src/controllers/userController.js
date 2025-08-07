@@ -48,26 +48,30 @@ static async createUser(req, res) {
             // Obtener el usuario por email
             const user = await UserManager.getByEmail(email)
             if (!user) {
-                return res.status(400).json({ message: 'Email o contraseña incorrectos' })
+                return res.status(401).json({ message: 'Email o contraseña incorrectos' })
             }
 
             // Verificar la contraseña
             const isPasswordValid = await bcrypt.compare(password, user.password)
             if (!isPasswordValid) {
-                return res.status(400).json({ message: 'Email o contraseña incorrectos' })
+                return res.status(401).json({ message: 'Email o contraseña incorrectos' })
             }
 
             // Generar el token JWT
             const token = jwt.sign(
-                { id: user._id, role: user.role },
-                config.JWT_SECRET, 
+                {
+                    id: user._id,
+                    email: user.email,
+                    role: user.role
+                },
+                config.JWT_SECRET,
                 { expiresIn: '1h' }
             )
 
             // Configurar la cookie con HttpOnly y Secure
-            res.cookie('authToken', token, {
-                //httpOnly: true,                               // Con esto se rompe
-                secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
+                res.cookie('authToken', token, {
+                httpOnly: process.env.NODE_ENV === 'production',
+                secure: process.env.NODE_ENV === 'production',
                 sameSite: 'Strict',
                 maxAge: 24 * 60 * 60 * 1000
             })
@@ -165,13 +169,14 @@ static async createUser(req, res) {
     // Método para verificar el token
     static async verifyToken(req, res) {
         try {
-            const user = await UserManager.getById(req.user.id)
-            if (!user) {
-                return res.status(404).json({ error: 'User not found' })
-            }
-            res.json({ message: 'Token es válido', user: { email: user.email } })
+            // Esto valida que req.user tenga datos
+            if (!req.user?._id) return res.status(401).json({ error: 'No autorizado' })
+
+            const user = await UserManager.getById(req.user._id)
+            if (!user) return res.status(404).json({ error: 'User not found' })
+
+            res.status(200).json({ user: { email: user.email, role: user.role } })
         } catch (error) {
-            logger.error('Error verifying token:', error)
             res.status(500).json({ error: 'Internal Server Error' })
         }
     }

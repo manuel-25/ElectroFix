@@ -154,39 +154,39 @@ const Cotizaciones = () => {
             <table className="styled-table">
               <thead className="table-head">
                 <tr>
-                  <th className="fixed-col" onClick={() => handleSort('serviceRequestNumber')}>
+                  <th style={{ width: '6%' }} onClick={() => handleSort('serviceRequestNumber')}>
                     N° Solicitud {renderSortIcon('serviceRequestNumber')}
                   </th>
-                  <th className="fixed-col" onClick={() => handleSort('customerNumber')}>
+                  <th style={{ width: '6%' }} onClick={() => handleSort('customerNumber')}>
                     N° Cliente {renderSortIcon('customerNumber')}
                   </th>
-                  <th className="fixed-col" onClick={() => handleSort('date')}>
+                  <th style={{ width: '8%' }} onClick={() => handleSort('date')}>
                     Fecha {renderSortIcon('date')}
                   </th>
-                  <th className="fixed-col" onClick={() => handleSort('category')}>
+                  <th style={{ width: '8%' }} onClick={() => handleSort('category')}>
                     Equipo {renderSortIcon('category')}
                   </th>
-                  <th onClick={() => handleSort('brand')}>
+                  <th style={{ width: '8%' }} onClick={() => handleSort('brand')}>
                     Marca {renderSortIcon('brand')}
                   </th>
-                  <th onClick={() => handleSort('model')}>
+                  <th style={{ width: '8%' }} onClick={() => handleSort('model')}>
                     Modelo {renderSortIcon('model')}
                   </th>
-                  <th className="details-cell" onClick={() => handleSort('userData.additionalDetails')}>
+                  <th style={{ width: '18%' }} onClick={() => handleSort('userData.additionalDetails')}>
                     Descripción {renderSortIcon('userData.additionalDetails')}
                   </th>
-                  <th onClick={() => handleSort('faults')}>
+                  <th style={{ width: '8%' }} onClick={() => handleSort('faults')}>
                     Fallas {renderSortIcon('faults')}
                   </th>
-                  <th onClick={() => handleSort('branch')}>
+                  <th style={{ width: '6%' }} onClick={() => handleSort('branch')}>
                     Sucursal {renderSortIcon('branch')}
                   </th>
-                  <th onClick={() => handleSort('userData.municipio')}>
+                  <th style={{ width: '8%' }} onClick={() => handleSort('userData.municipio')}>
                     Ubicación {renderSortIcon('userData.municipio')}
                   </th>
-                  <th>Estado</th>
-                  <th>Revisión</th>
-                  <th>Acciones</th>
+                  <th style={{ width: '7%' }}>Estado</th>
+                  <th style={{ width: '10%' }}>Revisión</th>
+                  <th style={{ width: '5%' }}>Acciones</th>
                 </tr>
               </thead>
               <tbody>

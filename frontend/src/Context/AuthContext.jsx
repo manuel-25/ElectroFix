@@ -13,13 +13,35 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        const token = Cookies.get('authToken')
-        if (token) {
-            setAuth({ token })
-        } else {
-            setAuth(null)
+        const verifyToken = async () => {
+            const token = Cookies.get('authToken')
+            if (!token) {
+                setAuth(null)
+                setLoading(false)
+                return
+            }
+
+            try {
+                const response = await axios.get(`${getApiUrl()}/api/manager/verifytoken`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    withCredentials: true
+                })
+                if (response.status === 200) {
+                    setAuth({ token, user: response.data.user })
+                } else {
+                    setAuth(null)
+                }
+            } catch (err) {
+                console.error('Token inválido o expirado', err)
+                setAuth(null)
+            } finally {
+                setLoading(false)
+            }
         }
-        setLoading(false)
+
+        verifyToken()
     }, [])
 
     // Login con remember

@@ -4,6 +4,7 @@ import { getApiUrl } from '../../config'
 import { AuthContext } from '../../Context/AuthContext'
 import DashboardLayout from '../DashboardLayout/DashboardLayout'
 import Loading from '../Loading/Loading'
+import { Link } from 'react-router-dom'
 import './Clients.css'
 
 const Clients = () => {
@@ -117,7 +118,11 @@ const Clients = () => {
                 <tbody>
                   {paginatedClients.map(client => (
                     <tr key={client._id}>
-                      <td>{client.customerNumber}</td>
+                      <td>
+                        <Link to={`/clientes/${client.customerNumber}`} className="service-link">
+                            {client.customerNumber}
+                        </Link>
+                      </td>
                       <td>{client.firstName || 'N/A'}</td>
                       <td>{client.lastName || 'N/A'}</td>
                       <td>{client.phone || 'N/A'}</td>
@@ -125,7 +130,9 @@ const Clients = () => {
                       <td>{client.municipio}, {client.province}</td>
                       <td>
                         {Array.isArray(client.serviceRequestNumbers) && client.serviceRequestNumbers.length > 0
-                          ? client.serviceRequestNumbers.join(', ')
+                          ? <Link to={`/cotizaciones/${client.serviceRequestNumbers}`} className="service-link">
+                            { client.serviceRequestNumbers.join(', ') }
+                        </Link>
                           : '—'}
                       </td>
                       <td>{client.createdAt?.split(',')[0] || '—'}</td>

@@ -58,7 +58,13 @@ const serviceSchema = new mongoose.Schema({
   warrantyExpiration: { type: Number, default: 30 },
   photos: [String],
 
-  notes: { type: String }
+  notes: { type: String },
+
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }
 
 }, { timestamps: true })
 

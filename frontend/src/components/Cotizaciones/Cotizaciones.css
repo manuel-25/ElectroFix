@@ -26,6 +26,16 @@
   border-radius: 4px;
 }
 
+.items-per-page {
+  margin: 10px 0 12px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: left !important;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .table-wrapper {
   overflow-x: auto;
   border-radius: 6px;

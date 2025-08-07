@@ -4,6 +4,7 @@ import axios from 'axios'
 import { AuthContext } from '../../Context/AuthContext'
 import { getApiUrl } from '../../config'
 import Loading from '../Loading/Loading'
+import { Link } from 'react-router-dom'
 import './QuoteDetail.css'
 
 const formatDateTime = (dateStr) => {
@@ -85,7 +86,9 @@ const QuoteDetail = () => {
             <tr>
               <td>N° Cliente</td>
               <td>
-                {quote.customerNumber}
+                <Link to={`/clientes/${quote.customerNumber}`} className="service-link">
+                  {quote.customerNumber}
+                </Link>
                 {client === undefined ? (
                   <span className="client-check loading-text" style={{marginLeft: 8}}>
                     <Loading size={18} inline={true} /> {/* Spinner mini para cliente */}
@@ -148,15 +151,15 @@ const QuoteDetail = () => {
               <td>{quote.review || 'Sin observaciones'}</td>
             </tr>
             <tr>
-              <td>Nombre usuario</td>
+              <td>Nombre</td>
               <td>{quote.userData?.firstName} {quote.userData?.lastName}</td>
             </tr>
             <tr>
-              <td>Email usuario</td>
+              <td>Email</td>
               <td>{quote.userData?.email}</td>
             </tr>
             <tr>
-              <td>Teléfono usuario</td>
+              <td>Teléfono</td>
               <td>{quote.userData?.phone || 'No registrado'}</td>
             </tr>
             <tr>
@@ -189,7 +192,11 @@ const QuoteDetail = () => {
             <tbody>
               <tr>
                 <td>Nombre</td>
-                <td>{client.firstName} {client.lastName}</td>
+                <td>
+                  <span className="client-check found" style={{marginLeft: 8}}>
+                    {client.firstName} {client.lastName}
+                  </span>
+                </td>
               </tr>
               <tr>
                 <td>Email</td>
@@ -209,11 +216,15 @@ const QuoteDetail = () => {
               </tr>
               <tr>
                 <td>N° Cliente</td>
-                <td>{client.customerNumber}</td>
+                <td><Link to={`/clientes/${client.customerNumber}`} className="service-link">
+                  {client.customerNumber}
+                </Link></td>
               </tr>
               <tr>
                 <td>Solicitudes</td>
-                <td>{client.serviceRequestNumbers?.join(', ')}</td>
+                <td><Link to={`/cotizaciones/${client.serviceRequestNumbers}`} className="service-link">
+                  {client.serviceRequestNumbers?.join(', ')}
+                </Link></td>
               </tr>
               <tr>
                 <td>Fecha creación</td>
