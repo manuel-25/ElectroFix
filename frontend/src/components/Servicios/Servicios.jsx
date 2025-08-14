@@ -5,16 +5,8 @@ import DashboardLayout from '../DashboardLayout/DashboardLayout'
 import { AuthContext } from '../../Context/AuthContext'
 import { getApiUrl } from '../../config'
 import Loading from '../Loading/Loading'
+import { estadosServicio } from '../../utils/productsData'
 import './Servicios.css'
-
-const estados = [
-  'Pendiente',
-  'Recibido',
-  'En Revisión',
-  'En Reparación',
-  'En Pruebas',
-  'Listo para retirar'
-]
 
 const Servicios = () => {
   const { auth } = useContext(AuthContext)
@@ -33,7 +25,7 @@ const Servicios = () => {
       withCredentials: true
     })
       .then(res => setServices(res.data || []))
-      .catch(err => setError('Error al obtener los servicios'))
+      .catch(() => setError('Error al obtener los servicios'))
       .finally(() => setLoading(false))
   }, [auth])
 
@@ -48,15 +40,41 @@ const Servicios = () => {
     return sortConfig.direction === 'asc' ? '↑' : '↓'
   }
 
-  const branchMap = { W: 'Web', Q: 'Quilmes', B: 'Berazategui' }
+  const branchMap = { W: 'Web', Q: 'Quilmes', B: 'Barracas' }
 
   const updateService = async (id, field, value) => {
     try {
-      await axios.put(`${getApiUrl()}/api/service/${id}`, { [field]: value }, {
-        headers: { Authorization: `Bearer ${auth?.token}` },
-        withCredentials: true
-      })
-      setServices(prev => prev.map(s => s._id === id ? { ...s, [field]: value } : s))
+      let res
+
+      if (field === 'status') {
+        const payload = { status: value }
+        if (value === 'Recibido') {
+          payload.receivedBy = auth?.user?.email || 'Web'
+        }
+
+        res = await axios.put(
+          `${getApiUrl()}/api/service/${id}/status`,
+          payload,
+          {
+            headers: { Authorization: `Bearer ${auth?.token}` },
+            withCredentials: true
+          }
+        )
+      } else {
+        res = await axios.put(
+          `${getApiUrl()}/api/service/${id}`,
+          { [field]: value },
+          {
+            headers: { Authorization: `Bearer ${auth?.token}` },
+            withCredentials: true
+          }
+        )
+      }
+
+      const updatedService = res.data
+      setServices(prev =>
+        prev.map(s => (s._id === id ? { ...s, ...updatedService } : s))
+      )
     } catch {
       alert('Error al actualizar servicio')
     }
@@ -123,8 +141,12 @@ const Servicios = () => {
                     <th onClick={() => handleSort('customerNumber')}>Cliente {renderSortIcon('customerNumber')}</th>
                     <th onClick={() => handleSort('createdAt')}>Fecha {renderSortIcon('createdAt')}</th>
                     <th onClick={() => handleSort('equipmentType')}>Equipo {renderSortIcon('equipmentType')}</th>
+                    <th>Descripción</th>
+                    <th>Tipo</th>
+                    <th>Sucursal</th>
                     <th>Estado</th>
                     <th>Notas</th>
+                    <th onClick={() => handleSort('createdBy')}>Creado por {renderSortIcon('createdBy')}</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -132,31 +154,54 @@ const Servicios = () => {
                   {pageData.map(s => (
                     <tr key={s._id}>
                       <td><Link to={`/servicios/${s.code}`} className="service-link">{s.code}</Link></td>
-                      <td>{s.customerNumber}</td>
+                      <td>
+                        <Link to={`/clientes/${s.customerNumber}`} className="service-link">
+                          {s.customerNumber}
+                        </Link>
+                      </td>
                       <td>{new Date(s.createdAt).toLocaleDateString('es-AR')}</td>
                       <td>{s.equipmentType || '—'}</td>
+                      <td>{s.description || '—'}</td>
+                      <td>{s.serviceType}</td>
+                      <td>{branchMap[s.branch] || s.branch}</td>
                       <td>
                         <select
                           className={`status-select ${getStatusClass(s.status)}`}
                           value={s.status || ''}
                           onChange={e => updateService(s._id, 'status', e.target.value)}
                         >
-                          {estados.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                          {estadosServicio.map(opt => <option key={opt} value={opt}>{opt}</option>)}
                         </select>
                       </td>
                       <td>
                         <textarea
                           className="notes-textarea"
                           defaultValue={s.notes || ''}
-                          onBlur={e => updateService(s._id, 'notes', e.target.value)}
-                          onKeyDown={e => {
+                          onKeyDown={(e) => {
                             if (e.key === 'Enter' && !e.shiftKey) {
-                              e.preventDefault()
-                              updateService(s._id, 'notes', e.target.value)
+                              e.preventDefault();
+                              axios.put(
+                                `${getApiUrl()}/api/service/${s._id}/status`,
+                                {
+                                  status: s.status,
+                                  note: e.target.value
+                                },
+                                {
+                                  headers: { Authorization: `Bearer ${auth?.token}` },
+                                  withCredentials: true
+                                }
+                              )
+                              .then(res => {
+                                setServices(prev =>
+                                  prev.map(srv => (srv._id === s._id ? res.data : srv))
+                                );
+                              })
+                              .catch(() => alert('Error al actualizar nota'));
                             }
                           }}
                         />
                       </td>
+                      <td>{s.createdByEmail || '—'}</td>
                       <td className="acciones-cell">
                         <Link to={`/servicios/${s.code}/editar`} className="action-btn edit">✎</Link>
                         <Link to={`/servicios/${s.code}/imprimir`} className="action-btn print">🖨</Link>
@@ -178,7 +223,17 @@ const Servicios = () => {
               </table>
             </div>
 
-            {/* paginación si es necesario */}
+            <div className="pagination">
+              {Array.from({ length: totalPages }, (_, i) => (
+                <button
+                  key={i + 1}
+                  className={`page-btn ${currentPage === i + 1 ? 'active' : ''}`}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
           </>
         )}
       </div>
@@ -194,6 +249,9 @@ function getStatusClass(status) {
     case 'En Reparación': return 'cell-reparacion'
     case 'En Pruebas': return 'cell-pruebas'
     case 'Listo para retirar': return 'cell-listo'
+    case 'Entregado': return 'cell-entregado'
+    case 'Garantía': return 'cell-garantía'
+    case 'Devolución': return 'cell-devolucion'
     default: return ''
   }
 }

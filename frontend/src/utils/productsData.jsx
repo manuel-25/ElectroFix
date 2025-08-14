@@ -635,3 +635,14 @@ export const equipoOptions = [
   { value: 'Velador', label: 'Velador' },
   { value: 'Procesadora', label: 'Procesadora' }
 ]
+
+export const estadosServicio = [
+  'Pendiente',
+  'Recibido',
+  'En Revisión',
+  'En Reparación',
+  'En Pruebas',
+  'Listo para retirar',
+  'Entregado',
+  'Garantía',
+]

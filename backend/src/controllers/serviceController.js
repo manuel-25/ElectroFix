@@ -66,29 +66,26 @@ class ServiceController {
     try {
       const {
         userData, equipmentType, description, brand, model,
-        serviceType, serviceValue, abono, repuestos, branch,
+        serviceType, approximateValue, abono, repuestos, branch,
         quoteReference, photos, receivedBy, lastModifiedBy,
-        internalNotes, code
-      } = req.body
+        notes, code
+      } = req.body;
 
       if (!userData || !userData.email || !userData.phone) {
-        return res.status(400).json({ error: 'Datos de cliente incompletos' })
+        return res.status(400).json({ error: 'Datos de cliente incompletos' });
       }
 
-      // Verificar existencia del cliente
-      const existingClient = await ClientManager.findByEmail(userData.email)
+      const existingClient = await ClientManager.findByEmail(userData.email);
       if (!existingClient) {
-        return res.status(404).json({ error: 'Cliente no encontrado' })
+        return res.status(404).json({ error: 'Cliente no encontrado' });
       }
 
-      // Verificar si el código ya existe
-      const existingService = await ServiceModel.findOne({ code })
+      const existingService = await ServiceModel.findOne({ code });
       if (existingService) {
-        return res.status(400).json({ error: 'Ya existe un servicio con este código' })
+        return res.status(400).json({ error: 'Ya existe un servicio con este código' });
       }
 
-      // Crear el nuevo servicio
-      const newService = await ServiceModel.create({
+      const newServiceData = {
         customerNumber: existingClient.customerNumber,
         quoteReference,
         code,
@@ -103,26 +100,29 @@ class ServiceController {
         brand,
         model,
         serviceType,
-        approximateValue: serviceValue,
+        approximateValue,
         finalValue: abono,
         repuestos,
         status: 'Pendiente',
         statusHistory: [{
           status: 'Recibido',
-          changedBy: req.user._id
+          changedBy: req.user.email
         }],
         createdBy: req.user._id,
-        receivedBy: receivedBy || 'Web',
-        lastModifiedBy: req.user._id || 'Sistema',
+        createdByEmail: req.user.email,
+        receivedBy: receivedBy || 'No recibido',
+        lastModifiedBy: req.user.email || 'Sistema',
         warrantyExpiration: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         photos,
-        notes: internalNotes || ''
-      })
+        notes: notes || ''
+      };
 
-      res.status(201).json(newService)
+      const newService = await ServiceModel.create(newServiceData);
+
+      res.status(201).json(newService);
     } catch (err) {
-      logger.error('Error al crear servicio', err)
-      res.status(500).json({ error: 'Error al crear servicio' })
+      console.error('❌ Error al crear servicio:', err);
+      res.status(500).json({ error: 'Error al crear servicio', details: err.message });
     }
   }
 
@@ -191,6 +191,47 @@ class ServiceController {
       res.status(500).json({ error: 'Error al actualizar el servicio por código' })
     }
   }
+
+  // En tu ServiceController (backend)
+  static async updateServiceStatus(req, res) {
+    const { id } = req.params;
+    const { status, receivedBy, note } = req.body;
+
+    try {
+      const updatePayload = {
+        status,
+        lastModifiedBy: req.user.email,
+        lastModifiedAt: new Date(),
+        ...(receivedBy && { receivedBy }),
+        ...(note && { notes: note })
+      };
+
+      const updated = await ServiceModel.findByIdAndUpdate(
+        id,
+        {
+          $set: updatePayload,
+          $push: {
+            statusHistory: {
+              status,
+              changedBy: req.user.email,
+              changedAt: new Date(),
+              ...(note && { note })
+            }
+          }
+        },
+        { new: true }
+      );
+
+      if (!updated) {
+        return res.status(404).json({ error: 'Servicio no encontrado' });
+      }
+
+      res.json(updated);
+    } catch (err) {
+      res.status(500).json({ error: 'Error al actualizar servicio', details: err.message });
+    }
+  }
+
 
   // ✅ deleteService
   static async deleteService(req, res) {

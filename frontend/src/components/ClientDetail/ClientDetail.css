@@ -71,6 +71,7 @@
   cursor: pointer;
   transition: background 0.2s, box-shadow 0.2s;
   letter-spacing: 0.03em;
+  text-decoration: none !important;
 }
 
 .back-button-pro:hover, .back-button-pro:focus {

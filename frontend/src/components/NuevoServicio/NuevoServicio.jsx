@@ -134,26 +134,26 @@ const NuevoServicio = () => {
     const finalData = {
     customerNumber: selectedClient.customerNumber,
     userData: {
-        firstName: selectedClient.firstName,
-        lastName: selectedClient.lastName,
-        email: selectedClient.email,
-        phone: selectedClient.phone,
-        dniOrCuit: selectedClient.dniOrCuit,
-        domicilio: selectedClient.domicilio
+      firstName: selectedClient.firstName,
+      lastName: selectedClient.lastName,
+      email: selectedClient.email,
+      phone: selectedClient.phone,
+      dniOrCuit: selectedClient.dniOrCuit,
+      domicilio: selectedClient.domicilio
     },
-    quoteReference: formData.quoteReference ? Number(formData.quoteReference) : undefined,
-    branch: formData.branch,
-    code: formData.code,
-    equipmentType: formData.equipmentType,
-    brand: formData.brand,
-    model: formData.model,
-    serviceType: formData.serviceType,
-    approximateValue: formData.approximateValue,
-    finalValue: formData.finalValue,
-    repuestos: Number(formData.repuestos) || 0,
-    warrantyExpiration: Number(formData.warrantyExpiration),
-    notes: formData.notes,
-    description: previewDescription
+      quoteReference: formData.quoteReference ? Number(formData.quoteReference) : undefined,
+      branch: formData.branch,
+      code: formData.code,
+      equipmentType: formData.equipmentType,
+      brand: formData.brand,
+      model: formData.model,
+      serviceType: formData.serviceType,
+      approximateValue: formData.approximateValue,
+      finalValue: formData.finalValue,
+      repuestos: Number(formData.repuestos) || 0,
+      warrantyExpiration: Number(formData.warrantyExpiration),
+      notes: formData.notes,
+      description: previewDescription
     }
 
 
@@ -162,7 +162,7 @@ const NuevoServicio = () => {
       headers: { Authorization: `Bearer ${auth?.token}` },
       withCredentials: true
     })
-    navigate(`/servicios/${encodeURIComponent(res.data.code)}`)
+    navigate(`/servicios`)
   } catch (err) {
     if (err.response?.status === 400 && err.response?.data?.error) {
       setError(err.response.data.error)
@@ -177,6 +177,7 @@ const NuevoServicio = () => {
   return (
     <DashboardLayout>
       <div className="dashboard-wrapper">
+        <button className="back-button-pro" onClick={() => navigate(-1)}>← Volver</button>
         <h2 className="dashboard-title">➕ Nuevo Servicio</h2>
         <form className="form-elegante" onSubmit={handleSubmit}>
           <div className="form-section">

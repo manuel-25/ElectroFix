@@ -30,4 +30,36 @@
     --primary-font: 'Open Sans', sans-serif;
     --secondary-font: 'Roboto', sans-serif;
     --logo-font: 'Anton', sans-serif;
+
+    /* === Estados (paleta única) === */
+    /* Azul (Recibido / En Revisión) */
+    --status-blue-text:   #075985;
+    --status-blue-bg:     #e0f2fe;
+    --status-blue-border: #bae6fd;
+
+    /* Verde (En Pruebas / Entregado) */
+    --status-green-text:   #166534;
+    --status-green-bg:     #dcfce7;
+    --status-green-border: #bbf7d0;
+
+    /* Gris claro (En Reparación / neutros) */
+    --status-grey-text:   #374151;
+    --status-grey-bg:     #f3f4f6;
+    --status-grey-border: #e5e7eb;
+
+    /* Ámbar / Pendiente */
+    --status-amber-text:   #5d3d00;
+    --status-amber-bg:     #ffe082;
+    --status-amber-border: #f5c852;
+
+    /* Naranja suave / Garantía */
+    --status-warn-text:   #92400e;
+    --status-warn-bg:     #fef3c7;
+    --status-warn-border: #ffc04c;
+
+    /* Rojo / Rechazado */
+    --status-red-text:   #b71c1c;
+    --status-red-bg:     #ffcdd2;
+    --status-red-border: #ef9a9a;
+
 }

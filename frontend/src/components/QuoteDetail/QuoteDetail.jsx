@@ -216,9 +216,11 @@ const QuoteDetail = () => {
               </tr>
               <tr>
                 <td>N° Cliente</td>
-                <td><Link to={`/clientes/${client.customerNumber}`} className="service-link">
-                  {client.customerNumber}
-                </Link></td>
+                <td>
+                  <Link to={`/clientes/${client.customerNumber}`} className="service-link">
+                    {client.customerNumber}
+                  </Link>
+                </td>
               </tr>
               <tr>
                 <td>Solicitudes</td>

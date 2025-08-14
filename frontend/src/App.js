@@ -22,6 +22,7 @@ import Servicios from './components/Servicios/Servicios.jsx'
 import NotFound from './components/NotFound/NotFound.jsx'
 import NuevoServicio from './components/NuevoServicio/NuevoServicio.jsx'
 import ClientDetail from './components/ClientDetail/ClientDetail.jsx'
+import ServiceDetail from './components/ServiceDetail/ServiceDetail.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -86,6 +87,13 @@ function AppContent() {
             <ProtectedRoute>
               <DashboardLayout>
                 <NuevoServicio />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/servicios/:code" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ServiceDetail />
               </DashboardLayout>
             </ProtectedRoute>
           } />
