@@ -148,10 +148,10 @@ function MainContent() {
             fetchpriority="low"
           />
         </div>
-        <section className="section-reparation">
+        <section className="section-reparation-glass">
           <div className='reparation-top'>
-            <h1>Reparación de Electrodomésticos</h1>
-            <h3>
+            <h1>Service de Electrodomésticos</h1>
+            <h3 className="reparation-subtitle">
               <ReactTyped strings={["¿Se rompió tu equipo? Búscalo"]} typeSpeed={50} />
             </h3>
           </div>
@@ -225,8 +225,8 @@ function MainContent() {
           </div>
           <div className='service-item'>
             <FontAwesomeIcon icon={faTruck} size="3x" className='service-icon' />
-            <h3>Envialo por Correo</h3>
-            <p>Envía tu equipo por correo a nuestra dirección por Andreani o Correo Argentino</p>
+            <h3>Envialo</h3>
+            <p>Envía tu equipo por correo a nuestra dirección por correo o UberFlash</p>
           </div>
           <div className='service-item'>
             <FontAwesomeIcon icon={faHome} size="3x" className='service-icon' />
