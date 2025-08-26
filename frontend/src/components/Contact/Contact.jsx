@@ -104,15 +104,15 @@ const Contact = () => {
                         </div>
                     </div>
                 </div>
-                <div className="branch-locations">
+                <div className="branch-locations"> 
                     <h4>Nuestras sucursales</h4>
                     <div className="branch-items-container">
                         <div className="branch-item">
-                            <p><img src="/logo.png" alt="Logo Electrosafe" className="branch-item-icon" /> Barracas:</p>
+                            <p><img src="/casita.png" alt="Logo Electrosafe" className="branch-item-icon" /> Barracas:</p>
                             <span> Rocha 1752</span>
                         </div>
                         <div className="branch-item">
-                            <p><img src="/logo.png" alt="Logo Electrosafe" className="branch-item-icon" /> Quilmes:</p>
+                            <p><img src="/casita.png" alt="Logo Electrosafe" className="branch-item-icon" /> Quilmes:</p>
                             <span>Av. Vicente López 770</span>
                         </div>
                     </div>
