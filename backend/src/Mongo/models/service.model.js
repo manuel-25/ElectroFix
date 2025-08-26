@@ -9,13 +9,13 @@ const statusHistorySchema = new mongoose.Schema({
 const serviceSchema = new mongoose.Schema({
   // Relación con cliente
   customerNumber: { type: Number, required: true },
-  quoteReference: { type: Number }, // opcional, si vino de una cotización
+  quoteReference: { type: Number },
 
   // Código de ingreso
-  code: { type: String, required: true, unique: true }, // W001, Q104, etc.
+  code: { type: String, required: true, unique: true },
   branch: { type: String, required: true },
 
-  // Datos del cliente (se duplican para impresión y rastreo)
+  // Datos del cliente
   userData: {
     firstName: String,
     lastName: String,
@@ -46,28 +46,71 @@ const serviceSchema = new mongoose.Schema({
   // Estado actual + historial
   status: {
     type: String,
-    enum: ['Pendiente', 'Recibido', 'En Revisión', 'En Reparación', 'En Pruebas', 'Listo para retirar', 'Entregado'],
+    enum: ['Pendiente', 'Recibido', 'En Revisión', 'En Reparación', 'En Pruebas', 'Listo para retirar', 'Entregado', 'Garantía'],
     default: 'Pendiente'
   },
   statusHistory: [statusHistorySchema],
 
-  receivedBy: String,
+  // Datos de recepción
+  receivedBy: { type: String, required: true },
+  receivedAt: { type: Date, default: Date.now },
+  receivedAtBranch: {
+    type: String,
+    enum: ['Quilmes', 'Barracas'],
+    required: true
+  },
+  receivedNotes: { type: String },
+  deliveryMethod: {
+    type: String,
+    enum: ['Presencial', 'Envío', 'Tercero'],
+    default: 'Presencial'
+  },
+  receivedPhoto: { type: String },
+
+  // Modificaciones
   lastModifiedBy: String,
   lastModifiedAt: { type: Date, default: Date.now },
 
+  // Otros campos
   warrantyExpiration: { type: Number, default: 30 },
   photos: [String],
-
   notes: { type: String },
 
+  // Relación con usuarios
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
-  createdByEmail: { type: String }
+  createdByEmail: { type: String },
+
+  // Supervisor del servicio (uso futuro)
+  supervisedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+
+  // ID pública para exposición externa
+  publicId: { type: String, unique: true }
 
 }, { timestamps: true })
+
+// Hook para generar publicId automáticamente si no existe
+serviceSchema.pre('save', function (next) {
+  if (!this.publicId) {
+    this.publicId = generateRandomId()
+  }
+  next()
+})
+
+function generateRandomId(length = 8) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let result = ''
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length))
+  }
+  return result
+}
 
 const serviceModel = mongoose.model('Service', serviceSchema)
 export default serviceModel

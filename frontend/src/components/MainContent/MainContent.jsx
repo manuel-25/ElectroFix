@@ -1,19 +1,22 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
-import QuoteButton from '../QuoteButton/QuoteButton'
+import React, { lazy, Suspense, useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import './MainContent.css'
 import { ReactTyped } from 'react-typed'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faStore, faTruck, faHome, faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from 'react-router-dom'
 import { brandLogos, reviews, detailedBrandsByCategory } from '../../utils/productsData'
-import MiniBanner from '../MiniBanner/MiniBanner'
+import Loading from '../Loading/Loading'
 import _ from 'lodash'
+
+const QuoteButton = lazy(() => import('../QuoteButton/QuoteButton'))
+const MiniBanner = lazy(() => import('../MiniBanner/MiniBanner'))
 
 function MainContent() {
   const [searchTerm, setSearchTerm] = useState('')
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const inputRef = useRef(null)
+  const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
 
   // Memoizar el filtrado de items para evitar recálculos en cada renderizado
@@ -95,20 +98,56 @@ function MainContent() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [handleScroll])
 
-  const [expandedReviews, setExpandedReviews] = useState({});
+  const [expandedReviews, setExpandedReviews] = useState({})
 
   const toggleExpand = (id) => {
     setExpandedReviews(prev => ({
       ...prev,
       [id]: !prev[id]
-    }));
-  };
+    }))
+  }
   
+  //Loading Section
+  useEffect(() => {
+    const handleLoad = () => setIsLoading(false)
+    if (document.readyState === 'complete') {
+      setIsLoading(false)
+    } else {
+      window.addEventListener('load', handleLoad)
+    }
+    return () => window.removeEventListener('load', handleLoad)
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff'
+      }}>
+        <Loading />
+      </div>
+    )
+  }
 
   return (
     <div className='mainContent-container'>
-      <MiniBanner/>
+      <Suspense fallback={<Loading />}>
+        <MiniBanner />
+      </Suspense>
       <div className="reparation-container">
+        <div className="reparation-bg-wrapper">
+          <img
+            src="/images/bannerPicture.webp"
+            alt=""
+            className="reparation-bg-img"
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+          />
+        </div>
         <section className="section-reparation">
           <div className='reparation-top'>
             <h1>Reparación de Electrodomésticos</h1>
@@ -138,7 +177,9 @@ function MainContent() {
                 ))}
               </div>
             )}
-            <QuoteButton text="Cotizar Ahora!" onClick={() => handleSuggestionClick(filteredItems[selectedIndex] || {})} />
+            <Suspense fallback={<Loading />}>
+              <QuoteButton text="Cotizar Ahora!" onClick={() => handleSuggestionClick(filteredItems[selectedIndex] || {})} />
+            </Suspense>
           </div>
         </section>
       </div>

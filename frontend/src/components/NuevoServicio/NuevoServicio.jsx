@@ -29,7 +29,8 @@ const NuevoServicio = () => {
     warrantyExpiration: 30,
     notes: '',
     userDescription: '',
-    description: ''
+    description: '',
+    receivedAtBranch: ''
   })
   const [previewDescription, setPreviewDescription] = useState('')
   const [error, setError] = useState(null)
@@ -132,15 +133,15 @@ const NuevoServicio = () => {
     }
 
     const finalData = {
-    customerNumber: selectedClient.customerNumber,
-    userData: {
-      firstName: selectedClient.firstName,
-      lastName: selectedClient.lastName,
-      email: selectedClient.email,
-      phone: selectedClient.phone,
-      dniOrCuit: selectedClient.dniOrCuit,
-      domicilio: selectedClient.domicilio
-    },
+      customerNumber: selectedClient.customerNumber,
+      userData: {
+        firstName: selectedClient.firstName,
+        lastName: selectedClient.lastName,
+        email: selectedClient.email,
+        phone: selectedClient.phone,
+        dniOrCuit: selectedClient.dniOrCuit,
+        domicilio: selectedClient.domicilio
+      },
       quoteReference: formData.quoteReference ? Number(formData.quoteReference) : undefined,
       branch: formData.branch,
       code: formData.code,
@@ -153,9 +154,9 @@ const NuevoServicio = () => {
       repuestos: Number(formData.repuestos) || 0,
       warrantyExpiration: Number(formData.warrantyExpiration),
       notes: formData.notes,
-      description: previewDescription
+      description: previewDescription,
+      ...(formData.receivedAtBranch && { receivedAtBranch: formData.receivedAtBranch })
     }
-
 
   try {
     const res = await axios.post(`${getApiUrl()}/api/service`, finalData, {
@@ -323,6 +324,19 @@ const NuevoServicio = () => {
               value={formData.warrantyExpiration}
               onChange={handleChange}
             />
+          </div>
+
+          <div className="form-section">
+            <label>Recibido En</label>
+            <select
+              name="receivedAtBranch"
+              value={formData.receivedAtBranch}
+              onChange={handleChange}
+            >
+              <option value="">No recibido</option>
+              <option value="Quilmes">Quilmes</option>
+              <option value="Barracas">Barracas</option>
+            </select>
           </div>
 
           <div className="form-section full-width">

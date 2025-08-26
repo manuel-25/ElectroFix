@@ -67,22 +67,27 @@ class ServiceController {
       const {
         userData, equipmentType, description, brand, model,
         serviceType, approximateValue, abono, repuestos, branch,
-        quoteReference, photos, receivedBy, lastModifiedBy,
+        quoteReference, photos, receivedBy, receivedAtBranch,
+        deliveryMethod, receivedNotes, receivedPhoto,
         notes, code
-      } = req.body;
+      } = req.body
 
       if (!userData || !userData.email || !userData.phone) {
-        return res.status(400).json({ error: 'Datos de cliente incompletos' });
+        return res.status(400).json({ error: 'Datos de cliente incompletos' })
       }
 
-      const existingClient = await ClientManager.findByEmail(userData.email);
+      if (!receivedBy || !receivedAtBranch) {
+        return res.status(400).json({ error: 'Campos de recepción obligatorios faltantes (receivedBy y receivedAtBranch)' })
+      }
+
+      const existingClient = await ClientManager.findByEmail(userData.email)
       if (!existingClient) {
-        return res.status(404).json({ error: 'Cliente no encontrado' });
+        return res.status(404).json({ error: 'Cliente no encontrado' })
       }
 
-      const existingService = await ServiceModel.findOne({ code });
+      const existingService = await ServiceModel.findOne({ code })
       if (existingService) {
-        return res.status(400).json({ error: 'Ya existe un servicio con este código' });
+        return res.status(400).json({ error: 'Ya existe un servicio con este código' })
       }
 
       const newServiceData = {
@@ -103,54 +108,58 @@ class ServiceController {
         approximateValue,
         finalValue: abono,
         repuestos,
-        status: 'Pendiente',
+        status: 'Recibido',
         statusHistory: [{
           status: 'Recibido',
-          changedBy: req.user.email
+          changedBy: req.user.email,
+          changedAt: new Date()
         }],
         createdBy: req.user._id,
         createdByEmail: req.user.email,
-        receivedBy: receivedBy || 'No recibido',
-        lastModifiedBy: req.user.email || 'Sistema',
+        receivedBy,
+        receivedAtBranch,
+        deliveryMethod,
+        receivedNotes,
+        receivedPhoto,
+        lastModifiedBy: req.user.email || 'No definido',
         warrantyExpiration: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         photos,
         notes: notes || ''
-      };
+      }
 
-      const newService = await ServiceModel.create(newServiceData);
-
-      res.status(201).json(newService);
+      const newService = await ServiceModel.create(newServiceData)
+      res.status(201).json(newService)
     } catch (err) {
-      console.error('❌ Error al crear servicio:', err);
-      res.status(500).json({ error: 'Error al crear servicio', details: err.message });
+      console.error('❌ Error al crear servicio:', err)
+      res.status(500).json({ error: 'Error al crear servicio', details: err.message })
     }
   }
 
   // ✅ getLastCode
   static async getLastCode(req, res) {
-    const { branch } = req.params;
+    const { branch } = req.params
 
     if (!branch) {
-      return res.status(400).json({ error: 'Sucursal no especificada' });
+      return res.status(400).json({ error: 'Sucursal no especificada' })
     }
 
     try {
       // Buscar el servicio más reciente con ese branch, ordenando por código descendente
-      const last = await ServiceModel.findOne({ branch }).sort({ code: -1 }).select('code');
-      let nextCode;
+      const last = await ServiceModel.findOne({ branch }).sort({ code: -1 }).select('code')
+      let nextCode
 
       if (last && last.code) {
         // Extraer el número secuencial del código: asumiendo formato 'Q001', 'Web1002'
-        const num = parseInt(last.code.replace(branch, ''), 10);
-        nextCode = branch + (num + 1);
+        const num = parseInt(last.code.replace(branch, ''), 10)
+        nextCode = branch + (num + 1)
       } else {
-        nextCode = branch + '1000';
+        nextCode = branch + '1000'
       }
 
-      return res.json({ nextCode });
+      return res.json({ nextCode })
     } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: 'Error al obtener último código' });
+      console.error(err)
+      return res.status(500).json({ error: 'Error al obtener último código' })
     }
   }
 
@@ -194,8 +203,8 @@ class ServiceController {
 
   // En tu ServiceController (backend)
   static async updateServiceStatus(req, res) {
-    const { id } = req.params;
-    const { status, receivedBy, note } = req.body;
+    const { id } = req.params
+    const { status, receivedBy, note } = req.body
 
     try {
       const updatePayload = {
@@ -204,7 +213,7 @@ class ServiceController {
         lastModifiedAt: new Date(),
         ...(receivedBy && { receivedBy }),
         ...(note && { notes: note })
-      };
+      }
 
       const updated = await ServiceModel.findByIdAndUpdate(
         id,
@@ -220,15 +229,15 @@ class ServiceController {
           }
         },
         { new: true }
-      );
+      )
 
       if (!updated) {
-        return res.status(404).json({ error: 'Servicio no encontrado' });
+        return res.status(404).json({ error: 'Servicio no encontrado' })
       }
 
-      res.json(updated);
+      res.json(updated)
     } catch (err) {
-      res.status(500).json({ error: 'Error al actualizar servicio', details: err.message });
+      res.status(500).json({ error: 'Error al actualizar servicio', details: err.message })
     }
   }
 
