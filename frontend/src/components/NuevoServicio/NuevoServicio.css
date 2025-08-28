@@ -87,7 +87,12 @@ textarea {
 .select-wrapper {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.8rem;
+}
+
+.select-wrapper select {
+  width: 100%;
 }
 
 .btn-nuevo {

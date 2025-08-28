@@ -1,116 +1,120 @@
+// models/service.model.js
 import mongoose from 'mongoose'
 
-const statusHistorySchema = new mongoose.Schema({
-  status: { type: String },
-  changedAt: { type: Date, default: Date.now },
-  changedBy: { type: String }
-}, { _id: false })
+const { Schema, model } = mongoose
 
-const serviceSchema = new mongoose.Schema({
-  // Relación con cliente
-  customerNumber: { type: Number, required: true },
-  quoteReference: { type: Number },
+// ─── Enums ────────────────────────────────────────────────────────────────────
+export const SERVICE_TYPES = ['Reparación', 'Garantía', 'Mantenimiento']
+export const SERVICE_STATUS = [
+  'Pendiente',
+  'Recibido',
+  'En Revisión',
+  'En Reparación',
+  'En Pruebas',
+  'Listo para retirar',
+  'Entregado',
+  'Garantía'
+]
+export const BRANCHES = ['Quilmes', 'Barracas']
+export const DELIVERY_METHODS = ['Presencial', 'Envío Correo', 'Retiro y Entrega', 'UberFlash']
 
-  // Código de ingreso
-  code: { type: String, required: true, unique: true },
-  branch: { type: String, required: true },
-
-  // Datos del cliente
-  userData: {
-    firstName: String,
-    lastName: String,
-    dniOrCuit: String,
-    email: String,
-    phone: String,
-    domicilio: String,
-    province: String,
-    municipio: String
+// ─── Subschemas ───────────────────────────────────────────────────────────────
+const StatusHistorySchema = new Schema(
+  {
+    status: { type: String, enum: SERVICE_STATUS, required: true },
+    changedAt: { type: Date, default: Date.now },
+    changedBy: { type: String } // email del usuario
   },
+  { _id: false }
+)
 
-  // Equipo
-  equipmentType: String,
-  description: String,
-  brand: String,
-  model: String,
+// ─── Schema principal ─────────────────────────────────────────────────────────
+const ServiceSchema = new Schema(
+  {
+    // Relación con cliente
+    customerNumber: { type: Number, required: true, index: true },
+    quoteReference: { type: Number },
 
-  // Servicio
-  serviceType: {
-    type: String,
-    enum: ['Reparación', 'Garantía', 'Mantenimiento'],
-    default: 'Reparación'
+    // Código de ingreso (único del servicio)
+    code: { type: String, required: true, unique: true, index: true },
+
+    // Datos del cliente (snapshot)
+    userData: {
+      firstName: String,
+      lastName: String,
+      dniOrCuit: String,
+      email: String,
+      phone: String,
+      domicilio: String,
+      province: String,
+      municipio: String
+    },
+
+    // Equipo
+    equipmentType: String,
+    description: String,
+    brand: String,
+    model: String,
+
+    // Servicio
+    serviceType: { type: String, enum: SERVICE_TYPES, default: 'Reparación' },
+    approximateValue: { type: String, default: '0' }, // rango/nota libre
+    finalValue: { type: Number, default: 0 },
+    repuestos: { type: Number, default: 0 },
+
+    // Estado actual + historial
+    status: { type: String, enum: SERVICE_STATUS, default: 'Pendiente', index: true },
+    statusHistory: [StatusHistorySchema],
+
+    // Datos de recepción (solo si fue recibido)
+    receivedBy: { type: String, default: null },           // nombre/email del receptor
+    receivedAt: { type: Date, default: null },
+    receivedAtBranch: { type: String, enum: BRANCHES, default: null },
+    receivedNotes: { type: String },
+    deliveryMethod: { type: String, enum: DELIVERY_METHODS, default: 'Presencial' },
+    receivedPhoto: { type: String },
+
+    // Modificaciones
+    lastModifiedBy: String,
+    lastModifiedAt: { type: Date, default: Date.now },
+
+    // Otros
+    warrantyExpiration: { type: Number, default: 30 },     // días
+    photos: [String],
+    notes: { type: String },
+
+    // Relación con usuarios
+    createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    createdByEmail: { type: String },
+
+    // Supervisor (futuro)
+    supervisedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+
+    // ID pública para compartir externamente
+    publicId: { type: String, unique: true }
   },
-  approximateValue: { type: String, default: 0 },
-  finalValue: { type: Number, default: 0 },
-  repuestos: { type: Number, default: 0 },
-
-  // Estado actual + historial
-  status: {
-    type: String,
-    enum: ['Pendiente', 'Recibido', 'En Revisión', 'En Reparación', 'En Pruebas', 'Listo para retirar', 'Entregado', 'Garantía'],
-    default: 'Pendiente'
-  },
-  statusHistory: [statusHistorySchema],
-
-  // Datos de recepción
-  receivedBy: { type: String, required: true },
-  receivedAt: { type: Date, default: Date.now },
-  receivedAtBranch: {
-    type: String,
-    enum: ['Quilmes', 'Barracas'],
-    required: true
-  },
-  receivedNotes: { type: String },
-  deliveryMethod: {
-    type: String,
-    enum: ['Presencial', 'Envío', 'Tercero'],
-    default: 'Presencial'
-  },
-  receivedPhoto: { type: String },
-
-  // Modificaciones
-  lastModifiedBy: String,
-  lastModifiedAt: { type: Date, default: Date.now },
-
-  // Otros campos
-  warrantyExpiration: { type: Number, default: 30 },
-  photos: [String],
-  notes: { type: String },
-
-  // Relación con usuarios
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  createdByEmail: { type: String },
-
-  // Supervisor del servicio (uso futuro)
-  supervisedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  },
-
-  // ID pública para exposición externa
-  publicId: { type: String, unique: true }
-
-}, { timestamps: true })
-
-// Hook para generar publicId automáticamente si no existe
-serviceSchema.pre('save', function (next) {
-  if (!this.publicId) {
-    this.publicId = generateRandomId()
+  {
+    timestamps: true
   }
+)
+
+// ─── Hooks ────────────────────────────────────────────────────────────────────
+ServiceSchema.pre('save', function (next) {
+  if (!this.publicId) this.publicId = generatePublicId()
   next()
 })
 
-function generateRandomId(length = 8) {
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function generatePublicId(length = 8) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  let result = ''
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length))
-  }
-  return result
+  let out = ''
+  for (let i = 0; i < length; i++) out += chars.charAt(Math.floor(Math.random() * chars.length))
+  return out
 }
 
-const serviceModel = mongoose.model('Service', serviceSchema)
-export default serviceModel
+// ─── Índices útiles ───────────────────────────────────────────────────────────
+ServiceSchema.index({ customerNumber: 1, createdAt: -1 })
+
+const ServiceModel = model('Service', ServiceSchema)
+
+export default ServiceModel

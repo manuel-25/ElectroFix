@@ -3,6 +3,8 @@ import ClientManager from '../Mongo/ClientManager.js'
 import NumberGenerator from '../services/numberGenerator.js'
 import { logger } from '../utils/logger.js'
 
+const VALID_PREFIX = ['Q','B','W']
+
 class ServiceController {
   // ✅ getAllServices
   static async getAllServices(req, res) {
@@ -66,63 +68,75 @@ class ServiceController {
     try {
       const {
         userData, equipmentType, description, brand, model,
-        serviceType, approximateValue, abono, repuestos, branch,
+        serviceType, approximateValue, finalValue, repuestos,
         quoteReference, photos, receivedBy, receivedAtBranch,
         deliveryMethod, receivedNotes, receivedPhoto,
         notes, code
       } = req.body
 
-      if (!userData || !userData.email || !userData.phone) {
+      if (!userData?.email || !userData?.phone) {
         return res.status(400).json({ error: 'Datos de cliente incompletos' })
       }
 
-      if (!receivedBy || !receivedAtBranch) {
-        return res.status(400).json({ error: 'Campos de recepción obligatorios faltantes (receivedBy y receivedAtBranch)' })
-      }
-
       const existingClient = await ClientManager.findByEmail(userData.email)
-      if (!existingClient) {
-        return res.status(404).json({ error: 'Cliente no encontrado' })
+      if (!existingClient) return res.status(404).json({ error: 'Cliente no encontrado' })
+
+      const exists = await ServiceModel.findOne({ code })
+      if (exists) return res.status(400).json({ error: 'Ya existe un servicio con este código' })
+
+      // “o los dos o ninguno”
+      const bothOrNone =
+        (!receivedAtBranch && !receivedBy) ||
+        (receivedAtBranch && receivedBy)
+
+      if (!bothOrNone) {
+        return res.status(400).json({
+          error: 'Campos de recepción inválidos: receivedAtBranch y receivedBy deben venir juntos (ambos nulos o ambos con valor).'
+        })
       }
 
-      const existingService = await ServiceModel.findOne({ code })
-      if (existingService) {
-        return res.status(400).json({ error: 'Ya existe un servicio con este código' })
-      }
+      const isReceived = !!(receivedAtBranch && receivedBy)
+      const initialStatus = isReceived ? 'Recibido' : 'Pendiente'
 
       const newServiceData = {
         customerNumber: existingClient.customerNumber,
         quoteReference,
         code,
-        branch,
+
         userData: {
           ...userData,
           province: existingClient.province,
           municipio: existingClient.municipio
         },
+
         equipmentType,
         description,
         brand,
         model,
         serviceType,
         approximateValue,
-        finalValue: abono,
-        repuestos,
-        status: 'Recibido',
+        finalValue: Number(finalValue) || 0,
+        repuestos: Number(repuestos) || 0,
+
+        status: initialStatus,
         statusHistory: [{
-          status: 'Recibido',
+          status: initialStatus,
           changedBy: req.user.email,
           changedAt: new Date()
         }],
+
         createdBy: req.user._id,
         createdByEmail: req.user.email,
-        receivedBy,
-        receivedAtBranch,
-        deliveryMethod,
-        receivedNotes,
-        receivedPhoto,
+
+        receivedBy: isReceived ? receivedBy : null,
+        receivedAtBranch: isReceived ? receivedAtBranch : null,
+        receivedAt: isReceived ? new Date() : null,
+        deliveryMethod: deliveryMethod || 'Presencial',
+        receivedNotes: isReceived ? receivedNotes : null,
+        receivedPhoto: isReceived ? receivedPhoto : null,
+
         lastModifiedBy: req.user.email || 'No definido',
-        warrantyExpiration: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        warrantyExpiration: Number(req.body.warrantyExpiration ?? 30),
         photos,
         notes: notes || ''
       }
@@ -137,29 +151,33 @@ class ServiceController {
 
   // ✅ getLastCode
   static async getLastCode(req, res) {
-    const { branch } = req.params
-
-    if (!branch) {
-      return res.status(400).json({ error: 'Sucursal no especificada' })
-    }
-
     try {
-      // Buscar el servicio más reciente con ese branch, ordenando por código descendente
-      const last = await ServiceModel.findOne({ branch }).sort({ code: -1 }).select('code')
-      let nextCode
-
-      if (last && last.code) {
-        // Extraer el número secuencial del código: asumiendo formato 'Q001', 'Web1002'
-        const num = parseInt(last.code.replace(branch, ''), 10)
-        nextCode = branch + (num + 1)
-      } else {
-        nextCode = branch + '1000'
+      const { prefix } = req.params
+      if (!VALID_PREFIX.includes(prefix)) {
+        return res.status(400).json({ error: 'Prefijo inválido' })
       }
 
-      return res.json({ nextCode })
+      // Busca códigos que empiecen por el prefijo y extrae el sufijo numérico
+      const [{ num } = {}] = await ServiceModel.aggregate([
+        { $match: { code: { $regex: `^${prefix}\\d+$` } } },
+        {
+          $project: {
+            num: {
+              $toInt: {
+                $substrCP: ['$code', 1, { $subtract: [{ $strLenCP: '$code' }, 1] }]
+              }
+            }
+          }
+        },
+        { $sort: { num: -1 } },
+        { $limit: 1 }
+      ])
+
+      const next = (num || 1000) + 1
+      return res.json({ nextCode: `${prefix}${next}` })
     } catch (err) {
-      console.error(err)
-      return res.status(500).json({ error: 'Error al obtener último código' })
+      console.error('getLastCode error:', err)
+      return res.status(500).json({ error: 'Error al obtener el siguiente código' })
     }
   }
 

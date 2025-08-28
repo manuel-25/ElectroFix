@@ -34,14 +34,37 @@ class ClientController {
     }
   }
 
+  // controllers/clientController.js (solo create)
   static async createClient(req, res) {
     try {
       const newClient = await ClientManager.create(req.body)
       res.status(201).json(newClient)
     } catch (error) {
-      res.status(500).json({ message: 'Error al crear cliente', error: error.message })
+      // ValidationError de Mongoose
+      if (error?.name === 'ValidationError') {
+        const errors = Object.fromEntries(
+          Object.entries(error.errors).map(([field, err]) => [field, err.message])
+        )
+        return res.status(400).json({
+          message: 'Revisá los campos marcados.',
+          errors
+        })
+      }
+      // Duplicado de índice único (email / customerNumber)
+      if (error?.code === 11000) {
+        const errors = {}
+        if (error.keyPattern?.email) errors.email = 'Este email ya está registrado.'
+        if (error.keyPattern?.customerNumber) errors.customerNumber = 'Número de cliente duplicado.'
+        return res.status(400).json({
+          message: 'Revisá los campos marcados.',
+          errors
+        })
+      }
+      console.error(error)
+      res.status(500).json({ message: 'Error al crear cliente' })
     }
   }
+
 
   static async updateClient(req, res) {
     try {
@@ -62,6 +85,18 @@ class ClientController {
       res.status(500).json({ message: 'Error al eliminar cliente', error: error.message })
     }
   }
-}
+
+  static async getLastCustomerNumber(req, res) {
+    try {
+      const lastClient = await ClientManager.findLastClient()
+      const lastNumber = lastClient?.customerNumber || 1000
+      res.status(200).json({ lastNumber })
+    } catch (error) {
+      console.error('Error al obtener el último número de cliente:', error)
+      res.status(500).json({ message: 'Error al obtener el último número de cliente', error: error.message })
+    }
+  }
+
+  }
 
 export default ClientController

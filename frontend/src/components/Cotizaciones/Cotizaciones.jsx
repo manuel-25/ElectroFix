@@ -248,7 +248,7 @@ const Cotizaciones = () => {
                             rel="noopener noreferrer"
                             className="whatsapp-btn"
                           >
-                            <img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" id='contact-whatsapp' />
+                            <img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" id='contact-whatsapp-cotizaciones' />
                           </a>
                         )}
                       </td>

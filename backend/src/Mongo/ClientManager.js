@@ -45,6 +45,11 @@ class ClientManagerDao {
   }
 
   async create(data) {
+    const existing = await this.clientModel.findOne({ email: data.email })
+    if (existing) {
+      throw new Error('El email ya está registrado')
+    }
+
     data.date = this.getArgentinaTime()
     return await this.clientModel.create(data)
   }
@@ -64,7 +69,7 @@ class ClientManagerDao {
   }
 
   async findLastClient() {
-    const lastClient = await this.clientModel.findOne().sort({ createdAt: -1 })
+    const lastClient = await this.clientModel.findOne().sort({ customerNumber: -1 })
     return lastClient ? { ...lastClient.toObject(), createdAt: this.formatDate(lastClient.createdAt) } : null
   }
 }

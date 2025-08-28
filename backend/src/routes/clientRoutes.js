@@ -1,24 +1,28 @@
 import express from 'express'
 import ClientController from '../controllers/clientController.js'
+import authenticateJWT from '../middlewares/authenticateJWT.js'
 
 const router = express.Router()
 
 // Obtener todos los clientes
-router.get('/', ClientController.getAllClients)
+router.get('/', authenticateJWT, ClientController.getAllClients)
 
 // Obtener cliente por ID
-router.get('/id/:id', ClientController.getClientById)
+router.get('/id/:id', authenticateJWT, ClientController.getClientById)
 
 // Obtener cliente por número de cliente
-router.get('/by-customer/:customerNumber', ClientController.getClientByCustomerNumber)
+router.get('/by-customer/:customerNumber', authenticateJWT, ClientController.getClientByCustomerNumber)
 
 // Crear cliente
-router.post('/', ClientController.createClient)
+router.post('/', authenticateJWT, ClientController.createClient)
+
+//Obtener ultimo numero de cliente
+router.get('/last-number', authenticateJWT, ClientController.getLastCustomerNumber)
 
 // Actualizar cliente
-router.put('/:id', ClientController.updateClient)
+router.put('/:id', authenticateJWT, ClientController.updateClient)
 
 // Eliminar cliente
-router.delete('/:id', ClientController.deleteClient)
+router.delete('/:id', authenticateJWT, ClientController.deleteClient)
 
 export default router

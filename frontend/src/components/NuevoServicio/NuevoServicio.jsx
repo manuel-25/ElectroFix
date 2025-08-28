@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import DashboardLayout from '../DashboardLayout/DashboardLayout'
+import NuevoClienteModal from '../NuevoClienteModal/NuevoClienteModal.jsx'
 import { AuthContext } from '../../Context/AuthContext'
 import Select from 'react-select'
 import { equipoOptions } from '../../utils/productsData'
@@ -14,10 +15,12 @@ const NuevoServicio = () => {
 
   const [clientes, setClientes] = useState([])
   const [cotizaciones, setCotizaciones] = useState([])
+  const [showClienteModal, setShowClienteModal] = useState(false)
+
   const [formData, setFormData] = useState({
     customerNumber: '',
     quoteReference: '',
-    branch: '',
+    codePrefix: '',
     code: '',
     equipmentType: '',
     brand: '',
@@ -30,24 +33,23 @@ const NuevoServicio = () => {
     notes: '',
     userDescription: '',
     description: '',
-    receivedAtBranch: ''
+    receivedAtBranch: '',
   })
+
   const [previewDescription, setPreviewDescription] = useState('')
   const [error, setError] = useState(null)
 
   useEffect(() => {
-      axios.get(`${getApiUrl()}/api/client`, {
-        headers: { Authorization: `Bearer ${auth?.token}` },
-        withCredentials: true
-      })
-      .then(res => setClientes(res.data || []))
+    axios.get(`${getApiUrl()}/api/client`, {
+      headers: { Authorization: `Bearer ${auth?.token}` },
+      withCredentials: true
+    }).then(res => setClientes(res.data || []))
       .catch(err => console.error('Error al obtener clientes', err))
 
-      axios.get(`${getApiUrl()}/api/quotes`, {
-        headers: { Authorization: `Bearer ${auth?.token}` },
-        withCredentials: true
-      })
-      .then(res => setCotizaciones(res.data || []))
+    axios.get(`${getApiUrl()}/api/quotes`, {
+      headers: { Authorization: `Bearer ${auth?.token}` },
+      withCredentials: true
+    }).then(res => setCotizaciones(res.data || []))
       .catch(err => console.error('Error al obtener cotizaciones', err))
   }, [auth])
 
@@ -60,14 +62,11 @@ const NuevoServicio = () => {
 
   const validCot = cotizaciones.filter(q => q.serviceRequestNumber)
   const invalidCot = cotizaciones.filter(q => !q.serviceRequestNumber)
-
   const cotOptions = [
-    ...validCot
-      .sort((a, b) => b.serviceRequestNumber - a.serviceRequestNumber)
-      .map(q => ({
-        value: q.serviceRequestNumber,
-        label: `#${q.serviceRequestNumber} - ${q.userData?.firstName || ''} ${q.userData?.lastName || ''}`.trim()
-      })),
+    ...validCot.sort((a, b) => b.serviceRequestNumber - a.serviceRequestNumber).map(q => ({
+      value: q.serviceRequestNumber,
+      label: `#${q.serviceRequestNumber} - ${q.userData?.firstName || ''} ${q.userData?.lastName || ''}`.trim()
+    })),
     ...invalidCot.map(q => ({
       value: null,
       label: `${q.userData?.firstName || ''} ${q.userData?.lastName || ''} (sin número)`
@@ -77,12 +76,10 @@ const NuevoServicio = () => {
   const updatePreview = () => {
     const { code, equipmentType, brand, model, approximateValue, quoteReference, userDescription } = formData
     const base = [code, equipmentType, brand, model].filter(Boolean).join(' ')
-    const texto = userDescription.trim() || ''
+    const texto = (userDescription || '').trim()
     const approx = approximateValue ? `Aprox.: ${approximateValue}` : ''
     const cotRef = quoteReference ? ` #${quoteReference}` : ''
-
-    const preview = [base, texto, approx].filter(Boolean).join('. ').trim().concat(cotRef)
-    setPreviewDescription(preview)
+    setPreviewDescription([base, texto, approx].filter(Boolean).join('. ').trim().concat(cotRef))
   }
 
   useEffect(() => {
@@ -102,35 +99,34 @@ const NuevoServicio = () => {
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSucursalChange = e => {
-    const branch = e.target.value
-    setFormData(prev => ({ ...prev, branch }))
-
-    axios
-      .get(`${getApiUrl()}/api/service/last-code/${branch}`, {
+  // Pide un "siguiente" SOLO para preview (el definitivo lo asigna el backend)
+  const handleCodePrefixChange = async (prefix) => {
+    setFormData(prev => ({ ...prev, codePrefix: prefix, code: '' }))
+    if (!prefix) return
+    try {
+      const res = await axios.get(`${getApiUrl()}/api/service/last-code/${prefix}`, {
         headers: { Authorization: `Bearer ${auth?.token}` },
         withCredentials: true
       })
-      .then(res => {
-        const nextCode = res.data?.nextCode || `${branch}1000`
-        setFormData(prev => ({ ...prev, code: nextCode }))
-      })
-      .catch(() => {
-        const fallback = `${branch}1000`
-        setFormData(prev => ({ ...prev, code: fallback }))
-      })
+      const nextCode = res.data?.nextCode || `${prefix}1000`
+      setFormData(prev => ({ ...prev, code: nextCode }))
+    } catch {
+      setFormData(prev => ({ ...prev, code: `${prefix}1000` }))
+    }
   }
 
   const handleSubmit = async e => {
-  e.preventDefault()
-  setError(null)
+    e.preventDefault()
+    setError(null)
 
-  const selectedClient = clientes.find(c => c.customerNumber === Number(formData.customerNumber))
-
+    const selectedClient = clientes.find(c => c.customerNumber === Number(formData.customerNumber))
     if (!selectedClient) {
-    setError('Cliente no encontrado.')
-    return
+      setError('Cliente no encontrado.')
+      return
     }
+
+    // recepción opcional: si hay sucursal, el backend esperará receivedBy (lo calcula desde req.user)
+    const receivedAtBranch = formData.receivedAtBranch || null
 
     const finalData = {
       customerNumber: selectedClient.customerNumber,
@@ -143,49 +139,61 @@ const NuevoServicio = () => {
         domicilio: selectedClient.domicilio
       },
       quoteReference: formData.quoteReference ? Number(formData.quoteReference) : undefined,
-      branch: formData.branch,
-      code: formData.code,
       equipmentType: formData.equipmentType,
       brand: formData.brand,
       model: formData.model,
       serviceType: formData.serviceType,
       approximateValue: formData.approximateValue,
-      finalValue: formData.finalValue,
+      finalValue: Number(formData.finalValue) || 0,
       repuestos: Number(formData.repuestos) || 0,
       warrantyExpiration: Number(formData.warrantyExpiration),
       notes: formData.notes,
       description: previewDescription,
-      ...(formData.receivedAtBranch && { receivedAtBranch: formData.receivedAtBranch })
+      code: formData.code,
+      receivedAtBranch
     }
 
-  try {
-    const res = await axios.post(`${getApiUrl()}/api/service`, finalData, {
-      headers: { Authorization: `Bearer ${auth?.token}` },
-      withCredentials: true
-    })
-    navigate(`/servicios`)
-  } catch (err) {
-    if (err.response?.status === 400 && err.response?.data?.error) {
-      setError(err.response.data.error)
-    } else {
-      setError('Error al crear el servicio.')
+    try {
+      await axios.post(`${getApiUrl()}/api/service`, finalData, {
+        headers: { Authorization: `Bearer ${auth?.token}` },
+        withCredentials: true
+      })
+      navigate(`/servicios`)
+    } catch (err) {
+      setError(err.response?.data?.error || 'Error al crear el servicio.')
+      console.error(err)
     }
-    console.error(err)
   }
-}
-
 
   return (
     <DashboardLayout>
       <div className="dashboard-wrapper">
         <button className="back-button-pro" onClick={() => navigate(-1)}>← Volver</button>
         <h2 className="dashboard-title">➕ Nuevo Servicio</h2>
+
         <form className="form-elegante" onSubmit={handleSubmit}>
+          {/* Prefijo + Código generado (preview) */}
           <div className="form-section">
-            <label>Código</label>
-            <input name="code" value={formData.code} onChange={handleChange} />
+            <label>Prefijo*</label>
+            <select
+              name="codePrefix"
+              value={formData.codePrefix}
+              onChange={e => handleCodePrefixChange(e.target.value)}
+              required
+            >
+              <option value="">Seleccionar prefijo</option>
+              <option value="Q">Q (Quilmes)</option>
+              <option value="B">B (Barracas)</option>
+              <option value="W">W (Web)</option>
+            </select>
           </div>
 
+          <div className="form-section">
+            <label>Código generado</label>
+            <input name="code" value={formData.code} readOnly />
+          </div>
+
+          {/* Cliente */}
           <div className="form-section">
             <label>Cliente*</label>
             <div className="select-wrapper">
@@ -203,13 +211,14 @@ const NuevoServicio = () => {
               <button
                 type="button"
                 className="btn-nuevo"
-                onClick={() => navigate('/clientes/nuevo')}
+                onClick={() => setShowClienteModal(true)}
               >
                 Nuevo
               </button>
             </div>
           </div>
 
+          {/* Equipo */}
           <div className="form-section">
             <label>Tipo de Equipo*</label>
             <Select
@@ -270,37 +279,12 @@ const NuevoServicio = () => {
 
           <div className="form-section">
             <label>Valor Final ($)</label>
-            <input
-              type="number"
-              name="finalValue"
-              value={formData.finalValue}
-              onChange={handleChange}
-            />
+            <input type="number" name="finalValue" value={formData.finalValue} onChange={handleChange} />
           </div>
 
           <div className="form-section">
             <label>Repuestos ($)</label>
-            <input
-              type="number"
-              name="repuestos"
-              value={formData.repuestos}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-section">
-            <label>Sucursal*</label>
-            <select
-              name="branch"
-              value={formData.branch}
-              onChange={handleSucursalChange}
-              required
-            >
-              <option value="">--</option>
-              <option value="Q">Quilmes</option>
-              <option value="B">Barracas</option>
-              <option value="W">Web</option>
-            </select>
+            <input type="number" name="repuestos" value={formData.repuestos} onChange={handleChange} />
           </div>
 
           <div className="form-section">
@@ -328,11 +312,7 @@ const NuevoServicio = () => {
 
           <div className="form-section">
             <label>Recibido En</label>
-            <select
-              name="receivedAtBranch"
-              value={formData.receivedAtBranch}
-              onChange={handleChange}
-            >
+            <select name="receivedAtBranch" value={formData.receivedAtBranch} onChange={handleChange}>
               <option value="">No recibido</option>
               <option value="Quilmes">Quilmes</option>
               <option value="Barracas">Barracas</option>
@@ -340,21 +320,30 @@ const NuevoServicio = () => {
           </div>
 
           <div className="form-section full-width">
-            <label>Notas del Técnico</label>
+            <label>Notas del Técnico (Uso Interno)</label>
             <textarea name="notes" value={formData.notes} onChange={handleChange} />
           </div>
 
           {error && <div className="error-message">{error}</div>}
 
           <div className="form-footer">
-            <button type="submit" className="btn-submit">
-              Guardar Servicio
-            </button>
+            <button type="submit" className="btn-submit">Guardar Servicio</button>
           </div>
         </form>
       </div>
+
+      {showClienteModal && (
+        <NuevoClienteModal
+          onClose={() => setShowClienteModal(false)}
+          onClienteCreado={nuevoCliente => {
+            setClientes(prev => [...prev, nuevoCliente])
+            setFormData(prev => ({ ...prev, customerNumber: nuevoCliente.customerNumber }))
+            setShowClienteModal(false)
+          }}
+        />
+      )}
     </DashboardLayout>
   )
 }
 
-export default NuevoServicio;
+export default NuevoServicio
