@@ -69,7 +69,7 @@ class ServiceController {
       const {
         userData, equipmentType, description, brand, model,
         serviceType, approximateValue, finalValue, repuestos,
-        quoteReference, photos, receivedBy, receivedAtBranch,
+        quoteReference, photos, receivedAtBranch,
         deliveryMethod, receivedNotes, receivedPhoto,
         notes, code
       } = req.body
@@ -84,18 +84,7 @@ class ServiceController {
       const exists = await ServiceModel.findOne({ code })
       if (exists) return res.status(400).json({ error: 'Ya existe un servicio con este código' })
 
-      // “o los dos o ninguno”
-      const bothOrNone =
-        (!receivedAtBranch && !receivedBy) ||
-        (receivedAtBranch && receivedBy)
-
-      if (!bothOrNone) {
-        return res.status(400).json({
-          error: 'Campos de recepción inválidos: receivedAtBranch y receivedBy deben venir juntos (ambos nulos o ambos con valor).'
-        })
-      }
-
-      const isReceived = !!(receivedAtBranch && receivedBy)
+      const isReceived = !!receivedAtBranch
       const initialStatus = isReceived ? 'Recibido' : 'Pendiente'
 
       const newServiceData = {
@@ -128,7 +117,7 @@ class ServiceController {
         createdBy: req.user._id,
         createdByEmail: req.user.email,
 
-        receivedBy: isReceived ? receivedBy : null,
+        receivedBy: isReceived ? req.user.email : null,
         receivedAtBranch: isReceived ? receivedAtBranch : null,
         receivedAt: isReceived ? new Date() : null,
         deliveryMethod: deliveryMethod || 'Presencial',
@@ -222,15 +211,19 @@ class ServiceController {
   // En tu ServiceController (backend)
   static async updateServiceStatus(req, res) {
     const { id } = req.params
-    const { status, receivedBy, note } = req.body
+    const { status, receivedBy, note, receivedAtBranch } = req.body
 
     try {
+      const now = new Date()
+
       const updatePayload = {
         status,
         lastModifiedBy: req.user.email,
-        lastModifiedAt: new Date(),
+        lastModifiedAt: now,
         ...(receivedBy && { receivedBy }),
-        ...(note && { notes: note })
+        ...(note && { notes: note }),
+        ...(status === 'Recibido' && receivedAtBranch && { receivedAtBranch }),
+        ...(status === 'Recibido' && { receivedAt: now })
       }
 
       const updated = await ServiceModel.findByIdAndUpdate(
@@ -241,7 +234,7 @@ class ServiceController {
             statusHistory: {
               status,
               changedBy: req.user.email,
-              changedAt: new Date(),
+              changedAt: now,
               ...(note && { note })
             }
           }
@@ -258,7 +251,6 @@ class ServiceController {
       res.status(500).json({ error: 'Error al actualizar servicio', details: err.message })
     }
   }
-
 
   // ✅ deleteService
   static async deleteService(req, res) {

@@ -5,6 +5,7 @@ import DashboardLayout from '../DashboardLayout/DashboardLayout'
 import { AuthContext } from '../../Context/AuthContext'
 import { getApiUrl } from '../../config'
 import { estadosServicio } from '../../utils/productsData.jsx'
+import SucursalModal from '../SucursalModal/SucursalModal.jsx'
 import './ServiceDetail.css'
 
 /* ============== UI helpers ============== */
@@ -96,6 +97,11 @@ const ServiceDetail = () => {
   const [error, setError] = useState(null)
   const [notesText, setNotesText] = useState('')
   const [toast, setToast] = useState({ type: 'error', message: '' })
+
+  // Modal sucursal (coherente con Servicios)
+  const [showSucursalModal, setShowSucursalModal] = useState(false)
+  const [selectedBranch, setSelectedBranch] = useState('')
+
   const navigate = useNavigate()
 
   const authHeader = { Authorization: `Bearer ${auth?.token}` }
@@ -119,7 +125,6 @@ const ServiceDetail = () => {
   useEffect(() => {
     if (!code) return
     fetchService()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code])
 
   const currency = (n) =>
@@ -157,14 +162,37 @@ const ServiceDetail = () => {
     return dedup
   }, [service])
 
-  const handleStatusChange = async (newStatus) => {
+  useEffect(() => {
+  console.log('auth.user:', auth?.user)
+}, [])
+
+  // Cambiar estado; si el user no tiene branch y selecciona "Recibido", abre modal.
+  const handleStatusChange = async (newStatus, branchFromModal = null) => {
     if (!service?._id || saving) return
+
+    console.log('user.branch:', auth?.user?.branch)
+    console.log('branchFromModal:', branchFromModal)
+
+    const userFixedBranch = auth?.user?.branch || null
+    const isRecibido = newStatus === 'Recibido'
+
+    if (isRecibido && !userFixedBranch && !branchFromModal) {
+      setSelectedBranch('')
+      setShowSucursalModal(true)
+      return
+    }
+
     setSaving(true)
     try {
-      const payload = { status: newStatus, note: notesText }
-      if (newStatus === 'Recibido') {
-        payload.receivedBy = auth?.user?.email || 'Web'
+      const payload = {
+        status: newStatus,
+        note: notesText,
+        ...(isRecibido && {
+          receivedBy: auth?.user?.email || '-',
+          receivedAtBranch: branchFromModal || userFixedBranch
+        })
       }
+
       await axios.put(
         `${getApiUrl()}/api/service/${service._id}/status`,
         payload,
@@ -173,7 +201,6 @@ const ServiceDetail = () => {
       await fetchService()
       showToast('Estado actualizado correctamente.', 'success')
     } catch (err) {
-      console.error(err)
       showToast(getApiError(err), 'error')
     } finally {
       setSaving(false)
@@ -195,6 +222,12 @@ const ServiceDetail = () => {
         showToast(getApiError(err), 'error')
       }
     }
+  }
+
+  const handleConfirmSucursal = async () => {
+    if (!selectedBranch) return
+    setShowSucursalModal(false)              // <-- FIX (antes tenías showSucursalModal(false))
+    await handleStatusChange('Recibido', selectedBranch)
   }
 
   if (error) return <DashboardLayout><p className="error-message">{error}</p></DashboardLayout>
@@ -306,6 +339,14 @@ const ServiceDetail = () => {
           <Link to={`/servicios/${service.code}/imprimir`} className="btn">🖨 Imprimir</Link>
         </div>
       </div>
+
+      <SucursalModal
+        visible={showSucursalModal}
+        onClose={() => setShowSucursalModal(false)}
+        onConfirm={handleConfirmSucursal}
+        selectedBranch={selectedBranch}
+        setSelectedBranch={setSelectedBranch}
+      />
     </DashboardLayout>
   )
 }

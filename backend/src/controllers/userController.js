@@ -78,7 +78,11 @@ static async createUser(req, res) {
 
             res.status(200).json({
                 message: 'Login exitoso',
-                user: { email: user.email, role: user.role },  // Incluye el role aquí
+                user: {
+                    email: user.email,
+                    role: user.role,
+                    branch: user.branch
+                },
                 token
             })
         } catch (error) {
@@ -169,13 +173,18 @@ static async createUser(req, res) {
     // Método para verificar el token
     static async verifyToken(req, res) {
         try {
-            // Esto valida que req.user tenga datos
             if (!req.user?._id) return res.status(401).json({ error: 'No autorizado' })
 
             const user = await UserManager.getById(req.user._id)
             if (!user) return res.status(404).json({ error: 'User not found' })
 
-            res.status(200).json({ user: { email: user.email, role: user.role } })
+            res.status(200).json({
+                user: {
+                    email: user.email,
+                    role: user.role,
+                    branch: user.branch
+                }
+            })
         } catch (error) {
             res.status(500).json({ error: 'Internal Server Error' })
         }

@@ -393,8 +393,6 @@ export const faultsByCategory = {
     18: ['No enciende', 'No calienta', 'Olor a quemado', 'Salta la térmica', 'Problemas con el termostato', 'Se apaga sola', 'Mantenimiento / Limpieza', 'Otra'],
 }
 
-  
-
 export const brandLogos = [
     { src: '/brands/apple.png', alt: 'Apple' },
     { src: '/brands/Samsung.png', alt: 'Samsung' },
@@ -646,3 +644,5 @@ export const estadosServicio = [
   'Entregado',
   'Garantía',
 ]
+
+export const branchMap = { W: 'Web', Q: 'Quilmes', B: 'Barracas' }

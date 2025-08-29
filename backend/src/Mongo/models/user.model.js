@@ -1,11 +1,29 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
+const { Schema, model } = mongoose
+import { BRANCHES } from './service.model.js'
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new Schema(
+  {
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ['user', 'tecnico', 'admin'], default: 'user', required: true },
-}, { timestamps: true })
 
-const userModel = mongoose.model('User', userSchema)
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    phone: { type: String },
 
-export default userModel
+    branch: { type: String, enum: BRANCHES, default: null },
+    role: { type: String, enum: ['admin', 'empleado', 'tecnico', 'supervisor'], default: 'empleado' },
+
+    lastLoginAt: { type: Date, default: Date.now },
+    loginCount: { type: Number, default: 0 },
+    isActive: { type: Boolean, default: true },
+
+    notes: { type: String }
+  },
+  {
+    timestamps: true
+  }
+)
+
+const UserModel = model('User', UserSchema)
+export default UserModel
