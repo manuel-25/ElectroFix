@@ -18,13 +18,16 @@ const formatDateTime = (dateStr) => {
 const QuoteDetail = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { token } = useContext(AuthContext)
+  const { auth, loading: authLoading } = useContext(AuthContext)
+  const token = auth?.token
   const [quote, setQuote] = useState(null)
   const [client, setClient] = useState(undefined)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (authLoading || !token) return
+
     const fetchQuote = async () => {
       setLoading(true)
       try {
@@ -33,7 +36,6 @@ const QuoteDetail = () => {
         })
         setQuote(res.data)
 
-        // Intentar buscar cliente asociado en la base
         const customerNumber = res.data.customerNumber
         if (customerNumber) {
           try {
@@ -41,19 +43,22 @@ const QuoteDetail = () => {
               headers: { Authorization: `Bearer ${token}` }
             })
             setClient(clientRes.data)
-          } catch (clientErr) {
+          } catch {
             setClient(null)
           }
         } else {
           setClient(null)
         }
-      } catch (err) {
+      } catch {
         setError('No se pudo cargar la información.')
+      } finally {
+        setLoading(false)
       }
-      setLoading(false)
     }
+
     fetchQuote()
-  }, [id, token])
+  }, [id, token, authLoading])
+
 
   if (error) return <p className="error">{error}</p>
   if (loading || !quote) {
@@ -94,7 +99,7 @@ const QuoteDetail = () => {
                     <Loading size={18} inline={true} /> {/* Spinner mini para cliente */}
                   </span>
                 ) : client === null ? (
-                  <span className="client-check not-found" style={{marginLeft: 8}}>No registrado</span>
+                  <span className="client-check not-found" style={{marginLeft: 8}}>No encontrado</span>
                 ) : (
                   <span className="client-check found" style={{marginLeft: 8}}>
                     {client.firstName} {client.lastName}
