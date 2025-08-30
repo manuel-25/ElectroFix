@@ -29,14 +29,21 @@ const Dashboard = () => {
     return d.toISOString().split('T')[0]
   })
   const [endDate, setEndDate] = useState(() => new Date().toISOString().split('T')[0])
-  const { auth } = useContext(AuthContext)
+  const { auth, loading: authLoading } = useContext(AuthContext)
+  const token = auth?.token
 
   useEffect(() => {
+    if (authLoading || !token) return
+
     const fetchData = async () => {
       try {
         const [quotesRes, clientsRes] = await Promise.all([
-          axios.get(`${getApiUrl()}/api/quotes`),
-          axios.get(`${getApiUrl()}/api/client`)
+          axios.get(`${getApiUrl()}/api/quotes`, {
+            headers: { Authorization: `Bearer ${token}` }
+          }),
+          axios.get(`${getApiUrl()}/api/client`, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
         ])
         setQuotes(quotesRes.data)
         setClients(clientsRes.data)
@@ -44,8 +51,9 @@ const Dashboard = () => {
         setError('Error al obtener datos')
       }
     }
+
     fetchData()
-  }, [])
+  }, [authLoading, token])
 
   // Cotizaciones del mes actual
   const now = new Date()

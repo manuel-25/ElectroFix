@@ -163,15 +163,11 @@ const ServiceDetail = () => {
   }, [service])
 
   useEffect(() => {
-  console.log('auth.user:', auth?.user)
 }, [])
 
   // Cambiar estado; si el user no tiene branch y selecciona "Recibido", abre modal.
   const handleStatusChange = async (newStatus, branchFromModal = null) => {
     if (!service?._id || saving) return
-
-    console.log('user.branch:', auth?.user?.branch)
-    console.log('branchFromModal:', branchFromModal)
 
     const userFixedBranch = auth?.user?.branch || null
     const isRecibido = newStatus === 'Recibido'
