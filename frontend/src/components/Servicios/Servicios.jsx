@@ -6,7 +6,7 @@ import { AuthContext } from '../../Context/AuthContext'
 import { getApiUrl } from '../../config'
 import Loading from '../Loading/Loading'
 import { estadosServicio, branchMap } from '../../utils/productsData'
-import SucursalModal from '../SucursalModal/SucursalModal.jsx'
+import ServiceStatusControl from '../ServiceStatusControl/ServiceStatusControl.jsx'
 import './Servicios.css'
 
 const Servicios = () => {
@@ -20,19 +20,21 @@ const Servicios = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [sortConfig, setSortConfig] = useState({ key: 'createdAt', direction: 'desc' })
 
-  // Modal sucursal
-  const [showSucursalModal, setShowSucursalModal] = useState(false)
-  const [modalServiceId, setModalServiceId] = useState(null)
-  const [selectedBranch, setSelectedBranch] = useState('')
-
   useEffect(() => {
-    axios.get(`${getApiUrl()}/api/service`, {
-      headers: { Authorization: `Bearer ${auth?.token}` },
-      withCredentials: true
-    })
-      .then(res => setServices(res.data || []))
-      .catch(() => setError('Error al obtener los servicios'))
-      .finally(() => setLoading(false))
+    const fetchAll = async () => {
+      try {
+        const res = await axios.get(`${getApiUrl()}/api/service`, {
+          headers: { Authorization: `Bearer ${auth?.token}` },
+          withCredentials: true
+        })
+        setServices(res.data || [])
+      } catch (e) {
+        setError('Error al obtener los servicios')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchAll()
   }, [auth])
 
   const handleSort = key => {
@@ -46,58 +48,25 @@ const Servicios = () => {
     return sortConfig.direction === 'asc' ? '↑' : '↓'
   }
 
-  const handleStatusChange = (id, newStatus) => {
-    if (newStatus === 'Recibido' && !auth.user.branch) {
-      setModalServiceId(id)
-      setShowSucursalModal(true)
-    } else {
-      updateService(id, 'status', newStatus, auth.user.branch)
-    }
-  }
-
-  const confirmSucursalChange = () => {
-    if (!selectedBranch || !modalServiceId) return
-    updateService(modalServiceId, 'status', 'Recibido', selectedBranch)
-    setShowSucursalModal(false)
-    setModalServiceId(null)
-    setSelectedBranch('')
-  }
-
-  const updateService = async (id, field, value, receivedAtBranch = null) => {
-    try {
-      let res
-
-      if (field === 'status') {
-        const payload = { status: value }
-        if (value === 'Recibido') {
-          payload.receivedAtBranch = receivedAtBranch
-        }
-
-        res = await axios.put(
-          `${getApiUrl()}/api/service/${id}/status`,
-          payload,
+  const handleNoteKeyDown = async (svc, e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      try {
+        const updated = await axios.put(
+          `${getApiUrl()}/api/service/${svc._id}/status`,
+          {
+            status: svc.status,
+            note: e.target.value
+          },
           {
             headers: { Authorization: `Bearer ${auth?.token}` },
             withCredentials: true
           }
         )
-      } else {
-        res = await axios.put(
-          `${getApiUrl()}/api/service/${id}`,
-          { [field]: value },
-          {
-            headers: { Authorization: `Bearer ${auth?.token}` },
-            withCredentials: true
-          }
-        )
+        setServices(prev => prev.map(s => (s._id === svc._id ? { ...s, ...updated.data } : s)))
+      } catch (e2) {
+        alert('Error al actualizar nota')
       }
-
-      const updatedService = res.data
-      setServices(prev =>
-        prev.map(s => (s._id === id ? { ...s, ...updatedService } : s))
-      )
-    } catch {
-      alert('Error al actualizar servicio')
     }
   }
 
@@ -187,34 +156,26 @@ const Servicios = () => {
                       <td>{s.serviceType}</td>
                       <td>{branchMap[s.code] || s.code}</td>
                       <td>
-                        <select
-                          className={`status-select ${getStatusClass(s.status)}`}
-                          value={s.status || ''}
-                          onChange={e => handleStatusChange(s._id, e.target.value)}
-                        >
-                          {estadosServicio.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                        </select>
+                        <ServiceStatusControl
+                          service={s}
+                          token={auth?.token}
+                          userEmail={auth?.user?.email}
+                          userBranch={auth?.user?.branch}
+                          note={s.notes}
+                          className={getStatusClass(s.status)}
+                          onUpdated={(updated) => {
+                            setServices(prev =>
+                              prev.map(item => item._id === s._id ? { ...item, ...updated } : item)
+                            )
+                          }}
+                          onError={() => alert('Error al actualizar estado')}
+                        />
                       </td>
                       <td>
                         <textarea
                           className="notes-textarea"
                           defaultValue={s.notes || ''}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' && !e.shiftKey) {
-                              e.preventDefault()
-                              axios.put(
-                                `${getApiUrl()}/api/service/${s._id}/status`,
-                                { status: s.status, note: e.target.value },
-                                { headers: { Authorization: `Bearer ${auth?.token}` }, withCredentials: true }
-                              )
-                                .then(res => {
-                                  setServices(prev =>
-                                    prev.map(srv => (srv._id === s._id ? res.data : srv))
-                                  )
-                                })
-                                .catch(() => alert('Error al actualizar nota'))
-                            }
-                          }}
+                          onKeyDown={(e) => handleNoteKeyDown(s, e)}
                         />
                       </td>
                       <td>{s.receivedAtBranch || 'No recibido'}</td>
@@ -254,13 +215,6 @@ const Servicios = () => {
           </>
         )}
       </div>
-      <SucursalModal
-        visible={showSucursalModal}
-        onClose={() => setShowSucursalModal(false)}
-        onConfirm={confirmSucursalChange}
-        selectedBranch={selectedBranch}
-        setSelectedBranch={setSelectedBranch}
-      />
     </DashboardLayout>
   )
 }

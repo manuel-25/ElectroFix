@@ -208,10 +208,17 @@ class ServiceController {
     }
   }
 
-  // En tu ServiceController (backend)
+  // ✅ updateServiceStatus (reemplazar)
   static async updateServiceStatus(req, res) {
     const { id } = req.params
-    const { status, receivedBy, note, receivedAtBranch } = req.body
+    const {
+      status,
+      receivedBy,
+      note,
+      receivedAtBranch,
+      deliveredAt,
+      isSatisfied
+    } = req.body
 
     try {
       const now = new Date()
@@ -222,8 +229,14 @@ class ServiceController {
         lastModifiedAt: now,
         ...(receivedBy && { receivedBy }),
         ...(note && { notes: note }),
+
+        // Recibido
         ...(status === 'Recibido' && receivedAtBranch && { receivedAtBranch }),
-        ...(status === 'Recibido' && { receivedAt: now })
+        ...(status === 'Recibido' && { receivedAt: now }),
+
+        // Entregado
+        ...(status === 'Entregado' && { deliveredAt: deliveredAt || now }),
+        ...(status === 'Entregado' && typeof isSatisfied === 'boolean' && { isSatisfied })
       }
 
       const updated = await ServiceModel.findByIdAndUpdate(
@@ -239,7 +252,7 @@ class ServiceController {
             }
           }
         },
-        { new: true }
+        { new: true, runValidators: true }
       )
 
       if (!updated) {

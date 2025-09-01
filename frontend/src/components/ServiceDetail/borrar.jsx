@@ -4,11 +4,12 @@ import axios from 'axios'
 import DashboardLayout from '../DashboardLayout/DashboardLayout'
 import { AuthContext } from '../../Context/AuthContext'
 import { getApiUrl } from '../../config'
-import { statusClassMap } from '../../utils/productsData.jsx'
-import ServiceStatusControl from '../ServiceStatusControl/ServiceStatusControl.jsx'
+import { estadosServicio } from '../../utils/productsData.jsx'
+import { updateServiceStatus } from '../../utils/updateServiceStatus'
+import SucursalModal from '../SucursalModal/SucursalModal.jsx'
+import SatisfactionModal from '../SatisfactionModal/SatisfactionModal.jsx'
 import './ServiceDetail.css'
 
-/* ============== UI helpers ============== */
 const Item = ({ label, value }) => (
   <div className="item">
     <span className="item-label">{label}</span>
@@ -37,7 +38,7 @@ const getApiError = (err) => {
   return 'Ocurrió un error inesperado.'
 }
 
-/* ========= helpers de estado/fechas ======== */
+/* ===== helpers de estado ===== */
 const slug = (s = '') =>
   s.toString().trim().toLowerCase()
     .normalize('NFD').replace(/\p{Diacritic}/gu, '')
@@ -53,28 +54,52 @@ const normalizeStatus = (raw = '') => {
   return s
 }
 
+const statusClassMap = {
+  pendiente : 'status-pendiente',
+  recibido  : 'status-recibido',
+  revision  : 'status-revision',
+  reparacion: 'status-reparacion',
+  pruebas   : 'status-pruebas',
+  listo     : 'status-listo',
+  entregado : 'status-entregado',
+  garantia  : 'status-garantia',
+  rechazado : 'status-rechazado'
+}
+
 const StatusPill = ({ status }) => {
   const key = normalizeStatus(status || '')
   const cls = statusClassMap[key] || 'status-desconocido'
   return <span className={`status-pill ${cls}`}>{status || '—'}</span>
 }
 
-const addDays = (date, days) => {
-  if (!date || days == null) return null
-  const d = new Date(date)
-  d.setDate(d.getDate() + Number(days))
-  return d
+const StatusSelect = ({ value, onChange, disabled }) => {
+  const key = normalizeStatus(value || '')
+  return (
+    <select
+      className={`status-select cell-${key}`}
+      value={value || ''}
+      onChange={(e) => onChange(e.target.value)}
+      disabled={disabled}
+    >
+      <option value="" disabled>Seleccioná…</option>
+      {estadosServicio.map(opt => (
+        <option key={opt} value={opt}>{opt}</option>
+      ))}
+    </select>
+  )
 }
-const fmt = (d) => d ? new Date(d).toLocaleString('es-AR') : '—'
 
-/* ============== Página ============== */
 const ServiceDetail = () => {
   const { auth } = useContext(AuthContext)
   const { code } = useParams()
   const [service, setService] = useState(null)
+  const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
   const [notesText, setNotesText] = useState('')
   const [toast, setToast] = useState({ type: 'error', message: '' })
+  const [showSucursalModal, setShowSucursalModal] = useState(false)
+  const [selectedBranch, setSelectedBranch] = useState('')
+  const [showSatisfactionModal, setShowSatisfactionModal] = useState(false)
 
   const navigate = useNavigate()
 
@@ -97,7 +122,6 @@ const ServiceDetail = () => {
 
   useEffect(() => {
     if (code) fetchService()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code])
 
   const currency = (n) =>
@@ -135,22 +159,54 @@ const ServiceDetail = () => {
     return dedup
   }, [service])
 
+  const handleStatusChange = async (newStatus, branchOverride = null) => {
+    if (!service || saving) return
+
+    const userEmail = auth?.user?.email || '-'
+    const userBranch = auth?.user?.branch || null
+    const isRecibido = newStatus === 'Recibido'
+
+    if (isRecibido && !userBranch && !branchOverride) {
+      setSelectedBranch('')
+      setShowSucursalModal(true)
+      return
+    }
+
+    if (newStatus === 'Entregado') {
+      setShowSatisfactionModal(true)
+      return
+    }
+
+    setSaving(true)
+    try {
+      await updateServiceStatus({
+        service,
+        newStatus,
+        note: notesText,
+        token: auth?.token,
+        userEmail,
+        receivedAtBranch: branchOverride || userBranch
+      })
+      await fetchService()
+      showToast('Estado actualizado correctamente.', 'success')
+    } catch (err) {
+      showToast(getApiError(err), 'error')
+    } finally {
+      setSaving(false)
+    }
+  }
+
   const handleNoteKeyDown = async (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       try {
-        const res = await axios.put(
-          `${getApiUrl()}/api/service/${service._id}/status`,
-          {
-            status: service.status,
-            note: notesText
-          },
-          {
-            headers: { Authorization: `Bearer ${auth?.token}` },
-            withCredentials: true
-          }
-        )
-        setService(res.data)
+        await updateServiceStatus({
+          service,
+          newStatus: service.status,
+          note: notesText,
+          token: auth?.token
+        })
+        await fetchService()
         showToast('Nota guardada y registrada en historial.', 'success')
       } catch (err) {
         showToast(getApiError(err), 'error')
@@ -158,36 +214,54 @@ const ServiceDetail = () => {
     }
   }
 
+  const handleConfirmSucursal = async () => {
+    if (!selectedBranch) return
+    setShowSucursalModal(false)
+    await handleStatusChange('Recibido', selectedBranch)
+  }
+
+  const handleSatisfactionSelect = async (isSatisfied) => {
+    setShowSatisfactionModal(false)
+    setSaving(true)
+    try {
+      await updateServiceStatus({
+        service,
+        newStatus: 'Entregado',
+        token: auth?.token,
+        note: notesText,
+        isSatisfied
+      })
+      await fetchService()
+      showToast('Estado actualizado correctamente.', 'success')
+    } catch (err) {
+      showToast(getApiError(err), 'error')
+    } finally {
+      setSaving(false)
+    }
+  }
+
   if (error) return <DashboardLayout><p className="error-message">{error}</p></DashboardLayout>
   if (!service) return <DashboardLayout><p className="loading-message">Cargando...</p></DashboardLayout>
-
-  const warrantyBase = service.deliveredAt || service.receivedAt || service.createdAt
-  const warrantyEnds = addDays(warrantyBase, service.warrantyExpiration)
 
   return (
     <DashboardLayout>
       <Toast type={toast.type} message={toast.message} onClose={clearToast} />
 
       <div className="detail-container">
-        <button className="back-button-pro" onClick={() => navigate(-1)}>← Volver</button>
-        <h2 className="title">🔍 Detalle del Servicio: {service.code}</h2>
-        <div className="actions">
-          <Link to={`/servicios/${service.code}/editar`} className="btn">✏️ Editar</Link>
-          <Link to={`/servicios/${service.code}/imprimir`} className="btn">🖨 Imprimir</Link>
-          <a
-            href={`https://wa.me/54${String(service.userData.phone).replace(/\D/g, '')}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-wa"
-            title="WhatsApp"
-          >
-            <img src="/images/whatsappLogo.svg" alt="WhatsApp" className="wa-icon-btn" />
-          </a>
+        {/* Cabecera con acciones arriba */}
+        <div className="detail-header">
+          <button className="back-button-pro" onClick={() => navigate(-1)}>← Volver</button>
+          <h2 className="title">🔍 Detalle del Servicio: {service.code}</h2>
+          <div className="actions actions--top">
+            <Link to={`/servicios/${service.code}/editar`} className="btn btn-sm">✏️ Editar</Link>
+            <Link to={`/servicios/${service.code}/imprimir`} className="btn btn-sm btn--ghost">🖨 Imprimir</Link>
+          </div>
         </div>
+
         <div className="info-group">
           <div className="info-column">
             <h3>Cliente</h3>
-            <Item label="Cliente #" value={<Link to={`/clientes/${service.customerNumber}`} className="service-link">{service.customerNumber}</Link>} />
+            <Item label="Cliente #" value={<Link to={`/clientes/${service.customerNumber}`} className="service-link strong-link">{service.customerNumber}</Link>} />
             <Item label="Nombre" value={`${service.userData?.firstName ?? ''} ${service.userData?.lastName ?? ''}`.trim() || '—'} />
             <Item label="Email" value={service.userData?.email} />
             <Item label="Teléfono" value={service.userData?.phone} />
@@ -206,6 +280,7 @@ const ServiceDetail = () => {
 
           <div className="info-column">
             <h3>Costos</h3>
+            {/* NUEVO: referencia de cotización si existe */}
             <Item
               label="Ref. Cotización"
               value={
@@ -225,66 +300,19 @@ const ServiceDetail = () => {
             <Item
               label="Actualizar estado"
               value={
-                <ServiceStatusControl
-                  service={service}
-                  token={auth?.token}
-                  userEmail={auth?.user?.email}
-                  userBranch={auth?.user?.branch}
-                  note={notesText}
-                  onUpdated={(updatedService) => {
-                    setService(updatedService)
-                    showToast('Estado actualizado correctamente.', 'success')
-                  }}
-                  onError={(err) => showToast(getApiError(err), 'error')}
-                />
+                <div style={{ minWidth: 220 }}>
+                  <StatusSelect value={service.status} onChange={handleStatusChange} disabled={saving} />
+                  {saving && <small style={{ marginLeft: 8 }}>Guardando…</small>}
+                </div>
               }
             />
-            <Item label="Recibido por" value={service.receivedBy || '—'} />
-            <Item label="Modificado por" value={service.lastModifiedBy || '—'} />
-            <Item label="Última modificación" value={fmt(service.lastModifiedAt)} />
+            <Item label="Recibido por" value={service.receivedBy} />
+            <Item label="Modificado por" value={service.lastModifiedBy} />
+            <Item label="Última modificación" value={service.lastModifiedAt ? new Date(service.lastModifiedAt).toLocaleString() : '—'} />
+            <Item label="Garantía (días)" value={<span className="muted-strong">{service.warrantyExpiration ?? '—'}</span>} />
           </div>
         </div>
 
-        <div className="info-group">
-          <div className="info-column">
-            <h3>Recepción</h3>
-            <Item label="Fecha de recepción" value={fmt(service.receivedAt)} />
-            <Item label="Codigo" value={service.code || '—'} />
-            <Item label="Sucursal" value={service.receivedAtBranch || '—'} />
-            <Item label="Método de entrega" value={service.deliveryMethod || '—'} />
-            {service.receivedNotes ? <Item label="Notas de recepción" value={service.receivedNotes} /> : null}
-          </div>
-
-          <div className="info-column">
-            <h3>Entrega</h3>
-            <Item label="Entregado el" value={fmt(service.deliveredAt)} />
-            <Item
-              label="Solicitar Calificación en Google"
-              value={
-                service.isSatisfied === true ? '✅ Si'
-                  : service.isSatisfied === false ? '❌ No recomendado'
-                    : '—'
-              }
-            />
-          </div>
-
-          <div className="info-column">
-            <h3>Garantía</h3>
-            <Item label="Días de garantía" value={service.warrantyExpiration ?? '—'} />
-            <Item label="Desde" value={fmt(warrantyBase)} />
-            <Item label="Hasta" value={fmt(warrantyEnds)} />
-          </div>
-
-          <div className="info-column">
-            <h3>Metadatos</h3>
-            <Item label="Creado por" value={service.createdByEmail || service.createdBy || '—'} />
-            <Item label="Fecha de creación" value={fmt(service.createdAt)} />
-            <Item label="Última actualización" value={fmt(service.updatedAt)} />
-            <Item label="ID público" value={service.publicId || '—'} />
-          </div>
-        </div>
-
-        {/* ====== Notas ====== */}
         <div className="section">
           <h3>Notas del Técnico</h3>
           <textarea
@@ -296,7 +324,6 @@ const ServiceDetail = () => {
           />
         </div>
 
-        {/* ====== Historial ====== */}
         <div className="section">
           <h3>Historial de Estado</h3>
           <div className="historial-container">
@@ -304,7 +331,7 @@ const ServiceDetail = () => {
               {history.map((h, i) => (
                 <li key={i} className="history-item">
                   <div className="history-main">
-                    <span className="history-date">{fmt(h.changedAt)}</span>
+                    <span className="history-date">{new Date(h.changedAt).toLocaleString()}</span>
                     <StatusPill status={h.status} />
                     <span className="history-by">({h.changedBy})</span>
                   </div>
@@ -318,7 +345,24 @@ const ServiceDetail = () => {
             </ul>
           </div>
         </div>
+
+        {/* Acciones abajo eliminadas porque ahora están arriba */}
       </div>
+
+      {/* Modales */}
+      <SucursalModal
+        visible={showSucursalModal}
+        onClose={() => setShowSucursalModal(false)}
+        onConfirm={handleConfirmSucursal}
+        selectedBranch={selectedBranch}
+        setSelectedBranch={setSelectedBranch}
+      />
+
+      <SatisfactionModal
+        visible={showSatisfactionModal}
+        onClose={() => setShowSatisfactionModal(false)}
+        onSelect={handleSatisfactionSelect}
+      />
     </DashboardLayout>
   )
 }

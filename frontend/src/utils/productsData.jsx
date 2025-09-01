@@ -645,4 +645,16 @@ export const estadosServicio = [
   'Garantía',
 ]
 
+export const statusClassMap = {
+  pendiente : 'status-pendiente',
+  recibido  : 'status-recibido',
+  revision  : 'status-revision',
+  reparacion: 'status-reparacion',
+  pruebas   : 'status-pruebas',
+  listo     : 'status-listo',
+  entregado : 'status-entregado',
+  garantia  : 'status-garantia',
+  rechazado : 'status-rechazado'
+}
+
 export const branchMap = { W: 'Web', Q: 'Quilmes', B: 'Barracas' }

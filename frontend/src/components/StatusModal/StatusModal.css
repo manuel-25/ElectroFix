@@ -1,0 +1,110 @@
+/* Backdrop */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Modal box */
+.modal-box {
+  background: #fff;
+  border-radius: 16px;
+  width: min(420px, 90vw);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  padding: 24px;
+  font-family: system-ui, sans-serif;
+  animation: scaleIn 0.2s ease-out;
+  position: relative;
+}
+
+/* Title */
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #111827;
+}
+
+/* Paragraph */
+.modal-box p {
+  font-size: 0.95rem;
+  color: #374151;
+  margin-bottom: 1.5rem;
+}
+
+/* Select */
+.modal-select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #f9fafb;
+  color: #111827;
+  margin: 16px 0 24px;
+  transition: border 0.2s;
+}
+
+.modal-select:focus {
+  outline: none;
+  border-color: #2563eb;
+  background: #fff;
+}
+
+/* Actions */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: space-around;
+  margin-top: 8px;
+}
+
+/* Buttons */
+.modal-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.modal-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.modal-btn.cancel {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+
+.modal-btn.cancel:hover:not(:disabled) {
+  background: #e5e7eb;
+}
+
+.modal-btn.confirm {
+  background: var(--secondary-color);
+  color: #fff;
+}
+
+.modal-btn.confirm:hover:not(:disabled) {
+  background: var(--secondary-color-hover);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { background: rgba(0, 0, 0, 0); }
+  to { background: rgba(0, 0, 0, 0.45); }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

@@ -90,6 +90,10 @@ const ServiceSchema = new Schema(
     // Supervisor (futuro)
     supervisedBy: { type: Schema.Types.ObjectId, ref: 'User' },
 
+    // Fecha delivery y si esta conforme => evaluar en google
+    isSatisfied: { type: Boolean, default: null },
+    deliveredAt: { type: Date, default: null },
+
     // ID pública para compartir externamente
     publicId: { type: String, unique: true }
   },
