@@ -173,7 +173,7 @@ const ServiceDetail = () => {
         <h2 className="title">🔍 Detalle del Servicio: {service.code}</h2>
         <div className="actions">
           <Link to={`/servicios/${service.code}/editar`} className="btn">✏️ Editar</Link>
-          <Link to={`/ticket/${service.publicId}`} target="_blank" rel="noopener noreferrer" className="btn">  🖨 Imprimir </Link>
+          <a href={`/ticket/${service.publicId}`} target="_blank" rel="noopener noreferrer" className="btn">🖨 Imprimir</a>
           <a
             href={`https://wa.me/54${String(service.userData.phone).replace(/\D/g, '')}`}
             target="_blank"

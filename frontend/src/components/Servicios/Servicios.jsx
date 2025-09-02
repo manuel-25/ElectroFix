@@ -182,7 +182,7 @@ const Servicios = () => {
                       <td>{s.createdByEmail || '—'}</td>
                       <td className="acciones-cell">
                         <Link to={`/servicios/${s.code}/editar`} className="action-btn edit">✎</Link>
-                        <Link to={`/ticket/${s.publicId}`} className="action-btn print">🖨</Link>
+                        <a href={`/ticket/${s.publicId}`} target="_blank" rel="noopener noreferrer" className="action-btn print">🖨</a>
                         {s.userData?.phone && (
                           <a
                             href={`https://wa.me/54${String(s.userData.phone).replace(/\D/g, '')}`}
