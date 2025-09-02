@@ -25,6 +25,10 @@ class ServiceManagerDao {
     return await this.serviceModel.find({ quoteReference })
   }
 
+  async getByPublicId(publicId) {
+    return await this.serviceModel.findOne({ publicId })
+  }
+
   async create(data) {
     return await this.serviceModel.create(data)
   }
@@ -41,7 +45,6 @@ class ServiceManagerDao {
     return await this.serviceModel.findByIdAndDelete(id)
   }
 
-  // Si querés soft-delete en un futuro
   async softDeleteByCode(code) {
     return await this.serviceModel.findOneAndUpdate(
       { code },

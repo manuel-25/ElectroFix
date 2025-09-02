@@ -14,7 +14,12 @@ import Dashboard from './components/Dashboard/Dashboard.jsx'
 import Cotizaciones from './components/Cotizaciones/Cotizaciones.jsx'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx'
 import { AuthProvider } from './Context/AuthContext.jsx'
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation
+} from 'react-router-dom'
 import DashboardLayout from './components/DashboardLayout/DashboardLayout.jsx'
 import Clients from './components/Clients/Clients.jsx'
 import QuoteDetail from './components/QuoteDetail/QuoteDetail.jsx'
@@ -23,6 +28,7 @@ import NotFound from './components/NotFound/NotFound.jsx'
 import NuevoServicio from './components/NuevoServicio/NuevoServicio.jsx'
 import ClientDetail from './components/ClientDetail/ClientDetail.jsx'
 import ServiceDetail from './components/ServiceDetail/ServiceDetail.jsx'
+import TicketViewer from './components/TicketViewer/TicketViewer.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -43,64 +49,48 @@ function AppContent() {
           {/* Rutas protegidas */}
           <Route path="/dashboard" element={
             <ProtectedRoute>
-              <DashboardLayout>
-                <Dashboard />
-              </DashboardLayout>
+              <DashboardLayout><Dashboard /></DashboardLayout>
             </ProtectedRoute>
           } />
           <Route path="/cotizaciones" element={
             <ProtectedRoute>
-              <DashboardLayout>
-                <Cotizaciones />
-              </DashboardLayout>
+              <DashboardLayout><Cotizaciones /></DashboardLayout>
             </ProtectedRoute>
           } />
           <Route path="/cotizaciones/:id" element={
             <ProtectedRoute>
-              <DashboardLayout>
-                <QuoteDetail />
-              </DashboardLayout>
+              <DashboardLayout><QuoteDetail /></DashboardLayout>
             </ProtectedRoute>
           } />
           <Route path="/clientes" element={
             <ProtectedRoute>
-              <DashboardLayout>
-                <Clients />
-              </DashboardLayout>
+              <DashboardLayout><Clients /></DashboardLayout>
             </ProtectedRoute>
           } />
           <Route path="/clientes/:id" element={
             <ProtectedRoute>
-              <DashboardLayout>
-                <ClientDetail />
-              </DashboardLayout>
+              <DashboardLayout><ClientDetail /></DashboardLayout>
             </ProtectedRoute>
           } />
           <Route path="/servicios" element={
             <ProtectedRoute>
-              <DashboardLayout>
-                <Servicios />
-              </DashboardLayout>
+              <DashboardLayout><Servicios /></DashboardLayout>
             </ProtectedRoute>
           } />
           <Route path="/servicios/nuevo" element={
             <ProtectedRoute>
-              <DashboardLayout>
-                <NuevoServicio />
-              </DashboardLayout>
+              <DashboardLayout><NuevoServicio /></DashboardLayout>
             </ProtectedRoute>
           } />
           <Route path="/servicios/:code" element={
             <ProtectedRoute>
-              <DashboardLayout>
-                <ServiceDetail />
-              </DashboardLayout>
+              <DashboardLayout><ServiceDetail /></DashboardLayout>
             </ProtectedRoute>
           } />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      {/* Mostrar el Footer solo si no estamos en la ruta de servicios */}
+
       {location.pathname !== '/reparacion-electrodomesticos' && <Footer />}
     </div>
   )
@@ -110,7 +100,13 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <AppContent />
+        <Routes>
+          {/* 🧾 Mostrar el TicketViewer de forma aislada */}
+          <Route path="/ticket/:publicId" element={<TicketViewer />} />
+
+          {/* 🌐 Todo lo demás con layout completo */}
+          <Route path="*" element={<AppContent />} />
+        </Routes>
       </AuthProvider>
     </Router>
   )
