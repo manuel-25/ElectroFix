@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename)
 /* ===== Config ===== */
 const PAGE_WIDTH_PT = 226.77 // 80mm
 const MARGIN = 14
-const BASE_URL = 'https://electrosafeweb.com/'
+const BASE_URL = (publicId) => `https://electrosafeweb.com/ticket/${encodeURIComponent(publicId)}`
 
 const TOKENS = {
   font: { base: 8.1, small: 7.2, title: 10.2, brandSmall: 8.4 },
@@ -21,6 +21,20 @@ const TOKENS = {
   color: { text: '#000', muted: '#333' },
   LOGO_MAX_W: 150,
 }
+
+const fmtDateTimeAR = (d) =>
+  d
+    ? new Date(d).toLocaleString('es-AR', {
+        timeZone: 'America/Argentina/Buenos_Aires',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      })
+    : '—'
+
 
 const wInside = (doc) => doc.page.width - MARGIN * 2
 const bottomLimit = (doc) => doc.page.height - MARGIN
@@ -62,11 +76,11 @@ function boxedText(doc, content, { padding = 4, size = TOKENS.font.base, lineGap
   ensureSpace(doc, h)
   doc.lineWidth(0.6).strokeColor('#000').rect(x, yStart, w, h).stroke()
   doc.text(content || '—', x + padding, yStart + padding, { width: innerW, lineGap, align: 'left' })
-  doc.y = yStart + h // 🔧 corregido: evita que se pase más abajo de lo necesario
+  doc.y = yStart + h
   doc.fontSize(prevSize)
 }
 
-function boxedDescription(doc, { code, description, extraLine }, { padding = 5, size = TOKENS.font.base } = {}) { // ↓ padding reducido de 7 → 5
+function boxedDescription(doc, { code, description, extraLine }, { padding = 5, size = TOKENS.font.base } = {}) {
   const x = MARGIN, w = wInside(doc), innerW = w - padding * 2, lineGap = 1.25
   const prevSize = doc._fontSize
   doc.fontSize(size)
@@ -101,13 +115,13 @@ function drawHeaderInfo(doc) {
   )
   text(
     doc,
-    'TEL.: 11-7892-7709 / 11-3914-8768  ·  electrosafeservice@gmail.com',
+    'CUIT: 20-38930937-1 · VICENTE LÓPEZ 770 QUILMES – ROCHA 1752 · BARRACAS CABA',
     { size: TOKENS.font.brandSmall, align: 'center' }
   )
   spacer(doc, TOKENS.space.md)
 }
 
-/* ===== Logo (con lista de candidatos y avance de cursor por altura real) ===== */
+/* ===== Logo ===== */
 function drawLogo(doc) {
   const baseDir = path.resolve(__dirname, '../../public/images')
   const candidates = [
@@ -142,7 +156,7 @@ function drawLogo(doc) {
   const x = (doc.page.width - renderW) / 2
   doc.image(logo, x, doc.y, { width: renderW })
   doc.y += renderH
-  spacer(doc, TOKENS.space.md) // ↑ más espacio inferior del logo
+  spacer(doc, TOKENS.space.md)
 }
 
 /* ===== PDF ===== */
@@ -176,16 +190,18 @@ async function buildAndSendTicket(service, res) {
   kv(doc, 'Ticket', svc.code)
   kv(doc, 'Cliente', fullName)
   kv(doc, 'Tel', u.phone || '—')
+  if (u.dniOrCuit) kv(doc, 'DNI / CUIT', u.dniOrCuit)
   kv(doc, 'N° Cliente', svc.customerNumber ?? '—')
   kv(doc, 'Domicilio', u.domicilio || '—')
-  kv(doc, 'Fecha Ingreso', svc.receivedAt ? new Date(svc.receivedAt).toLocaleDateString('es-AR') : '—')
-  kv(doc, 'Registrado', svc.createdAt ? new Date(svc.createdAt).toLocaleDateString('es-AR') : '—')
+  kv(doc, 'Registrado',    fmtDateTimeAR(svc.createdAt))
+  kv(doc, 'Fecha Ingreso', fmtDateTimeAR(svc.receivedAt))
+  if (svc.deliveredAt) kv(doc, 'Entregado', fmtDateTimeAR(svc.deliveredAt))
 
   // Equipo
   const equipo = [svc.equipmentType, svc.brand, svc.model].filter(Boolean).join(' - ') || '—'
   kv(doc, 'Equipo', equipo)
 
-  // Descripción (recuadro) — padding reducido para achicar el alto total
+  // Descripción
   boxedDescription(doc, {
     code: svc.code ? String(svc.code) : null,
     description: svc.description || '—',
@@ -218,49 +234,56 @@ async function buildAndSendTicket(service, res) {
   // Condiciones
   const condicionesTxt = `CONDICIONES AL RECIBIR ESTE TICKET, EL CLIENTE ACEPTA LOS TÉRMINOS Y CONDICIONES DEL SERVICIO TÉCNICO. GUARDERÍA DE ELECTRODOMÉSTICOS: 7 DÍAS SIN CARGO DESDE LA NOTIFICACIÓN DEL PRESUPUESTO O RECHAZO. PASADO ESE PLAZO PODRÁ COBRARSE ESTADÍA. TRANSCURRIDOS 30 DÍAS SIN RETIRO Y PREVIA NOTIFICACIÓN, EL EQUIPO PODRÁ SER DISPUESTO SEGÚN CORRESPONDA. COSTO POR REVISIÓN Y DIAGNÓSTICO EN CASO DE NO ACEPTAR EL PRESUPUESTO: $5.000 A $15.000 SEGÚN ARTÍCULO. SE ABONA AL RETIRO. EL PRESUPUESTO DEBE SER CONFIRMADO O RECHAZADO ANTES DE RETIRAR EL EQUIPO. PODRÁ QUEDAR DESARMADO HASTA RECIBIR RESPUESTA. NO SE ENTREGAN EQUIPOS DESARMADOS NI SIN EL CIERRE DEL SERVICIO. TIEMPO ESTIMADO DE ENVÍO DE PRESUPUESTO: 5 A 7 DÍAS HÁBILES, SUJETO A COMPLEJIDAD Y DEMORA DE PROVEEDORES. GARANTÍA COMERCIAL: 30 DÍAS CORRIDOS SOBRE LA REPARACIÓN EFECTUADA (MANO DE OBRA Y/O REPUESTOS), SIN PERJUICIO DE LA GARANTÍA LEGAL LEY 24.240. NO CUBRE FALLAS NUEVAS, DEFECTOS DISTINTOS A LOS INFORMADOS, NI DAÑOS POR LÍQUIDOS, GOLPES, SOBRETENSIÓN, USO INDEBIDO O INTERVENCIÓN AJENA. CUALQUIER FALLA DETECTADA SERÁ INFORMADA Y PRESUPUESTADA POR SEPARADO. ¡GRACIAS POR ELEGIRNOS!`
   boxedText(doc, condicionesTxt, { padding: 4, size: 6, lineGap: 0.85 })
-
   spacer(doc, 64)
+  
+  // Línea para firma del cliente
+  ensureSpace(doc, 30)
+  const signLineY = doc.y + 20
+  doc.moveTo(MARGIN, signLineY).lineTo(wInside(doc) + MARGIN, signLineY).stroke()
+  text(doc, 'FIRMA DEL CLIENTE', { size: 6.5, align: 'center' })
+  spacer(doc, 20)
 
-  // QR (compacto y en misma página siempre que haya espacio mínimo)
-{
-  const qrUrl = BASE_URL
-  const size = 90
-  const captionH = 6
-  const footerH = 24
-  const neededSpace = size + captionH + 6 + footerH + 6
-  const available = bottomLimit(doc) - doc.y
-  if (available < neededSpace) {
-    doc.addPage()
+  // QR
+  {
+    const qrUrl = svc.publicId
+    ? BASE_URL(svc.publicId)
+    : `https://electrosafeweb.com/servicios/${encodeURIComponent(svc.code || '')}`
+    const size = 90
+    const captionH = 6
+    const footerH = 24
+    const neededSpace = size + captionH + 6 + footerH + 6
+    const available = bottomLimit(doc) - doc.y
+    if (available < neededSpace) {
+      doc.addPage()
+    }
+
+    const qrBase64 = await qrcode.toDataURL(qrUrl)
+    const x = (doc.page.width - size) / 2
+    doc.image(qrBase64, x, doc.y, { width: size, height: size })
+    doc.y += size
+
+    spacer(doc, 2)
+    text(doc, qrUrl, {
+      size: 8,
+      align: 'center',
+      color: TOKENS.color.text,
+      bold: true,
+      lineGap: 1.3
+    })
+
+    spacer(doc, 2)
+    text(doc, '¡GRACIAS POR SU PREFERENCIA!', {
+      bold: true,
+      align: 'center'
+    })
+
+    text(doc, 'Comprobante no valido como factura.', {
+      size: 7.5,
+      align: 'center',
+      color: '#000',
+      bold: true,
+    })
   }
-
-  const qrBase64 = await qrcode.toDataURL(qrUrl)
-  const x = (doc.page.width - size) / 2
-  doc.image(qrBase64, x, doc.y, { width: size, height: size })
-  doc.y += size
-
-  spacer(doc, 2)
-  text(doc, qrUrl, {
-    size: 8,
-    align: 'center',
-    color: TOKENS.color.text,
-    bold: true,
-    lineGap: 1.3
-  })
-
-  spacer(doc, 2)
-  text(doc, '¡GRACIAS POR SU PREFERENCIA!', {
-    bold: true,
-    align: 'center'
-  })
-
-  text(doc, 'Comprobante no valido como factura.', {
-    size: 7.5,
-    align: 'center',
-    color: '#000',
-    bold: true,
-  })
-}
-
 
   doc.end()
 }
