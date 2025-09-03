@@ -9,7 +9,7 @@ const TermsAndConditions = () => {
         <h1 className="main-title">Términos y Condiciones de Uso</h1>
         <p className="small-text">
           El presente documento establece, de manera obligatoria y vinculante, los términos y condiciones que regulan el acceso y uso del sitio web{' '}
-          <a href="https://electrosafeweb.com">https://electrosafeweb.com</a> (en adelante, el “Sitio” o la “Plataforma”). Todo usuario que acceda o utilice este Sitio debe aceptar íntegramente estas condiciones; en caso contrario, se le prohíbe su utilización.
+          <a href="https://electrosafeweb.com">https://electrosafeweb.com</a> (en adelante, el “Sitio” o la “Plataforma”). El presente documento establece los términos y condiciones que regulan el acceso y uso del Sitio. El uso del Sitio implica el conocimiento y aceptación de estos Términos. Si el Usuario no está de acuerdo con alguno de ellos, deberá abstenerse de utilizar la Plataforma o sus servicios asociados.
         </p>
       </div>
 
@@ -29,20 +29,20 @@ const TermsAndConditions = () => {
         </p>
       </div>
 
-      {/* Sección de Exención de Responsabilidad */}
+      {/* Sección de Responsabilidad del Prestador */}
       <div className="section">
-        <h2 className="section-title">Exención de Responsabilidad</h2>
+        <h2 className="section-title">Responsabilidad del Prestador</h2>
         <p className="normal-text">
-          El Usuario reconoce y acepta que Electrosafe no presta, de forma directa, servicios de reparación ni ejecuta trabajos técnicos sobre equipos electrónicos. Los servicios contratados se realizan a través de terceros independientes, sobre cuya idoneidad, operatividad y conducta Electrosafe carece de control y, por tanto, no asume responsabilidad alguna.
+          Electrosafe realiza servicios de diagnóstico y reparación de equipos electrónicos en su taller propio o mediante técnicos autorizados. Las reparaciones se efectúan según los términos y condiciones aceptados por el Usuario al momento de contratar el servicio.
         </p>
         <p className="normal-text">
-          Al utilizar el Sitio y/o cualquiera de los servicios, el Usuario se obliga a cumplir y respetar el presente Acuerdo, que constituye un contrato legalmente vinculante, debiendo asimismo revisar la Política de Privacidad disponible en el Sitio. En caso de no estar conforme, el Usuario deberá abstenerse de utilizar la Plataforma.
+          Electrosafe garantiza exclusivamente los trabajos realizados sobre los componentes intervenidos, conforme a la garantía comercial informada. No se responsabiliza por fallas nuevas, defectos no informados inicialmente, ni por daños derivados de uso indebido, negligencia, intervención ajena o eventos externos (como líquidos, golpes, sobrecargas eléctricas, etc.).
         </p>
         <p className="normal-text">
-          En consecuencia, la Plataforma se destina única y exclusivamente a funcionar como una herramienta tecnológica para la difusión y facilitación de información referencial sobre presupuestos – ya sean estandarizados o personalizados – para la contratación de servicios de reparación de dispositivos tecnológicos.
+          La responsabilidad de Electrosafe se limita al costo del servicio efectivamente prestado. No se responderá por pérdidas de datos, accesorios, gastos derivados, lucro cesante, ni otros daños indirectos, salvo en caso de dolo o negligencia grave comprobada.
         </p>
-        <p className="normal-text">
-          Electrosafe no forma parte de ningún contrato celebrado entre el Usuario y el proveedor de servicios, quedando su intervención limitada a la función de intermediación sin asumir responsabilidad por la ejecución o resultados de los servicios contratados.
+        <p className="small-text">
+          Se recomienda al Usuario respaldar su información antes de entregar cualquier dispositivo, ya que el proceso de diagnóstico o reparación puede requerir el formateo o modificación del sistema.
         </p>
       </div>
 
@@ -56,6 +56,42 @@ const TermsAndConditions = () => {
           Los presupuestos proporcionados son de carácter referencial; el costo definitivo se establecerá tras la inspección técnica realizada por el especialista designado.
         </p>
       </div>
+
+      <div className="section">
+        <h2 className="section-title">Condiciones Generales del Servicio Técnico</h2>
+        <p className="normal-text">
+          Al recibir el ticket, el cliente acepta los siguientes términos específicos del servicio técnico:
+        </p>
+        <ul className="small-text">
+        <li>
+          Pasados 7 días, se aplicará un cargo diario de 3%, hasta un máximo del valor estimado del equipo como nuevo.
+        </li>
+        <li>
+          El monto acumulado en concepto de estadía podrá igualar, pero no exceder, el valor estimado del equipo al momento del ingreso. Superado el plazo de 30 días corridos sin retiro del equipo, y previa notificación, Electrosafe podrá disponer del mismo para su reciclaje o reutilización sin derecho a reclamo alguno por parte del Usuario.
+        </li>
+        <li>
+          Transcurridos 30 días corridos sin que el equipo haya sido retirado, y previa notificación fehaciente, Electrosafe podrá disponer del equipo conforme lo considere adecuado, incluyendo su reciclaje, donación, venta o desguace, a fin de compensar los costos de almacenamiento, gestión y posibles daños derivados del abandono.
+        </li>
+        <li>
+          Costo por revisión y diagnóstico en caso de no aceptar el presupuesto: entre $5.000 y $25.000, según el tipo, complejidad y valor estimado del equipo. El importe será informado previamente y deberá abonarse al momento del retiro, independientemente de que se acepte o no la reparación.
+        </li>
+        <li>
+          El presupuesto debe ser confirmado o rechazado antes de retirar el equipo. El equipo podrá permanecer desarmado hasta recibir respuesta.
+        </li>
+        <li>
+          No se entregan equipos desarmados ni sin cierre del servicio.
+        </li>
+        <li>
+          Tiempo estimado de envío del presupuesto: entre 5 y 7 días hábiles, sujeto a la complejidad y disponibilidad de repuestos.
+        </li>
+        <li>
+          Garantía comercial: 30 días corridos sobre la reparación efectuada (mano de obra y/o repuestos), sin perjuicio de la garantía legal prevista por la Ley 24.240.
+        </li>
+        <li>
+          Cualquier falla detectada adicional será informada y presupuestada por separado.
+        </li>
+        </ul>
+        </div>
 
       {/* Sección Cotizaciones y Condiciones de Pago */}
       <div className="section">
@@ -84,6 +120,16 @@ const TermsAndConditions = () => {
         </p>
         <p className="small-text">
           El Usuario es responsable de realizar copias de seguridad de la información contenida en sus dispositivos antes de su entrega para reparación, asumiendo los riesgos inherentes a la pérdida o alteración de datos.
+        </p>
+      </div>
+
+      <div className="section">
+        <h2 className="section-title">Responsabilidad por Plagas o Fauna</h2>
+        <p className="normal-text">
+          Electrosafe no se hace responsable por daños, contaminación cruzada o riesgos derivados de la presencia de fauna o plagas (ej. cucarachas, roedores, insectos) dentro de los equipos electrónicos ingresados al servicio técnico. El usuario declara y acepta que el equipo entregado se encuentra en condiciones higiénicas adecuadas y libres de infestaciones.
+        </p>
+        <p className="small-text">
+          En caso de detectar presencia de fauna, el equipo podrá ser rechazado o sometido a procedimientos de aislamiento/desinfección con costos adicionales. Electrosafe podrá suspender el diagnóstico hasta que se garantice la integridad sanitaria del entorno de trabajo.
         </p>
       </div>
 
@@ -118,79 +164,43 @@ const TermsAndConditions = () => {
       </div>
 
       {/* Sección Garantía */}
+      {/* SECCIÓN MEJORADA: Garantía */}
       <div className="section">
         <h2 className="section-title">Garantía</h2>
         <p className="normal-text">
-          Todos los servicios contratados a través de la Plataforma y abonados mediante los medios de pago indicados por Electrosafe contarán con una garantía de 30 días, contados a partir de la fecha en que se realice la reparación, salvo que se especifique lo contrario en el presupuesto.
+          Todos los servicios realizados a través de Electrosafe cuentan con una garantía comercial de <strong>30 días corridos</strong> sobre la reparación efectuada.
+        </p>
+        <p className="normal-text">
+          Esta garantía aplica tanto a trabajos contratados desde la Plataforma como por canales oficiales (WhatsApp, correo o de forma presencial) e incluye la mano de obra y los repuestos utilizados, salvo que se indique otra cosa en el presupuesto aprobado.
         </p>
         <p className="small-text">
-          La garantía, otorgada por el proveedor de servicios, se limita a la revisión y diagnóstico gratuitos sobre la falla reparada, y se aplicará únicamente a la misma falla, siempre que no se derive de mal uso, negligencia u otros factores no imputables al proveedor.
-        </p>
-        <p className="small-text">
-          En ningún caso la garantía ofrecida por Electrosafe extenderá responsabilidades o obligaciones en perjuicio del acuerdo celebrado directamente entre el Usuario y el proveedor de servicios.
-        </p>
-        <p className="small-text">
-          La garantía se regirá por las siguientes condiciones:
+          Esta garantía es adicional a los derechos establecidos por la <strong>Ley 24.240 de Defensa del Consumidor</strong>. Aplica exclusivamente sobre la misma falla reparada y no cubre nuevos problemas, fallas distintas, ni daños derivados de usos inadecuados.
         </p>
         <ul className="small-text">
-          <li>
-            Revisión y diagnóstico gratuito del equipo sobre la falla reparada.
-          </li>
-          <li>
-            En caso de recurrencia de la misma falla – y siempre que no sea consecuencia de un uso indebido u otra causa excluida – el proveedor, a exclusivo criterio de Electrosafe, optará por la reparación o la devolución del importe abonado.
-          </li>
-          <li>
-            Si la falla no se corrobora o no se encuentra amparada, los costos de transporte o cualquier otro gasto asociado serán asumidos por el Usuario.
-          </li>
-          <li>
-            La garantía se aplicará bajo las mismas condiciones y modalidad del servicio original contratado.
-          </li>
-          <li>
-            El recurso único del Usuario será la reparación o la devolución del importe, quedando expresamente excluida cualquier otra responsabilidad de Electrosafe, sus afiliadas o proveedores, incluso por daños indirectos o consecuenciales.
-          </li>
+          <li>Incluye revisión y diagnóstico gratuito si la falla reparada reaparece.</li>
+          <li>La garantía será inválida si la falla se debe a negligencia, mal uso, intervención ajena o causas externas.</li>
+          <li>Si no se detecta la misma falla o esta no está cubierta, se podrán aplicar cargos por revisión o traslado.</li>
+          <li>El proveedor podrá optar entre reparar nuevamente o devolver el importe abonado por la intervención específica, según corresponda.</li>
+          <li>La garantía se aplicará en las mismas condiciones, modalidad y lugar del servicio original contratado.</li>
+          <li>No se cubrirán gastos adicionales no vinculados al problema original (envíos, traslados, pérdidas de datos, etc.).</li>
         </ul>
+
         <h3 className="small-text">¿Qué no está cubierto por esta garantía?</h3>
         <ul className="small-text">
-          <li>
-            Reemplazo de piezas faltantes o mantenimiento preventivo.
-          </li>
-          <li>
-            Servicios derivados de accidentes, mal uso, negligencia, instalación o mantenimiento inadecuado.
-          </li>
-          <li>
-            Instalación, remoción o modificación de accesorios o periféricos no incluidos en el servicio técnico.
-          </li>
-          <li>
-            Reemplazo o ajustes de software ajenos a la reparación ejecutada.
-          </li>
-          <li>
-            Reparación o sustitución de componentes estéticos o de desgaste natural.
-          </li>
-          <li>
-            Servicios por fallas ocasionadas por causas externas (fuego, hurto, fuerza mayor, alteraciones, etc.).
-          </li>
-          <li>
-            Daños derivados de alteraciones en la alimentación eléctrica, impactos, rayos u otros accidentes no contratados a través de la Plataforma.
-          </li>
-          <li>
-            Servicios sobre equipos cuya etiqueta o faja de garantía haya sido modificada o retirada.
-          </li>
-          <li>
-            Daños ocasionados por el uso del equipo fuera de los parámetros establecidos en el Manual o Guía del Usuario.
-          </li>
-          <li>
-            Modificaciones realizadas al equipo posterior a la reparación.
-          </li>
-          <li>
-            Daños en pantallas con hasta cinco (5) píxeles defectuosos.
-          </li>
-          <li>
-            Reemplazo de partes sujetas a desgaste normal (por ejemplo, cartuchos de impresión, baterías).
-          </li>
+          <li>Fallas nuevas no relacionadas con el servicio previamente realizado.</li>
+          <li>Reemplazo de piezas faltantes, limpieza o mantenimiento preventivo.</li>
+          <li>Servicios posteriores a accidentes, líquidos, golpes, roedores u otros daños externos.</li>
+          <li>Modificaciones no autorizadas o intervenciones de terceros.</li>
+          <li>Componentes con desgaste natural (baterías, cartuchos, etc.).</li>
+          <li>Alteraciones por sobrecarga eléctrica o problemas del entorno.</li>
+          <li>Equipos con fajas, precintos o etiquetas manipuladas o removidas.</li>
+          <li>Daños estéticos o cosméticos que no afecten la funcionalidad del equipo.</li>
+          <li>Problemas en pantallas con hasta cinco (5) píxeles muertos o defectuosos.</li>
         </ul>
-        <h3 className="small-text">Protección de Datos Almacenados</h3>
+
+        <h3 className="small-text">Protección de Datos del Usuario</h3>
         <p className="small-text">
-          Se recomienda encarecidamente al Usuario realizar copias de seguridad de toda la información almacenada en su dispositivo antes de enviarlo a reparación. Electrosafe no será responsable por la pérdida, alteración o imposibilidad de recuperación de datos que se produzcan durante el proceso de reparación o en el período de garantía.
+          Se recomienda realizar una copia de seguridad antes de entregar cualquier equipo. Electrosafe no será responsable por pérdida de información, configuraciones, contraseñas o archivos que se vean afectados durante el proceso de revisión, reparación o prueba del equipo.
         </p>
       </div>
 
@@ -238,7 +248,7 @@ const TermsAndConditions = () => {
       <div className="section">
         <h2 className="section-title">Modificación de los Términos y Condiciones</h2>
         <p className="normal-text">
-          Electrosafe podrá actualizar el presente Acuerdo en cualquier momento, publicando la versión actualizada en la Plataforma sin previo aviso. El uso continuado del Sitio implicará la aceptación de dichos cambios. En caso de disconformidad, el Usuario deberá cesar en el uso de la Plataforma.
+          Electrosafe podrá actualizar estos Términos y Condiciones en cualquier momento. Las versiones actualizadas estarán disponibles en la Plataforma y serán aplicables a partir de su publicación. Se recomienda al Usuario revisar periódicamente esta sección para estar informado sobre posibles cambios.
         </p>
         <p className="small-text">
           Asimismo, el Usuario podrá ejercer el derecho previsto en el art. 6 de la Ley 25.326, solicitando la cancelación de sus datos de registro, de acuerdo con el procedimiento indicado al escribir a <a href="mailto:electrosafeservice@gmail.com">electrosafeservice@gmail.com</a>.
@@ -263,7 +273,7 @@ const TermsAndConditions = () => {
           El presente Acuerdo se regirá e interpretará conforme a las leyes de la República Argentina.
         </p>
         <p className="small-text">
-          Cualquier controversia que surja en relación con estos términos será sometida a la jurisdicción de los tribunales ordinarios competentes de la Ciudad de Buenos Aires.
+          Cualquier controversia derivada de la interpretación o cumplimiento de estos Términos será sometida a los tribunales competentes del domicilio del Usuario o, a elección del Usuario, a los del domicilio de Electrosafe, conforme lo establece la legislación de defensa del consumidor vigente.
         </p>
       </div>
 
@@ -279,7 +289,7 @@ const TermsAndConditions = () => {
       <div className="section">
         <h2 className="section-title">Indemnización</h2>
         <p className="normal-text">
-          El Usuario se compromete a mantener indemne a Electrosafe, sus filiales, controladoras y/o subsidiarias, así como a sus directivos, administradores, representantes y empleados, frente a cualquier reclamo, demanda o acción legal de terceros derivada del uso del Sitio, el incumplimiento del presente Acuerdo o la violación de cualquier derecho de terceros, incluyendo los honorarios razonables de abogados.
+          El Usuario acepta indemnizar y mantener indemne a Electrosafe en caso de reclamaciones de terceros derivadas de información falsa o uso indebido realizado por el propio Usuario, sin que esto implique renuncia a los derechos mínimos que le corresponden por ley.
         </p>
       </div>
 
@@ -304,13 +314,13 @@ const TermsAndConditions = () => {
       <div className="section">
         <h2 className="section-title">Limitación de Responsabilidad</h2>
         <p className="normal-text">
-          El Usuario acepta que el uso del Sitio y la contratación de servicios se realiza bajo su exclusivo riesgo. Electrosafe no garantiza el acceso ininterrumpido, preciso o libre de errores a la Plataforma, ni se hace responsable de fallas, interrupciones o caídas en el servicio.
+          El acceso y uso del Sitio se realiza bajo exclusiva responsabilidad del Usuario. Electrosafe adopta medidas técnicas razonables para garantizar el correcto funcionamiento de la Plataforma, sin garantizar que el servicio sea ininterrumpido o libre de errores.
         </p>
         <p className="normal-text">
-          Electrosafe utilizará medidas de seguridad (como encriptación SSL) para proteger la información, pero no asume responsabilidad por daños directos, indirectos, incidentales o consecuentes derivados del acceso o uso del Sitio, incluyendo aquellos ocasionados por virus, malware u otras vulnerabilidades inherentes a la red.
+          Electrosafe no será responsable por interrupciones temporales, errores de sistema, virus o cualquier daño derivado del uso del Sitio, siempre que estos no sean consecuencia directa de negligencia grave o dolo de su parte.
         </p>
         <p className="normal-text">
-          De igual modo, Electrosafe no se responsabiliza por el uso no autorizado de sus servidores o por cualquier daño que pudiera sufrir el Usuario como consecuencia de actos u omisiones de terceros.
+          Esta limitación no afecta los derechos legales irrenunciables del Usuario como consumidor, conforme la Ley 24.240.
         </p>
       </div>
 
@@ -322,6 +332,23 @@ const TermsAndConditions = () => {
         </p>
         <p className="normal-text">
           Para consultas o aclaraciones sobre estos Términos y Condiciones, comuníquese a <a href="mailto:electrosafeservice@gmail.com">electrosafeservice@gmail.com</a>.
+        </p>
+      </div>
+
+      <div className="section">
+        <h2 className="section-title">Responsabilidad y Carga de Prueba</h2>
+        <p className="normal-text">
+          En caso de reclamos vinculados a fallas, daños o defectos, el Usuario deberá aportar pruebas suficientes que acrediten su existencia y su relación directa con la intervención realizada por Electrosafe. La simple manifestación del Usuario no será considerada prueba suficiente.
+        </p>
+        <p className="small-text">
+          Electrosafe se reserva el derecho de realizar un nuevo diagnóstico para verificar la naturaleza del reclamo. En caso de discrepancia, prevalecerá el informe técnico emitido por Electrosafe, salvo que el Usuario acredite técnicamente lo contrario mediante peritaje independiente.
+        </p>
+      </div>
+
+      <div className="section">
+        <h2 className="section-title">Aceptación Expresa del Usuario</h2>
+        <p className="normal-text">
+          El uso del Sitio, el envío de solicitudes por WhatsApp o correo electrónico, y la firma del ticket al ingreso del equipo implican la aceptación plena de estos Términos y Condiciones. Electrosafe podrá exigir dicha aceptación como requisito previo para brindar el servicio.
         </p>
       </div>
     </div>
