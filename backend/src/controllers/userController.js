@@ -2,6 +2,7 @@ import UserManager from '../Mongo/UserManager.js'
 import bcrypt from 'bcrypt'
 import config from '../utils/config.js'
 import jwt from 'jsonwebtoken'
+import { logger } from '../utils/logger.js'
 
 const blacklist = []
 
@@ -56,6 +57,10 @@ static async createUser(req, res) {
             if (!isPasswordValid) {
                 return res.status(401).json({ message: 'Email o contraseña incorrectos' })
             }
+
+            user.lastLoginAt = new Date()
+            user.loginCount = (user.loginCount || 0) + 1
+            await user.save()
 
             // Generar el token JWT
             const token = jwt.sign(
@@ -187,6 +192,22 @@ static async createUser(req, res) {
             })
         } catch (error) {
             res.status(500).json({ error: 'Internal Server Error' })
+        }
+    }
+
+    // Obtener perfil completo del usuario autenticado
+    static async getProfile(req, res) {
+        try {
+            if (!req.user?._id) return res.status(401).json({ error: 'No autorizado' })
+
+            const user = await UserManager.getById(req.user._id)
+            if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
+
+            const { password, ...userData } = user.toObject()
+            res.status(200).json(userData)
+        } catch (error) {
+            logger.error('Error al obtener perfil del usuario:', error)
+            res.status(500).json({ error: 'Error al obtener perfil del usuario' })
         }
     }
 }

@@ -9,13 +9,17 @@ const router = express.Router()
 router.get('/verifytoken', authenticateJWT, UserController.verifyToken)
 
 
-// Rutas para gestionar usuarios (con parámetros dinámicos)
-router.post('/', authenticateJWT, authenticateAdmin, UserController.createUser)  // Crear un nuevo usuario
-router.post('/login', UserController.login)   // Iniciar sesión
-router.post('/logout', authenticateJWT, UserController.logout)  // Cerrar sesión
-router.get('/', authenticateJWT, authenticateAdmin, UserController.getUsers)  // Obtener todos los usuarios
-router.get('/:email', authenticateJWT, authenticateAdmin, UserController.getUserByEmail)  // Obtener un usuario por Email
-router.put('/:email', authenticateJWT, authenticateAdmin, UserController.updateUserByEmail)  // Actualizar un usuario por Email
-router.delete('/:email', authenticateJWT, authenticateAdmin, UserController.deleteUserByEmail)  // Eliminar un usuario por Email
+router.get('/verifytoken', authenticateJWT, UserController.verifyToken)
+router.post('/login', UserController.login)
+router.post('/logout', authenticateJWT, UserController.logout)
+router.get('/me', authenticateJWT, UserController.getProfile)
+
+// 🔐 Solo admins
+router.post('/', authenticateJWT, authenticateAdmin, UserController.createUser)
+router.get('/', authenticateJWT, authenticateAdmin, UserController.getUsers)
+router.get('/:email', authenticateJWT, authenticateAdmin, UserController.getUserByEmail)
+router.put('/:email', authenticateJWT, authenticateAdmin, UserController.updateUserByEmail)
+router.delete('/:email', authenticateJWT, authenticateAdmin, UserController.deleteUserByEmail)
+
 
 export default router

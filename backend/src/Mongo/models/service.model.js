@@ -15,7 +15,7 @@ export const SERVICE_STATUS = [
   'Entregado',
   'Garantía'
 ]
-export const BRANCHES = ['Quilmes', 'Barracas']
+export const BRANCHES = ['Quilmes', 'Barracas', 'No definido']
 export const DELIVERY_METHODS = ['Presencial', 'Envío Correo', 'Retiro y Entrega', 'UberFlash']
 
 // ─── Subschemas ───────────────────────────────────────────────────────────────

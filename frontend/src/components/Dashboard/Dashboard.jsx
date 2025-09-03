@@ -23,6 +23,7 @@ const Dashboard = () => {
   const [quotes, setQuotes] = useState([])
   const [clients, setClients] = useState([])
   const [error, setError] = useState(null)
+  const [fullUser, setFullUser] = useState(null)
   const [startDate, setStartDate] = useState(() => {
     const d = new Date()
     d.setDate(d.getDate() - 30)
@@ -168,9 +169,41 @@ const Dashboard = () => {
     }
   }
 
+  useEffect(() => {
+    if (!token || authLoading) return
+
+    const fetchFullUser = async () => {
+      try {
+        const res = await axios.get(`${getApiUrl()}/api/manager/me`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        setFullUser(res.data)
+      } catch (err) {
+        console.error('Error al obtener perfil completo:', err)
+      }
+    }
+
+    fetchFullUser()
+  }, [token, authLoading])
+
   return (
     <DashboardLayout>
       <div className="dashboard-wrapper">
+        {fullUser && (
+          <div className="user-greeting">
+            <h2>👋 Hola, {fullUser.firstName} {fullUser.lastName}</h2>
+            <p>Rol: <strong>{fullUser.role}</strong></p>
+            {fullUser.branch && <p>Sucursal: <strong>{fullUser.branch}</strong></p>}
+            <p>
+              Último acceso:{' '}
+              <strong>
+                {fullUser.lastLoginAt
+                  ? new Date(fullUser.lastLoginAt).toLocaleString('es-AR')
+                  : 'No registrado'}
+              </strong>
+            </p>
+          </div>
+        )}
         <h2 className="dashboard-title">📊 Panel Principal</h2>
         <div className="card-container">
           <div className="info-card blue">

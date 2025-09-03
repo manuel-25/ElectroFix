@@ -13,6 +13,7 @@ import Login from './components/Login/Login.jsx'
 import Dashboard from './components/Dashboard/Dashboard.jsx'
 import Cotizaciones from './components/Cotizaciones/Cotizaciones.jsx'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx'
+import Perfil from './components/Perfil/Perfil.jsx'
 import { AuthProvider } from './Context/AuthContext.jsx'
 import {
   BrowserRouter as Router,
@@ -91,6 +92,11 @@ function AppContent() {
           <Route path="/servicios/:code" element={
             <ProtectedRoute>
               <DashboardLayout><ServiceDetail /></DashboardLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/perfil" element={
+            <ProtectedRoute>
+              <DashboardLayout><Perfil /></DashboardLayout>
             </ProtectedRoute>
           } />
           <Route path="*" element={<NotFound />} />

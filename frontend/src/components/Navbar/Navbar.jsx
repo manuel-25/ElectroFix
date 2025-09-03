@@ -47,7 +47,7 @@ function Navbar() {
                         <Link to="/dashboard" className="admin-icon" title="Panel">
                             <FontAwesomeIcon icon={faGears} />
                         </Link>
-                        <Link to="/dashboard" className="admin-icon" title="Mi perfil">
+                        <Link to="/perfil" className="admin-icon" title="Mi perfil">
                             <FontAwesomeIcon icon={faUserShield} />
                         </Link>
                         <button onClick={logout} className="admin-icon" title="Cerrar sesión">

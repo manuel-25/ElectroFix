@@ -1,0 +1,73 @@
+.perfil-wrapper {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #f8f9fa;
+}
+.perfil-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.perfil-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.perfil-card p {
+  margin: 0.5rem 0;
+}
+.perfil-form {
+  margin-bottom: 2rem;
+}
+.perfil-form label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.perfil-form input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 0.8rem;
+}
+.perfil-form button {
+  background-color: #2563eb;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.perfil-success {
+  color: green;
+  font-weight: 500;
+}
+.perfil-admin-section {
+  margin-top: 3rem;
+}
+.perfil-admin-section h3 {
+  margin-bottom: 1rem;
+}
+.perfil-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.perfil-table th,
+.perfil-table td {
+  padding: 0.6rem;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+.perfil-table input,
+.perfil-table select {
+  width: 100%;
+  padding: 0.3rem;
+  font-size: 13px;
+}
