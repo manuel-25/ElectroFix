@@ -6,6 +6,9 @@ import { AuthContext } from '../../Context/AuthContext'
 import { getApiUrl } from '../../config'
 import { statusClassMap } from '../../utils/productsData.jsx'
 import ServiceStatusControl from '../ServiceStatusControl/ServiceStatusControl.jsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen, faPrint } from '@fortawesome/free-solid-svg-icons'
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import './ServiceDetail.css'
 
 /* ============== UI helpers ============== */
@@ -172,16 +175,22 @@ const ServiceDetail = () => {
         <button className="back-button-pro" onClick={() => navigate(-1)}>← Volver</button>
         <h2 className="title">🔍 Detalle del Servicio: {service.code}</h2>
         <div className="actions">
-          <Link to={`/servicios/${service.code}/editar`} className="btn">✏️ Editar</Link>
-          <a href={`/ticket/${service.publicId}`} target="_blank" rel="noopener noreferrer" className="btn">🖨 Imprimir</a>
+          <Link to={`/servicios/${service.code}/editar`} className="action-btn big-btn edit" title="Editar">
+            <FontAwesomeIcon icon={faPen} />
+          </Link>
+
+          <a href={`/ticket/${service.publicId}`} target="_blank" rel="noopener noreferrer" className="action-btn big-btn print" title="Imprimir">
+            <FontAwesomeIcon icon={faPrint} />
+          </a>
+
           <a
             href={`https://wa.me/54${String(service.userData.phone).replace(/\D/g, '')}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-wa"
+            className="action-btn big-btn wa"
             title="WhatsApp"
           >
-            <img src="/images/whatsappLogo.svg" alt="WhatsApp" className="wa-icon-btn" />
+            <FontAwesomeIcon icon={faWhatsapp} />
           </a>
         </div>
         <div className="info-group">

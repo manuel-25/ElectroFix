@@ -1,0 +1,13 @@
+.editservice-title {
+  color: #d39e00;
+  margin-bottom: 15px;
+}
+
+.btn-submit {
+  background-color: #ffc107; /* Bootstrap yellow */
+  color: #212529;
+}
+
+.btn-submit:hover {
+  background-color: #e0a800;
+}

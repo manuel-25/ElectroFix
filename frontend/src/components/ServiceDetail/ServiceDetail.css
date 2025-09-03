@@ -161,7 +161,7 @@
   margin-bottom: 32px;
 }
 
-.btn {
+.big-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -178,22 +178,8 @@
   min-width: 120px;
 }
 
-.btn:hover {
-  background-color: #0056b3;
-}
-
-.btn-wa {
-  background-color: #25d366;
-}
-
-.btn-wa:hover {
-  background-color: #1ebe5d;
-}
-
-.wa-icon-btn {
-  height: 20px;
-  width: 20px;
-  object-fit: contain;
+.big-btn svg {
+  font-size: 20px;
 }
 
 /* ===========================

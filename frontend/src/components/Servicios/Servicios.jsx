@@ -5,8 +5,11 @@ import DashboardLayout from '../DashboardLayout/DashboardLayout'
 import { AuthContext } from '../../Context/AuthContext'
 import { getApiUrl } from '../../config'
 import Loading from '../Loading/Loading'
-import { estadosServicio, branchMap } from '../../utils/productsData'
+import { branchMap } from '../../utils/productsData'
 import ServiceStatusControl from '../ServiceStatusControl/ServiceStatusControl.jsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen, faPrint } from '@fortawesome/free-solid-svg-icons'
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import './Servicios.css'
 
 const Servicios = () => {
@@ -181,8 +184,20 @@ const Servicios = () => {
                       <td>{s.receivedAtBranch || 'No recibido'}</td>
                       <td>{s.createdByEmail || '—'}</td>
                       <td className="acciones-cell">
-                        <Link to={`/servicios/${s.code}/editar`} className="action-btn edit">✎</Link>
-                        <a href={`/ticket/${s.publicId}`} target="_blank" rel="noopener noreferrer" className="action-btn print">🖨</a>
+                        <Link to={`/servicios/${s.code}/editar`} className="action-btn edit" title="Editar">
+                          <FontAwesomeIcon icon={faPen} />
+                        </Link>
+
+                        <a
+                          href={`/ticket/${s.publicId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="action-btn print"
+                          title="Imprimir"
+                        >
+                          <FontAwesomeIcon icon={faPrint} />
+                        </a>
+
                         {s.userData?.phone && (
                           <a
                             href={`https://wa.me/54${String(s.userData.phone).replace(/\D/g, '')}`}
@@ -191,7 +206,7 @@ const Servicios = () => {
                             className="action-btn wa"
                             title="WhatsApp"
                           >
-                            <img src="/images/whatsappLogo.svg" alt="WA" className="wa-icon" />
+                            <FontAwesomeIcon icon={faWhatsapp} />
                           </a>
                         )}
                       </td>

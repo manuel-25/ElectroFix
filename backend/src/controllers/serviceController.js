@@ -192,11 +192,17 @@ class ServiceController {
   // ✅ updateServiceByCode
   static async updateServiceByCode(req, res) {
     try {
+      if (req.body.code) {
+        const existing = await ServiceModel.findOne({ code: req.body.code })
+        if (existing && existing.code !== req.params.code) {
+          return res.status(400).json({ error: 'El código ya está en uso por otro servicio' })
+        }
+      }
       const updated = await ServiceModel.findOneAndUpdate(
         { code: req.params.code },
         {
           ...req.body,
-          lastModifiedBy: req.body.lastModifiedBy || 'Desconocido',
+          lastModifiedBy: req.body.lastModifiedBy || '-',
           lastModifiedAt: new Date()
         },
         { new: true }
