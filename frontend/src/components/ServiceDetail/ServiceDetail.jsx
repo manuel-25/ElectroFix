@@ -286,7 +286,7 @@ const ServiceDetail = () => {
 
         {/* ====== Notas ====== */}
         <div className="section">
-          <h3>Notas del Técnico</h3>
+          <h3>Notas del Técnico (Uso Interno)</h3>
           <textarea
             className="notes-textarea"
             value={notesText}

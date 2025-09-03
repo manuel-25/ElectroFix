@@ -34,6 +34,7 @@ const NuevoServicio = () => {
     userDescription: '',
     description: '',
     receivedAtBranch: '',
+    deliveryMethod: 'Presencial'
   })
 
   const [previewDescription, setPreviewDescription] = useState('')
@@ -91,7 +92,8 @@ const NuevoServicio = () => {
     formData.model,
     formData.approximateValue,
     formData.quoteReference,
-    formData.userDescription
+    formData.userDescription,
+    formData.deliveryMethod
   ])
 
   const handleChange = e => {
@@ -150,7 +152,8 @@ const NuevoServicio = () => {
       notes: formData.notes,
       description: previewDescription,
       code: formData.code,
-      receivedAtBranch
+      receivedAtBranch,
+      deliveryMethod: formData.deliveryMethod
     }
 
     try {
@@ -316,6 +319,16 @@ const NuevoServicio = () => {
               <option value="">No recibido</option>
               <option value="Quilmes">Quilmes</option>
               <option value="Barracas">Barracas</option>
+            </select>
+          </div>
+
+          <div className="form-section">
+            <label>Metodo de Envio</label>
+            <select name="deliveryMethod" value={formData.deliveryMethod} onChange={handleChange}>
+              <option value="Presencial">Presencial</option>
+              <option value="UberFlash">UberFlash</option>
+              <option value="Retiro y Entrega">Retiro y Entrega</option>
+              <option value="Envío Correo">Envío Correo</option>
             </select>
           </div>
 
