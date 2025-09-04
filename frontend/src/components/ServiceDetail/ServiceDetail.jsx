@@ -310,20 +310,30 @@ const ServiceDetail = () => {
           <h3>Historial de Estado</h3>
           <div className="historial-container">
             <ul className="history-list">
-              {history.map((h, i) => (
-                <li key={i} className="history-item">
-                  <div className="history-main">
-                    <span className="history-date">{fmt(h.changedAt)}</span>
-                    <StatusPill status={h.status} />
-                    <span className="history-by">({h.changedBy})</span>
-                  </div>
-                  {h.note && (
-                    <div className="history-note">
-                      📝 <em>{h.note}</em>
+              {history.map((h, i) => {
+                const prev = history[i - 1]
+                const showNote = h.note && (!prev || h.note !== prev.note)
+
+                return (
+                  <li key={i} className="history-item">
+                    <div className="history-main">
+                      <span className="history-date">{fmt(h.changedAt)}</span>
+                      <StatusPill status={h.status} />
+                      <span className="history-by">({h.changedBy})</span>
                     </div>
-                  )}
-                </li>
-              ))}
+
+                    <ul className="history-details">
+                      {showNote && <li>📝 <em>{h.note}</em></li>}
+                      {h.receivedBy && <li>👤 Recibido por: {h.receivedBy}</li>}
+                      {h.receivedAtBranch && <li>🏢 Sucursal: {h.receivedAtBranch}</li>}
+                      {h.deliveredAt && <li>📦 Entregado: {fmt(h.deliveredAt)}</li>}
+                      {typeof h.isSatisfied === 'boolean' && (
+                        <li>⭐ Cliente satisfecho: {h.isSatisfied ? 'Sí ✅' : 'No ❌'}</li>
+                      )}
+                    </ul>
+                  </li>
+                )
+              })}
             </ul>
           </div>
         </div>

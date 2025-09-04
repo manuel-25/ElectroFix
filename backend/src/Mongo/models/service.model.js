@@ -22,8 +22,14 @@ export const DELIVERY_METHODS = ['Presencial', 'Envío Correo', 'Retiro y Entreg
 const StatusHistorySchema = new Schema(
   {
     status: { type: String, enum: SERVICE_STATUS, required: true },
+    note: { type: String, default: '' },
     changedAt: { type: Date, default: Date.now },
-    changedBy: { type: String } // email del usuario
+    changedBy: { type: String },
+
+    receivedBy: { type: String },
+    receivedAtBranch: { type: String, enum: BRANCHES, default: null },
+    deliveredAt: { type: Date, default: null },
+    isSatisfied: { type: Boolean, default: null }
   },
   { _id: false }
 )

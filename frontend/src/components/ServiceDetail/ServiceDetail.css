@@ -151,6 +151,15 @@
   color: #9ca3af;
 }
 
+.history-details {
+  margin-left: 1rem;
+  padding-left: 1rem;
+  border-left: 2px solid #ccc;
+  font-size: 0.95em;
+  color: #444;
+  list-style: none;
+}
+
 /* ===========================
    BOTONES Y ACCIONES
 =========================== */

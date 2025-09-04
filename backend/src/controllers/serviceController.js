@@ -236,27 +236,29 @@ class ServiceController {
         ...(receivedBy && { receivedBy }),
         ...(note && { notes: note }),
 
-        // Recibido
         ...(status === 'Recibido' && receivedAtBranch && { receivedAtBranch }),
         ...(status === 'Recibido' && { receivedAt: now }),
 
-        // Entregado
         ...(status === 'Entregado' && { deliveredAt: deliveredAt || now }),
         ...(status === 'Entregado' && typeof isSatisfied === 'boolean' && { isSatisfied })
+      }
+
+      const historyEntry = {
+        status,
+        changedBy: req.user.email,
+        changedAt: now,
+        ...(note && { note }),
+        ...(receivedBy && { receivedBy }),
+        ...(receivedAtBranch && { receivedAtBranch }),
+        ...(status === 'Entregado' && { deliveredAt: deliveredAt || now }),
+        ...(typeof isSatisfied === 'boolean' && { isSatisfied })
       }
 
       const updated = await ServiceModel.findByIdAndUpdate(
         id,
         {
           $set: updatePayload,
-          $push: {
-            statusHistory: {
-              status,
-              changedBy: req.user.email,
-              changedAt: now,
-              ...(note && { note })
-            }
-          }
+          $push: { statusHistory: historyEntry }
         },
         { new: true, runValidators: true }
       )
