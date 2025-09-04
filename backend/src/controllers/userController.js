@@ -9,10 +9,15 @@ const blacklist = []
 class UserController {    // Crear un nuevo usuario
 static async createUser(req, res) {
     try {
-        const { email, password, role } = req.body
+        console.log('BODY RECIBIDO:', req.body)
+        const { email, password, role, firstName, lastName, branch } = req.body
         // Validar que se reciban los campos necesarios
         if (!email || !password) {
             return res.status(400).json({ error: 'Email and password are required' })
+        }
+
+        if (!firstName || !lastName) {
+            return res.status(400).json({ error: 'First and Lastname are required' })
         }
         
         const userExists = await UserManager.getByEmail(email)
@@ -26,7 +31,10 @@ static async createUser(req, res) {
         const newUser = await UserManager.create({
             email,
             password: hashedPassword,
-            role
+            role,
+            firstName,
+            lastName,
+            branch
         })
 
         res.status(201).json(newUser)
@@ -34,7 +42,7 @@ static async createUser(req, res) {
             logger.error('Error creating user:', error)
             res.status(400).json({ error: error.message })
         }
-    }
+}
 
     // Autenticación de usuario
     static async login(req, res) {
