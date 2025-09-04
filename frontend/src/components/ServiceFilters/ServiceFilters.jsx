@@ -23,7 +23,8 @@ const ServiceFilters = ({
 
       <select value={filters.branch} onChange={e => onChange('branch', e.target.value)}>
         <option value="">Todas las sucursales</option>
-        {['No recibido','quilmes', 'barracas'].map(branch => (
+        <option value="null">No recibido</option>
+        {['Quilmes', 'Barracas'].map(branch => (
           <option key={branch} value={branch}>{branch}</option>
         ))}
       </select>

@@ -5,7 +5,6 @@ import DashboardLayout from '../DashboardLayout/DashboardLayout'
 import { AuthContext } from '../../Context/AuthContext'
 import { getApiUrl } from '../../config'
 import Loading from '../Loading/Loading'
-import { branchMap } from '../../utils/productsData'
 import ServiceStatusControl from '../ServiceStatusControl/ServiceStatusControl.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faPrint } from '@fortawesome/free-solid-svg-icons'
@@ -110,7 +109,10 @@ const Servicios = () => {
     )
 
     const matchesCode = !filters.code || s.code?.startsWith(filters.code)
-    const matchesBranch = !filters.branch || s.receivedAtBranch?.toLowerCase() === filters.branch
+    const matchesBranch =
+      filters.branch === '' ||
+      (filters.branch === 'null' && s.receivedAtBranch === null) ||
+      s.receivedAtBranch === filters.branch
     const matchesCreatedBy = !filters.createdBy || s.createdByEmail === filters.createdBy
     const matchesEquipment = !filters.equipment || s.equipmentType === filters.equipment
     const matchesMonth = !filters.month || new Date(s.createdAt).toISOString().slice(0, 7) === filters.month
