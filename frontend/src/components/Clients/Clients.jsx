@@ -16,15 +16,18 @@ const Clients = () => {
   const [itemsPerPage, setItemsPerPage] = useState(25)
   const [loading, setLoading] = useState(true)
 
+  const isAdmin = auth?.user?.role === 'admin'
+
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await axios.get(`${getApiUrl()}/api/client`, { //`${getApiUrl()}/api/client`
+        const res = await axios.get(`${getApiUrl()}/api/client`, {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${auth?.token}`
           }
         })
+
         setClients(res.data)
       } catch (err) {
         console.error('Error al obtener los clientes')
@@ -33,7 +36,7 @@ const Clients = () => {
       }
     }
     fetchClients()
-  }, [])
+  }, [auth])
 
   const handleSort = (key) => {
     let direction = 'asc'
@@ -57,12 +60,22 @@ const Clients = () => {
     return sortConfig.direction === 'asc' ? aVal - bVal : bVal - aVal
   })
 
-  const filteredClients = sortedClients.filter(c =>
-    c.customerNumber?.toString().includes(search.trim())
-  )
+  const filteredClients = sortedClients.filter(c => {
+    const term = search.trim().toLowerCase()
+    return (
+      c.customerNumber?.toString().includes(term) ||
+      c.firstName?.toLowerCase().includes(term) ||
+      c.lastName?.toLowerCase().includes(term)
+    )
+  })
 
-  const totalPages = Math.ceil(filteredClients.length / itemsPerPage)
-  const paginatedClients = filteredClients.slice(
+
+  const visibleClients = isAdmin
+    ? filteredClients
+    : filteredClients.slice(0, 5)
+
+  const totalPages = Math.ceil(visibleClients.length / itemsPerPage)
+  const paginatedClients = visibleClients.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   )
@@ -82,7 +95,7 @@ const Clients = () => {
               <input
                 type="text"
                 className="search-input"
-                placeholder="Buscar por N° de cliente"
+                placeholder="Buscar por Nombre o N° de cliente"
                 value={search}
                 onChange={e => {
                   setSearch(e.target.value)
@@ -90,6 +103,12 @@ const Clients = () => {
                 }}
               />
             </div>
+
+            {!isAdmin && filteredClients.length > 5 && (
+              <p style={{ fontSize: '13px', color: '#555', margin: '6px 0', textAlign: 'center' }}>
+                Mostrando solo los primeros 5 resultados.
+              </p>
+            )}
 
             <div className="items-per-page">
               <label>Mostrar </label>
@@ -120,7 +139,7 @@ const Clients = () => {
                     <tr key={client._id}>
                       <td>
                         <Link to={`/clientes/${client.customerNumber}`} className="service-link">
-                            {client.customerNumber}
+                          {client.customerNumber}
                         </Link>
                       </td>
                       <td>{client.firstName || 'N/A'}</td>
@@ -131,8 +150,8 @@ const Clients = () => {
                       <td>
                         {Array.isArray(client.serviceRequestNumbers) && client.serviceRequestNumbers.length > 0
                           ? <Link to={`/cotizaciones/${client.serviceRequestNumbers}`} className="service-link">
-                            { client.serviceRequestNumbers.join(', ') }
-                        </Link>
+                              {client.serviceRequestNumbers.join(', ')}
+                            </Link>
                           : '—'}
                       </td>
                       <td>{client.createdAt?.split(',')[0] || '—'}</td>
@@ -142,39 +161,62 @@ const Clients = () => {
               </table>
             </div>
 
-            {totalPages > 1 && (
+            {isAdmin && totalPages > 1 && (
               <div className="pagination">
-                <button onClick={() => setCurrentPage(p => Math.max(p - 1, 1))} disabled={currentPage === 1} className="page-btn">◀</button>
+                <button
+                  onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="page-btn"
+                >
+                  ◀
+                </button>
+
                 {(() => {
-                  const pages = []
                   const visiblePages = 5
-                  const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2))
-                  const endPage = Math.min(totalPages - 1, startPage + visiblePages - 1)
+                  const pages = []
+                  let startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2))
+                  let endPage = Math.min(totalPages, startPage + visiblePages - 1)
+
+                  if (endPage - startPage < visiblePages - 1) {
+                    startPage = Math.max(1, endPage - visiblePages + 1)
+                  }
+
+                  if (startPage > 1) {
+                    pages.push(
+                      <button key={1} className="page-btn" onClick={() => setCurrentPage(1)}>1</button>,
+                      <span key="start-dots" className="page-dots">...</span>
+                    )
+                  }
 
                   for (let i = startPage; i <= endPage; i++) {
                     pages.push(
-                      <button key={i} className={`page-btn ${currentPage === i ? 'active' : ''}`} onClick={() => setCurrentPage(i)}>
+                      <button
+                        key={i}
+                        className={`page-btn ${currentPage === i ? 'active' : ''}`}
+                        onClick={() => setCurrentPage(i)}
+                      >
                         {i}
                       </button>
                     )
                   }
 
-                  if (startPage > 1) {
-                    pages.unshift(<span key="start-dots" className="page-dots">...</span>)
-                    pages.unshift(<button key={1} className="page-btn" onClick={() => setCurrentPage(1)}>1</button>)
-                  }
-
-                  if (endPage < totalPages - 1) {
-                    pages.push(<span key="end-dots" className="page-dots">...</span>)
-                  }
-
                   if (endPage < totalPages) {
-                    pages.push(<button key={totalPages} className="page-btn" onClick={() => setCurrentPage(totalPages)}>{totalPages}</button>)
+                    pages.push(
+                      <span key="end-dots" className="page-dots">...</span>,
+                      <button key={totalPages} className="page-btn" onClick={() => setCurrentPage(totalPages)}>{totalPages}</button>
+                    )
                   }
 
                   return pages
                 })()}
-                <button onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages} className="page-btn">▶</button>
+
+                <button
+                  onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="page-btn"
+                >
+                  ▶
+                </button>
               </div>
             )}
           </>
