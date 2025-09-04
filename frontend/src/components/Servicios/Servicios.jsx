@@ -10,6 +10,7 @@ import ServiceStatusControl from '../ServiceStatusControl/ServiceStatusControl.j
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faPrint } from '@fortawesome/free-solid-svg-icons'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
+import ServiceFilters from '../ServiceFilters/ServiceFilters'
 import './Servicios.css'
 
 const Servicios = () => {
@@ -22,6 +23,31 @@ const Servicios = () => {
   const [itemsPerPage, setItemsPerPage] = useState(25)
   const [currentPage, setCurrentPage] = useState(1)
   const [sortConfig, setSortConfig] = useState({ key: 'createdAt', direction: 'desc' })
+
+  /*=== Filtros === */
+  const [filters, setFilters] = useState({
+    code: '',
+    branch: '',
+    createdBy: '',
+    equipment: '',
+    month: '',
+    status: ''
+  })
+
+  const handleFilterChange = (key, value) => {
+    setFilters(prev => ({ ...prev, [key]: value }))
+  }
+
+  const clearFilters = () => {
+    setFilters({
+      code: '',
+      branch: '',
+      createdBy: '',
+      equipment: '',
+      month: '',
+      status: ''
+    })
+  }
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -75,12 +101,22 @@ const Servicios = () => {
 
   const filtered = services.filter(s => {
     const term = search.trim().toLowerCase()
-    return (
+
+    const matchesSearch = (
       s.code?.toLowerCase().includes(term) ||
       s.customerNumber?.toString().includes(term) ||
       `${s.userData?.firstName || ''} ${s.userData?.lastName || ''}`.toLowerCase().includes(term) ||
       s.equipmentType?.toLowerCase().includes(term)
     )
+
+    const matchesCode = !filters.code || s.code?.startsWith(filters.code)
+    const matchesBranch = !filters.branch || s.receivedAtBranch?.toLowerCase() === filters.branch
+    const matchesCreatedBy = !filters.createdBy || s.createdByEmail === filters.createdBy
+    const matchesEquipment = !filters.equipment || s.equipmentType === filters.equipment
+    const matchesMonth = !filters.month || new Date(s.createdAt).toISOString().slice(0, 7) === filters.month
+    const matchesStatus = !filters.status || s.status === filters.status
+
+    return matchesSearch && matchesCode && matchesBranch && matchesCreatedBy && matchesEquipment && matchesMonth && matchesStatus
   })
 
   const sorted = [...filtered].sort((a, b) => {
@@ -115,6 +151,13 @@ const Servicios = () => {
               />
             </div>
 
+            <ServiceFilters
+              services={services}
+              filters={filters}
+              onChange={handleFilterChange}
+              onClear={clearFilters}
+            />
+
             <div className="items-per-page">
               <label>Mostrar </label>
               <select value={itemsPerPage} onChange={e => { setItemsPerPage(Number(e.target.value)); setCurrentPage(1) }}>
@@ -135,8 +178,7 @@ const Servicios = () => {
                     <th onClick={() => handleSort('createdAt')}>Fecha {renderSortIcon('createdAt')}</th>
                     <th onClick={() => handleSort('equipmentType')}>Equipo {renderSortIcon('equipmentType')}</th>
                     <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Codigo</th>
+                    <th>Cliente</th>
                     <th>Estado</th>
                     <th>Notas</th>
                     <th>Recibido En</th>
@@ -156,8 +198,7 @@ const Servicios = () => {
                       <td>{new Date(s.createdAt).toLocaleDateString('es-AR')}</td>
                       <td>{s.equipmentType || '—'}</td>
                       <td>{s.description || '—'}</td>
-                      <td>{s.serviceType}</td>
-                      <td>{branchMap[s.code] || s.code}</td>
+                      <td>{s.userData.firstName + ' ' + s.userData.lastName || '—'}</td>
                       <td>
                         <ServiceStatusControl
                           service={s}

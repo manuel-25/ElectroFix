@@ -1,0 +1,41 @@
+/* === FILTROS AVANZADOS === */
+.filters-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 16px;
+  justify-content: center;
+}
+
+.filters-wrapper select {
+  padding: 6px 8px;
+  font-size: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #212529;
+  min-width: 140px;
+  max-width: 200px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filters-wrapper select:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 2px rgba(13,110,253,0.25);
+  outline: none;
+}
+
+.filters-wrapper button {
+  padding: 6px 12px;
+  font-size: 12px;
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.filters-wrapper button:hover {
+  background-color: #5a6268;
+}

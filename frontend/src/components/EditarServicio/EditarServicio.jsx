@@ -7,6 +7,7 @@ import { AuthContext } from '../../Context/AuthContext'
 import Select from 'react-select'
 import { equipoOptions } from '../../utils/productsData'
 import { getApiUrl } from '../../config'
+import Loading from '../Loading/Loading'
 import './EditarServicio.css'
 
 const EditarServicio = () => {
@@ -115,7 +116,15 @@ const EditarServicio = () => {
         }
     }
 
-  if (!formData) return <DashboardLayout><p>Cargando...</p></DashboardLayout>
+  if (!formData) {
+    return (
+      <DashboardLayout>
+        <div className="loader-wrapper">
+          <span className="loader"></span>
+        </div>
+      </DashboardLayout>
+    )
+  }
 
   return (
     <DashboardLayout>
