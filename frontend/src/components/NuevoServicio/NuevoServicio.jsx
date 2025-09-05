@@ -151,6 +151,7 @@ const NuevoServicio = () => {
       warrantyExpiration: Number(formData.warrantyExpiration),
       notes: formData.notes,
       description: previewDescription,
+      userDescription: formData.userDescription,
       code: formData.code,
       receivedAtBranch,
       deliveryMethod: formData.deliveryMethod

@@ -15,7 +15,7 @@ export const SERVICE_STATUS = [
   'Entregado',
   'Garantía'
 ]
-export const BRANCHES = ['Quilmes', 'Barracas', 'Ninguna']
+export const SERVICE_BRANCHES = ['Quilmes', 'Barracas', 'No recibido']
 export const DELIVERY_METHODS = ['Presencial', 'Envío Correo', 'Retiro y Entrega', 'UberFlash']
 
 // ─── Subschemas ───────────────────────────────────────────────────────────────
@@ -27,7 +27,7 @@ const StatusHistorySchema = new Schema(
     changedBy: { type: String },
 
     receivedBy: { type: String },
-    receivedAtBranch: { type: String, enum: BRANCHES, default: null },
+    receivedAtBranch: { type: String, enum: SERVICE_BRANCHES, default: null },
     deliveredAt: { type: Date, default: null },
     isSatisfied: { type: Boolean, default: null }
   },
@@ -59,6 +59,7 @@ const ServiceSchema = new Schema(
     // Equipo
     equipmentType: String,
     description: String,
+    userDescription: String,
     brand: String,
     model: String,
 
@@ -75,7 +76,7 @@ const ServiceSchema = new Schema(
     // Datos de recepción (solo si fue recibido)
     receivedBy: { type: String, default: null },           // nombre/email del receptor
     receivedAt: { type: Date, default: null },
-    receivedAtBranch: { type: String, enum: BRANCHES, default: null },
+    receivedAtBranch: { type: String, enum: SERVICE_BRANCHES, default: null },
     receivedNotes: { type: String },
     deliveryMethod: { type: String, enum: DELIVERY_METHODS, default: 'Presencial' },
     receivedPhoto: { type: String },

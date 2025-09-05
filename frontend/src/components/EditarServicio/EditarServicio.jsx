@@ -40,8 +40,10 @@ const EditarServicio = () => {
         ])
         setClientes(clientesRes.data || [])
         setCotizaciones(cotRes.data || [])
-        setFormData(servicioRes.data)
-        
+        setFormData({
+          ...servicioRes.data,
+          receivedAtBranch: servicioRes.data.receivedAtBranch || 'No recibido'
+        })
       } catch (err) {
         console.error('Error cargando datos:', err)
         setError('Error al cargar el servicio')
@@ -49,6 +51,20 @@ const EditarServicio = () => {
     }
     fetchData()
   }, [auth, code])
+
+  //borrar despues log 
+  useEffect(() => {
+  if (formData) {
+    console.group('Datos del servicio')
+    console.log('ID:', formData._id)
+    console.log('Código:', formData.code)
+    console.log('Cliente:', formData.customerNumber)
+    console.log('Marca:', formData.brand)
+    console.log('Modelo:', formData.model)
+    console.log('Tipo:', formData.equipmentType)
+    console.groupEnd()
+  }
+}, [formData])
 
   const clienteOptions = clientes.map(c => ({
     value: c.customerNumber,
@@ -105,9 +121,9 @@ const EditarServicio = () => {
             }
             }
 
-            await axios.put(`${getApiUrl()}/api/service/code/${code}`, formData, {
-            headers: { Authorization: `Bearer ${auth?.token}` },
-            withCredentials: true
+            await axios.put(`${getApiUrl()}/api/service/${formData._id}`, formData, {
+              headers: { Authorization: `Bearer ${auth?.token}` },
+              withCredentials: true
             })
             navigate(`/servicios`)
         } catch (err) {
@@ -172,6 +188,7 @@ const EditarServicio = () => {
 
           <div className="form-section full-width">
             <label>Descripción*</label>
+            {console.log('formDatA: ', formData)}
             <textarea
               name="userDescription"
               value={formData.userDescription}
@@ -236,7 +253,7 @@ const EditarServicio = () => {
           <div className="form-section">
             <label>Recibido En</label>
             <select name="receivedAtBranch" value={formData.receivedAtBranch || ''} onChange={handleChange}>
-              <option value="">No recibido</option>
+              <option value="No recibido">No recibido</option>
               <option value="Quilmes">Quilmes</option>
               <option value="Barracas">Barracas</option>
             </select>

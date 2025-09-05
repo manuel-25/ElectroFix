@@ -9,6 +9,7 @@ import ServiceStatusControl from '../ServiceStatusControl/ServiceStatusControl.j
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faPrint } from '@fortawesome/free-solid-svg-icons'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
+import { formatCurrency } from '../../utils/currency.js'
 import './ServiceDetail.css'
 
 /* ============== UI helpers ============== */
@@ -224,8 +225,8 @@ const ServiceDetail = () => {
               }
             />
             <Item label="Valor Aproximado" value={service.approximateValue || '—'} />
-            <Item label="Valor Final" value={<span className="strong">{currency(service.finalValue)}</span>} />
-            <Item label="Repuestos" value={currency(service.repuestos)} />
+            <Item label="Valor Final" value={<span className="strong">{formatCurrency(service.finalValue)}</span>} />
+            <Item label="Repuestos" value={formatCurrency(service.repuestos)} />
           </div>
 
           <div className="info-column">

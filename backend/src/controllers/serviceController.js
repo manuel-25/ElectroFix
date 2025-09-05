@@ -67,7 +67,7 @@ class ServiceController {
   static async createService(req, res) {
     try {
       const {
-        userData, equipmentType, description, brand, model,
+        userData, equipmentType, description, userDescription, brand, model,
         serviceType, approximateValue, finalValue, repuestos,
         quoteReference, photos, receivedAtBranch,
         deliveryMethod, receivedNotes, receivedPhoto,
@@ -100,6 +100,7 @@ class ServiceController {
 
         equipmentType,
         description,
+        userDescription,
         brand,
         model,
         serviceType,
@@ -172,16 +173,56 @@ class ServiceController {
 
   // ✅ updateServiceById
   static async updateServiceById(req, res) {
+    const { id } = req.params
+    const updates = req.body
+
+    // 🔒 Limpieza ANTES de usar updates
+    if (updates.receivedAtBranch === '') delete updates.receivedAtBranch
+    if (updates.deliveryMethod === '') delete updates.deliveryMethod
+    if ('statusHistory' in updates) delete updates.statusHistory
+
     try {
-      const updated = await ServiceModel.findByIdAndUpdate(
-        req.params.id,
-        {
-          ...req.body,
-          lastModifiedBy: req.body.lastModifiedBy || 'Desconocido',
-          lastModifiedAt: new Date()
-        },
-        { new: true }
-      )
+      const service = await ServiceModel.findById(id)
+      if (!service) return res.status(404).json({ error: 'Servicio no encontrado' })
+
+      const now = new Date()
+      const changes = {
+        ...updates,
+        lastModifiedBy: req.body.lastModifiedBy || req.user?.email || 'Desconocido',
+        lastModifiedAt: now
+      }
+
+      const statusHistory = []
+
+      const asignandoSucursal =
+        updates.receivedAtBranch &&
+        updates.receivedAtBranch !== 'No recibido' &&
+        !['Recibido', 'Entregado'].includes(service.status)
+
+      if (asignandoSucursal) {
+        changes.status = 'Recibido'
+        changes.receivedAt = now
+        changes.receivedBy = req.user?.email || 'Desconocido'
+
+        statusHistory.push({
+          status: 'Recibido',
+          changedBy: req.user?.email || 'Desconocido',
+          changedAt: now,
+          receivedBy: req.user?.email || 'Desconocido',
+          receivedAtBranch: updates.receivedAtBranch
+        })
+      }
+
+      const updateObj = {
+        $set: changes,
+        ...(statusHistory.length ? { $push: { statusHistory: { $each: statusHistory } } } : {})
+      }
+
+      const updated = await ServiceModel.findByIdAndUpdate(id, updateObj, {
+        new: true,
+        runValidators: true
+      })
+
       res.status(200).json(updated)
     } catch (err) {
       logger.error('Error al actualizar el servicio', err)

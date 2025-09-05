@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 const { Schema, model } = mongoose
-import { BRANCHES } from './service.model.js'
+export const USER_BRANCHES = ['Quilmes', 'Barracas', 'Ninguna']
 
 const UserSchema = new Schema(
   {
@@ -11,7 +11,7 @@ const UserSchema = new Schema(
     lastName: { type: String, required: true },
     phone: { type: String },
 
-    branch: { type: String, enum: BRANCHES, default: null },
+    branch: { type: String, enum: USER_BRANCHES, default: null },
     role: { type: String, enum: ['admin', 'empleado', 'tecnico', 'supervisor'], default: 'empleado' },
 
     lastLoginAt: { type: Date, default: Date.now },
