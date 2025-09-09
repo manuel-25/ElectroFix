@@ -13,7 +13,7 @@ const clientSchema = new mongoose.Schema({
     match: [/^\S+@\S+\.\S+$/, 'Email inválido'] 
   },
   phone: { type: String, required: true },
-  domicilio: { type: String, required: true, trim: true },
+  domicilio: { type: String, trim: true },
   province: { type: String, trim: true },
   municipio: { type: String, trim: true },
   customerNumber: { type: Number, required: true, unique: true, index: true },

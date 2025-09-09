@@ -79,6 +79,7 @@ class ServiceRequestController {
             // Asignar los números generados a la solicitud
             req.body.customerNumber = customerNumber
             req.body.serviceRequestNumber = serviceRequestNumber
+            req.body.domicilio = ''
 
             // Convertir `details` en una cadena JSON antes de almacenar
             if (typeof details === 'object') {
