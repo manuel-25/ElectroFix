@@ -142,7 +142,6 @@ class ServiceRequestController {
             // Devolver la respuesta exitosa
             res.status(201).send(serviceRequest)
         } catch (error) {
-            res.status(500).send({ error: error.message, stack: error.stack })
             logger.fatal('Error creating service request:', error)
             res.status(400).send({ error: error.message, stack: error.stack })
         }
