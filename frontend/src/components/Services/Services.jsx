@@ -113,10 +113,8 @@ const Services = () => {
   const handleSubmit = async () => {
     const date = new Date(new Date().getTime() - (3 * 60 * 60 * 1000))
     const updatedFormData = { ...formData, date }
-    console.log("Datos enviados:", updatedFormData)
 
     try {
-      console.log('branch: ', updatedFormData.branch, typeof(updatedFormData.branch))
       const response = await fetch('https://electrosafeweb.com/api/service-requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -148,7 +146,6 @@ const Services = () => {
 
   // Llamar al envío cuando el ultimo paso
   useEffect(() => {
-    console.log(formData)
     if (step === steps.length + 1) {
       handleSubmit()
     }

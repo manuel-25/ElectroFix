@@ -10,9 +10,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faPrint } from '@fortawesome/free-solid-svg-icons'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { formatCurrency } from '../../utils/currency.js'
+import { formatDate } from '../../utils/formatDate.js'
 import './ServiceDetail.css'
 
-/* ============== UI helpers ============== */
 const Item = ({ label, value }) => (
   <div className="item">
     <span className="item-label">{label}</span>
@@ -41,7 +41,6 @@ const getApiError = (err) => {
   return 'Ocurrió un error inesperado.'
 }
 
-/* ========= helpers de estado/fechas ======== */
 const slug = (s = '') =>
   s.toString().trim().toLowerCase()
     .normalize('NFD').replace(/\p{Diacritic}/gu, '')
@@ -69,9 +68,7 @@ const addDays = (date, days) => {
   d.setDate(d.getDate() + Number(days))
   return d
 }
-const fmt = (d) => d ? new Date(d).toLocaleString('es-AR') : '—'
 
-/* ============== Página ============== */
 const ServiceDetail = () => {
   const { auth } = useContext(AuthContext)
   const { code } = useParams()
@@ -101,7 +98,6 @@ const ServiceDetail = () => {
 
   useEffect(() => {
     if (code) fetchService()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code])
 
   const currency = (n) =>
@@ -125,12 +121,12 @@ const ServiceDetail = () => {
         dedup.push(ev)
       }
     }
-    const createdAt = service.createdAt ? new Date(service.createdAt) : null
+    const createdAt = service.createdAt
     const createdBy = service.createdByEmail || service.createdBy
     const hasPending = list.some(x => normalizeStatus(x.status) === 'pendiente')
     if (createdAt && createdBy && !hasPending) {
       dedup.unshift({
-        changedAt: createdAt.toISOString(),
+        changedAt: createdAt,
         status: 'Pendiente',
         changedBy: createdBy,
         _createdEntry: true
@@ -171,30 +167,26 @@ const ServiceDetail = () => {
   return (
     <DashboardLayout>
       <Toast type={toast.type} message={toast.message} onClose={clearToast} />
-
       <div className="detail-container">
         <button className="back-button-pro" onClick={() => navigate(-1)}>← Volver</button>
         <h2 className="title">🔍 Detalle del Servicio: {service.code}</h2>
+
+        {/* acciones */}
         <div className="actions">
           <Link to={`/servicios/${service.code}/editar`} className="action-btn big-btn edit" title="Editar">
             <FontAwesomeIcon icon={faPen} />
           </Link>
-
           <a href={`/ticket/${service.publicId}`} target="_blank" rel="noopener noreferrer" className="action-btn big-btn print" title="Imprimir">
             <FontAwesomeIcon icon={faPrint} />
           </a>
-
-          <a
-            href={`https://wa.me/54${String(service.userData.phone).replace(/\D/g, '')}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="action-btn big-btn wa"
-            title="WhatsApp"
-          >
+          <a href={`https://wa.me/54${String(service.userData.phone).replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="action-btn big-btn wa" title="WhatsApp">
             <FontAwesomeIcon icon={faWhatsapp} />
           </a>
         </div>
+
+        {/* bloques de info */}
         <div className="info-group">
+          {/* Cliente */}
           <div className="info-column">
             <h3>Cliente</h3>
             <Item label="Cliente #" value={<Link to={`/clientes/${service.customerNumber}`} className="service-link">{service.customerNumber}</Link>} />
@@ -205,6 +197,7 @@ const ServiceDetail = () => {
             <Item label="Provincia / Municipio" value={[service.userData?.province, service.userData?.municipio].filter(Boolean).join(' / ') || '—'} />
           </div>
 
+          {/* Equipo */}
           <div className="info-column">
             <h3>Equipo</h3>
             <Item label="Tipo" value={service.equipmentType} />
@@ -214,51 +207,48 @@ const ServiceDetail = () => {
             <Item label="Descripción" value={service.description} />
           </div>
 
+          {/* Costos */}
           <div className="info-column">
             <h3>Costos</h3>
-            <Item
-              label="Ref. Cotización"
-              value={
-                service.quoteReference
-                  ? <Link to={`/cotizaciones/${service.quoteReference}`} className="service-link strong-link">#{service.quoteReference}</Link>
-                  : '—'
-              }
-            />
+            <Item label="Ref. Cotización" value={
+              service.quoteReference
+                ? <Link to={`/cotizaciones/${service.quoteReference}`} className="service-link strong-link">#{service.quoteReference}</Link>
+                : '—'
+            } />
             <Item label="Valor Aproximado" value={service.approximateValue || '—'} />
             <Item label="Valor Final" value={<span className="strong">{formatCurrency(service.finalValue)}</span>} />
             <Item label="Repuestos" value={formatCurrency(service.repuestos)} />
           </div>
 
+          {/* Estado */}
           <div className="info-column">
             <h3>Estado</h3>
             <Item label="Estado Actual" value={<StatusPill status={service.status} />} />
-            <Item
-              label="Actualizar estado"
-              value={
-                <ServiceStatusControl
-                  service={service}
-                  token={auth?.token}
-                  userEmail={auth?.user?.email}
-                  userBranch={auth?.user?.branch}
-                  note={notesText}
-                  onUpdated={(updatedService) => {
-                    setService(updatedService)
-                    showToast('Estado actualizado correctamente.', 'success')
-                  }}
-                  onError={(err) => showToast(getApiError(err), 'error')}
-                />
-              }
-            />
+            <Item label="Actualizar estado" value={
+              <ServiceStatusControl
+                service={service}
+                token={auth?.token}
+                userEmail={auth?.user?.email}
+                userBranch={auth?.user?.branch}
+                note={notesText}
+                onUpdated={(updatedService) => {
+                  setService(updatedService)
+                  showToast('Estado actualizado correctamente.', 'success')
+                }}
+                onError={(err) => showToast(getApiError(err), 'error')}
+              />
+            } />
             <Item label="Recibido por" value={service.receivedBy || '—'} />
             <Item label="Modificado por" value={service.lastModifiedBy || '—'} />
-            <Item label="Última modificación" value={fmt(service.lastModifiedAt)} />
+            <Item label="Última modificación" value={formatDate(service.lastModifiedAt, true)} />
           </div>
         </div>
 
+        {/* Recepción, Entrega, Garantía, Metadatos */}
         <div className="info-group">
           <div className="info-column">
             <h3>Recepción</h3>
-            <Item label="Fecha de recepción" value={fmt(service.receivedAt)} />
+            <Item label="Fecha de recepción" value={formatDate(service.receivedAt, true)} />
             <Item label="Codigo" value={service.code || '—'} />
             <Item label="Sucursal" value={service.receivedAtBranch || '—'} />
             <Item label="Método de entrega" value={service.deliveryMethod || '—'} />
@@ -267,34 +257,31 @@ const ServiceDetail = () => {
 
           <div className="info-column">
             <h3>Entrega</h3>
-            <Item label="Entregado el" value={fmt(service.deliveredAt)} />
-            <Item
-              label="Solicitar Calificación en Google"
-              value={
-                service.isSatisfied === true ? '✅ Si'
-                  : service.isSatisfied === false ? '❌ No recomendado'
-                    : '—'
-              }
-            />
+            <Item label="Entregado el" value={formatDate(service.deliveredAt, true)} />
+            <Item label="Solicitar Calificación en Google" value={
+              service.isSatisfied === true ? '✅ Si'
+                : service.isSatisfied === false ? '❌ No recomendado'
+                  : '—'
+            } />
           </div>
 
           <div className="info-column">
             <h3>Garantía</h3>
             <Item label="Días de garantía" value={service.warrantyExpiration ?? '—'} />
-            <Item label="Desde" value={fmt(warrantyBase)} />
-            <Item label="Hasta" value={fmt(warrantyEnds)} />
+            <Item label="Desde" value={formatDate(warrantyBase)} />
+            <Item label="Hasta" value={formatDate(warrantyEnds)} />
           </div>
 
           <div className="info-column">
             <h3>Metadatos</h3>
             <Item label="Creado por" value={service.createdByEmail || service.createdBy || '—'} />
-            <Item label="Fecha de creación" value={fmt(service.createdAt)} />
-            <Item label="Última actualización" value={fmt(service.updatedAt)} />
+            <Item label="Fecha de creación" value={formatDate(service.createdAt, true)} />
+            <Item label="Última actualización" value={formatDate(service.updatedAt, true)} />
             <Item label="ID público" value={service.publicId || '—'} />
           </div>
         </div>
 
-        {/* ====== Notas ====== */}
+        {/* Notas */}
         <div className="section">
           <h3>Notas del Técnico (Uso Interno)</h3>
           <textarea
@@ -306,7 +293,7 @@ const ServiceDetail = () => {
           />
         </div>
 
-        {/* ====== Historial ====== */}
+        {/* Historial */}
         <div className="section">
           <h3>Historial de Estado</h3>
           <div className="historial-container">
@@ -314,20 +301,18 @@ const ServiceDetail = () => {
               {history.map((h, i) => {
                 const prev = history[i - 1]
                 const showNote = h.note && (!prev || h.note !== prev.note)
-
                 return (
                   <li key={i} className="history-item">
                     <div className="history-main">
-                      <span className="history-date">{fmt(h.changedAt)}</span>
+                      <span className="history-date">{formatDate(h.changedAt, true)}</span>
                       <StatusPill status={h.status} />
                       <span className="history-by">({h.changedBy})</span>
                     </div>
-
                     <ul className="history-details">
                       {showNote && <li>📝 <em>{h.note}</em></li>}
                       {h.receivedBy && <li>👤 Recibido por: {h.receivedBy}</li>}
                       {h.receivedAtBranch && <li>🏢 Sucursal: {h.receivedAtBranch}</li>}
-                      {h.deliveredAt && <li>📦 Entregado: {fmt(h.deliveredAt)}</li>}
+                      {h.deliveredAt && <li>📦 Entregado: {formatDate(h.deliveredAt, true)}</li>}
                       {typeof h.isSatisfied === 'boolean' && (
                         <li>⭐ Cliente satisfecho: {h.isSatisfied ? 'Sí ✅' : 'No ❌'}</li>
                       )}

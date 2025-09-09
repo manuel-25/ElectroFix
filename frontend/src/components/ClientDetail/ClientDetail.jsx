@@ -4,15 +4,8 @@ import axios from 'axios'
 import { AuthContext } from '../../Context/AuthContext'
 import { getApiUrl } from '../../config'
 import Loading from '../Loading/Loading'
+import { formatDate } from '../../utils/formatDate'
 import './ClientDetail.css'
-
-const formatDateTime = (dateStr) => {
-  if (!dateStr) return 'N/A'
-  const date = new Date(dateStr)
-  return date.toLocaleDateString('es-AR', { 
-    year: 'numeric', month: '2-digit', day: '2-digit'
-  }) + ' ' + date.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-}
 
 const ClientDetail = () => {
   const { id } = useParams()
@@ -23,6 +16,8 @@ const ClientDetail = () => {
   const [client, setClient] = useState(undefined)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [editMode, setEditMode] = useState(false)
+  const [formData, setFormData] = useState({})
 
   useEffect(() => {
     if (authLoading || !token) return
@@ -34,6 +29,7 @@ const ClientDetail = () => {
           headers: { Authorization: `Bearer ${token}` }
         })
         setClient(res.data)
+        setFormData(res.data)
       } catch (err) {
         setClient(null)
         setError('No se pudo cargar la información del cliente.')
@@ -44,6 +40,24 @@ const ClientDetail = () => {
 
     fetchClient()
   }, [id, token, authLoading])
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+  }
+
+  const handleSave = async () => {
+    try {
+      const res = await axios.put(`${getApiUrl()}/api/client/${formData._id}`, formData, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      setClient(res.data)
+      setEditMode(false)
+    } catch (err) {
+      console.error('Error al actualizar cliente:', err)
+      alert('Error al guardar los cambios.')
+    }
+  }
 
   if (authLoading || loading || client === undefined) {
     return (
@@ -69,6 +83,31 @@ const ClientDetail = () => {
       <h2 className="dashboard-title" style={{ textAlign: 'center' }}>
         Detalle del Cliente #{client.customerNumber}
       </h2>
+
+      <div style={{ margin: '16px 0', textAlign: 'center' }}>
+        {!editMode ? (
+          <button className="btn-submit" onClick={() => setEditMode(true)}>
+            ✏️ Editar Cliente
+          </button>
+        ) : (
+          <>
+            <button className="btn-submit" onClick={handleSave}>
+              💾 Guardar Cambios
+            </button>
+            <button
+              className="btn-cancelar"
+              onClick={() => {
+                setEditMode(false)
+                setFormData(client)
+              }}
+              style={{ marginLeft: 12 }}
+            >
+              Cancelar
+            </button>
+          </>
+        )}
+      </div>
+
       <div className="table-wrapper" style={{ margin: '0 auto', marginTop: 16, maxWidth: 900 }}>
         <table className="styled-table">
           <thead className="table-head">
@@ -80,39 +119,126 @@ const ClientDetail = () => {
           <tbody>
             <tr>
               <td>Nombre</td>
-              <td><strong>{client.firstName} {client.lastName}</strong></td>
+              <td>
+                {editMode ? (
+                  <input
+                    name="firstName"
+                    value={formData.firstName || ''}
+                    onChange={handleInputChange}
+                  />
+                ) : client.firstName}
+              </td>
             </tr>
+            <tr>
+              <td>Apellido</td>
+              <td>
+                {editMode ? (
+                  <input
+                    name="lastName"
+                    value={formData.lastName || ''}
+                    onChange={handleInputChange}
+                  />
+                ) : client.lastName}
+              </td>
+            </tr>
+
             <tr>
               <td>Email</td>
-              <td>{client.email}</td>
+              <td>
+                {editMode ? (
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email || ''}
+                    onChange={handleInputChange}
+                  />
+                ) : client.email}
+              </td>
             </tr>
+
             <tr>
               <td>Teléfono</td>
-              <td>{client.phone || 'No registrado'}</td>
+              <td>
+                {editMode ? (
+                  <input
+                    name="phone"
+                    value={formData.phone || ''}
+                    onChange={handleInputChange}
+                  />
+                ) : client.phone || 'No registrado'}
+              </td>
             </tr>
+
             <tr>
               <td>Provincia</td>
-              <td>{client.province}</td>
+              <td>
+                {editMode ? (
+                  <input
+                    name="province"
+                    value={formData.province || ''}
+                    onChange={handleInputChange}
+                  />
+                ) : client.province}
+              </td>
             </tr>
+
             <tr>
               <td>Municipio</td>
-              <td>{client.municipio}</td>
+              <td>
+                {editMode ? (
+                  <input
+                    name="municipio"
+                    value={formData.municipio || ''}
+                    onChange={handleInputChange}
+                  />
+                ) : client.municipio}
+              </td>
             </tr>
+
+            <tr>
+              <td>Domicilio</td>
+              <td>
+                {editMode ? (
+                  <input
+                    name="domicilio"
+                    value={formData.domicilio || ''}
+                    onChange={handleInputChange}
+                  />
+                ) : client.domicilio || '-'}
+              </td>
+            </tr>
+
+            <tr>
+              <td>DNI o CUIT</td>
+              <td>
+                {editMode ? (
+                  <input
+                    name="dniOrCuit"
+                    value={formData.dniOrCuit || ''}
+                    onChange={handleInputChange}
+                  />
+                ) : client.dniOrCuit || '-'}
+              </td>
+            </tr>
+
             <tr>
               <td>N° Cliente</td>
               <td>{client.customerNumber}</td>
             </tr>
+
             <tr>
               <td>Solicitudes</td>
               <td>{client.serviceRequestNumbers?.join(', ')}</td>
             </tr>
+
             <tr>
               <td>Fecha creación</td>
               <td>{client.createdAt}</td>
             </tr>
+
             <tr>
               <td>Última actualización</td>
-              <td>{formatDateTime(client.updatedAt)}</td>
+              <td>{formatDate(client.updatedAt, true)}</td>
             </tr>
           </tbody>
         </table>

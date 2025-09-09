@@ -19,6 +19,7 @@ class ServiceRequestController {
     // Método para crear una nueva solicitud de servicio
     static async createServiceRequest(req, res, next) {
         try {
+            console.log("HEADERS:", req.headers)
             // Normalizar los datos del cliente antes de guardarlos
             let { userData, category, brand, model, faults, details, branch } = req.body
 
@@ -140,6 +141,7 @@ class ServiceRequestController {
             // Devolver la respuesta exitosa
             res.status(201).send(serviceRequest)
         } catch (error) {
+            res.status(500).send({ error: error.message, stack: error.stack })
             logger.fatal('Error creating service request:', error)
             res.status(400).send({ error: error.message, stack: error.stack })
         }

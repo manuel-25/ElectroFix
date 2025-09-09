@@ -99,6 +99,57 @@
 }
 
 .styled-table {
-  /* el resto igual que tu dashboard, solo agrego: */
   margin: 0 auto;
 }
+
+/* Inputs en modo edición */
+.styled-table input {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 13px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: #fff;
+  transition: border-color 0.2s ease;
+}
+
+.styled-table input:focus {
+  border-color: #66afe9;
+  outline: none;
+  background-color: #f8f9fa;
+}
+
+/* Botones de acción */
+.btn-submit {
+  background-color: #ff8800;
+  color: white;
+  padding: 8px 22px;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+  background-color: #e57700;
+}
+
+.btn-cancelar {
+  background-color: #adb5bd;
+  color: white;
+  padding: 8px 22px;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-cancelar:hover {
+  background-color: #8e9a9f;
+}
+
+

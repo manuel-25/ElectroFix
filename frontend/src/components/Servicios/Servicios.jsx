@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faPrint } from '@fortawesome/free-solid-svg-icons'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import ServiceFilters from '../ServiceFilters/ServiceFilters'
+import { formatDate } from '../../utils/formatDate.js'
 import './Servicios.css'
 
 const Servicios = () => {
@@ -197,7 +198,7 @@ const Servicios = () => {
                           {s.customerNumber}
                         </Link>
                       </td>
-                      <td>{new Date(s.createdAt).toLocaleDateString('es-AR')}</td>
+                      <td>{formatDate(s.createdAt)}</td>
                       <td>{s.equipmentType || '—'}</td>
                       <td>{s.description || '—'}</td>
                       <td>{s.userData.firstName + ' ' + s.userData.lastName || '—'}</td>
