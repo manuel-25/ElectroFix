@@ -15,13 +15,14 @@ const FormSubmissionStatus = ({ status, name, customerNumber, serviceRequestNumb
     }
   }, [status])
 
+  // 🔹 Disparo de conversiones de Google Ads
   useEffect(() => {
-    if (status === 'success') {
-      if (window.gtag) {
-        window.gtag('event', 'conversion', {
-          send_to: 'AW-16673611004/EUr9CIDS7pwbEPy5zI4-'
-        });
-      }
+    if (status === 'success' && window.gtag) {
+      window.gtag('event', 'conversion', {
+        send_to: 'AW-16673611004/ELA1CNG_-ZwbEPy5zI4-',
+        value: 1.0,
+        currency: 'ARS'
+      })
     }
   }, [status])
 
