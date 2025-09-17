@@ -1,30 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import './FormSubmissionStatus.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import './FormSubmissionStatus.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck, faTimesCircle } from '@fortawesome/free-regular-svg-icons'
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom'
 
 const FormSubmissionStatus = ({ status, name, customerNumber, serviceRequestNumber }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const navigate = useNavigate();
+  const [isLoaded, setIsLoaded] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (status !== 'pending') {
-      setIsLoaded(true);
+      setIsLoaded(true)
     }
-  }, [status]);
+  }, [status])
+
+  useEffect(() => {
+    if (status === 'success') {
+      if (window.gtag) {
+        window.gtag('event', 'conversion', {
+          send_to: 'AW-16673611004/EUr9CIDS7pwbEPy5zI4-'
+        });
+      }
+    }
+  }, [status])
 
   const onBackToMenu = () => {
-    navigate('/');
-  };
+    navigate('/')
+  }
 
   if (!isLoaded) {
     return (
       <div className="loading-container">
         <img src="/images/Rolling@1x-1.0s-200px-200px.gif" alt="Cargando..." className="loading-image" />
       </div>
-    );
+    )
   }
 
   return (
@@ -91,7 +101,7 @@ const FormSubmissionStatus = ({ status, name, customerNumber, serviceRequestNumb
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default FormSubmissionStatus;
+export default FormSubmissionStatus
