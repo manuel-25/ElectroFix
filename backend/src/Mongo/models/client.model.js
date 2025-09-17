@@ -7,7 +7,6 @@ const clientSchema = new mongoose.Schema({
   email: { 
     type: String, 
     unique: true, 
-    required: true, 
     lowercase: true, 
     trim: true, 
     match: [/^\S+@\S+\.\S+$/, 'Email inválido'] 

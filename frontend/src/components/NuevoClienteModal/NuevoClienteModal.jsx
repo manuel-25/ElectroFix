@@ -85,7 +85,7 @@ const NuevoClienteModal = ({ onClose, onClienteCreado }) => {
         {fieldErrors.dniOrCuit && <div className="field-error">{fieldErrors.dniOrCuit}</div>}
 
         <label>Email</label>
-        <input {...inputProps('email')} required />
+        <input {...inputProps('email')}/>
         {fieldErrors.email && <div className="field-error">{fieldErrors.email}</div>}
 
         <label>Teléfono</label>
