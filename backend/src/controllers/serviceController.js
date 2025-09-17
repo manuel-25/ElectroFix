@@ -74,15 +74,33 @@ class ServiceController {
         notes, code
       } = req.body
 
-      if (!userData?.email || !userData?.phone) {
-        return res.status(400).json({ error: 'Datos de cliente incompletos' })
+      // 📌 Validación mínima: el teléfono sí es obligatorio
+      if (!userData?.phone) {
+        return res.status(400).json({ error: 'Número de teléfono obligatorio' })
       }
 
-      const existingClient = await ClientManager.findByEmail(userData.email)
-      if (!existingClient) return res.status(404).json({ error: 'Cliente no encontrado' })
+      // 📌 Buscar cliente según lo disponible
+      let existingClient = null
 
+      if (userData.email) {
+        existingClient = await ClientManager.findByEmail(userData.email)
+      }
+      if (!existingClient && userData.customerNumber) {
+        existingClient = await ClientManager.getByCustomerNumber(userData.customerNumber)
+      }
+      if (!existingClient && userData.phone) {
+        existingClient = await ClientManager.getByPhone(userData.phone)
+      }
+
+      if (!existingClient) {
+        return res.status(404).json({ error: 'Cliente no encontrado' })
+      }
+
+      // 📌 Verificar que el código no exista
       const exists = await ServiceModel.findOne({ code })
-      if (exists) return res.status(400).json({ error: 'Ya existe un servicio con este código' })
+      if (exists) {
+        return res.status(400).json({ error: 'Ya existe un servicio con este código' })
+      }
 
       const isReceived = !!receivedAtBranch
       const initialStatus = isReceived ? 'Recibido' : 'Pendiente'
@@ -133,11 +151,13 @@ class ServiceController {
 
       const newService = await ServiceModel.create(newServiceData)
       res.status(201).json(newService)
+
     } catch (err) {
       console.error('❌ Error al crear servicio:', err)
       res.status(500).json({ error: 'Error al crear servicio', details: err.message })
     }
   }
+
 
   // ✅ getLastCode
   static async getLastCode(req, res) {

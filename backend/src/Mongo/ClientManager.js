@@ -39,6 +39,11 @@ class ClientManagerDao {
     return client ? { ...client.toObject(), createdAt: this.formatDate(client.createdAt) } : null
   }
 
+  async getByPhone(phone) {
+    const client = await this.clientModel.findOne({ phone })
+    return client ? { ...client.toObject(), createdAt: this.formatDate(client.createdAt) } : null
+  }
+
   async getByCustomerNumber(customerNumber) {
     const client = await this.clientModel.findOne({ customerNumber })
     return client ? { ...client.toObject(), createdAt: this.formatDate(client.createdAt) } : null
