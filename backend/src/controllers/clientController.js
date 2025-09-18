@@ -35,40 +35,40 @@ class ClientController {
   }
 
   // controllers/clientController.js (solo create)
-    static async createClient(req, res) {
-    try {
-      // 💡 Limpiar campo email si viene vacío
-      if (req.body.email?.trim() === '') {
-        delete req.body.email
-      }
-
-      const newClient = await ClientManager.create(req.body)
-      res.status(201).json(newClient)
-    } catch (error) {
-      if (error?.name === 'ValidationError') {
-        const errors = Object.fromEntries(
-          Object.entries(error.errors).map(([field, err]) => [field, err.message])
-        )
-        return res.status(400).json({
-          message: 'Revisá los campos marcados.',
-          errors
-        })
-      }
-
-      if (error?.code === 11000) {
-        const errors = {}
-        if (error.keyPattern?.email) errors.email = 'Este email ya está registrado.'
-        if (error.keyPattern?.customerNumber) errors.customerNumber = 'Número de cliente duplicado.'
-        return res.status(400).json({
-          message: 'Revisá los campos marcados.',
-          errors
-        })
-      }
-
-      console.error('🛑 Error al crear cliente:', error)
-      res.status(500).json({ message: 'Error al crear cliente', error: error.message })
+static async createClient(req, res) {
+  try {
+    // 💡 Limpiar campo email si viene vacío o nulo
+    if (!req.body.email || req.body.email.trim() === '') {
+      delete req.body.email
     }
+
+    const newClient = await ClientManager.create(req.body)
+    res.status(201).json(newClient)
+  } catch (error) {
+    if (error?.name === 'ValidationError') {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors).map(([field, err]) => [field, err.message])
+      )
+      return res.status(400).json({
+        message: 'Revisá los campos marcados.',
+        errors
+      })
+    }
+
+    if (error?.code === 11000) {
+      const errors = {}
+      if (error.keyPattern?.email) errors.email = 'Este email ya está registrado.'
+      if (error.keyPattern?.customerNumber) errors.customerNumber = 'Número de cliente duplicado.'
+      return res.status(400).json({
+        message: 'Revisá los campos marcados.',
+        errors
+      })
+    }
+
+    console.error('🛑 Error al crear cliente:', error)
+    res.status(500).json({ message: 'Error al crear cliente', error: error.message })
   }
+}
 
 
   static async updateClient(req, res) {

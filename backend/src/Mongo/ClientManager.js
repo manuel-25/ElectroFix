@@ -50,9 +50,20 @@ class ClientManagerDao {
   }
 
   async create(data) {
-    const existing = await this.clientModel.findOne({ email: data.email })
-    if (existing) {
-      throw new Error('El email ya está registrado')
+    // Eliminar el campo si viene vacío o nulo
+    if (!data.email || data.email.trim() === '') {
+      delete data.email
+    }
+
+    // Validar duplicado solo si hay email definido
+    if (data.email) {
+      const existing = await this.clientModel.findOne({ email: data.email })
+      if (existing) {
+        const err = new Error('El email ya está registrado')
+        err.code = 11000
+        err.keyPattern = { email: 1 }
+        throw err
+      }
     }
 
     data.date = this.getArgentinaTime()
