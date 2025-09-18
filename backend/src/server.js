@@ -35,7 +35,6 @@ app.use(cookieParser())
 app.use(express.json())
 
 // Routes
-app.use('/api/service-requests', serviceRequestRouter)
 app.use('/api/quotes', quoteRoutes)
 app.use('/api/manager', userRoutes)
 app.use('/api/client', clientRoutes)

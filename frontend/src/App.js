@@ -31,9 +31,11 @@ import ClientDetail from './components/ClientDetail/ClientDetail.jsx'
 import ServiceDetail from './components/ServiceDetail/ServiceDetail.jsx'
 import TicketViewer from './components/TicketViewer/TicketViewer.jsx'
 import EditarServicio from './components/EditarServicio/EditarServicio.jsx'
+import useGtagPageView from './utils/useGtagPageView.js'
 
 function AppContent() {
   const location = useLocation()
+  useGtagPageView()
 
   return (
     <div className="App">
