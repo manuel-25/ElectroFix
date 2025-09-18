@@ -35,12 +35,16 @@ class ClientController {
   }
 
   // controllers/clientController.js (solo create)
-  static async createClient(req, res) {
+    static async createClient(req, res) {
     try {
+      // 💡 Limpiar campo email si viene vacío
+      if (req.body.email?.trim() === '') {
+        delete req.body.email
+      }
+
       const newClient = await ClientManager.create(req.body)
       res.status(201).json(newClient)
     } catch (error) {
-      // ValidationError de Mongoose
       if (error?.name === 'ValidationError') {
         const errors = Object.fromEntries(
           Object.entries(error.errors).map(([field, err]) => [field, err.message])
@@ -50,7 +54,7 @@ class ClientController {
           errors
         })
       }
-      // Duplicado de índice único (email / customerNumber)
+
       if (error?.code === 11000) {
         const errors = {}
         if (error.keyPattern?.email) errors.email = 'Este email ya está registrado.'
@@ -60,8 +64,9 @@ class ClientController {
           errors
         })
       }
-      console.error(error)
-      res.status(500).json({ message: 'Error al crear cliente' })
+
+      console.error('🛑 Error al crear cliente:', error)
+      res.status(500).json({ message: 'Error al crear cliente', error: error.message })
     }
   }
 
