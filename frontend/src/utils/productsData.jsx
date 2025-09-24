@@ -1,6 +1,6 @@
 //Lista de Categorias en orden que aparecen
 export const products = [
-{ id: 1, name: 'Air Fryer' },
+  { id: 1, name: 'Air Fryer' },
   { id: 2, name: 'Aspiradora' },
   { id: 3, name: 'Aspiradora Robot' },
   { id: 16, name: 'Anafe eléctrico' },
@@ -14,7 +14,9 @@ export const products = [
   { id: 15, name: 'Horno empotrable' },
   { id: 10, name: 'Microondas' },
   { id: 13, name: 'Televisor' },
-  { id: 14, name: 'Ventilador' }
+  { id: 14, name: 'Ventilador' },
+  { id: 19, name: 'Heladera' },
+  { id: 20, name: 'Freezer' }
 ]
 
 // Lista de IDs de categorías con NEW TAG
@@ -30,7 +32,7 @@ export const additionalDetailsConfig = [
         label: "¿Su ventilador es de ...?",
         type: "select",
         options: [
-            { value: "piso", label: "Piso" },
+            { value: "pie", label: "Pie" },
             { value: "pared", label: "Pared" },
         ]
     }
@@ -344,6 +346,30 @@ export const detailedBrandsByCategory = {
             'Kacemaster': [],
             'Otros': []
         }
+    },
+    19: {
+        name: 'Heladera',
+        brands: {
+            'Samsung': [],
+            'LG': [],
+            'Whirlpool': [],
+            'Electrolux': [],
+            'Philco': [],
+            'Patrick': [],
+            'Gafa': [],
+            'Otros': []
+        }
+        },
+        20: {
+        name: 'Freezer',
+        brands: {
+            'Patrick': [],
+            'Gafa': [],
+            'Whirlpool': [],
+            'Philco': [],
+            'Briket': [],
+            'Otros': []
+        }
     }
 }
 
@@ -388,6 +414,10 @@ export const faultsByCategory = {
     17: ['No enciende', 'No calienta', 'Error en el sensor', 'Pantalla táctil no responde', 'Se apaga sola', 'Mantenimiento / Limpieza', 'Otra'],
     // Cocina Eléctrica
     18: ['No enciende', 'No calienta', 'Olor a quemado', 'Salta la térmica', 'Problemas con el termostato', 'Se apaga sola', 'Mantenimiento / Limpieza', 'Otra'],
+    // Heladera
+    19: ['No enciende','No enfría','Enfría poco','Hace hielo en exceso','Pérdida de gas','Motor no arranca','Hace ruidos fuertes','Problemas en el termostato','Fugas de agua','Se apaga sola','Otra'],
+    // Freezer
+    20: ['No enciende','No congela','Pierde frío','Hace hielo en exceso','Pérdida de gas','Motor no arranca','Hace ruidos fuertes','Problemas en el termostato','Fugas de agua','Se apaga solo','Otra']
 }
 
 export const brandLogos = [
