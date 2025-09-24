@@ -52,20 +52,6 @@ const EditarServicio = () => {
     fetchData()
   }, [auth, code])
 
-  //borrar despues log 
-  useEffect(() => {
-  if (formData) {
-    console.group('Datos del servicio')
-    console.log('ID:', formData._id)
-    console.log('Código:', formData.code)
-    console.log('Cliente:', formData.customerNumber)
-    console.log('Marca:', formData.brand)
-    console.log('Modelo:', formData.model)
-    console.log('Tipo:', formData.equipmentType)
-    console.groupEnd()
-  }
-}, [formData])
-
   const clienteOptions = clientes.map(c => ({
     value: c.customerNumber,
     label: `#${c.customerNumber} - ${c.firstName} ${c.lastName}`
@@ -188,7 +174,6 @@ const EditarServicio = () => {
 
           <div className="form-section full-width">
             <label>Descripción*</label>
-            {console.log('formDatA: ', formData)}
             <textarea
               name="userDescription"
               value={formData.userDescription}

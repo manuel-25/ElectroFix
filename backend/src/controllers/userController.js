@@ -9,7 +9,6 @@ const blacklist = []
 class UserController {    // Crear un nuevo usuario
 static async createUser(req, res) {
     try {
-        console.log('BODY RECIBIDO:', req.body)
         const { email, password, role, firstName, lastName, branch } = req.body
         // Validar que se reciban los campos necesarios
         if (!email || !password) {

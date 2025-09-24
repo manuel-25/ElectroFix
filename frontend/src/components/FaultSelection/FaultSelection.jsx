@@ -33,7 +33,6 @@ const FaultSelection = ({ selectedCategory, nextStep, updateFormData }) => {
 
   const handleAlertAction = (action) => {
     if (action === "continue") {
-      console.log('selectedFaults: ', selectedFaults)
       updateFormData("faults", selectedFaults)
       setCurrentAlert(null)
       nextStep()
