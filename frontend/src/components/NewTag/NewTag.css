@@ -1,12 +1,10 @@
 .new-tag {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 12px;
-    font-size: 12px !important;
-    font-weight: bold;
-    color: white !important;
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    transform: translate(10%, -10%);
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 11px !important;
+  font-weight: bold;
+  color: white !important;
+  vertical-align: middle;
 }

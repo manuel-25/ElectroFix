@@ -12,26 +12,24 @@ const CategorySelection = ({ nextStep, updateFormData}) => {
   }
 
   return (
-    <div className="selection-container">
-      <h3>¿Qué necesita reparación?</h3>
-      <div className="selection-list">
-        {products.map(category => (
-          <div
-            key={category.id}
-            className="selection-item"
-            onClick={() => handleCategorySelect(category)}
-          >
-            {/* <img src={iconPath} alt={category.name} className="category-icon" /> */}
-            <span>{category.name}</span>
+    <div className="selection-list">
+      {products.map(category => (
+        <div
+          key={category.id}
+          className="selection-item"
+          onClick={() => handleCategorySelect(category)}
+        >
+          <span className="category-label">
+            {category.name}
             {newCategoryIds.includes(category.id) && (
               <NewTag text="Nuevo" color="var(--green-color)" />
             )}
             {discountCategoryIds.includes(category.id) && (
               <NewTag text="-10%" color="var(--primary-color)" />
             )}
-          </div>
-        ))}
-      </div>
+          </span>
+        </div>
+      ))}
     </div>
   )
 }

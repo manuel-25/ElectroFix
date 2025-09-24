@@ -1,24 +1,21 @@
 //Lista de Categorias en orden que aparecen
 export const products = [
-    { id: 1, name: 'Air Fryer' },
-    { id: 3, name: 'Aspiradora Robot' },
-    { id: 2, name: 'Aspiradora' },
-    { id: 4, name: 'Cafetera' },
-    { id: 5, name: 'Cava de Vino' },
-    { id: 13, name: 'Televisor' },
-    { id: 7, name: 'Estufa eléctrica' },
-    { id: 8, name: 'Freidora Industrial' },
-    { id: 9, name: 'Horno Eléctrico' },
-    { id: 15, name: 'Horno Empotrable' },
-    { id: 10, name: 'Microondas' },
-    { id: 14, name: 'Ventilador' },
-    { id: 16, name: 'Anafe eléctrico' },
-    { id: 17, name: 'Anafe a Inducción' },
-    { id: 18, name: 'Cocina Eléctrica' },
-    { id: 11, name: 'Notebook' },
-    { id: 12, name: 'Smartphone' },
-    { id: 6, name: 'Consola' },
-  ]
+{ id: 1, name: 'Air Fryer' },
+  { id: 2, name: 'Aspiradora' },
+  { id: 3, name: 'Aspiradora Robot' },
+  { id: 16, name: 'Anafe eléctrico' },
+  { id: 17, name: 'Anafe a inducción' },
+  { id: 4, name: 'Cafetera' },
+  { id: 5, name: 'Cava de Vino' },
+  { id: 18, name: 'Cocina eléctrica' },
+  { id: 7, name: 'Estufa eléctrica' },
+  { id: 8, name: 'Freidora industrial' },
+  { id: 9, name: 'Horno eléctrico' },
+  { id: 15, name: 'Horno empotrable' },
+  { id: 10, name: 'Microondas' },
+  { id: 13, name: 'Televisor' },
+  { id: 14, name: 'Ventilador' }
+]
 
 // Lista de IDs de categorías con NEW TAG
 export const newCategoryIds = [8, 16, 17, 18]
