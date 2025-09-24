@@ -88,7 +88,7 @@ const FormSubmissionStatus = ({ status, name, customerNumber, serviceRequestNumb
               className="whatsapp-link"
             >
               <img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" className="whatsapp-icon" />
-              <strong>+54 911 3914-8766</strong>
+              <strong>+54 9 11 7066-4306</strong>
             </a>
             <a href="mailto:electrosafeservice@gmail.com" className="email-link">
               <FontAwesomeIcon icon={faEnvelope} className="social-icon" />

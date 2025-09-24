@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { products, additionalDetailsConfig } from '../../utils/productsData.jsx'
 import { steps } from '../../utils/productsData.jsx'
+import { logError } from '../../utils/logger.js'
 import './Services.css'
 
 // Importar los subcomponentes
@@ -115,11 +116,17 @@ const Services = () => {
     const updatedFormData = { ...formData, date }
 
     try {
-      const response = await fetch('https://electrosafeweb.com/api/quotes/', {       //https://electrosafeweb.com/api/service-requests
+      const response = await fetch('https://electrosafeweb.com/api/quotes/', {       //https://electrosafeweb.com/api/quotes/
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedFormData),
       })
+
+      if (!response.ok) {
+        const text = await response.text()
+        throw new Error(`HTTP ${response.status}: ${text}`)
+      }
+
       const responseData = await response.json()
 
       if (!response.ok) {
@@ -139,7 +146,8 @@ const Services = () => {
       }))
       setSubmitStatus('success')
     } catch (error) {
-      console.error('Error submitting form:', error)
+      //console.error('Error submitting form:', error)
+      logError(`Error al enviar Cotización: ${error.message || JSON.stringify(error)}`)
       setSubmitStatus('error')
     }
   }
