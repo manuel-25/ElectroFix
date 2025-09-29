@@ -77,7 +77,7 @@ static async createUser(req, res) {
                     role: user.role
                 },
                 config.JWT_SECRET,
-                { expiresIn: '1h' }
+                { expiresIn: '4h' }
             )
 
             // Configurar la cookie con HttpOnly y Secure

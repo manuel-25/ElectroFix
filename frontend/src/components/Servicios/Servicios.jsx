@@ -66,6 +66,27 @@ const Servicios = () => {
     fetchAll()
   }, [auth])
 
+  //Recarga si actualizan el estado
+  useEffect(() => {
+    const fetchLatest = async () => {
+      try {
+        const res = await axios.get(`${getApiUrl()}/api/service`, {
+          headers: { Authorization: `Bearer ${auth?.token}` },
+          withCredentials: true
+        })
+        setServices(res.data || [])
+      } catch (e) {
+        console.error('Error al actualizar servicios', e)
+      }
+    }
+
+    const intervalId = setInterval(() => {
+      fetchLatest()
+    }, 15000) // cada 15 segundos
+
+    return () => clearInterval(intervalId)
+  }, [auth])
+
   const handleSort = key => {
     let direction = 'asc'
     if (sortConfig.key === key && sortConfig.direction === 'asc') direction = 'desc'

@@ -658,7 +658,8 @@ export const equipoOptions = [
   { value: 'Rotopercutor', label: 'Rotopercutor' },
   { value: 'Radio', label: 'Radio' },
   { value: 'Velador', label: 'Velador' },
-  { value: 'Procesadora', label: 'Procesadora' }
+  { value: 'Procesadora', label: 'Procesadora' },
+  { value: 'Pava Eléctrica', label: 'Pava Electrica'}
 ]
 
 export const estadosServicio = [

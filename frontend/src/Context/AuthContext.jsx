@@ -1,9 +1,8 @@
-// frontend/src/Context/AuthContext.jsx
 import React, { createContext, useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { getApiUrl } from '../config.js' // 👈 función centralizada para leer la URL de la API
+import { getApiUrl } from '../config.js'
 
 export const AuthContext = createContext()
 
@@ -20,6 +19,7 @@ export const AuthProvider = ({ children }) => {
       if (!token) {
         setAuth(null)
         setLoading(false)
+        navigate('/manager')
         return
       }
 
@@ -33,17 +33,19 @@ export const AuthProvider = ({ children }) => {
           setAuth({ token, user: response.data.user })
         } else {
           setAuth(null)
+          navigate('/manager')
         }
       } catch (err) {
         console.error('Token inválido o expirado', err)
         setAuth(null)
+        navigate('/manager')
       } finally {
         setLoading(false)
       }
     }
 
     verifyToken()
-  }, [])
+  }, [navigate])
 
   /* === Login === */
   const login = async (email, password, remember = true) => {
