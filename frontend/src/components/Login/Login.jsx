@@ -2,6 +2,7 @@ import './Login.css'
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../../Context/AuthContext.jsx'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 
 const MAX_ATTEMPTS = 5
 const LOCK_TIME = 180 // segundos (3 minutos)
@@ -14,6 +15,7 @@ const Login = () => {
     const [attempts, setAttempts] = useState(0)
     const [lockUntil, setLockUntil] = useState(null)
     const { login, loading, error } = useContext(AuthContext)
+    const navigate = useNavigate() // 👈 para redirigir
 
     // Timer para lockout
     React.useEffect(() => {
@@ -27,6 +29,7 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault()
         if (lockUntil && Date.now() < lockUntil) return
+
         const success = await login(email, password, remember)
         if (!success) {
             if (attempts + 1 >= MAX_ATTEMPTS) {
@@ -37,6 +40,7 @@ const Login = () => {
             }
         } else {
             setAttempts(0)
+            navigate('/dashboard')
         }
     }
 

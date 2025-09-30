@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
-        credentials: 'include'
+        credentials: 'include' // mantiene la sesión si usás cookies en backend
       })
 
       if (!response.ok) {
@@ -60,9 +60,11 @@ export const AuthProvider = ({ children }) => {
       }
 
       const data = await response.json()
+
+      // ⚠️ IMPORTANTE: secure solo en producción
       Cookies.set('authToken', data.token, {
         expires: remember ? 7 : undefined,
-        secure: true
+        secure: process.env.NODE_ENV === 'production'
       })
 
       setAuth({ token: data.token, user: data.user })
