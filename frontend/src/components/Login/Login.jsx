@@ -84,7 +84,7 @@ const Login = () => {
                             onChange={() => setRemember(v => !v)}
                             disabled={loading || secondsLeft > 0}
                         />
-                        Mantener sesión iniciada (7 días)
+                        Mantener sesión iniciada (4 horas)
                     </label>
                 </div>
                 {error && <div className="error-message">{error}</div>}
