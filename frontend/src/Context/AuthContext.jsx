@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../config.js'
 
 export const AuthContext = createContext()
@@ -10,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const navigate = useNavigate()
 
   /* === Verificación automática de token === */
   useEffect(() => {
@@ -19,7 +17,6 @@ export const AuthProvider = ({ children }) => {
       if (!token) {
         setAuth(null)
         setLoading(false)
-        navigate('/manager')
         return
       }
 
@@ -33,19 +30,17 @@ export const AuthProvider = ({ children }) => {
           setAuth({ token, user: response.data.user })
         } else {
           setAuth(null)
-          navigate('/manager')
         }
       } catch (err) {
         console.error('Token inválido o expirado', err)
         setAuth(null)
-        navigate('/manager')
       } finally {
         setLoading(false)
       }
     }
 
     verifyToken()
-  }, [navigate])
+  }, [])
 
   /* === Login === */
   const login = async (email, password, remember = true) => {
@@ -72,7 +67,6 @@ export const AuthProvider = ({ children }) => {
 
       setAuth({ token: data.token, user: data.user })
       setError(null)
-      navigate('/dashboard')
       return true
     } catch (err) {
       console.error('Error en login:', err)
@@ -98,7 +92,6 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove('authToken')
     setAuth(null)
     setLoading(false)
-    navigate('/manager')
   }
 
   return (

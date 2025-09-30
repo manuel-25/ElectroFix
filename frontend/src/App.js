@@ -42,6 +42,7 @@ function AppContent() {
       <Navbar />
       <main>
         <Routes>
+          {/* 🌐 Rutas públicas */}
           <Route path="/" element={<MainContent />} />
           <Route path="/nosotros" element={<AboutUs />} />
           <Route path="/contacto" element={<Contact />} />
@@ -50,57 +51,89 @@ function AppContent() {
           <Route path="/privacidad" element={<PrivacyPolicy />} />
           <Route path="/manager" element={<Login />} />
 
-          {/* Rutas protegidas */}
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <DashboardLayout><Dashboard /></DashboardLayout>
-            </ProtectedRoute>
-          } />
-          <Route path="/cotizaciones" element={
-            <ProtectedRoute>
-              <DashboardLayout><Cotizaciones /></DashboardLayout>
-            </ProtectedRoute>
-          } />
-          <Route path="/cotizaciones/:id" element={
-            <ProtectedRoute>
-              <DashboardLayout><QuoteDetail /></DashboardLayout>
-            </ProtectedRoute>
-          } />
-          <Route path="/clientes" element={
-            <ProtectedRoute>
-              <DashboardLayout><Clients /></DashboardLayout>
-            </ProtectedRoute>
-          } />
-          <Route path="/clientes/:id" element={
-            <ProtectedRoute>
-              <DashboardLayout><ClientDetail /></DashboardLayout>
-            </ProtectedRoute>
-          } />
-          <Route path="/servicios" element={
-            <ProtectedRoute>
-              <DashboardLayout><Servicios /></DashboardLayout>
-            </ProtectedRoute>
-          } />
-          <Route path="/servicios/nuevo" element={
-            <ProtectedRoute>
-              <DashboardLayout><NuevoServicio /></DashboardLayout>
-            </ProtectedRoute>
-          } />
-          <Route path="/servicios/:code/editar" element={
-            <ProtectedRoute>
-              <DashboardLayout><EditarServicio /></DashboardLayout>
-            </ProtectedRoute>
-          } />
-          <Route path="/servicios/:code" element={
-            <ProtectedRoute>
-              <DashboardLayout><ServiceDetail /></DashboardLayout>
-            </ProtectedRoute>
-          } />
-          <Route path="/perfil" element={
-            <ProtectedRoute>
-              <DashboardLayout><Perfil /></DashboardLayout>
-            </ProtectedRoute>
-          } />
+          {/* 🔒 Rutas protegidas */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout><Dashboard /></DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cotizaciones"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout><Cotizaciones /></DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cotizaciones/:id"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout><QuoteDetail /></DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/clientes"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout><Clients /></DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/clientes/:id"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout><ClientDetail /></DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/servicios"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout><Servicios /></DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/servicios/nuevo"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout><NuevoServicio /></DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/servicios/:code/editar"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout><EditarServicio /></DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/servicios/:code"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout><ServiceDetail /></DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/perfil"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout><Perfil /></DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* ❌ No encontrada */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
@@ -115,10 +148,10 @@ function App() {
     <Router>
       <AuthProvider>
         <Routes>
-          {/* 🧾 Mostrar el TicketViewer de forma aislada */}
+          {/* 🧾 Ticket público (sin login) */}
           <Route path="/ticket/:publicId" element={<TicketViewer />} />
 
-          {/* 🌐 Todo lo demás con layout completo */}
+          {/* 🌐 Todo lo demás con layout */}
           <Route path="*" element={<AppContent />} />
         </Routes>
       </AuthProvider>
