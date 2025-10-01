@@ -32,6 +32,7 @@ import ServiceDetail from './components/ServiceDetail/ServiceDetail.jsx'
 import TicketViewer from './components/TicketViewer/TicketViewer.jsx'
 import EditarServicio from './components/EditarServicio/EditarServicio.jsx'
 import useGtagPageView from './utils/useGtagPageView.js'
+import FormSubmissionStatus from './components/FormSubmissionStatus/FormSubmissionStatus.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -47,6 +48,7 @@ function AppContent() {
           <Route path="/nosotros" element={<AboutUs />} />
           <Route path="/contacto" element={<Contact />} />
           <Route path="/reparacion-electrodomesticos" element={<Services />} />
+          <Route path="/confirmacion" element={<FormSubmissionStatus />} />
           <Route path="/terminos-condiciones" element={<TermsAndConditions />} />
           <Route path="/privacidad" element={<PrivacyPolicy />} />
           <Route path="/manager" element={<Login />} />

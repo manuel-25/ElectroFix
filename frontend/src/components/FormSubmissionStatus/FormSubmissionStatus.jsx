@@ -3,14 +3,18 @@ import './FormSubmissionStatus.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
-const FormSubmissionStatus = ({ status, name, customerNumber, serviceRequestNumber }) => {
+const FormSubmissionStatus = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
+
+  // 🔹 Datos que recibimos desde navigate en Services.jsx
+  const { status, name, customerNumber, serviceRequestNumber } = location.state || {}
 
   useEffect(() => {
-    if (status !== 'pending') {
+    if (status && status !== 'pending') {
       setIsLoaded(true)
     }
   }, [status])
@@ -45,18 +49,18 @@ const FormSubmissionStatus = ({ status, name, customerNumber, serviceRequestNumb
           <FontAwesomeIcon icon={faCircleCheck} className="status-icon" />
           <h3 className="message-header">¡Gracias por tu solicitud, {name}!</h3>
           <p className="message-body">Recibimos tu cotización con éxito.</p>
-          <p className="message-body">
+          <p className="message-body-small">
             En breve, uno de nuestros especialistas se pondrá en contacto para avanzar con el proceso.
             A continuación, te dejamos una guía para que todo sea más ágil:
           </p>
 
           <div className="next-steps">
-            <h4 className="next-steps-header">¿Qué hacer?</h4>
+            <h4 className="next-steps-header">Siguientes Pasos:</h4>
             <ol className="steps-list">
               <li className="step-item">Tené a mano fotos o videos del equipo, donde se vea la etiqueta del modelo y la falla.</li>
               <li className="step-item">Esperá nuestro mensaje por Whatsapp.</li>
-              <li className="step-item">Coordiná la reparación con el técnico asignado.</li>
-              <li className="step-item">Recibí tu equipo reparado.</li>
+              <li className="step-item">Coordiná la reparación con el técnico asignado para que te asignen un código.</li>
+              <li className="step-item">Con tu código trae tu equipo a cualquiera de nuestras sucursales.</li>
             </ol>
           </div>
 
@@ -67,7 +71,7 @@ const FormSubmissionStatus = ({ status, name, customerNumber, serviceRequestNumb
           </div>
 
           <div>
-            <img className="logo-electrosafe" src="./ELECTROSAFE.svg" alt="Electrosafe logo" />
+            <img className="logo-electrosafe" src="./images/electrosafeLogo1300x600.jpg" alt="Electrosafe logo" />
           </div>
         </div>
       )}

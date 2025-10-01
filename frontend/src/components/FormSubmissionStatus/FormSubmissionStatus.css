@@ -10,6 +10,11 @@
     height: 100px;
 }
 
+/* ===== CONTENEDOR PRINCIPAL ===== */
+main {
+    background-image: url('../../../public/images/group-doodle.svg');
+}
+
 .submission-status {
     background-color: var(--white-color);
     padding: 40px; 
@@ -20,13 +25,14 @@
     font-family: 'Inter', sans-serif;
     border: 1px solid #e0e0e0; 
     position: relative; 
+    text-align: center;
 }
 
+/* ===== MENSAJE ===== */
 .status-message {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
 }
 
 .status-icon {
@@ -43,22 +49,33 @@
 }
 
 .message-header {
-    font-size: 30px; 
+    font-size: 28px; 
     margin-bottom: 12px; 
     font-weight: 700; 
     color: #333; 
+    line-height: 1.3;
 }
 
 .message-body {
-    font-size: 20px; 
-    color: #666; 
+    font-size: 18px; 
+    color: #555; 
+    margin-bottom: 12px;
+    line-height: 1.5;
 }
 
+.message-body-small {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+/* ===== CONTACTO ===== */
 .contact-info {
     margin-top: 15px; 
     display: flex; 
     flex-direction: column; 
     align-items: center; 
+    gap: 8px;
 }
 
 .whatsapp-link {
@@ -66,37 +83,40 @@
     align-items: center; 
     text-decoration: none; 
     color: var(--text-color); 
-    margin-bottom: 10px; 
 }
 
 .whatsapp-link strong {
-    font-size: 18px; 
+    font-size: 16px; 
 }
 
 .whatsapp-icon {
-    width: 30px; 
-    height: 30px; 
+    width: 28px; 
+    height: 28px; 
     margin-right: 8px; 
 }
 
 .email-link {
-    font-size: 18px; 
+    font-size: 16px; 
     color: black;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .email-link svg {
-    margin-right: 8px;
-    font-size: 20px; 
+    font-size: 18px; 
     color: var(--secondary-color);
 }
 
 .contact-title {
-    font-size: 22px; 
+    font-size: 18px; 
     color: var(--text-color);
-    margin-top: 25px; 
+    margin-top: 20px; 
+    font-weight: 600;
 }
 
+/* ===== PASOS ===== */
 .next-steps {
     margin-top: 20px; 
     width: 100%; 
@@ -104,7 +124,7 @@
 }
 
 .next-steps-header {
-    font-size: 20px; 
+    font-size: 18px; 
     margin-bottom: 10px; 
     font-weight: 600; 
     color: #333; 
@@ -113,40 +133,41 @@
 .steps-list {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 .step-item {
-    font-size: 16px;
-    color: #666;
+    font-size: 15px;
+    color: #555;
     margin-bottom: 8px;
     position: relative;
-    padding-left: 28px; /* espacio para el tilde */
-    line-height: 1.5; /* ayuda a mantener proporción vertical */
+    padding-left: 28px;
+    line-height: 1.5;
 }
 
 .step-item::before {
-    content: '✔'; /* o '✔️' o '\2714' */
+    content: '✔'; 
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 24px; /* más grande que 16px */
+    font-size: 20px; 
     color: #28a745; 
-    line-height: 1; /* importante para evitar que se vea desalineado */
+    line-height: 1;
 }
 
+/* ===== BOTÓN ===== */
 .errorBack-button {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 12px 25px; 
+    padding: 10px 20px; 
     color: var(--white-color);
     background-color: var(--primary-color);
-    border-radius: 30px; 
+    border-radius: 25px; 
     font-weight: bold;
-    font-size: 1rem; 
-    line-height: 1.75;
-    margin: 25px auto; 
+    font-size: 0.95rem; 
+    margin: 20px auto; 
     cursor: pointer;
     border: none;
     outline: none;
@@ -156,72 +177,24 @@
     background-color: var(--primary-color-hover);
 }
 
+/* ===== NUMEROS Y LOGO ===== */
 .number-detail {
-    margin-top: 40px; 
-    font-size: 18px; 
+    margin-top: 25px; 
+    font-size: 15px; 
     color: #333; 
 }
 
 .logo-electrosafe {
-    height: 100px;
-    margin-top: 30px;
+    height: 80px;
+    margin-top: 20px;
 }
 
-/* Estilos responsivos */
-@media (max-width: 1200px) {
-    .number-detail {
-        font-size: 16px; 
-    }
-}
-
+/* ===== RESPONSIVO ===== */
 @media (max-width: 768px) {
     .submission-status {
-        padding: 20px;
-    }
-
-    .number-detail {
-        font-size: 14px; 
-    }
-
-    .message-header {
-        font-size: 24px;
-    }
-
-    .message-body {
-        font-size: 16px;
-    }
-
-    .contact-title {
-        font-size: 18px;
-    }
-
-    .next-steps-header {
-        font-size: 16px;
-    }
-
-    .step-item {
-        font-size: 14px;
-    }
-
-    .whatsapp-link strong,
-    .email-link {
-        font-size: 16px;
-    }
-
-    .errorBack-button {
-        padding: 10px 20px; 
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .submission-status {
-        padding: 15px;
-    }
-
-    .number-detail {
-        font-size: 12px; 
-        text-align: center; 
+        padding: 20px 15px;
+        margin: 20px;
+        max-width: 90%;
     }
 
     .message-header {
@@ -229,14 +202,41 @@
     }
 
     .message-body {
-        font-size: 14px;
-    }
-
-    .contact-title {
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .next-steps-header {
+        font-size: 15px;
+    }
+
+    .step-item {
+        font-size: 14px;
+    }
+
+    .number-detail {
+        font-size: 13px;
+    }
+
+    .logo-electrosafe {
+        height: 65px;
+    }
+}
+
+@media (max-width: 480px) {
+    .submission-status {
+        padding: 15px 12px;
+        margin: 15px;
+    }
+
+    .status-icon {
+        font-size: 40px;
+    }
+
+    .message-header {
+        font-size: 20px;
+    }
+
+    .message-body {
         font-size: 14px;
     }
 
@@ -244,13 +244,12 @@
         font-size: 13px;
     }
 
-    .whatsapp-link strong,
-    .email-link {
-        font-size: 14px;
+    .number-detail {
+        font-size: 12px;
     }
 
     .errorBack-button {
-        padding: 8px 15px; 
-        font-size: 0.8rem;
+        font-size: 0.85rem;
+        padding: 8px 14px;
     }
 }

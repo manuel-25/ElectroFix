@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { products, additionalDetailsConfig } from '../../utils/productsData.jsx'
 import { steps } from '../../utils/productsData.jsx'
 import { logError } from '../../utils/logger.js'
@@ -18,6 +18,7 @@ import ServiceSelection from '../ServiceSelection/ServiceSelection.jsx'
 
 const Services = () => {
   const location = useLocation()
+  const navigate = useNavigate()
   const queryParams = new URLSearchParams(location.search)
 
   // Estado para el paso actual, datos del formulario, estado de envío y detalles adicionales
@@ -158,6 +159,20 @@ const Services = () => {
       handleSubmit()
     }
   }, [step])
+
+  // 🔹 Redirigir a /confirmacion cuando termina el submit
+  useEffect(() => {
+    if (submitStatus === 'success' || submitStatus === 'error') {
+      navigate('/confirmacion', {
+        state: {
+          status: submitStatus,
+          name: formData.userData.firstName,
+          customerNumber: formData.userData.customerNumber,
+          serviceRequestNumber: formData.userData.serviceRequestNumber
+        }
+      })
+    }
+  }, [submitStatus, formData, navigate])
 
   return (
     <div className="services">
