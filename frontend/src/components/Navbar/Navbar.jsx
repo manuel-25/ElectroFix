@@ -6,7 +6,7 @@ import { faUser } from '@fortawesome/free-regular-svg-icons'
 import { faBars, faTimes, faCircleQuestion, faPhone, faUserFriends, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { faUserShield, faGears } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../../Context/AuthContext' // Importar el contexto de autenticación
+import { AuthContext } from '../../Context/AuthContext'
 
 function Navbar() {
     const { auth, logout } = useContext(AuthContext)
@@ -36,11 +36,13 @@ function Navbar() {
                             <img className='logo' src="/images/electrosafeLogo1300x600.jpg" alt="Electrosafe" />
                         </Link>
                     </div>
-                    <nav className="navbar-links">
-                        <Link to="/reparacion-electrodomesticos" className="nav-link">Servicios</Link>
-                        <Link to="/nosotros" className="nav-link">Sobre Nosotros</Link>
-                        <Link to="/contacto" className="nav-link">Contacto</Link>
-                    </nav>
+                    {!auth?.token && (
+                        <nav className="navbar-links">
+                            <Link to="/reparacion-electrodomesticos" className="nav-link">Servicios</Link>
+                            <Link to="/nosotros" className="nav-link">Sobre Nosotros</Link>
+                            <Link to="/contacto" className="nav-link">Contacto</Link>
+                        </nav>
+                    )}
                     <div className="navbar-right">
                     {auth?.token && (
                         <div className="admin-icons">
@@ -55,9 +57,11 @@ function Navbar() {
                         </button>
                         </div>
                     )}
-                    <Link to="/reparacion-electrodomesticos">
-                        <QuoteButton text="Cotizar Ahora" onClick={handleQuoteClick} />
-                    </Link>
+                    {!auth?.token && (
+                        <Link to="/reparacion-electrodomesticos">
+                            <QuoteButton text="Cotizar Ahora" onClick={handleQuoteClick} />
+                        </Link>
+                    )}
                     </div>
                     <FontAwesomeIcon 
                         icon={faTimes} 
