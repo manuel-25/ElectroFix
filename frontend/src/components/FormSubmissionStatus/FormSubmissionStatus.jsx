@@ -23,7 +23,7 @@ const FormSubmissionStatus = () => {
   useEffect(() => {
     if (status === 'success' && window.gtag) {
       window.gtag('event', 'conversion', {
-        send_to: 'AW-16673611004/ELA1CNG_-ZwbEPy5zI4-',
+        send_to: 'AW-16673611004/_VMICPe79aUbEPy5zI4-',
         value: 1.0,
         currency: 'ARS'
       })
