@@ -307,10 +307,21 @@ function MainContent() {
           <QuoteButton text="Cotizar Ahora" />
         </Link>
       </article>
-            <div className='whatsapp-float'>
-            <a href="https://wa.me/5491170664306?text=Hola,%20me%20comunico%20desde%20la%20web%20de%20Electrosafe%20para%20recibir%20la%20mejor%20cotización." target="_blank" rel="noopener noreferrer">
-                  <img src='/images/whatsappLogo.svg' alt='WhatsApp' />
-              </a>
+          <div className='whatsapp-float'>
+            <a 
+              href="https://wa.me/5491170664306?text=Hola,%20me%20comunico%20desde%20la%20web%20de%20Electrosafe%20para%20recibir%20la%20mejor%20cotización." 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={() => {
+                if (window.gtag) {
+                  window.gtag('event', 'conversion', {
+                    'send_to': 'AW-16673611004/49hxCIfl_aUbEPy5zI4-'
+                  })
+                }
+              }}
+            >
+              <img src='/images/whatsappLogo.svg' alt='WhatsApp' />
+            </a>
           </div>
     </div>
   )
