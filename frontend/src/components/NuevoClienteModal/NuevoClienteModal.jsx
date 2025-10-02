@@ -52,7 +52,7 @@ const NuevoClienteModal = ({ onClose, onClienteCreado }) => {
       else if (status === 403) setError('No tenés permisos para crear clientes.')
       else if (status === 400) {
         setError(data?.message || 'Revisá los campos marcados.')
-        setFieldErrors(data?.errors || {})   // 👈 guardar errores por campo
+        setFieldErrors(data?.errors || {})
       } else {
         setError('No se pudo crear el cliente.')
       }
@@ -89,19 +89,34 @@ const NuevoClienteModal = ({ onClose, onClienteCreado }) => {
         {fieldErrors.email && <div className="field-error">{fieldErrors.email}</div>}
 
         <label>Teléfono</label>
-        <input {...inputProps('phone')} required />
+        <div className="phone-modal">
+          <span className="phone-prefix-modal">+54 9</span>
+          <input
+            {...inputProps('phone')}
+            required
+            minLength={10} 
+            maxLength={10}
+            onChange={(e) => {
+              const numericValue = e.target.value.replace(/\D/g, '')
+              if (numericValue.length <= 10) {
+                setForm(prev => ({ ...prev, phone: numericValue }))
+              }
+            }}
+            placeholder="1123456789"
+          />
+        </div>
         {fieldErrors.phone && <div className="field-error">{fieldErrors.phone}</div>}
 
         <label>Domicilio</label>
-        <input {...inputProps('domicilio')} required />
+        <input {...inputProps('domicilio')} placeholder='Calle 123' required />
         {fieldErrors.domicilio && <div className="field-error">{fieldErrors.domicilio}</div>}
 
         <label>Municipio</label>
-        <input {...inputProps('municipio')} />
+        <input {...inputProps('municipio')} placeholder='Municipio / Barrio'/>
         {fieldErrors.municipio && <div className="field-error">{fieldErrors.municipio}</div>}
 
         <label>Provincia</label>
-        <input {...inputProps('province')} />
+        <input {...inputProps('province')} placeholder='Buenos Aires / CABA' />
         {fieldErrors.province && <div className="field-error">{fieldErrors.province}</div>}
 
         {error && <div className="error-message">{error}</div>}

@@ -1,37 +1,176 @@
+/* Fondo del modal */
 .modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  overflow: hidden;
 }
 
+/* Contenido del modal */
 .modal-content {
-  background: white;
+  background: #fff;
   border-radius: 12px;
-  max-width: 500px;
+  height: auto;
+  max-height: 90vh; /* limita altura sin desbordar */
+  max-width: 420px;
   width: 100%;
-  padding: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  padding: 18px 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* scroll interno si realmente es necesario */
 }
 
+/* Encabezado */
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 6px;
 }
 
 .modal-header h3 {
   margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: #222;
 }
 
-.modal-body {
-  max-height: 70vh;
-  overflow-y: auto;
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+}
+
+.modal-close:hover {
+  color: #222;
+}
+
+/* Formulario */
+.cliente-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* inputs más juntos */
+}
+
+.cliente-form label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 1px;
+}
+
+.cliente-form input {
+  height: 36px; /* más compacto */
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 13px;
+  width: 100%;
+  background: #fff;
+  transition: border 0.2s ease;
+}
+
+.cliente-form input:focus {
+  border-color: #1d72b8;
+  outline: none;
+}
+
+/* Teléfono */
+.phone-modal {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  overflow: hidden;
+  height: 36px;
+}
+
+.phone-prefix-modal {
+  padding: 0 10px;
+  background: #f5f5f5;
+  color: #444;
+  font-size: 13px;
+  font-weight: 500;
+  border-right: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  height: 100%;
+}
+
+.phone-modal input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0 10px;
+  font-size: 13px;
+  height: 100%;
+  line-height: normal;
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
+
+/* Errores */
+.field-error {
+  color: #d32f2f;
+  font-size: 11px;
+  margin-top: -2px;
+}
+
+/* Inputs del modal de clientes */
+.cliente-form input {
+  margin-bottom: 6px; /* reducido solo dentro del modal */
+  display: block;
+}
+
+/* Footer */
+.modal-footer {
+  margin-top: 2px;
+}
+
+.btn-guardar {
+  background: black;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-guardar:hover {
+  background: #333;
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .modal-content {
+    max-width: 92%;
+    padding: 14px 16px;
+  }
+  .cliente-form input {
+    font-size: 12px;
+    height: 34px;
+  }
+  .phone-prefix-modal {
+    font-size: 12px;
+    padding: 0 8px;
+    min-width: 55px;
+  }
 }
