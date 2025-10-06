@@ -7,4 +7,4 @@ Disallow: /manager
 # Permitir el acceso al favicon
 Allow: /favicon.ico
 
-# Esta configuración bloquea las rutas específicas mencionadas y permite el acceso al favicon
+Sitemap: https://electrosafeweb.com/sitemap.xml
