@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { brandLogos, reviews, detailedBrandsByCategory } from '../../utils/productsData'
 import Loading from '../Loading/Loading'
 import { Helmet } from 'react-helmet'
-import _ from 'lodash'
+import throttle from 'lodash/throttle'
 
 const QuoteButton = lazy(() => import('../QuoteButton/QuoteButton'))
 const MiniBanner = lazy(() => import('../MiniBanner/MiniBanner'))
@@ -81,7 +81,7 @@ function MainContent() {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [handleKeyDown])
 
-  const handleScroll = useCallback(_.throttle(() => {
+  const handleScroll = useCallback(throttle(() => {
     const elements = document.querySelectorAll('.animated-element')
     elements.forEach(element => {
       const rect = element.getBoundingClientRect()
@@ -136,7 +136,7 @@ function MainContent() {
   return (
     <>
       <Helmet>
-        <title>Service de Electrodomésticos | Cotizá Online</title>
+        <title>Reparación de Electrodomésticos en Quilmes y Barracas | Electrosafe</title>
         <meta name="description" content="Reparamos Televisores, Heladeras, Microondas, Aspiradoras y más en Quilmes. Cotizá online y recibí diagnóstico sin cargo. Servicio técnico con retiro a domicilio." />
         
         {/* Open Graph para compartir en redes */}
@@ -155,6 +155,34 @@ function MainContent() {
         {/* SEO técnico */}
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://electrosafeweb.com/" />
+
+        <script type="application/ld+json">
+          {`
+          {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Electrosafe",
+            "image": "https://electrosafeweb.com/logo.png",
+            "url": "https://electrosafeweb.com",
+            "telephone": "+54 911 7066-4306",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Av. Vicente López 770",
+              "addressLocality": "Quilmes",
+              "addressRegion": "Buenos Aires",
+              "postalCode": "B1878",
+              "addressCountry": "AR"
+            },
+            "sameAs": [
+              "https://www.instagram.com/electrosafeok/",
+              "https://wa.me/5491170664306"
+            ]
+          }
+          `}
+        </script>
+
+        {/* Open Graph para compartir en redes */}
+        <meta property="og:title" content="Electrosafe | Service de Electrodomésticos" />
       </Helmet>
       <div className='mainContent-container'>
         <Suspense fallback={<Loading />}>
@@ -164,16 +192,16 @@ function MainContent() {
           <div className="reparation-bg-wrapper">
             <img
               src="/images/bannerPicture.webp"
-              alt=""
+              alt="Service de electrodomésticos en Quilmes y Barracas"
               className="reparation-bg-img"
-              loading="lazy"
+              loading="eager"
               decoding="async"
-              fetchpriority="low"
+              fetchpriority="high"
             />
           </div>
           <section className="section-reparation-glass">
             <div className='reparation-top'>
-              <h1>Service de Electrodomésticos</h1>
+              <h1>Reparación de Electrodomésticos</h1>
               <h3 className="reparation-subtitle">
                 <ReactTyped strings={["¿Se rompió tu equipo? Búscalo"]} typeSpeed={50} />
               </h3>
@@ -201,7 +229,11 @@ function MainContent() {
                 </div>
               )}
               <Suspense fallback={<Loading />}>
-                <QuoteButton text="Cotizar Ahora!" onClick={() => handleSuggestionClick(filteredItems[selectedIndex] || {})} />
+                <QuoteButton
+                  text="Cotizar Ahora!"
+                  aria-label="Cotizar ahora un electrodoméstico"
+                  onClick={() => handleSuggestionClick(filteredItems[selectedIndex] || {})}
+                />
               </Suspense>
             </div>
           </section>
@@ -322,7 +354,7 @@ function MainContent() {
           <section className='brands-logo-container'>
             {brandLogos.map((logo, index) => (
               <div key={index} className='brand-logo-item'>
-                <img src={logo.src} alt={logo.alt} className='brand-logo' loading="lazy"/>
+                <img src={logo.src} alt={`Logo de ${logo.alt || 'marca'}`} className='brand-logo' loading="lazy" />
               </div>
             ))}
           </section>
