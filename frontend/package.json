@@ -43,6 +43,7 @@
     "eject": "react-scripts eject"
   },
   "reactSnap": {
+    "puppeteerArgs": ["--no-sandbox"],
     "inlineCss": true,
     "minifyHtml": {
       "collapseWhitespace": true
