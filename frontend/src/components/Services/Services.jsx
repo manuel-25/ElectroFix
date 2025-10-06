@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { products, additionalDetailsConfig } from '../../utils/productsData.jsx'
 import { steps } from '../../utils/productsData.jsx'
 import { logError } from '../../utils/logger.js'
+import { Helmet } from 'react-helmet'
 import './Services.css'
 
 // Importar los subcomponentes
@@ -175,19 +176,29 @@ const Services = () => {
   }, [submitStatus, formData, navigate])
 
   return (
-    <div className="services">
-      <ProgressBar step={step} handlePrevStep={handlePrevStep} />
-      {step === 1 && !showAdditionalDetails && <CategorySelection nextStep={handleNextStep} updateFormData={updateFormData} />}
-      {step === 2 && !showAdditionalDetails && <BrandSelection selectedCategory={formData.category} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
-      {step === 3 && !showAdditionalDetails && <ModelSelection selectedCategory={formData.category} brand={formData.brand} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
-      {step === 4 && !showAdditionalDetails && <FaultSelection selectedCategory={formData.category} formData={formData} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
-      {step === 5 && !showAdditionalDetails && <InformationForm nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
-      {step === 6 && !showAdditionalDetails && <ServiceSelection selectedProvince={formData.userData.province} selectedMunicipio={formData.userData.municipio} selectedCategory={formData.category.id} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
-      {step === 7 && !showAdditionalDetails && <FormSubmissionStatus status={submitStatus} name={formData.userData.firstName} customerNumber={formData.userData.customerNumber} serviceRequestNumber={formData.userData.serviceRequestNumber} />}
-      {showAdditionalDetails && <AdditionalDetailsStep onConfirm={handleAdditionalDetailsConfirm} updateFormData={updateFormData} categoryId={formData.category.id} />}
-    </div>
-  )  
-  
+    <>
+      <Helmet>
+        <title>Reparación de Electrodomésticos en Quilmes | Electrosafe</title>
+        <meta name="description" content="Cotizá online la reparación de Televisores, heladeras, Microondas y más. Servicio técnico en Quilmes con garantía y diagnóstico gratis." />
+        <meta property="og:title" content="Service de Electrodomésticos | Electrosafe" />
+        <meta property="og:description" content="Solicitá tu reparación online en 1 minutos. Retiro a domicilio o en nuestras sucursales." />
+        <meta property="og:image" content="https://electrosafeweb.com/logo.png" />
+        <meta property="og:url" content="https://electrosafeweb.com/reparacion-electrodomesticos" />
+      </Helmet>
+
+      <div className="services">
+        <ProgressBar step={step} handlePrevStep={handlePrevStep} />
+        {step === 1 && !showAdditionalDetails && <CategorySelection nextStep={handleNextStep} updateFormData={updateFormData} />}
+        {step === 2 && !showAdditionalDetails && <BrandSelection selectedCategory={formData.category} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
+        {step === 3 && !showAdditionalDetails && <ModelSelection selectedCategory={formData.category} brand={formData.brand} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
+        {step === 4 && !showAdditionalDetails && <FaultSelection selectedCategory={formData.category} formData={formData} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
+        {step === 5 && !showAdditionalDetails && <InformationForm nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
+        {step === 6 && !showAdditionalDetails && <ServiceSelection selectedProvince={formData.userData.province} selectedMunicipio={formData.userData.municipio} selectedCategory={formData.category.id} nextStep={handleNextStep} handlePrevStep={handlePrevStep} updateFormData={updateFormData} />}
+        {step === 7 && !showAdditionalDetails && <FormSubmissionStatus status={submitStatus} name={formData.userData.firstName} customerNumber={formData.userData.customerNumber} serviceRequestNumber={formData.userData.serviceRequestNumber} />}
+        {showAdditionalDetails && <AdditionalDetailsStep onConfirm={handleAdditionalDetailsConfirm} updateFormData={updateFormData} categoryId={formData.category.id} />}
+      </div>
+    </>
+  )
 }
 
 export default Services

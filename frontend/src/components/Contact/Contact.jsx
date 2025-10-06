@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'  //faEnvelope, faPhone 
 import { faqs } from '../../utils/productsData'
 import { GoogleMap, useLoadScript, MarkerF } from '@react-google-maps/api'
+import { Helmet } from 'react-helmet';
 
 const libraries = ["places"]
 const locations = [
@@ -58,70 +59,85 @@ const Contact = () => {
     }
 
     return (
-        <div className="contact-section">
-            <section className="contact-content">
-                <h1>¿Tenés alguna duda?</h1>
-                <span>¿Necesitas ayuda con tu reparación?</span>
-                <p>No dudes en contactarnos. Estamos acá para ayudarte.</p>
-                <button className="contact-button" onClick={scrollToFAQ}>Soporte</button>
-            </section>
-            <section className="frequent-question-container" ref={faqRef}>
-                {faqs.map((faq, index) => (
-                    <div key={index} className="frequent-question">
-                        <div className="question" onClick={() => handleToggle(index)}>
-                            <p>{faq.question}</p>
-                            <FontAwesomeIcon icon={faChevronDown} className={`rotate ${activeIndex === index ? 'up' : ''}`} />
+        <>
+            <Helmet>
+                <title>Contacto | Electrosafe - Service de Electrodomésticos en Quilmes y Barracas</title>
+                <meta name="description" content="Comunicate con Electrosafe para presupuestos y consultas. Sucursales en Quilmes y Barracas. Soporte por WhatsApp, teléfono o email." />
+                
+                <meta property="og:title" content="Contacto | Electrosafe" />
+                <meta property="og:description" content="Consultas, cotizaciones o soporte técnico. Atención personalizada en nuestras sucursales de Barracas y Quilmes." />
+                <meta property="og:image" content="https://electrosafeweb.com/logo.png" />
+                <meta property="og:url" content="https://electrosafeweb.com/contacto" />
+                <meta property="og:type" content="website" />
+
+                <meta name="robots" content="index, follow" />
+                <link rel="canonical" href="https://electrosafeweb.com/contacto" />
+            </Helmet>
+            <div className="contact-section">
+                <section className="contact-content">
+                    <h1>¿Tenés alguna duda?</h1>
+                    <span>¿Necesitas ayuda con tu reparación?</span>
+                    <p>No dudes en contactarnos. Estamos acá para ayudarte.</p>
+                    <button className="contact-button" onClick={scrollToFAQ}>Soporte</button>
+                </section>
+                <section className="frequent-question-container" ref={faqRef}>
+                    {faqs.map((faq, index) => (
+                        <div key={index} className="frequent-question">
+                            <div className="question" onClick={() => handleToggle(index)}>
+                                <p>{faq.question}</p>
+                                <FontAwesomeIcon icon={faChevronDown} className={`rotate ${activeIndex === index ? 'up' : ''}`} />
+                            </div>
+                            <div className={`answer ${activeIndex === index ? 'active' : ''}`}>{faq.answer}</div>
                         </div>
-                        <div className={`answer ${activeIndex === index ? 'active' : ''}`}>{faq.answer}</div>
-                    </div>
-                ))}
-            </section>
-            <section className="contact-socials">
-                <h3>Contacto y Soporte</h3>
-                <span>¿Seguís con dudas? ¡Comunicate!</span>
-                <div className="socials-container">
-                    <div className="social-item">
-                        <p>📱 Llámanos a</p>
-                        <div class="phone-numbers">
-                            <p><strong>Cotizaciones Web:</strong> <a href="tel:5491178967720">+54 9 11 7066-4306</a></p>
-                            {/* <p><strong>Barracas:</strong> <a href="tel:5491139148766">+54 911 3914-8766</a></p>
-                            <p><strong>Quilmes:</strong> <a href="tel:5491178967720">+54 911 7896-7720</a></p> */}
+                    ))}
+                </section>
+                <section className="contact-socials">
+                    <h3>Contacto y Soporte</h3>
+                    <span>¿Seguís con dudas? ¡Comunicate!</span>
+                    <div className="socials-container">
+                        <div className="social-item">
+                            <p>📱 Llámanos a</p>
+                            <div class="phone-numbers">
+                                <p><strong>Cotizaciones Web:</strong> <a href="tel:5491178967720">+54 9 11 7066-4306</a></p>
+                                {/* <p><strong>Barracas:</strong> <a href="tel:5491139148766">+54 911 3914-8766</a></p>
+                                <p><strong>Quilmes:</strong> <a href="tel:5491178967720">+54 911 7896-7720</a></p> */}
+                            </div>
+                        </div>
+                        <div className="social-item">
+                            <p>📧 Envíanos un mail</p>
+                            <a href="mailto:electrosafeservice@gmail.com" id='social-email'>electrosafeservice@gmail.com</a>
+                        </div>
+                        <div className="social-item">
+                            <p>Nuestras redes sociales</p>
+                            <div className='social-logos'>
+                                <a href="https://wa.me/5491139148766" target="_blank" rel="noopener noreferrer">
+                                    <img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" id='contact-whatsapp'/>
+                                </a>
+                                <a href="https://www.instagram.com/electrosafeok/" target="_blank" rel="noopener noreferrer">
+                                    <img src="/images/Instagram.webp" alt="Logotipo de Instagram" />
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <div className="social-item">
-                        <p>📧 Envíanos un mail</p>
-                        <a href="mailto:electrosafeservice@gmail.com" id='social-email'>electrosafeservice@gmail.com</a>
-                    </div>
-                    <div className="social-item">
-                        <p>Nuestras redes sociales</p>
-                        <div className='social-logos'>
-                            <a href="https://wa.me/5491139148766" target="_blank" rel="noopener noreferrer">
-                                <img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" id='contact-whatsapp'/>
-                            </a>
-                            <a href="https://www.instagram.com/electrosafeok/" target="_blank" rel="noopener noreferrer">
-                                <img src="/images/Instagram.webp" alt="Logotipo de Instagram" />
-                            </a>
+                    <div className="branch-locations"> 
+                        <h4>Nuestras sucursales</h4>
+                        <div className="branch-items-container">
+                            <div className="branch-item">
+                                <p><img src="/casita.png" alt="Logo Electrosafe" className="branch-item-icon" /> Barracas:</p>
+                                <span> Rocha 1752</span>
+                            </div>
+                            <div className="branch-item">
+                                <p><img src="/casita.png" alt="Logo Electrosafe" className="branch-item-icon" /> Quilmes:</p>
+                                <span>Av. Vicente López 770</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="branch-locations"> 
-                    <h4>Nuestras sucursales</h4>
-                    <div className="branch-items-container">
-                        <div className="branch-item">
-                            <p><img src="/casita.png" alt="Logo Electrosafe" className="branch-item-icon" /> Barracas:</p>
-                            <span> Rocha 1752</span>
-                        </div>
-                        <div className="branch-item">
-                            <p><img src="/casita.png" alt="Logo Electrosafe" className="branch-item-icon" /> Quilmes:</p>
-                            <span>Av. Vicente López 770</span>
-                        </div>
+                    <div className="map-container">
+                        <GoogleMaps />
                     </div>
-                </div>
-                <div className="map-container">
-                    <GoogleMaps />
-                </div>
-            </section>
-        </div>
+                </section>
+            </div>
+        </>
     )
 }
 

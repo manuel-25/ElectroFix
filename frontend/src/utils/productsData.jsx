@@ -659,7 +659,8 @@ export const equipoOptions = [
   { value: 'Radio', label: 'Radio' },
   { value: 'Velador', label: 'Velador' },
   { value: 'Procesadora', label: 'Procesadora' },
-  { value: 'Pava Eléctrica', label: 'Pava Electrica'}
+  { value: 'Pava Eléctrica', label: 'Pava Electrica'},
+  { value: 'Otro/s', label: 'Otro'}
 ]
 
 export const estadosServicio = [
