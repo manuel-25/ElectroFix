@@ -578,11 +578,15 @@ export const faqs = [
     }
 ]  
 
+// === Mini Banner ===
+export const bannerLink = "https://forms.gle/NXYeJaASrJtqxC6i6"
+
 export const bannerTexts = [
-  "⚡️ Aprendé a reparar electrodomésticos en nuestros cursos presenciales en Barracas (CABA) y Quilmes.",
-  "📅 ¡Inscripciones abiertas para SEPTIEMBRE 2025! Cupos limitados.",
-  "🎯 Capacitación práctica, salida laboral real. ¿Qué estás esperando?",
-  "🚀 Formate como técnico especializado y cambiá tu futuro. ¡Click acá!"
+  "📣 ¡PREVENTA abierta! Curso Presencial de Reparación de Electrodomésticos. Click Aca!",
+  "🔧 Aprendé con práctica real en Barracas (CABA) y Quilmes.",
+  "📅 Comenzamos en Marzo 2026 — ¡Cupos limitados!",
+  "💼 Salida laboral asegurada. Capacitate con nosotros.",
+  "🚀 Formate como Técnico Profesional. ¡Inscribite ahora!"
 ]
 
 export const barriosCABA = [

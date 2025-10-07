@@ -6,7 +6,7 @@ const MiniBanner = () => {
   return (
     <div className="mini-banner">
       <a
-        href="https://docs.google.com/forms/d/e/1FAIpQLSflNZGZrzn4I4vdzWLeckvwaQxpIpJLyUpPXHEF_8EMePuW_w/viewform?usp=header"
+        href="https://forms.gle/NXYeJaASrJtqxC6i6"
         target="_blank"
         rel="noopener noreferrer"
         className="mini-banner-link"
