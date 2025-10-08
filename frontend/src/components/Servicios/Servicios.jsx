@@ -154,9 +154,18 @@ const Servicios = () => {
   const totalPages = Math.ceil(sorted.length / itemsPerPage)
   const pageData = sorted.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 
+  function resizeToCellHeight(textarea) {
+    if (!textarea) return
+    const td = textarea.closest('td')
+    if (!td) return
+
+    const cellHeight = td.offsetHeight
+    textarea.style.height = `${cellHeight}px`
+  }
+
   return (
     <DashboardLayout>
-      <div className="dashboard-wrapper">
+      <div className="dashboard-wrapper servicios-page">
         <h2 className="dashboard-title">🧰 Servicios</h2>
 
         {loading ? (
@@ -241,8 +250,9 @@ const Servicios = () => {
                       </td>
                       <td>
                         <textarea
-                          className="notes-textarea"
+                          className="notes-textarea auto-resize"
                           defaultValue={s.notes || ''}
+                          ref={el => el && resizeToCellHeight(el)}
                           onKeyDown={(e) => handleNoteKeyDown(s, e)}
                         />
                       </td>

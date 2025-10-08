@@ -81,25 +81,88 @@
 .styled-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: 13px;
   color: #333;
 }
+.styled-table th,
+.styled-table td {
+  padding: 8px 10px;
+  text-align: left;
+}
+
+/* Descripción */
+.styled-table td:nth-child(5),
+.styled-table th:nth-child(5) {
+  width: auto;
+  max-width: none;
+  white-space: normal;
+  word-break: normal;
+  line-height: 1.4;
+}
+
+/* Estado */
+.styled-table td:nth-child(7),
+.styled-table th:nth-child(7) {
+  width: 150px;
+  max-width: 160px;
+  text-align: center;
+}
+
+/* Notas */
+.styled-table td:nth-child(8),
+.styled-table th:nth-child(8) {
+  width: 250px;
+  max-width: 300px;
+  max-height: auto;
+}
+
+/* Cliente, Recibido En, Creado Por */
+.styled-table td:nth-child(6),
+.styled-table th:nth-child(6),
+.styled-table td:nth-child(9),
+.styled-table th:nth-child(9),
+.styled-table td:nth-child(10),
+.styled-table th:nth-child(10) {
+  width: 120px;
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Código, Cliente, Fecha, Equipo */
+.styled-table td:nth-child(1),
+.styled-table th:nth-child(1),
+.styled-table td:nth-child(2),
+.styled-table th:nth-child(2),
+.styled-table td:nth-child(3),
+.styled-table th:nth-child(3),
+.styled-table td:nth-child(4),
+.styled-table th:nth-child(4) {
+  width: 90px;
+  max-width: 100px;
+  white-space: nowrap;
+}
+
+/* Acciones */
+.styled-table td:nth-child(11),
+.styled-table th:nth-child(11) {
+  width: 100px;
+  text-align: center;
+}
+
 .table-head th {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   background-color: #e9ecef;
   color: #212529;
-  padding: 8px;
   border: 1px solid #dee2e6;
   white-space: nowrap;
   cursor: pointer;
-  text-align: left;
 }
 .styled-table td {
-  padding: 6px 8px;
   border: 1px solid #dee2e6;
   vertical-align: top;
-  white-space: normal;
 }
 .styled-table tr:hover {
   background-color: #f1f3f5;
@@ -126,46 +189,37 @@
   border: 1px solid #ccc;
 }
 
-/* Colores por estado */
-.status-select.cell-pendiente {
-  background-color: #fff3cd;
-  color: #856404;
-  border-color: #ffeeba;
-}
+/* === COLORES DE ESTADOS === */
+.status-select.cell-pendiente { background-color: #fff3cd; color: #856404; border-color: #ffeeba; }
 .status-select.cell-reparacion,
-.status-select.cell-revision {
-  background-color: #ffffff;
-  color: #212529;
-  border-color: #ced4da;
-}
-.status-select.cell-recibido {
-  background-color: #e2f0ff;
-  color: #004085;
-}
-.status-select.cell-pruebas {
-  background-color: #d4edda;
-  color: #155724;
-}
+.status-select.cell-revision { background-color: #fff; color: #212529; border-color: #ced4da; }
+.status-select.cell-recibido { background-color: #e2f0ff; color: #004085; }
+.status-select.cell-pruebas { background-color: #d4edda; color: #155724; }
 .status-select.cell-listo,
-.status-select.cell-entregado {
-  background-color: #d4edda;
-  color: #155724;
-  border-color: #c3e6cb;
-}
+.status-select.cell-entregado { background-color: #d4edda; color: #155724; border-color: #c3e6cb; }
+.status-select.cell-garantía { background-color: #ffeeba; color: #856404; }
+.status-select.cell-devolución { background-color: #f8d7da; color: #721c24; }
 
 /* === NOTAS === */
+.styled-table td:nth-child(8) { padding: 0; }
 .notes-textarea {
   width: 100%;
-  font-size: 12px;
-  padding: 4px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  height: auto;
+  min-height: 40px;
+  max-height: 80px;
+  font-size: 13px;
+  padding: 8px;
+  border: none !important;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-radius: 0 !important;
   resize: vertical;
-  min-height: 36px;
-  outline: none; /* elimina borde negro en focus */
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .notes-textarea:focus {
-  box-shadow: 0 0 0 2px rgba(0,123,255,0.25); /* ligero halo en focus */
+  outline: none;
+  box-shadow: inset 0 0 0 2px rgba(0,123,255,0.3);
 }
 
 /* === ACCIONES === */
@@ -175,117 +229,21 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  margin-right: 6px;
+  margin: 1px;
   border-radius: 4px;
   font-size: 13px;
   color: #fff;
   border: none;
   transition: transform 0.2s ease;
   cursor: pointer;
-  margin: 1px;
 }
-
-.action-btn:hover {
-  transform: scale(1.05);
-}
-
-/* Estilos específicos por acción */
-.action-btn.edit {
-  background-color: #ff7b00;
-}
-.action-btn.edit:hover {
-  background-color: #e66900;
-}
-
-.action-btn.print {
-  background-color: #0d6efd;
-}
-.action-btn.print:hover {
-  background-color: #0b5ed7;
-}
-
-.action-btn.wa {
-  background-color: #25D366;
-}
-.action-btn.wa:hover {
-  background-color: #1da851;
-}
-
-/* === PAGINACIÓN === */
-.pagination {
-  margin-top: 12px;
-  text-align: center;
-}
-.page-btn {
-  margin: 0 2px;
-  padding: 4px 9px;
-  font-size: 12px;
-  border: 1px solid #ccc;
-  background-color: white;
-  cursor: pointer;
-}
-.page-btn.active {
-  background-color: #007bff;
-  color: white;
-  font-weight: bold;
-}
-.page-dots {
-  margin: 0 3px;
-  font-size: 13px;
-  color: #888;
-}
-
-/* === SELECT DE ESTADO === */
-.status-select {
-  width: 100%;
-  padding: 4px;
-  font-size: 12px;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-}
-
-/* Colores por estado */
-.status-select.cell-pendiente {
-  background-color: #fff3cd;
-  color: #856404;
-  border-color: #ffeeba;
-}
-.status-select.cell-recibido {
-  background-color: #e2f0ff;
-  color: #004085;
-}
-.status-select.cell-revision {
-  background-color: #f8f9fa;
-  color: #212529;
-  border-color: #ced4da;
-}
-.status-select.cell-reparacion {
-  background-color: #fff;
-  color: #212529;
-  border-color: #ced4da;
-}
-.status-select.cell-pruebas {
-  background-color: #d4edda;
-  color: #155724;
-}
-.status-select.cell-listo {
-  background-color: #d4edda;
-  color: #155724;
-}
-.status-select.cell-entregado {
-  background-color: #cce5ff;
-  color: #004085;
-}
-.status-select.cell-garantía {
-  background-color: #ffeeba;
-  color: #856404;
-  border-color: #ffeeba;
-}
-.status-select.cell-devolución {
-  background-color: #f8d7da;
-  color: #721c24;
-  border-color: #f5c6cb;
-}
+.action-btn:hover { transform: scale(1.05); }
+.action-btn.edit { background-color: #ff7b00; }
+.action-btn.edit:hover { background-color: #e66900; }
+.action-btn.print { background-color: #0d6efd; }
+.action-btn.print:hover { background-color: #0b5ed7; }
+.action-btn.wa { background-color: #25D366; }
+.action-btn.wa:hover { background-color: #1da851; }
 
 /* === PAGINACIÓN === */
 .pagination {
@@ -311,3 +269,183 @@
   color: #888;
 }
 
+/* ==== AISLAMIENTO DE SERVICIOS ==== */
+.servicios-page .styled-table td,
+.servicios-page .styled-table th {
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1280px) {
+  .styled-table {
+    font-size: 12px;
+  }
+
+  .styled-table th,
+  .styled-table td {
+    padding: 4px 6px;
+  }
+
+  .styled-table td:nth-child(5),
+  .styled-table th:nth-child(5) {
+    width: 240px;
+    max-width: 240px;
+    word-break: break-word;
+  }
+
+  .styled-table td:nth-child(6),
+  .styled-table th:nth-child(6) { /* Cliente */
+    max-width: 100px;
+    min-width: 60px;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.2;
+    font-size: 11.5px;
+    padding: 6px;
+  }
+
+  .styled-table td:nth-child(7),
+  .styled-table th:nth-child(7) { /* Estado */
+    max-width: 180px;
+  }
+
+  .status-select {
+    font-size: 11px;
+    padding: 3px;
+  }
+
+  .styled-table td:nth-child(8),
+  .styled-table th:nth-child(8) { /* Notas */
+    width: 230px;
+    max-width: 230px;
+    padding: 0;
+  }
+
+  .notes-textarea {
+    height: auto !important;
+    min-height: 40px;
+    max-height: 80px;
+    overflow-y: auto;
+    padding: 6px;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  .action-btn {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .servicios-page .styled-table td,
+  .servicios-page .styled-table th {
+    padding: 2px 4px !important;
+    font-size: 11px !important;
+  }
+
+  .servicios-page .notes-textarea {
+    font-size: 11px !important;
+    padding: 4px !important;
+  }
+
+  .servicios-page .status-select {
+    font-size: 11px !important;
+    padding: 3px !important;
+  }
+
+  .servicios-page .action-btn {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+  }
+
+  .action-btn {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+  }
+
+  /* === OPTIMIZACIÓN RESPONSIVA Y PRIORIZACIÓN === */
+  @media (max-width: 768px) {
+    /* Ocultar columnas menos prioritarias */
+    .styled-table td:nth-child(6),  /* Cliente */
+    .styled-table th:nth-child(6),
+    .styled-table td:nth-child(9),  /* Recibido En */
+    .styled-table th:nth-child(9),
+    .styled-table td:nth-child(10), /* Creado por */
+    .styled-table th:nth-child(10) {
+      display: none;
+    }
+
+    /* Ajustes en columnas clave */
+    .styled-table td:nth-child(5),
+    .styled-table th:nth-child(5) { /* Descripción */
+      max-width: 200px;
+      font-size: 11px;
+      word-break: break-word;
+      line-height: 1.3;
+    }
+
+    .styled-table td:nth-child(8),
+    .styled-table th:nth-child(8) { /* Notas */
+      max-width: 220px;
+    }
+
+    .notes-textarea {
+      font-size: 11px;
+      padding: 4px;
+      min-height: 60px;
+    }
+
+    .status-select {
+      font-size: 11px;
+      padding: 3px;
+    }
+
+    .action-btn {
+      width: 20px;
+      height: 20px;
+      font-size: 11px;
+    }
+  }
+
+  /* === PRIORIZACIÓN VISUAL GENERAL === */
+  .styled-table td:nth-child(6),
+  .styled-table th:nth-child(6) { /* Cliente */
+    width: 100px;
+    max-width: 120px;
+    font-weight: 400;
+    color: #444;
+  }
+
+  .styled-table td:nth-child(9),
+  .styled-table th:nth-child(9), /* Recibido En */
+  .styled-table td:nth-child(10),
+  .styled-table th:nth-child(10) { /* Creado por */
+    width: 90px;
+    max-width: 100px;
+    font-size: 12px;
+    color: #666;
+  }
+
+  .styled-table td:nth-child(5),
+  .styled-table th:nth-child(5) {
+    word-break: break-word;
+    line-height: 1.4;
+  }
+
+  /* Asegurar envoltura y altura correcta de notas */
+  .notes-textarea {
+    box-sizing: border-box;
+    overflow-y: auto;
+    resize: vertical;
+    min-height: 60px;
+  }
+}
