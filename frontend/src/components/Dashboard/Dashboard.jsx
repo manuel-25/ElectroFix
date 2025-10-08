@@ -22,6 +22,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip,
 const Dashboard = () => {
   const [quotes, setQuotes] = useState([])
   const [clients, setClients] = useState([])
+  const [services, setServices] = useState([])
   const [error, setError] = useState(null)
   const [fullUser, setFullUser] = useState(null)
   const [startDate, setStartDate] = useState(() => {
@@ -38,16 +39,20 @@ const Dashboard = () => {
 
     const fetchData = async () => {
       try {
-        const [quotesRes, clientsRes] = await Promise.all([
+        const [quotesRes, clientsRes, servicesRes] = await Promise.all([
           axios.get(`${getApiUrl()}/api/quotes`, {
             headers: { Authorization: `Bearer ${token}` }
           }),
           axios.get(`${getApiUrl()}/api/client`, {
             headers: { Authorization: `Bearer ${token}` }
+          }),
+          axios.get(`${getApiUrl()}/api/service`, {
+            headers: { Authorization: `Bearer ${token}` }
           })
         ])
         setQuotes(quotesRes.data)
         setClients(clientsRes.data)
+        setServices(servicesRes.data)
       } catch (err) {
         setError('Error al obtener datos')
       }
@@ -55,119 +60,6 @@ const Dashboard = () => {
 
     fetchData()
   }, [authLoading, token])
-
-  // Cotizaciones del mes actual
-  const now = new Date()
-  const thisMonth = now.getMonth()
-  const thisYear = now.getFullYear()
-  const today = now.toISOString().split('T')[0]
-
-  const quotesThisMonth = quotes.filter(q => {
-    const qDate = new Date(q.date)
-    return qDate.getMonth() === thisMonth && qDate.getFullYear() === thisYear
-  })
-
-  const quotesToday = quotes.filter(q => {
-    const qDateStr = new Date(q.date).toISOString().split('T')[0]
-    return qDateStr === today
-  })
-
-  const filteredQuotes = quotes.filter(q => {
-    const qDate = new Date(q.date)
-    return qDate >= new Date(startDate) && qDate <= new Date(endDate)
-  })
-
-  const dailyCounts = filteredQuotes.reduce((acc, q) => {
-    const day = new Date(q.date).toISOString().split('T')[0]
-    acc[day] = (acc[day] || 0) + 1
-    return acc
-  }, {})
-
-  const chartData = {
-    labels: Object.keys(dailyCounts).sort(),
-    datasets: [
-      {
-        label: 'Cotizaciones por día',
-        data: Object.entries(dailyCounts).sort(([a], [b]) => new Date(a) - new Date(b)).map(([_, v]) => v),
-        borderColor: '#4B8DF8',
-        backgroundColor: '#4B8DF880',
-        tension: 0.4,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-        fill: false
-      }
-    ]
-  }
-
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false
-      },
-      tooltip: {
-        mode: 'index',
-        intersect: false
-      }
-    },
-    scales: {
-      x: {
-        type: 'time',
-        time: {
-          unit: 'day',
-          tooltipFormat: 'dd/MM/yyyy'
-        },
-        ticks: {
-          autoSkip: true,
-          maxTicksLimit: 10
-        }
-      },
-      y: {
-        beginAtZero: true,
-        precision: 0
-      }
-    }
-  }
-
-  // Agrupa cotizaciones por mes en formato YYYY-MM
-  const monthlyCounts = quotes.reduce((acc, q) => {
-    const d = new Date(q.date)
-    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}` // Ej: "2025-07"
-    acc[key] = (acc[key] || 0) + 1
-    return acc
-  }, {})
-
-  // Si querés mostrarlo como "Jul 2025" podés transformar el label
-  const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
-  const monthlyLabels = Object.keys(monthlyCounts).sort().map(key => {
-    const [year, month] = key.split('-')
-    return `${monthNames[Number(month) - 1]} ${year}`
-  })
-
-  const chartDataMonth = {
-    labels: monthlyLabels,
-    datasets: [
-      {
-        label: 'Cotizaciones por mes',
-        data: Object.entries(monthlyCounts).sort(([a], [b]) => new Date(a) - new Date(b)).map(([_, v]) => v),
-        backgroundColor: '#3b82f6',
-        borderRadius: 10,
-        maxBarThickness: 42,
-      }
-    ]
-  }
-
-  const chartOptionsMonth = {
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-      tooltip: { mode: 'index', intersect: false }
-    },
-    scales: {
-      x: { title: { display: true, text: 'Mes' }},
-      y: { beginAtZero: true, precision: 0, title: { display: true, text: 'Cotizaciones' } }
-    }
-  }
 
   useEffect(() => {
     if (!token || authLoading) return
@@ -186,6 +78,118 @@ const Dashboard = () => {
     fetchFullUser()
   }, [token, authLoading])
 
+  const now = new Date()
+  const thisMonth = now.getMonth()
+  const thisYear = now.getFullYear()
+  const today = now.toISOString().split('T')[0]
+
+  const servicesCreatedToday = services.filter(s => new Date(s.createdAt).toISOString().split('T')[0] === today)
+  const servicesCreatedThisMonth = services.filter(s => {
+    const d = new Date(s.createdAt)
+    return d.getMonth() === thisMonth && d.getFullYear() === thisYear
+  })
+
+  const servicesDeliveredToday = services.filter(s => {
+    const d = new Date(s.deliveredAt).toISOString().split('T')[0]
+    return s.status === 'Entregado' && d === today
+  })
+
+  const servicesDeliveredThisMonth = services.filter(s => {
+    const d = new Date(s.deliveredAt)
+    return s.status === 'Entregado' && d.getMonth() === thisMonth && d.getFullYear() === thisYear
+  })
+
+  const quotesThisMonth = quotes.filter(q => {
+    const d = new Date(q.date)
+    return d.getMonth() === thisMonth && d.getFullYear() === thisYear
+  })
+
+  const quotesToday = quotes.filter(q => new Date(q.date).toISOString().split('T')[0] === today)
+
+  const filteredDeliveredServices = services.filter(s => {
+    const d = new Date(s.deliveredAt)
+    return s.status === 'Entregado' && d >= new Date(startDate) && d <= new Date(endDate)
+  })
+
+  const dailyCounts = filteredDeliveredServices.reduce((acc, s) => {
+    const day = new Date(s.deliveredAt).toISOString().split('T')[0]
+    acc[day] = (acc[day] || 0) + 1
+    return acc
+  }, {})
+
+  const chartData = {
+    labels: Object.keys(dailyCounts).sort(),
+    datasets: [
+      {
+        label: 'Servicios Entregados',
+        data: Object.entries(dailyCounts).sort(([a], [b]) => new Date(a) - new Date(b)).map(([_, v]) => v),
+        borderColor: '#4B8DF8',
+        backgroundColor: '#4B8DF880',
+        tension: 0.4,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        fill: false
+      }
+    ]
+  }
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { mode: 'index', intersect: false }
+    },
+    scales: {
+      x: {
+        type: 'time',
+        time: { unit: 'day', tooltipFormat: 'dd/MM/yyyy' },
+        ticks: { autoSkip: true, maxTicksLimit: 10 }
+      },
+      y: { beginAtZero: true, precision: 0 }
+    }
+  }
+
+  // Conteo mensual de servicios entregados
+  const monthlyCounts = services
+    .filter(s => s.status === 'Entregado')
+    .reduce((acc, s) => {
+      const d = new Date(s.deliveredAt)
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+      acc[key] = (acc[key] || 0) + 1
+      return acc
+    }, {})
+
+  const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+  const monthlyLabels = Object.keys(monthlyCounts).sort().map(key => {
+    const [year, month] = key.split('-')
+    return `${monthNames[Number(month) - 1]} ${year}`
+  })
+
+  const chartDataMonth = {
+    labels: monthlyLabels,
+    datasets: [
+      {
+        label: 'Servicios Entregados por Mes',
+        data: Object.entries(monthlyCounts).sort(([a], [b]) => new Date(a) - new Date(b)).map(([_, v]) => v),
+        backgroundColor: '#3b82f6',
+        borderRadius: 10,
+        maxBarThickness: 42,
+      }
+    ]
+  }
+
+  const chartOptionsMonth = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { mode: 'index', intersect: false }
+    },
+    scales: {
+      x: { title: { display: true, text: 'Mes' }},
+      y: { beginAtZero: true, precision: 0, title: { display: true, text: 'Servicios' } }
+    }
+  }
+
   return (
     <DashboardLayout>
       <div className="dashboard-wrapper">
@@ -194,20 +198,15 @@ const Dashboard = () => {
             <h2>👋 Hola, {fullUser.firstName} {fullUser.lastName}</h2>
             <p>Rol: <strong>{fullUser.role}</strong></p>
             {fullUser.branch && <p>Sucursal: <strong>{fullUser.branch}</strong></p>}
-            <p>
-              Último acceso:{' '}
-              <strong>
-                {fullUser.lastLoginAt
-                  ? new Date(fullUser.lastLoginAt).toLocaleString('es-AR')
-                  : 'No registrado'}
-              </strong>
-            </p>
+            <p>Último acceso: <strong>{fullUser.lastLoginAt ? new Date(fullUser.lastLoginAt).toLocaleString('es-AR') : 'No registrado'}</strong></p>
           </div>
         )}
+
         <h2 className="dashboard-title">📊 Panel Principal</h2>
+
         <div className="card-container">
           <div className="info-card blue">
-            <p>SOLICITUD DE COTIZACIONES</p>
+            <p>SOLICITUDES DE COTIZACIÓN</p>
             <h3>{quotes.length}</h3>
             <span className="card-icon">📋</span>
           </div>
@@ -216,20 +215,38 @@ const Dashboard = () => {
             <h3>{clients.length}</h3>
             <span className="card-icon">👤</span>
           </div>
+          <div className="info-card teal">
+            <p>SERVICIOS CREADOS ESTE MES</p>
+            <h3>{servicesCreatedThisMonth.length}</h3>
+            <span className="card-icon">⚙️</span>
+          </div>
+          <div className="info-card purple">
+            <p>SERVICIOS ENTREGADOS ESTE MES</p>
+            <h3>{servicesDeliveredThisMonth.length}</h3>
+            <span className="card-icon">📦</span>
+          </div>
+          {/*
+          <div className="info-card yellow">
+            <p>SERVICIOS CREADOS HOY</p>
+            <h3>{servicesCreatedToday.length}</h3>
+            <span className="card-icon">🛠️</span>
+          </div>
           <div className="info-card green">
-            <p>COTIZACIONES DEL MES</p>
-            <h3>{quotesThisMonth.length}</h3>
-            <span className="card-icon">📆</span>
+            <p>SERVICIOS ENTREGADOS HOY</p>
+            <h3>{servicesDeliveredToday.length}</h3>
+            <span className="card-icon">✅</span>
           </div>
           <div className="info-card orange">
-            <p>COTIZACIONES DEL DIA</p>
+            <p>COTIZACIONES HOY</p>
             <h3>{quotesToday.length}</h3>
             <span className="card-icon">🗓️</span>
           </div>
+          */}
         </div>
+
         <div className="chart-box">
           <div className="chart-header">
-            <p>📈 Cotizaciones por día</p>
+            <p>📈 Servicios Entregados</p>
             <div className="date-range">
               <label>Desde:</label>
               <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
@@ -242,7 +259,7 @@ const Dashboard = () => {
 
         <div className="chart-box" style={{ marginTop: 40 }}>
           <div className="chart-header">
-            <p>📊 Cotizaciones por mes</p>
+            <p>📊 Servicios Entregados por Mes</p>
           </div>
           <Line data={chartDataMonth} options={chartOptionsMonth} />
         </div>
