@@ -45,73 +45,62 @@ static async createUser(req, res) {
 
     // Autenticación de usuario
     static async login(req, res) {
-        try {
-            const { email, password } = req.body
+    try {
+        const { email, password, remember = true } = req.body
 
-            // Validar que se reciban los campos necesarios
-            if (!email || !password) {
-                return res.status(400).json({ message: 'Email and password are required' })
-            }
-
-            // Obtener el usuario por email
-            const user = await UserManager.getByEmail(email)
-            if (!user) {
-                return res.status(401).json({ message: 'Email o contraseña incorrectos' })
-            }
-
-            // Verificar la contraseña
-            const isPasswordValid = await bcrypt.compare(password, user.password)
-            if (!isPasswordValid) {
-                return res.status(401).json({ message: 'Email o contraseña incorrectos' })
-            }
-
-            user.lastLoginAt = new Date()
-            user.loginCount = (user.loginCount || 0) + 1
-            await user.save()
-
-            // Generar el token JWT
-            const token = jwt.sign(
-                {
-                    id: user._id,
-                    email: user.email,
-                    role: user.role
-                },
-                config.JWT_SECRET,
-                { expiresIn: '4h' }
-            )
-
-            // Configurar la cookie con HttpOnly y Secure
-                res.cookie('authToken', token, {
-                httpOnly: process.env.NODE_ENV === 'production',
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'Strict',
-                maxAge: 24 * 60 * 60 * 1000
-            })
-
-            res.status(200).json({
-                message: 'Login exitoso',
-                user: {
-                    email: user.email,
-                    role: user.role,
-                    branch: user.branch
-                },
-                token
-            })
-        } catch (error) {
-            logger.error('Error al iniciar sesión:', error)
-            res.status(500).json({ message: 'Error al iniciar sesión', error: error.message })
+        if (!email || !password) {
+        return res.status(400).json({ message: 'Email y contraseña requeridos' })
         }
+
+        const user = await UserManager.getByEmail(email)
+        if (!user) {
+        return res.status(401).json({ message: 'Email o contraseña incorrectos' })
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password)
+        if (!isPasswordValid) {
+        return res.status(401).json({ message: 'Email o contraseña incorrectos' })
+        }
+
+        // Opcional: registrar login exitoso
+        user.lastLoginAt = new Date()
+        user.loginCount = (user.loginCount || 0) + 1
+        await user.save()
+
+        // 🔐 Generar token JWT
+        const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, config.JWT_SECRET, { expiresIn: '10s' })        //10s para pruebas o 4h
+
+        res.cookie('authToken', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: remember ? 10*1000 : undefined                 // 4*60*60*1000 : undefined
+        })
+
+        res.status(200).json({
+            message: 'Login exitoso',
+            user: {
+            email: user.email,
+            role: user.role,
+            branch: user.branch
+            }
+        })
+    } catch (error) {
+        logger.error('Error al iniciar sesión:', error)
+        res.status(500).json({ message: 'Error al iniciar sesión', error: error.message })
+    }
     }
 
     //Logout
     static async logout(req, res) {
         try {
-            const token = req.headers.authorization?.split(' ')[1]
-            if (token) {
-                blacklist.push(token)
-                return res.status(200).json({ message: 'Logout exitoso' })
-            }
-            res.status(400).json({ message: 'Token no proporcionado' })
+            res.clearCookie('authToken', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict'
+            })
+
+            return res.status(200).json({ message: 'Logout exitoso' })
         } catch (error) {
             logger.error('Error al hacer logout:', error)
             res.status(500).json({ message: 'Error al hacer logout', error: error.message })

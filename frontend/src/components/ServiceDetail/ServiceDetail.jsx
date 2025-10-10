@@ -4,7 +4,7 @@ import axios from 'axios'
 import DashboardLayout from '../DashboardLayout/DashboardLayout'
 import { AuthContext } from '../../Context/AuthContext'
 import { getApiUrl } from '../../config'
-import { statusClassMap } from '../../utils/productsData.jsx'
+import { getStatusClass, normalizeStatus } from '../../utils/productsData.jsx'
 import ServiceStatusControl from '../ServiceStatusControl/ServiceStatusControl.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faPrint } from '@fortawesome/free-solid-svg-icons'
@@ -41,24 +41,8 @@ const getApiError = (err) => {
   return 'Ocurrió un error inesperado.'
 }
 
-const slug = (s = '') =>
-  s.toString().trim().toLowerCase()
-    .normalize('NFD').replace(/\p{Diacritic}/gu, '')
-    .replace(/\s+/g, '-')
-
-const normalizeStatus = (raw = '') => {
-  const s = slug(raw)
-  if (s.includes('devolucion')) return 'rechazado'
-  if (s.includes('listo-para-retirar')) return 'listo'
-  if (s.includes('en-pruebas')) return 'pruebas'
-  if (s.includes('en-revision')) return 'revision'
-  if (s.includes('en-reparacion')) return 'reparacion'
-  return s
-}
-
 const StatusPill = ({ status }) => {
-  const key = normalizeStatus(status || '')
-  const cls = statusClassMap[key] || 'status-desconocido'
+  const cls = getStatusClass(status)
   return <span className={`status-pill ${cls}`}>{status || '—'}</span>
 }
 

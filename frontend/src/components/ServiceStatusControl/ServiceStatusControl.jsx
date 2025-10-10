@@ -1,22 +1,7 @@
 import React, { useState } from 'react'
-import { estadosServicio } from '../../utils/productsData.jsx'
-import { updateServiceStatus } from '../../utils/updateServiceStatus'
+import { ESTADOS_SERVICIO, normalizeStatus } from '../../utils/productsData.jsx'
+import { updateServiceStatus } from '../../utils/updateServiceStatus.js'
 import StatusModal from '../StatusModal/StatusModal.jsx'
-
-const slug = (s = '') =>
-  s.toString().trim().toLowerCase()
-    .normalize('NFD').replace(/\p{Diacritic}/gu, '')
-    .replace(/\s+/g, '-')
-
-const normalizeStatus = (raw = '') => {
-  const s = slug(raw)
-  if (s.includes('devolucion')) return 'rechazado'
-  if (s.includes('listo-para-retirar')) return 'listo'
-  if (s.includes('en-pruebas')) return 'pruebas'
-  if (s.includes('en-revision')) return 'revision'
-  if (s.includes('en-reparacion')) return 'reparacion'
-  return s
-}
 
 export default function ServiceStatusControl({
   service,
@@ -31,9 +16,7 @@ export default function ServiceStatusControl({
   branches = ['Quilmes', 'Barracas'],
 }) {
   const [saving, setSaving] = useState(false)
-
-  // modal genérico
-  const [modalType, setModalType] = useState(null) // 'branch' | 'satisfaction' | null
+  const [modalType, setModalType] = useState(null)
   const [selectedBranch, setSelectedBranch] = useState('')
 
   const persist = async (params) => {
@@ -51,20 +34,17 @@ export default function ServiceStatusControl({
   const onChange = async (value) => {
     if (!service?._id || saving) return
 
-    // Recibido: si no hay branch fijo, pedimos sucursal
     if (value === 'Recibido' && !userBranch) {
       setSelectedBranch('')
       setModalType('branch')
       return
     }
 
-    // Entregado: pedimos satisfacción
     if (value === 'Entregado') {
       setModalType('satisfaction')
       return
     }
 
-    // Otros estados: directo
     await persist({
       service,
       newStatus: value,
@@ -85,18 +65,17 @@ export default function ServiceStatusControl({
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled || saving}
       >
-        {estadosServicio.map(opt => (
-          <option key={opt} value={opt}>{opt}</option>
+        {ESTADOS_SERVICIO.map(opt => (
+          <option key={opt.key} value={opt.value}>{opt.value}</option>
         ))}
       </select>
+
       {saving && <small style={{ marginLeft: 8 }}>Guardando…</small>}
 
-      {/* Modal único */}
       <StatusModal
         visible={!!modalType}
         type={modalType}
         onClose={() => setModalType(null)}
-        /* branch mode */
         branches={branches}
         selectedBranch={selectedBranch}
         setSelectedBranch={setSelectedBranch}
@@ -112,7 +91,6 @@ export default function ServiceStatusControl({
             receivedAtBranch: selectedBranch
           })
         }}
-        /* satisfaction mode */
         onConfirmSatisfaction={async (yes) => {
           setModalType(null)
           await persist({

@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 
 const MAX_ATTEMPTS = 5
-const LOCK_TIME = 180 // segundos (3 minutos)
+const LOCK_TIME = 18000 // segundos (3 minutos)
 
 const Login = () => {
     const [email, setEmail] = useState('')
@@ -15,7 +15,7 @@ const Login = () => {
     const [attempts, setAttempts] = useState(0)
     const [lockUntil, setLockUntil] = useState(null)
     const { login, loading, error } = useContext(AuthContext)
-    const navigate = useNavigate() // 👈 para redirigir
+    const navigate = useNavigate()
 
     // Timer para lockout
     React.useEffect(() => {

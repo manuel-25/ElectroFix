@@ -667,27 +667,50 @@ export const equipoOptions = [
   { value: 'Otro/s', label: 'Otro'}
 ]
 
-export const estadosServicio = [
-  'Pendiente',
-  'Recibido',
-  'En Revisión',
-  'En Reparación',
-  'En Pruebas',
-  'Listo para retirar',
-  'Entregado',
-  'Garantía',
+
+//  == Seccion Estados ==
+// Lista de estados con key interno, etiqueta visible y clase CSS
+export const ESTADOS_SERVICIO = [
+  { value: 'Pendiente', key: 'pendiente', class: 'status-pendiente' },
+  { value: 'Recibido', key: 'recibido', class: 'status-recibido' },
+  { value: 'En Revisión', key: 'revision', class: 'status-revision' },
+  { value: 'En Reparación', key: 'reparacion', class: 'status-reparacion' },
+  { value: 'En Pruebas', key: 'pruebas', class: 'status-pruebas' },
+  { value: 'Listo para retirar', key: 'listo', class: 'status-listo' },
+  { value: 'Entregado', key: 'entregado', class: 'status-entregado' },
+  { value: 'Garantía', key: 'garantia', class: 'status-garantia' },
+  { value: 'Rechazado', key: 'rechazado', class: 'status-rechazado' },
+  { value: 'Repuestos', key: 'repuestos', class: 'status-repuestos' },
 ]
 
-export const statusClassMap = {
-  pendiente : 'status-pendiente',
-  recibido  : 'status-recibido',
-  revision  : 'status-revision',
-  reparacion: 'status-reparacion',
-  pruebas   : 'status-pruebas',
-  listo     : 'status-listo',
-  entregado : 'status-entregado',
-  garantia  : 'status-garantia',
-  rechazado : 'status-rechazado'
+// Normaliza cualquier string a key interna
+export const normalizeStatus = (raw = '') => {
+  const s = raw.toString().trim().toLowerCase()
+    .normalize('NFD').replace(/\p{Diacritic}/gu, '')
+    .replace(/\s+/g, '-')
+
+  if (s.includes('devolucion')) return 'rechazado'
+  if (s.includes('listo-para-retirar')) return 'listo'
+  if (s.includes('en-pruebas')) return 'pruebas'
+  if (s.includes('en-revision')) return 'revision'
+  if (s.includes('en-reparacion')) return 'reparacion'
+  return s
+}
+
+// Obtiene la clase CSS de un estado textual
+export const getStatusClass = (status) => {
+  const key = normalizeStatus(status)
+  return ESTADOS_SERVICIO.find(s => s.key === key)?.class || ''
 }
 
 export const branchMap = { W: 'Web', Q: 'Quilmes', B: 'Barracas' }
+
+//Rutas AuthContext privadas
+export const protectedPaths = [
+    '/dashboard',
+    '/cotizaciones',
+    '/clientes',
+    '/servicios',
+    '/servicios/nuevo',
+    '/perfil'
+  ]

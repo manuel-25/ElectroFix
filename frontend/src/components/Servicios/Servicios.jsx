@@ -11,6 +11,8 @@ import { faPen, faPrint } from '@fortawesome/free-solid-svg-icons'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import ServiceFilters from '../ServiceFilters/ServiceFilters'
 import { formatDate } from '../../utils/formatDate.js'
+import isDev from '../../utils/isDev.js'
+import { getStatusClass } from '../../utils/productsData.jsx'
 import './Servicios.css'
 
 const Servicios = () => {
@@ -53,12 +55,15 @@ const Servicios = () => {
     const fetchAll = async () => {
       try {
         const res = await axios.get(`${getApiUrl()}/api/service`, {
-          headers: { Authorization: `Bearer ${auth?.token}` },
+          // headers: { Authorization: `Bearer ${auth?.token}` },
           withCredentials: true
         })
         setServices(res.data || [])
       } catch (e) {
-        setError('Error al obtener los servicios')
+        if (isDev()) {
+          console.error('Error al actualizar servicios', e)
+          console.log('Solo veo esto en desarrollo')
+        }
       } finally {
         setLoading(false)
       }
@@ -71,12 +76,15 @@ const Servicios = () => {
     const fetchLatest = async () => {
       try {
         const res = await axios.get(`${getApiUrl()}/api/service`, {
-          headers: { Authorization: `Bearer ${auth?.token}` },
+          // headers: { Authorization: `Bearer ${auth?.token}` },
           withCredentials: true
         })
         setServices(res.data || [])
       } catch (e) {
-        console.error('Error al actualizar servicios', e)
+          if (isDev()) {
+            console.error('Error al actualizar servicios', e)
+            console.log('Solo veo esto en desarrollo')
+          }
       }
     }
 
@@ -307,21 +315,6 @@ const Servicios = () => {
       </div>
     </DashboardLayout>
   )
-}
-
-function getStatusClass(status) {
-  switch (status) {
-    case 'Pendiente': return 'cell-pendiente'
-    case 'Recibido': return 'cell-recibido'
-    case 'En Revisión': return 'cell-revision'
-    case 'En Reparación': return 'cell-reparacion'
-    case 'En Pruebas': return 'cell-pruebas'
-    case 'Listo para retirar': return 'cell-listo'
-    case 'Entregado': return 'cell-entregado'
-    case 'Garantía': return 'cell-garantía'
-    case 'Devolución': return 'cell-devolucion'
-    default: return ''
-  }
 }
 
 export default Servicios

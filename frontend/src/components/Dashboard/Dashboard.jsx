@@ -35,20 +35,14 @@ const Dashboard = () => {
   const token = auth?.token
 
   useEffect(() => {
-    if (authLoading || !token) return
+    if (authLoading || !auth) return
 
     const fetchData = async () => {
       try {
         const [quotesRes, clientsRes, servicesRes] = await Promise.all([
-          axios.get(`${getApiUrl()}/api/quotes`, {
-            headers: { Authorization: `Bearer ${token}` }
-          }),
-          axios.get(`${getApiUrl()}/api/client`, {
-            headers: { Authorization: `Bearer ${token}` }
-          }),
-          axios.get(`${getApiUrl()}/api/service`, {
-            headers: { Authorization: `Bearer ${token}` }
-          })
+          axios.get(`${getApiUrl()}/api/quotes`, { withCredentials: true }),
+          axios.get(`${getApiUrl()}/api/client`, { withCredentials: true }),
+          axios.get(`${getApiUrl()}/api/service`, { withCredentials: true })
         ])
         setQuotes(quotesRes.data)
         setClients(clientsRes.data)
@@ -57,18 +51,15 @@ const Dashboard = () => {
         setError('Error al obtener datos')
       }
     }
-
     fetchData()
-  }, [authLoading, token])
+  }, [authLoading, auth])
 
   useEffect(() => {
     if (!token || authLoading) return
 
     const fetchFullUser = async () => {
       try {
-        const res = await axios.get(`${getApiUrl()}/api/manager/me`, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
+        const res = await axios.get(`${getApiUrl()}/api/manager/me`, { withCredentials: true })
         setFullUser(res.data)
       } catch (err) {
         console.error('Error al obtener perfil completo:', err)

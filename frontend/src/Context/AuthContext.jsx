@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from 'react'
-import Cookies from 'js-cookie'
 import axios from 'axios'
 import { getApiUrl } from '../config.js'
 
@@ -9,40 +8,45 @@ export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [authenticated, setAuthenticated] = useState(false)
 
-  /* === Verificación automática de token === */
+  // Verificación inicial del token desde backend (cookie)
   useEffect(() => {
     const verifyToken = async () => {
-      const token = Cookies.get('authToken')
-      if (!token) {
-        setAuth(null)
-        setLoading(false)
-        return
-      }
-
       try {
         const response = await axios.get(`${getApiUrl()}/api/manager/verifytoken`, {
-          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true
         })
-
         if (response.status === 200) {
-          setAuth({ token, user: response.data.user })
+          setAuth({ user: response.data.user })
+          setAuthenticated(true)    
         } else {
           setAuth(null)
         }
       } catch (err) {
-        console.error('Token inválido o expirado', err)
         setAuth(null)
+        setAuthenticated(false)
       } finally {
         setLoading(false)
       }
     }
-
     verifyToken()
   }, [])
 
-  /* === Login === */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      axios.get('/api/manager/verifytoken', { withCredentials: true })
+        .then(res => setAuthenticated(true))
+        .catch(() => {
+          setAuthenticated(false)
+          setAuth(null)
+        })
+    }, 60 * 1000) // cada 60 segundos
+
+    return () => clearInterval(interval)
+  }, [])
+
+  // Login: no manejás token desde JS, confías en cookie
   const login = async (email, password, remember = true) => {
     setLoading(true)
     setError(null)
@@ -50,25 +54,16 @@ export const AuthProvider = ({ children }) => {
       const response = await fetch(`${getApiUrl()}/api/manager/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-        credentials: 'include' // mantiene la sesión si usás cookies en backend
+        body: JSON.stringify({ email, password, remember }),
+        credentials: 'include'
       })
-
       if (!response.ok) {
         setError('Credenciales inválidas o error de conexión')
         return false
       }
-
       const data = await response.json()
-
-      // ⚠️ IMPORTANTE: secure solo en producción
-      Cookies.set('authToken', data.token, {
-        expires: remember ? 7 : undefined,
-        secure: process.env.NODE_ENV === 'production'
-      })
-
-      setAuth({ token: data.token, user: data.user })
-      setError(null)
+      setAuth({ user: data.user })
+      setAuthenticated(true) // 🔥 Este era el que faltaba
       return true
     } catch (err) {
       console.error('Error en login:', err)
@@ -79,26 +74,24 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  /* === Logout === */
+
+  // Logout: pedir al backend borrar cookie
   const logout = async () => {
     setLoading(true)
     try {
-      await axios.post(
-        `${getApiUrl()}/api/manager/logout`,
-        {},
-        { headers: { Authorization: `Bearer ${auth?.token}` } }
-      )
+      await axios.post(`${getApiUrl()}/api/manager/logout`, {}, {
+        withCredentials: true
+      })
     } catch (err) {
       console.warn('Error en logout:', err)
     }
-    Cookies.remove('authToken')
     setAuth(null)
     setLoading(false)
   }
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, login, logout, loading, error }}>
+    <AuthContext.Provider value={{ auth, login, logout, loading, error, authenticated }}>
       {children}
-    </AuthContext.Provider>
+  </AuthContext.Provider>
   )
 }
