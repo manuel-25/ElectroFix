@@ -25,27 +25,28 @@ const Perfil = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`${getApiUrl()}/api/manager/me`, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      setUser(res.data)
+      try {
+        const res = await axios.get(`${getApiUrl()}/api/manager/me`, { withCredentials: true })
+        setUser(res.data)
+      } catch (err) {
+        console.error('Error obteniendo el perfil:', err)
+      }
     }
-    if (token) fetchUser()
-  }, [token])
+
+    fetchUser()
+  }, [])
 
   useEffect(() => {
     if (!user || !['admin', 'supervisor'].includes(user.role)) return
     const fetchUsers = async () => {
-      const res = await axios.get(`${getApiUrl()}/api/manager`, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      const res = await axios.get(`${getApiUrl()}/api/manager`, { withCredentials: true })
       const list = user.role === 'admin'
         ? res.data // admin ve a todos, incluidos otros admins
         : res.data.filter(u => u.role !== 'admin' && u.branch === user.branch)
       setUsers(list)
     }
     fetchUsers()
-  }, [user, token])
+  }, [user])
 
   const handleEditClick = (email) => {
     setEditMode(email)
@@ -131,7 +132,7 @@ const Perfil = () => {
           <div className="perfil-admin-section">
             <h3>Gestión de Usuarios</h3>
             <div className="table-wrapper">
-              <table className="styled-table">
+              <table className="perfil-table">
                 <thead>
                   <tr>
                     <th>Email</th>
@@ -141,8 +142,8 @@ const Perfil = () => {
                     <th>Rol</th>
                     <th>Sucursal</th>
                     <th>Activo</th>
-                    <th>Último acceso</th> {/* ✅ Nueva columna */}
-                    <th>Notas</th>         {/* ✅ Nueva columna editable */}
+                    <th>Último acceso</th>
+                    <th>Notas</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>

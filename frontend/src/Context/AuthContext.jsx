@@ -14,9 +14,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const verifyToken = async () => {
       try {
-        const response = await axios.get(`${getApiUrl()}/api/manager/verifytoken`, {
-          withCredentials: true
-        })
+        const response = await axios.get(`${getApiUrl()}/api/manager/verifytoken`, { withCredentials: true })
         if (response.status === 200) {
           setAuth({ user: response.data.user })
           setAuthenticated(true)    
@@ -35,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      axios.get('/api/manager/verifytoken', { withCredentials: true })
+      axios.get(`${getApiUrl()}/api/manager/verifytoken`, { withCredentials: true })
         .then(res => setAuthenticated(true))
         .catch(() => {
           setAuthenticated(false)

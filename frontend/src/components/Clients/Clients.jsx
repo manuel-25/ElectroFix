@@ -21,13 +21,7 @@ const Clients = () => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await axios.get(`${getApiUrl()}/api/client`, {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${auth?.token}`
-          }
-        })
-
+        const res = await axios.get(`${getApiUrl()}/api/client`, { withCredentials: true })
         setClients(res.data)
       } catch (err) {
         console.error('Error al obtener los clientes')

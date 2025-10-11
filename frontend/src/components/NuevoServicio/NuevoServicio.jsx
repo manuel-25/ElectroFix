@@ -41,16 +41,12 @@ const NuevoServicio = () => {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    axios.get(`${getApiUrl()}/api/client`, {
-      headers: { Authorization: `Bearer ${auth?.token}` },
-      withCredentials: true
-    }).then(res => setClientes(res.data || []))
+    axios.get(`${getApiUrl()}/api/client`, { withCredentials: true})
+      .then(res => setClientes(res.data || []))
       .catch(err => console.error('Error al obtener clientes', err))
 
-    axios.get(`${getApiUrl()}/api/quotes`, {
-      headers: { Authorization: `Bearer ${auth?.token}` },
-      withCredentials: true
-    }).then(res => setCotizaciones(res.data || []))
+    axios.get(`${getApiUrl()}/api/quotes`, { withCredentials: true })
+      .then(res => setCotizaciones(res.data || []))
       .catch(err => console.error('Error al obtener cotizaciones', err))
   }, [auth])
 
@@ -106,10 +102,7 @@ const NuevoServicio = () => {
     setFormData(prev => ({ ...prev, codePrefix: prefix, code: '' }))
     if (!prefix) return
     try {
-      const res = await axios.get(`${getApiUrl()}/api/service/last-code/${prefix}`, {
-        headers: { Authorization: `Bearer ${auth?.token}` },
-        withCredentials: true
-      })
+      const res = await axios.get(`${getApiUrl()}/api/service/last-code/${prefix}`, { withCredentials: true })
       const nextCode = res.data?.nextCode || `${prefix}1000`
       setFormData(prev => ({ ...prev, code: nextCode }))
     } catch {
@@ -158,10 +151,7 @@ const NuevoServicio = () => {
     }
 
     try {
-      await axios.post(`${getApiUrl()}/api/service`, finalData, {
-        headers: { Authorization: `Bearer ${auth?.token}` },
-        withCredentials: true
-      })
+      await axios.post(`${getApiUrl()}/api/service`, finalData, { withCredentials: true })
       navigate(`/servicios`)
     } catch (err) {
       setError(err.response?.data?.error || 'Error al crear el servicio.')

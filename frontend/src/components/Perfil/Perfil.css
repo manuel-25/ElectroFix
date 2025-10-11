@@ -41,7 +41,7 @@
 }
 
 /* Tabla de usuarios */
-.styled-table {
+.perfil-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
@@ -51,20 +51,20 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-.styled-table thead {
+.perfil-table thead {
   background-color: #f1f5f9;
   font-weight: 600;
 }
 
-.styled-table th,
-.styled-table td {
+.perfil-table th,
+.perfil-table td {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #e5e7eb;
   text-align: left;
 }
 
-.styled-table td input,
-.styled-table td select {
+.perfil-table td input,
+.perfil-table td select {
   width: 100%;
   padding: 0.3rem 0.5rem;
   border-radius: 6px;
@@ -72,7 +72,7 @@
   font-size: 13px;
 }
 
-.styled-table td input[type="checkbox"] {
+.perfil-table td input[type="checkbox"] {
   width: auto;
 }
 
@@ -159,7 +159,7 @@
   margin-bottom: 12px;
 }
 
-.perfil-admin-section .styled-table button {
+.perfil-admin-section .perfil-table button {
   padding: 6px 12px;
   border: none;
   border-radius: 6px;
@@ -170,11 +170,11 @@
   transition: background-color 0.2s ease;
 }
 
-.perfil-admin-section .styled-table button:hover:not(:disabled) {
+.perfil-admin-section .perfil-table button:hover:not(:disabled) {
   background-color: #1e4ed8;
 }
 
-.perfil-admin-section .styled-table button:disabled {
+.perfil-admin-section .perfil-table button:disabled {
   background-color: #94a3b8;
   cursor: not-allowed;
 }

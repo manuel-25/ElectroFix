@@ -36,15 +36,13 @@ function Navbar() {
                             <img className='logo' src="/images/electrosafeLogo1300x600.jpg" alt="Electrosafe" />
                         </Link>
                     </div>
-                    {!auth?.token && (
-                        <nav className="navbar-links">
-                            <Link to="/reparacion-electrodomesticos" className="nav-link">Servicios</Link>
-                            <Link to="/nosotros" className="nav-link">Sobre Nosotros</Link>
-                            <Link to="/contacto" className="nav-link">Contacto</Link>
-                        </nav>
-                    )}
+                    <nav className="navbar-links">
+                        <Link to="/reparacion-electrodomesticos" className="nav-link">Servicios</Link>
+                        <Link to="/nosotros" className="nav-link">Sobre Nosotros</Link>
+                        <Link to="/contacto" className="nav-link">Contacto</Link>
+                    </nav>
                     <div className="navbar-right">
-                    {auth?.token && (
+                    {auth?.user && (
                         <div className="admin-icons">
                         <Link to="/dashboard" className="admin-icon" title="Panel">
                             <FontAwesomeIcon icon={faGears} />
@@ -57,7 +55,7 @@ function Navbar() {
                         </button>
                         </div>
                     )}
-                    {!auth?.token && (
+                    {!auth?.user && (
                         <Link to="/reparacion-electrodomesticos">
                             <QuoteButton text="Cotizar Ahora" onClick={handleQuoteClick} />
                         </Link>

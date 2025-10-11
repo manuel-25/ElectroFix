@@ -68,7 +68,7 @@ static async createUser(req, res) {
         await user.save()
 
         // 🔐 Generar token JWT
-        const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, config.JWT_SECRET, { expiresIn: '4h' })        //10s para pruebas o 4h
+        const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, config.JWT_SECRET, { expiresIn: '1h' })        //10s para pruebas o 4h
 
         res.cookie('authToken', token, {
             httpOnly: true,

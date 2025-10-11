@@ -25,18 +25,9 @@ const EditarServicio = () => {
     const fetchData = async () => {
       try {
         const [clientesRes, cotRes, servicioRes] = await Promise.all([
-          axios.get(`${getApiUrl()}/api/client`, {
-            headers: { Authorization: `Bearer ${auth?.token}` },
-            withCredentials: true
-          }),
-          axios.get(`${getApiUrl()}/api/quotes`, {
-            headers: { Authorization: `Bearer ${auth?.token}` },
-            withCredentials: true
-          }),
-          axios.get(`${getApiUrl()}/api/service/code/${code}`, {
-            headers: { Authorization: `Bearer ${auth?.token}` },
-            withCredentials: true
-          })
+          axios.get(`${getApiUrl()}/api/client`, { withCredentials: true }),
+          axios.get(`${getApiUrl()}/api/quotes`, { withCredentials: true }),
+          axios.get(`${getApiUrl()}/api/service/code/${code}`, { withCredentials: true })
         ])
         setClientes(clientesRes.data || [])
         setCotizaciones(cotRes.data || [])
@@ -97,20 +88,14 @@ const EditarServicio = () => {
 
             // Validar código duplicado si fue modificado
             if (formData.code !== code) {
-            const res = await axios.get(`${getApiUrl()}/api/service/code/${formData.code}`, {
-                headers: { Authorization: `Bearer ${auth?.token}` },
-                withCredentials: true
-            })
+            const res = await axios.get(`${getApiUrl()}/api/service/code/${formData.code}`, { withCredentials: true })
             if (res.data && res.data.code !== code) {
                 setError('Ya existe un servicio con ese código.')
                 return
             }
             }
 
-            await axios.put(`${getApiUrl()}/api/service/${formData._id}`, formData, {
-              headers: { Authorization: `Bearer ${auth?.token}` },
-              withCredentials: true
-            })
+            await axios.put(`${getApiUrl()}/api/service/${formData._id}`, formData, { withCredentials: true })
             navigate(`/servicios`)
         } catch (err) {
             setError(err.response?.data?.error || 'Error al actualizar el servicio.')
