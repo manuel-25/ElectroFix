@@ -14,7 +14,8 @@ export const SERVICE_STATUS = [
   'Listo para retirar',
   'Entregado',
   'Garantía',
-  'Rechazado'
+  'Rechazado',
+  'Repuestos'
 ]
 export const SERVICE_BRANCHES = ['Quilmes', 'Barracas', 'No recibido']
 export const DELIVERY_METHODS = ['Presencial', 'Envío Correo', 'Retiro y Entrega', 'UberFlash']

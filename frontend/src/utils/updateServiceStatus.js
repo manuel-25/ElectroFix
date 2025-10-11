@@ -4,14 +4,16 @@ import { getApiUrl } from '../config'
 export const updateServiceStatus = async ({
   service,
   newStatus,
-  token,
   note = '',
   userEmail = '',
   receivedAtBranch = null,
   isSatisfied = null,
   deliveredAt = null,
 }) => {
-  if (!service?._id || !newStatus || !token) return
+  if (!service?._id || !newStatus) {
+    console.warn('[updateServiceStatus] Faltan datos obligatorios', { service, newStatus })
+    return
+  }
 
   const payload = { status: newStatus, note }
 
@@ -25,10 +27,15 @@ export const updateServiceStatus = async ({
     if (typeof isSatisfied === 'boolean') payload.isSatisfied = isSatisfied
   }
 
+  console.log('[updateServiceStatus] Enviando payload:', payload)
+
   const res = await axios.put(
     `${getApiUrl()}/api/service/${service._id}/status`,
     payload,
-    { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
+    { withCredentials: true }
   )
+
+  console.log('[updateServiceStatus] Respuesta:', res.data)
+
   return res.data
 }

@@ -25,6 +25,7 @@ export default function ServiceStatusControl({
       const updated = await updateServiceStatus(params)
       onUpdated(updated)
     } catch (e) {
+      console.error('[ServiceStatusControl] persist error =', e)
       onError(e)
     } finally {
       setSaving(false)
