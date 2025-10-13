@@ -11,7 +11,6 @@ const ClientDetail = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { auth, loading: authLoading } = useContext(AuthContext)
-  const token = auth?.token
 
   const [client, setClient] = useState(undefined)
   const [error, setError] = useState(null)
@@ -20,17 +19,17 @@ const ClientDetail = () => {
   const [formData, setFormData] = useState({})
 
   useEffect(() => {
-    if (authLoading || !token) return
+    if (authLoading) return
 
     const fetchClient = async () => {
       setLoading(true)
       try {
-        const res = await axios.get(`${getApiUrl()}/api/client/by-customer/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
+        const url = `${getApiUrl()}/api/client/by-customer/${id}`
+        const res = await axios.get(url, { withCredentials: true })
         setClient(res.data)
         setFormData(res.data)
       } catch (err) {
+        console.error('[ClientDetail] Error al obtener cliente:', err)
         setClient(null)
         setError('No se pudo cargar la información del cliente.')
       } finally {
@@ -39,7 +38,7 @@ const ClientDetail = () => {
     }
 
     fetchClient()
-  }, [id, token, authLoading])
+  }, [id, authLoading])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -48,9 +47,7 @@ const ClientDetail = () => {
 
   const handleSave = async () => {
     try {
-      const res = await axios.put(`${getApiUrl()}/api/client/${formData._id}`, formData, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      const res = await axios.put(`${getApiUrl()}/api/client/${formData._id}`, formData, { withCredentials: true })
       setClient(res.data)
       setEditMode(false)
     } catch (err) {
@@ -61,7 +58,7 @@ const ClientDetail = () => {
 
   if (authLoading || loading || client === undefined) {
     return (
-      <div className="quote-detail-centered">
+      <div className="client-detail-wrapper">
         <div className="loading-container" style={{ marginTop: 60 }}>
           <Loading />
         </div>
@@ -69,38 +66,46 @@ const ClientDetail = () => {
     )
   }
 
+  if (client === null) {
+    return (
+      <div className="client-detail-wrapper" style={{ marginTop: 60, textAlign: 'center', color: '#bb0c0c' }}>
+        <p>{error || 'Cliente no encontrado.'}</p>
+        <button onClick={() => navigate(-1)}>Volver</button>
+      </div>
+    )
+  }
+
   if (error) {
     return (
-      <div className="quote-detail-centered" style={{ marginTop: 60, textAlign: 'center', color: '#bb0c0c' }}>
+      <div className="client-detail-wrapper" style={{ marginTop: 60, textAlign: 'center', color: '#bb0c0c' }}>
         <p>{error}</p>
       </div>
     )
   }
 
   return (
-    <div className="quote-detail-centered">
-      <button className="back-button-pro" onClick={() => navigate(-1)}>← Volver</button>
+    <div className="client-detail-wrapper">
+      <button className="client-detail-back-btn" onClick={() => navigate(-1)}>← Volver</button>
       <h2 className="dashboard-title" style={{ textAlign: 'center' }}>
         Detalle del Cliente #{client.customerNumber}
       </h2>
 
       <div style={{ margin: '16px 0', textAlign: 'center' }}>
         {!editMode ? (
-          <button className="btn-submit" onClick={() => setEditMode(true)}>
+          <button className="client-detail-btn" onClick={() => setEditMode(true)}>
             ✏️ Editar Cliente
           </button>
         ) : (
           <>
-            <button className="btn-submit" onClick={handleSave}>
+            <button className="client-detail-btn" onClick={handleSave}>
               💾 Guardar Cambios
             </button>
             <button
-              className="btn-cancelar"
+              className="client-detail-cancel-btn"
               onClick={() => {
                 setEditMode(false)
                 setFormData(client)
               }}
-              style={{ marginLeft: 12 }}
             >
               Cancelar
             </button>
@@ -108,134 +113,52 @@ const ClientDetail = () => {
         )}
       </div>
 
-      <div className="table-wrapper" style={{ margin: '0 auto', marginTop: 16, maxWidth: 900 }}>
-        <table className="styled-table">
-          <thead className="table-head">
+      <div className="client-detail-table-wrapper">
+        <table className="client-detail-table">
+          <thead>
             <tr>
-              <th className="fixed-col">Campo</th>
+              <th className="client-detail-fixed-col">Campo</th>
               <th>Valor</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Nombre</td>
-              <td>
-                {editMode ? (
-                  <input
-                    name="firstName"
-                    value={formData.firstName || ''}
-                    onChange={handleInputChange}
-                  />
-                ) : client.firstName}
-              </td>
-            </tr>
-            <tr>
-              <td>Apellido</td>
-              <td>
-                {editMode ? (
-                  <input
-                    name="lastName"
-                    value={formData.lastName || ''}
-                    onChange={handleInputChange}
-                  />
-                ) : client.lastName}
-              </td>
-            </tr>
-
-            <tr>
-              <td>Email</td>
-              <td>
-                {editMode ? (
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email || ''}
-                    onChange={handleInputChange}
-                  />
-                ) : client.email}
-              </td>
-            </tr>
-
-            <tr>
-              <td>Teléfono</td>
-              <td>
-                {editMode ? (
-                  <input
-                    name="phone"
-                    value={formData.phone || ''}
-                    onChange={handleInputChange}
-                  />
-                ) : client.phone || 'No registrado'}
-              </td>
-            </tr>
-
-            <tr>
-              <td>Provincia</td>
-              <td>
-                {editMode ? (
-                  <input
-                    name="province"
-                    value={formData.province || ''}
-                    onChange={handleInputChange}
-                  />
-                ) : client.province}
-              </td>
-            </tr>
-
-            <tr>
-              <td>Municipio</td>
-              <td>
-                {editMode ? (
-                  <input
-                    name="municipio"
-                    value={formData.municipio || ''}
-                    onChange={handleInputChange}
-                  />
-                ) : client.municipio}
-              </td>
-            </tr>
-
-            <tr>
-              <td>Domicilio</td>
-              <td>
-                {editMode ? (
-                  <input
-                    name="domicilio"
-                    value={formData.domicilio || ''}
-                    onChange={handleInputChange}
-                  />
-                ) : client.domicilio || '-'}
-              </td>
-            </tr>
-
-            <tr>
-              <td>DNI o CUIT</td>
-              <td>
-                {editMode ? (
-                  <input
-                    name="dniOrCuit"
-                    value={formData.dniOrCuit || ''}
-                    onChange={handleInputChange}
-                  />
-                ) : client.dniOrCuit || '-'}
-              </td>
-            </tr>
+            {[
+              { label: 'Nombre', name: 'firstName' },
+              { label: 'Apellido', name: 'lastName' },
+              { label: 'Email', name: 'email', type: 'email' },
+              { label: 'Teléfono', name: 'phone' },
+              { label: 'Provincia', name: 'province' },
+              { label: 'Municipio', name: 'municipio' },
+              { label: 'Domicilio', name: 'domicilio' },
+              { label: 'DNI o CUIT', name: 'dniOrCuit' }
+            ].map(({ label, name, type }) => (
+              <tr key={name}>
+                <td>{label}</td>
+                <td>
+                  {editMode ? (
+                    <input
+                      type={type || 'text'}
+                      name={name}
+                      value={formData[name] || ''}
+                      onChange={handleInputChange}
+                    />
+                  ) : client[name] || '-'}
+                </td>
+              </tr>
+            ))}
 
             <tr>
               <td>N° Cliente</td>
               <td>{client.customerNumber}</td>
             </tr>
-
             <tr>
               <td>Solicitudes</td>
               <td>{client.serviceRequestNumbers?.join(', ')}</td>
             </tr>
-
             <tr>
               <td>Fecha creación</td>
               <td>{client.createdAt}</td>
             </tr>
-
             <tr>
               <td>Última actualización</td>
               <td>{formatDate(client.updatedAt, true)}</td>
