@@ -81,12 +81,20 @@ class ClientManagerDao {
   }
 
   async findByEmail(email) {
-    return await this.clientModel.findOne({ email })
+    if (!email) return null
+    return await this.clientModel.findOne({ email: email.trim().toLowerCase() })
   }
 
   async findLastClient() {
     const lastClient = await this.clientModel.findOne().sort({ customerNumber: -1 })
     return lastClient ? { ...lastClient.toObject(), createdAt: this.formatDate(lastClient.createdAt) } : null
+  }
+
+  async findByNameAndPhone(fullName, phone) {
+    return await this.clientModel.findOne({
+      fullName: fullName.trim(),
+      phone: phone.trim()
+    })
   }
 }
 

@@ -4,11 +4,12 @@ const clientSchema = new mongoose.Schema({
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
   dniOrCuit: { type: String },
-  email: { 
+  email: {
     type: String,
     lowercase: true,
     trim: true,
-    sparse: true,
+    unique: true,
+    sparse: true,       // necesario para permitir multiples null
     match: [/^\S+@\S+\.\S+$/, 'Email inválido']
   },
   phone: { type: String, required: true },

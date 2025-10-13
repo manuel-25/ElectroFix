@@ -22,9 +22,10 @@ class ServiceRequestController {
             // Normalizar los datos del cliente antes de guardarlos
             let { userData, category, brand, model, faults, details, branch } = req.body
 
-            // Normalizar el nombre y el apellido
+            // Normalizar datos
             userData.firstName = normalizeName(userData.firstName)
             userData.lastName = normalizeName(userData.lastName)
+            userData.email = userData.email?.trim().toLowerCase()
             model = model.trim()
 
             // Ajustar la fecha
@@ -38,19 +39,23 @@ class ServiceRequestController {
                 return res.status(400).send({ error: 'Faltan datos del usuario' })
             }
             if (!category || !category.name) {
-                category.name = 'Categoría no proporcionada'
+                category.name = 'Categoría no enviada'
             }
             if (!faults || !Array.isArray(faults) || faults.length === 0) {
                 faults = ['Falla no proporcionada']
             }
 
             // Verificar si el cliente ya existe por email
-            const existingClient = await ClientManager.findByEmail(userData.email)
-            
+            let existingClient = null
             let customerNumber
+
+            userData.email = userData.email.trim().toLowerCase()
+            existingClient = await ClientManager.findByEmail(userData.email)
+        
             let serviceRequestNumber = await NumberGenerator.generateServiceRequestNumber()
 
             if (existingClient) {
+                logger.info('[ServiceRequest] Cliente existente hallado:', existingClient.customerNumber)
                 customerNumber = existingClient.customerNumber
                 existingClient.serviceRequestNumbers.push(serviceRequestNumber)
 
@@ -58,6 +63,7 @@ class ServiceRequestController {
                     serviceRequestNumbers: existingClient.serviceRequestNumbers
                 })
             } else {
+                logger.info('[ServiceRequest] No existe cliente con ese email, voy a crear uno nuevo')
                 // Cliente nuevo: generar un nuevo número de cliente
                 customerNumber = await NumberGenerator.generateCustomerNumber()
 
@@ -72,7 +78,9 @@ class ServiceRequestController {
                     serviceRequestNumbers: [serviceRequestNumber],
                     customerNumber: customerNumber
                 }
+                logger.info('[ServiceRequest] newClientData:', newClientData)
                 await ClientManager.create(newClientData)
+                logger.info('[ServiceRequest] Cliente creado:', createdClient)
             }
 
             // Asignar los números generados a la solicitud
