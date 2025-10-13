@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ESTADOS_SERVICIO, normalizeStatus } from '../../utils/productsData.jsx'
 import { updateServiceStatus } from '../../utils/updateServiceStatus.js'
 import StatusModal from '../StatusModal/StatusModal.jsx'
+import Modal from '../Modal/Modal.jsx'
 
 export default function ServiceStatusControl({
   service,
@@ -18,6 +19,8 @@ export default function ServiceStatusControl({
   const [saving, setSaving] = useState(false)
   const [modalType, setModalType] = useState(null)
   const [selectedBranch, setSelectedBranch] = useState('')
+  const [showSkipWarning, setShowSkipWarning] = useState(false)
+  const [nextStatus, setNextStatus] = useState(null)
 
   const persist = async (params) => {
     setSaving(true)
@@ -32,7 +35,7 @@ export default function ServiceStatusControl({
     }
   }
 
-  const onChange = async (value) => {
+const onChange = async (value) => {
     if (!service?._id || saving) return
 
     if (value === 'Recibido' && !userBranch) {
@@ -46,6 +49,17 @@ export default function ServiceStatusControl({
       return
     }
 
+    const historial = service?.history?.map(h => h.status) || []
+    const yaRecibido = historial.includes('Recibido') || service.status === 'Recibido'
+    const seSalteaRecibido = !yaRecibido && value !== 'Pendiente' && value !== 'Recibido'
+
+    if (seSalteaRecibido) {
+      setNextStatus(value)
+      setShowSkipWarning(true)
+      return
+    }
+
+    // Normal persist
     await persist({
       service,
       newStatus: value,
@@ -103,6 +117,53 @@ export default function ServiceStatusControl({
           })
         }}
       />
+
+      {showSkipWarning && (
+        <Modal title="Advertencia: Falta 'Recibido'" onClose={() => setShowSkipWarning(false)}>
+          <p>Este servicio aún no fue marcado como <strong>Recibido</strong>.</p>
+          <p>¿Marcar como <strong>Recibido</strong> antes de cambiarlo a <strong>{nextStatus}</strong>?</p>
+          <div className="btn-group" style={{ marginTop: 20, display: 'flex', justifyContent: 'flex-end' }}>
+            <button className="btn-cancelar" onClick={() => {
+              setShowSkipWarning(false)
+              setNextStatus(null)
+            }}>
+              Cancelar
+            </button>
+            <button className="btn-submit" style={{ marginLeft: 10 }} onClick={async () => {
+              setShowSkipWarning(false)
+              if (!userBranch) {
+                setSelectedBranch('')
+                setModalType('branch')
+                setShowSkipWarning(false)
+              } else {
+                await persist({
+                  service,
+                  newStatus: 'Recibido',
+                  token,
+                  note,
+                  userEmail,
+                  receivedAtBranch: userBranch
+                })
+
+                await persist({
+                  service,
+                  newStatus: nextStatus,
+                  token,
+                  note,
+                  userEmail,
+                  receivedAtBranch: userBranch
+                })
+
+                setShowSkipWarning(false)
+                setNextStatus(null)
+              }
+              setNextStatus(null)
+            }}>
+              Sí, marcar como Recibido
+            </button>
+          </div>
+        </Modal>
+      )}
     </>
   )
 }

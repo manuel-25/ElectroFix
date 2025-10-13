@@ -69,7 +69,6 @@ textarea {
 }
 
 .btn-submit {
-  background-color: #111;
   color: white;
   padding: 10px 24px;
   font-weight: 600;
@@ -78,10 +77,6 @@ textarea {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-}
-
-.btn-submit:hover {
-  background-color: #ff6600;
 }
 
 .select-wrapper {

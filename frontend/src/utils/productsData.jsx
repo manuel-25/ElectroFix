@@ -668,39 +668,58 @@ export const equipoOptions = [
 ]
 
 
-//  == Seccion Estados ==
+// ====== ESTADOS DE SERVICIOS =======
 // Lista de estados con key interno, etiqueta visible y clase CSS
 export const ESTADOS_SERVICIO = [
-  { value: 'Pendiente', key: 'pendiente', class: 'status-pendiente' },
-  { value: 'Recibido', key: 'recibido', class: 'status-recibido' },
-  { value: 'En Revisión', key: 'revision', class: 'status-revision' },
-  { value: 'En Reparación', key: 'reparacion', class: 'status-reparacion' },
-  { value: 'En Pruebas', key: 'pruebas', class: 'status-pruebas' },
-  { value: 'Listo para retirar', key: 'listo', class: 'status-listo' },
-  { value: 'Entregado', key: 'entregado', class: 'status-entregado' },
-  { value: 'Garantía', key: 'garantia', class: 'status-garantia' },
-  { value: 'Rechazado', key: 'rechazado', class: 'status-rechazado' },
-  { value: 'Repuestos', key: 'repuestos', class: 'status-repuestos' },
+    { value: 'Pendiente', key: 'pendiente', class: 'status-pendiente', label: 'Pendiente' },
+    { value: 'Recibido', key: 'recibido', class: 'status-recibido', label: 'Recibido' },
+    { value: 'En Revisión', key: 'revision', class: 'status-revision', label: 'En Revisión' },
+    { value: 'En Reparación', key: 'reparacion', class: 'status-reparacion', label: 'En Reparación' },
+    { value: 'En Pruebas', key: 'pruebas', class: 'status-pruebas', label: 'En Pruebas' },
+    { value: 'Listo para retirar', key: 'listo', class: 'status-listo', label: 'Listo para retirar' },
+    { value: 'Entregado', key: 'entregado', class: 'status-entregado', label: 'Entregado' },
+    { value: 'Garantía', key: 'garantia', class: 'status-garantia', label: 'Garantía' },
+    { value: 'Rechazado', key: 'rechazado', class: 'status-rechazado', label: 'Rechazado' },
+    { value: 'Repuestos', key: 'repuestos', class: 'status-repuestos', label: 'Repuestos' },
 ]
 
-// Normaliza cualquier string a key interna
 export const normalizeStatus = (raw = '') => {
-  const s = raw.toString().trim().toLowerCase()
-    .normalize('NFD').replace(/\p{Diacritic}/gu, '')
-    .replace(/\s+/g, '-')
+    const s = raw?.toString().trim().toLowerCase()
+        .normalize('NFD').replace(/\p{Diacritic}/gu, '')
+        .replace(/\s+/g, '-')
 
-  if (s.includes('devolucion')) return 'rechazado'
-  if (s.includes('listo-para-retirar')) return 'listo'
-  if (s.includes('en-pruebas')) return 'pruebas'
-  if (s.includes('en-revision')) return 'revision'
-  if (s.includes('en-reparacion')) return 'reparacion'
-  return s
+    if (s.includes('devolucion')) return 'rechazado'
+    if (s.includes('listo-para-retirar')) return 'listo'
+
+    const match = ESTADOS_SERVICIO.find(e => {
+        const normalizedLabel = e.label?.toString().trim().toLowerCase()
+            .normalize('NFD').replace(/\p{Diacritic}/gu, '')
+            .replace(/\s+/g, '-')
+        return e.key === s || normalizedLabel === s
+    })
+    return match?.key || s
+}
+
+export const esTransicionValida = (estadoActual, nuevoEstado, historial = []) => {
+    const idxActual = ESTADOS_SERVICIO.findIndex(e => e.label === estadoActual)
+    const idxNuevo = ESTADOS_SERVICIO.findIndex(e => e.label === nuevoEstado)
+
+    if (nuevoEstado === 'Garantía') {
+        return historial.includes('Entregado') // solo si ya fue entregado
+    }
+
+    if (nuevoEstado === 'Repuestos') {
+        return historial.includes('Listo para retirar') || historial.includes('En Pruebas')
+    }
+
+    // General: permitir si el nuevo estado no se saltea más de un paso
+    return idxNuevo <= idxActual + 1
 }
 
 // Obtiene la clase CSS de un estado textual
 export const getStatusClass = (status) => {
-  const key = normalizeStatus(status)
-  return ESTADOS_SERVICIO.find(s => s.key === key)?.class || ''
+    const key = normalizeStatus(status)
+    return ESTADOS_SERVICIO.find(s => s.key === key)?.class || ''
 }
 
 export const branchMap = { W: 'Web', Q: 'Quilmes', B: 'Barracas' }
