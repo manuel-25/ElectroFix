@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     return () => clearInterval(interval)
   }, [])
 
-  // Login: no manejás token desde JS, confías en cookie
+  // Login: no maneja token desde JS, confías en cookie
   const login = async (email, password, remember = true) => {
     setLoading(true)
     setError(null)
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
       }
       const data = await response.json()
       setAuth({ user: data.user })
-      setAuthenticated(true) // 🔥 Este era el que faltaba
+      setAuthenticated(true)
       return true
     } catch (err) {
       console.error('Error en login:', err)

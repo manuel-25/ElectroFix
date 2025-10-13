@@ -68,13 +68,14 @@ static async createUser(req, res) {
         await user.save()
 
         // 🔐 Generar token JWT
-        const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, config.JWT_SECRET, { expiresIn: '1h' })        //10s para pruebas o 4h
+        const expiresIn = remember ? '4h' : '1h'
+        const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, config.JWT_SECRET, { expiresIn })        //10s para pruebas o 4h
 
         res.cookie('authToken', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'Strict',
-            maxAge: remember ? 4*60*60*1000 : undefined              // 4*60*60*1000 : undefined
+            maxAge: 4 * 60 * 60 * 1000        // 4  horas
         })
 
         res.status(200).json({
