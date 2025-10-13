@@ -9,7 +9,6 @@ import serviceRoutes from './routes/serviceRoutes.js'
 import logRoutes from './routes/logRoutes.js'
 import cookieParser from 'cookie-parser'
 import config from './utils/config.js'
-import fetch from 'node-fetch'
 import { logger } from './utils/logger.js'
 
 dotenv.config()
@@ -54,26 +53,3 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
   logger.info(`Server is running on port: ${port}`)
 })
-
-/*
-// === Proxy para datos.gob.ar ===
-app.get('/api/provincias', async (req, res) => {
-  try {
-    const response = await fetch('https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre')
-    const data = await response.json()
-    res.json(data)
-  } catch (err) {
-    res.status(500).json({ error: 'Error al obtener provincias' })
-  }
-})
-
-app.get('/api/municipios', async (req, res) => {
-  const { provincia } = req.query
-  try {
-    const response = await fetch(`https://apis.datos.gob.ar/georef/api/municipios?provincia=${encodeURIComponent(provincia)}&campos=id,nombre&max=100`)
-    const data = await response.json()
-    res.json(data)
-  } catch (err) {
-    res.status(500).json({ error: 'Error al obtener municipios' })
-  }
-})*/

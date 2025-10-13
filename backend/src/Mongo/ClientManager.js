@@ -50,13 +50,16 @@ class ClientManagerDao {
   }
 
   async create(data) {
-    // Eliminar el campo si viene vacío o nulo
-    if (!data.email || data.email.trim() === '') {
-      delete data.email
-    }
-
-    // Validar duplicado solo si hay email definido
     if (data.email) {
+      data.email = data.email.trim().toLowerCase()
+
+      // Validar formato básico de email
+      const emailRegex = /^\S+@\S+\.\S+$/
+      if (!emailRegex.test(data.email)) {
+        throw new Error('Formato de email inválido')
+      }
+
+      // Validar duplicado
       const existing = await this.clientModel.findOne({ email: data.email })
       if (existing) {
         const err = new Error('El email ya está registrado')
@@ -64,6 +67,9 @@ class ClientManagerDao {
         err.keyPattern = { email: 1 }
         throw err
       }
+    } else {
+      // Si viene vacío o no definido, eliminamos del objeto para respetar el índice sparse
+      delete data.email
     }
 
     data.date = this.getArgentinaTime()

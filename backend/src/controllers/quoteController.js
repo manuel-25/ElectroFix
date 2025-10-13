@@ -3,8 +3,8 @@ import NumberGenerator from "../services/numberGenerator.js"
 import { logger } from "../utils/logger.js"
 
 class QuoteController {
-    // Crear una nueva cotización
-    static async createQuote(req, res) {
+    // Crear una nueva cotización ===> NO USAR
+    /*static async createQuote(req, res) {
         try {
             // Generar un número de cotización único y de cliente
             const serviceRequestNumber = await NumberGenerator.generateServiceRequestNumber()
@@ -23,7 +23,7 @@ class QuoteController {
             logger.error('Error creating quote:', error)
             res.status(400).json({ error: 'Error creating quote: ' + error.message })
         }
-    }
+    }*/
 
     // Obtener todas las cotizaciones con paginación
     static async getQuotes(req, res) {

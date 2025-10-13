@@ -55,7 +55,6 @@ class ServiceRequestController {
             let serviceRequestNumber = await NumberGenerator.generateServiceRequestNumber()
 
             if (existingClient) {
-                logger.info('[ServiceRequest] Cliente existente hallado:', existingClient.customerNumber)
                 customerNumber = existingClient.customerNumber
                 existingClient.serviceRequestNumbers.push(serviceRequestNumber)
 
@@ -63,7 +62,6 @@ class ServiceRequestController {
                     serviceRequestNumbers: existingClient.serviceRequestNumbers
                 })
             } else {
-                logger.info('[ServiceRequest] No existe cliente con ese email, voy a crear uno nuevo')
                 // Cliente nuevo: generar un nuevo número de cliente
                 customerNumber = await NumberGenerator.generateCustomerNumber()
 
@@ -78,9 +76,7 @@ class ServiceRequestController {
                     serviceRequestNumbers: [serviceRequestNumber],
                     customerNumber: customerNumber
                 }
-                logger.info('[ServiceRequest] newClientData:', newClientData)
                 await ClientManager.create(newClientData)
-                logger.info('[ServiceRequest] Cliente creado:', createdClient)
             }
 
             // Asignar los números generados a la solicitud
@@ -145,6 +141,7 @@ class ServiceRequestController {
                 'Nueva solicitud de cotización',
                 emailContent
             )
+            logger.info(`Solicitud creada exitosamente. Cliente: ${customerNumber}, Solicitud: ${serviceRequestNumber}`)
 
             // Devolver la respuesta exitosa
             res.status(201).send(serviceRequest)

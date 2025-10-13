@@ -1,11 +1,11 @@
 import express from 'express'
 import QuoteController from '../controllers/quoteController.js'
-
+import ServiceRequestController from '../controllers/serviceRequestController.js'
 
 const router = express.Router()
 
-// Crear una nueva cotización
-router.post('/', QuoteController.createQuote)
+// Crear una nueva cotización (usando ServiceRequestController)
+router.post('/', ServiceRequestController.createServiceRequest)
 
 // Obtener todas las cotizaciones
 router.get('/', QuoteController.getQuotes)
