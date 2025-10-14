@@ -35,10 +35,42 @@ export default function ServiceStatusControl({
     }
   }
 
-const onChange = async (value) => {
+  const onChange = async (value) => {
     if (!service?._id || saving) return
 
+    const yaRecibido = !!(service.receivedAtBranch && service.receivedBy && service.receivedAt)
+    const seSalteaRecibido = !yaRecibido && value !== 'Pendiente' && value !== 'Recibido'
+
+    if (seSalteaRecibido) {
+      if (userBranch) {
+        // Marca automáticamente como recibido, luego cambia al estado elegido
+        await persist({
+          service,
+          newStatus: 'Recibido',
+          token,
+          note,
+          userEmail,
+          receivedAtBranch: userBranch
+        })
+        await persist({
+          service,
+          newStatus: value,
+          token,
+          note,
+          userEmail,
+          receivedAtBranch: userBranch
+        })
+      } else {
+        // Admin: guardar estado deseado, seleccionar sucursal
+        setNextStatus(value)
+        setSelectedBranch('')
+        setModalType('branch')
+      }
+      return
+    }
+
     if (value === 'Recibido' && !userBranch) {
+      setNextStatus('Recibido')
       setSelectedBranch('')
       setModalType('branch')
       return
@@ -49,17 +81,6 @@ const onChange = async (value) => {
       return
     }
 
-    const historial = service?.history?.map(h => h.status) || []
-    const yaRecibido = historial.includes('Recibido') || service.status === 'Recibido'
-    const seSalteaRecibido = !yaRecibido && value !== 'Pendiente' && value !== 'Recibido'
-
-    if (seSalteaRecibido) {
-      setNextStatus(value)
-      setShowSkipWarning(true)
-      return
-    }
-
-    // Normal persist
     await persist({
       service,
       newStatus: value,
@@ -97,6 +118,7 @@ const onChange = async (value) => {
         onConfirmBranch={async () => {
           if (!selectedBranch) return
           setModalType(null)
+
           await persist({
             service,
             newStatus: 'Recibido',
@@ -105,6 +127,19 @@ const onChange = async (value) => {
             userEmail,
             receivedAtBranch: selectedBranch
           })
+
+          if (nextStatus && nextStatus !== 'Recibido') {
+            await persist({
+              service,
+              newStatus: nextStatus,
+              token,
+              note,
+              userEmail,
+              receivedAtBranch: selectedBranch
+            })
+          }
+
+          setNextStatus(null)
         }}
         onConfirmSatisfaction={async (yes) => {
           setModalType(null)
@@ -117,53 +152,6 @@ const onChange = async (value) => {
           })
         }}
       />
-
-      {showSkipWarning && (
-        <Modal title="Advertencia: Falta 'Recibido'" onClose={() => setShowSkipWarning(false)}>
-          <p>Este servicio aún no fue marcado como <strong>Recibido</strong>.</p>
-          <p>¿Marcar como <strong>Recibido</strong> antes de cambiarlo a <strong>{nextStatus}</strong>?</p>
-          <div className="btn-group" style={{ marginTop: 20, display: 'flex', justifyContent: 'flex-end' }}>
-            <button className="btn-cancelar" onClick={() => {
-              setShowSkipWarning(false)
-              setNextStatus(null)
-            }}>
-              Cancelar
-            </button>
-            <button className="btn-submit" style={{ marginLeft: 10 }} onClick={async () => {
-              setShowSkipWarning(false)
-              if (!userBranch) {
-                setSelectedBranch('')
-                setModalType('branch')
-                setShowSkipWarning(false)
-              } else {
-                await persist({
-                  service,
-                  newStatus: 'Recibido',
-                  token,
-                  note,
-                  userEmail,
-                  receivedAtBranch: userBranch
-                })
-
-                await persist({
-                  service,
-                  newStatus: nextStatus,
-                  token,
-                  note,
-                  userEmail,
-                  receivedAtBranch: userBranch
-                })
-
-                setShowSkipWarning(false)
-                setNextStatus(null)
-              }
-              setNextStatus(null)
-            }}>
-              Sí, marcar como Recibido
-            </button>
-          </div>
-        </Modal>
-      )}
     </>
   )
 }
