@@ -33,6 +33,7 @@ import TicketViewer from './components/TicketViewer/TicketViewer.jsx'
 import EditarServicio from './components/EditarServicio/EditarServicio.jsx'
 import useGtagPageView from './utils/useGtagPageView.js'
 import FormSubmissionStatus from './components/FormSubmissionStatus/FormSubmissionStatus.jsx'
+import WorkOrderViewer from './components/WorkOrderViewer/WorkOrderViewer.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -152,7 +153,7 @@ function App() {
         <Routes>
           {/* 🧾 Ticket público (sin login) */}
           <Route path="/ticket/:publicId" element={<TicketViewer />} />
-
+          <Route path="/orden/:publicId" element={<WorkOrderViewer />} />
           {/* 🌐 Todo lo demás con layout */}
           <Route path="*" element={<AppContent />} />
         </Routes>

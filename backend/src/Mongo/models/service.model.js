@@ -103,6 +103,19 @@ const ServiceSchema = new Schema(
     isSatisfied: { type: Boolean, default: null },
     deliveredAt: { type: Date, default: null },
 
+    // Presupuesto desglosado
+    budgetItems: [{
+      cantidad: { type: Number, default: 1 },
+      descripcion: { type: String, required: true },
+      precioUnitario: { type: Number, required: true }
+    }],
+
+    // Diagnóstico técnico (puede ser distinto a la descripción del cliente)
+    diagnosticoTecnico: { type: String, default: '' },
+
+    // Texto adicional para incluir notas importantes en la orden
+    workOrderNotes: { type: String, default: '' },
+
     // ID pública para compartir externamente
     publicId: { type: String, unique: true }
   },

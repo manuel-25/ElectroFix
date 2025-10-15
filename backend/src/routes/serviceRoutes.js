@@ -3,6 +3,7 @@ import ServiceController from '../controllers/serviceController.js'
 import authenticateJWT from '../middlewares/authenticateJWT.js'
 import authenticateAdmin from '../middlewares/authenticateAdmin.js'
 import TicketController from '../controllers/ticketController.js'
+import WorkOrderController from '../controllers/workOrderController.js'
 
 const router = express.Router()
 
@@ -37,5 +38,9 @@ router.patch('/soft-delete/:code', authenticateJWT, authenticateAdmin, ServiceCo
 router.get('/:publicId/print-ticket', /*authenticateJWT,*/ TicketController.printServiceTicket) // por _id
 router.get('/code/:code/print-ticket', /*authenticateJWT,*/ TicketController.printByCode) // por code
 router.get('/public/:publicId/print-ticket', TicketController.printByPublicId)
+
+// ================== Orden de trabajo ==================
+router.get('/public/:publicId/print-workorder', WorkOrderController.printByPublicId)
+
 
 export default router
