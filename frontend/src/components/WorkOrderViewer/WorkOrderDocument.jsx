@@ -9,6 +9,7 @@ import {
   Image,
 } from '@react-pdf/renderer';
 import logo from '../../assets/electrosafe-logo.jpg';
+import { formatCurrency } from '../../utils/currency';
 
 Font.register({
   family: 'Helvetica',
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
   },
   companyCenter: {
     flexGrow: 1,
-    fontSize: 9,
+    fontSize: 7,
     textAlign: 'center',
     marginTop: 15,
     lineHeight: 1.4,
@@ -153,6 +154,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 2,
   },
+    watermarkContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  watermarkImage: {
+    width: 1000,
+    opacity: 0.03,
+    transform: 'rotate(-30deg)',
+    margin: 40,
+  },
 });
 
 export function WorkOrderDocument({ service }) {
@@ -161,18 +180,25 @@ export function WorkOrderDocument({ service }) {
   const diagnostico = service?.diagnosticoTecnico || '—';
   const notas = service?.workOrderNotes || '';
   const fecha = new Date(service?.createdAt).toLocaleDateString('es-AR');
-  const valorFinal = service?.finalValue ? `$${service.finalValue}` : '—';
-  const total = service.budgetItems?.reduce((acc, item) => acc + item.precioUnitario * item.cantidad, 0) || 0;
+  const valorFinal = service?.finalValue ? formatCurrency(service.finalValue) : '—';
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        <View style={styles.watermarkContainer}>
+            {Array.from({ length: 30 }).map((_, i) => (
+                <Image key={i} src={logo} style={styles.watermarkImage} />
+            ))}
+        </View>
         <View style={styles.header}>
           <Image src={logo} style={styles.logo} />
           <View style={styles.companyCenter}>
             <Text style={{ fontWeight: 'bold' }}>CUIT: 20-38903937-1</Text>
-            <Text>Dir.: Av. Vicente López 770 - Quilmes</Text>
+            <Text>Quilmes: Av. Vicente López 770</Text>
+            <Text>Barracas: Rocha 1752</Text>
+            <Text>Lun. a Vie. de 10 a 18 hs • Sáb. de 10 a 13 hs</Text>
             <Text>Tel.: 11-3914-8766</Text>
+            <Text>electrosafeservice@gmail.com</Text>
           </View>
           <View style={styles.headerRight}>
             <Text style={styles.fecha}>Fecha: {fecha}</Text>
@@ -217,8 +243,8 @@ export function WorkOrderDocument({ service }) {
                 <View key={i} style={styles.budgetRow}>
                   <Text style={[styles.tableCell, { width: '10%' }]}>{item.cantidad}</Text>
                   <Text style={[styles.tableCell, { width: '50%' }]}>{item.descripcion}</Text>
-                  <Text style={[styles.tableCell, { width: '20%' }]}>${item.precioUnitario}</Text>
-                  <Text style={{ padding: 4, width: '20%' }}>${item.precioUnitario * item.cantidad}</Text>
+                  <Text style={[styles.tableCell, { width: '20%' }]}>{formatCurrency(item.precioUnitario)}</Text>
+                  <Text style={{ padding: 4, width: '20%' }}>{formatCurrency(item.precioUnitario * item.cantidad)}</Text>
                 </View>
               ))}
             </>
@@ -243,24 +269,29 @@ export function WorkOrderDocument({ service }) {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionHeader}>Garantía: {service?.warrantyExpiration || 30} días</Text>
-          <View style={{ ...styles.description, fontSize: 7 }}>
-            <Text style={{ fontWeight: 'bold' }}>Prescripción de la garantía</Text>
-            <Text>La garatía queda sin efecto en caso de que el electrodoméstico presente alguna de las siguientes alteraciones:</Text>
-            <Text>• Mal uso del mismo</Text>
-            <Text>• Desgaste de material por uso</Text>
-            <Text>• Golpes/contusiones/maltrato</Text>
-            <Text>• Faja de garantía dañada</Text>
-            <Text>• Residuos de líquidos en el interior</Text>
-            <Text>• Sobrecalentamiento por diferencia eléctrica</Text>
-          </View>
+            <Text style={styles.sectionHeader}>Garantía: {service?.warrantyExpiration || 30} días</Text>
+            <View style={{ ...styles.description, fontSize: 7 }}>
+                <Text style={{ fontWeight: 'bold' }}>Prescripción de la garantía</Text>
+                <Text>
+                La garantía quedará sin efecto si el electrodoméstico presenta alguna de las siguientes alteraciones o condiciones:
+                </Text>
+                <Text>• Uso inadecuado o distinto al previsto por el fabricante</Text>
+                <Text>• Desgaste normal de componentes o materiales</Text>
+                <Text>• Golpes, caídas, contusiones o maltrato físico</Text>
+                <Text>• Faja o sello de garantía dañado o removido</Text>
+                <Text>• Presencia de residuos o líquidos en el interior del equipo</Text>
+                <Text>• Daños por sobrecalentamiento, cortocircuito o variaciones eléctricas</Text>
+                <Text>• Daños ocasionados por fauna (insectos, roedores u otros animales)</Text>
+            </View>
         </View>
 
         <Text style={styles.note}>
-          Nota:
-          {'\n'}Los presupuestos enviados tendrán una tolerancia de espera de respuesta de 7 (siete) días corridos, pasado este período el cliente pierde la potestad del electrodoméstico.
-          {'\n'}En caso de rechazar el presupuesto, el valor de la revisión varía entre $5.000 a $15.000 dependiendo de la complejidad y tamaño del electrodoméstico. Este importe deberá ser abonado al momento de retirar el mismo, teniendo una tolerancia de espera de 7 (siete) días corridos, pasado este período el cliente pierde la potestad del electrodoméstico.
-          {'\n'}Para una mejor organización de nuestro trabajo, en caso de no aceptar el presupuesto por favor avisar para poder ensamblar nuevamente el electrodoméstico para su devolución, en las mismas condiciones que ingresó.
+            Nota legal:
+            {'\n'}• El presupuesto enviado tendrá una validez de 7 (siete) días corridos desde su emisión. Vencido este plazo sin respuesta, se entenderá como rechazado.
+            {'\n'}• En caso de rechazo o falta de respuesta, se deberá abonar el valor de la revisión técnica, el cual oscila entre $5.000 y $15.000 según la complejidad del equipo. El pago deberá realizarse al momento del retiro.
+            {'\n'}• Si el cliente no retira el equipo dentro de los 10 (diez) días posteriores a la notificación fehaciente (WhatsApp/SMS/email), Electrosafe podrá disponer del mismo conforme al artículo 2525 del Código Civil y Comercial de la Nación.
+            {'\n'}• En caso de rechazo del presupuesto, se solicita informar con anticipación para permitir el correcto ensamblaje del equipo antes de su devolución.
+            {'\n'}• La aprobación del presupuesto enviada por WhatsApp u otro medio digital será considerada aceptación tácita y vinculante según la Ley 26.994 (CCC).
         </Text>
 
         <View style={styles.disclaimerContainer}>

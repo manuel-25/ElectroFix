@@ -9,6 +9,7 @@ import ServiceStatusControl from '../ServiceStatusControl/ServiceStatusControl.j
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faPrint } from '@fortawesome/free-solid-svg-icons'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
+import { faFileLines } from '@fortawesome/free-solid-svg-icons'
 import ServiceFilters from '../ServiceFilters/ServiceFilters'
 import { formatDate } from '../../utils/formatDate.js'
 import isDev from '../../utils/isDev.js'
@@ -62,8 +63,8 @@ const Servicios = () => {
       } catch (e) {
         if (isDev()) {
           console.error('Error al actualizar servicios', e)
-          console.log('Solo veo esto en desarrollo')
         }
+        setError('No se pudieron cargar los servicios.')
       } finally {
         setLoading(false)
       }
@@ -83,8 +84,8 @@ const Servicios = () => {
       } catch (e) {
           if (isDev()) {
             console.error('Error al actualizar servicios', e)
-            console.log('Solo veo esto en desarrollo')
           }
+          setError('No se pudieron cargar los servicios.')
       }
     }
 
@@ -280,6 +281,14 @@ const Servicios = () => {
                         >
                           <FontAwesomeIcon icon={faPrint} />
                         </a>
+
+                        <Link
+                          to={`/orden/${s.publicId}`}
+                          className="action-btn orden"
+                          title="Ver Orden de Trabajo"
+                        >
+                          <FontAwesomeIcon icon={faFileLines} />
+                        </Link>
 
                         {s.userData?.phone && (
                           <a

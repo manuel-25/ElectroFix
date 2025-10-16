@@ -1,39 +1,50 @@
 import React from 'react'
 import './App.css'
 import './root.css'
+
+// Layouts
 import Navbar from './components/Navbar/Navbar'
 import Footer from './components/Footer/Footer'
+import DashboardLayout from './components/DashboardLayout/DashboardLayout.jsx'
+
+// Páginas públicas
 import MainContent from './components/MainContent/MainContent'
 import Services from './components/Services/Services'
 import Contact from './components/Contact/Contact'
 import AboutUs from './components/AboutUs/AboutUs'
 import TermsAndConditions from './components/TermsAndConditions/TermsAndConditions'
 import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy'
+import FormSubmissionStatus from './components/FormSubmissionStatus/FormSubmissionStatus.jsx'
 import Login from './components/Login/Login.jsx'
+import TicketViewer from './components/TicketViewer/TicketViewer.jsx'
+
+// Dashboard y autenticación
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx'
+import { AuthProvider } from './Context/AuthContext.jsx'
+
+// Vistas protegidas
 import Dashboard from './components/Dashboard/Dashboard.jsx'
 import Cotizaciones from './components/Cotizaciones/Cotizaciones.jsx'
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx'
+import QuoteDetail from './components/QuoteDetail/QuoteDetail.jsx'
 import Perfil from './components/Perfil/Perfil.jsx'
-import { AuthProvider } from './Context/AuthContext.jsx'
+import Clients from './components/Clients/Clients.jsx'
+import ClientDetail from './components/ClientDetail/ClientDetail.jsx'
+import Servicios from './components/Servicios/Servicios.jsx'
+import NuevoServicio from './components/NuevoServicio/NuevoServicio.jsx'
+import EditarServicio from './components/EditarServicio/EditarServicio.jsx'
+import ServiceDetail from './components/ServiceDetail/ServiceDetail.jsx'
+import WorkOrderViewer from './components/WorkOrderViewer/WorkOrderViewer.jsx'
+
+// Otros
+import NotFound from './components/NotFound/NotFound.jsx'
+import useGtagPageView from './utils/useGtagPageView.js'
+
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   useLocation
 } from 'react-router-dom'
-import DashboardLayout from './components/DashboardLayout/DashboardLayout.jsx'
-import Clients from './components/Clients/Clients.jsx'
-import QuoteDetail from './components/QuoteDetail/QuoteDetail.jsx'
-import Servicios from './components/Servicios/Servicios.jsx'
-import NotFound from './components/NotFound/NotFound.jsx'
-import NuevoServicio from './components/NuevoServicio/NuevoServicio.jsx'
-import ClientDetail from './components/ClientDetail/ClientDetail.jsx'
-import ServiceDetail from './components/ServiceDetail/ServiceDetail.jsx'
-import TicketViewer from './components/TicketViewer/TicketViewer.jsx'
-import EditarServicio from './components/EditarServicio/EditarServicio.jsx'
-import useGtagPageView from './utils/useGtagPageView.js'
-import FormSubmissionStatus from './components/FormSubmissionStatus/FormSubmissionStatus.jsx'
-import WorkOrderViewer from './components/WorkOrderViewer/WorkOrderViewer.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -53,6 +64,7 @@ function AppContent() {
           <Route path="/terminos-condiciones" element={<TermsAndConditions />} />
           <Route path="/privacidad" element={<PrivacyPolicy />} />
           <Route path="/manager" element={<Login />} />
+          <Route path="/ticket/:publicId" element={<TicketViewer />} />
 
           {/* 🔒 Rutas protegidas */}
           <Route
@@ -60,6 +72,14 @@ function AppContent() {
             element={
               <ProtectedRoute>
                 <DashboardLayout><Dashboard /></DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/perfil"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout><Perfil /></DashboardLayout>
               </ProtectedRoute>
             }
           />
@@ -128,10 +148,10 @@ function AppContent() {
             }
           />
           <Route
-            path="/perfil"
+            path="/orden/:publicId"
             element={
               <ProtectedRoute>
-                <DashboardLayout><Perfil /></DashboardLayout>
+                <DashboardLayout><WorkOrderViewer /></DashboardLayout>
               </ProtectedRoute>
             }
           />
@@ -150,13 +170,7 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <Routes>
-          {/* 🧾 Ticket público (sin login) */}
-          <Route path="/ticket/:publicId" element={<TicketViewer />} />
-          <Route path="/orden/:publicId" element={<WorkOrderViewer />} />
-          {/* 🌐 Todo lo demás con layout */}
-          <Route path="*" element={<AppContent />} />
-        </Routes>
+        <AppContent />
       </AuthProvider>
     </Router>
   )

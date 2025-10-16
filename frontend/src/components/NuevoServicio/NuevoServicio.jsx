@@ -272,16 +272,6 @@ const NuevoServicio = () => {
           </div>
 
           <div className="form-section">
-            <label>Valor Final ($)</label>
-            <input type="number" name="finalValue" value={formData.finalValue} onChange={handleChange} />
-          </div>
-
-          <div className="form-section">
-            <label>Repuestos ($)</label>
-            <input type="number" name="repuestos" value={formData.repuestos} onChange={handleChange} />
-          </div>
-
-          <div className="form-section">
             <label>Referencia Cotización</label>
             <Select
               classNamePrefix="react-select"
