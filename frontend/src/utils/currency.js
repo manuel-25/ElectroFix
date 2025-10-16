@@ -1,8 +1,10 @@
 export const formatCurrency = (value) => {
-  if (typeof value !== 'number') return '—'
+  if (value === null || value === undefined || isNaN(value)) return '—'
 
-  const [int, dec] = value.toFixed(2).split('.') // fuerza 2 decimales
-
-  const formattedInt = int.replace(/\B(?=(\d{3})+(?!\d))/g, '.') // separador de miles
-  return `$ ${formattedInt},${dec}`
+  return new Intl.NumberFormat('es-AR', {
+    style: 'currency',
+    currency: 'ARS',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(value)
 }

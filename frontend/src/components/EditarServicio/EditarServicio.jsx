@@ -7,7 +7,7 @@ import { AuthContext } from '../../Context/AuthContext'
 import Select from 'react-select'
 import { equipoOptions } from '../../utils/productsData'
 import { getApiUrl } from '../../config'
-import Loading from '../Loading/Loading'
+import { formatCurrency } from '../../utils/currency'
 import './EditarServicio.css'
 
 const EditarServicio = () => {
@@ -33,7 +33,8 @@ const EditarServicio = () => {
         setCotizaciones(cotRes.data || [])
         setFormData({
           ...servicioRes.data,
-          receivedAtBranch: servicioRes.data.receivedAtBranch || 'No recibido'
+          receivedAtBranch: servicioRes.data.receivedAtBranch || 'No recibido',
+          budgetItems: servicioRes.data.budgetItems || []
         })
       } catch (err) {
         console.error('Error cargando datos:', err)
@@ -43,26 +44,7 @@ const EditarServicio = () => {
     fetchData()
   }, [auth, code])
 
-  const clienteOptions = clientes.map(c => ({
-    value: c.customerNumber,
-    label: `#${c.customerNumber} - ${c.firstName} ${c.lastName}`
-  }))
-
-    const validCot = cotizaciones.filter(q => q.serviceRequestNumber)
-    const invalidCot = cotizaciones.filter(q => !q.serviceRequestNumber)
-
-    const cotOptions = [
-    ...validCot.sort((a, b) => b.serviceRequestNumber - a.serviceRequestNumber).map(q => ({
-        value: q.serviceRequestNumber,
-        label: `#${q.serviceRequestNumber} - ${q.userData?.firstName || ''} ${q.userData?.lastName || ''}`.trim()
-    })),
-    ...invalidCot.map(q => ({
-        value: null,
-        label: `${q.userData?.firstName || ''} ${q.userData?.lastName || ''} (sin número)`
-    }))
-    ]
-
-  const updatePreview = () => {
+  useEffect(() => {
     if (!formData) return
     const { code, equipmentType, brand, model, approximateValue, quoteReference, userDescription } = formData
     const base = [code, equipmentType, brand, model].filter(Boolean).join(' ')
@@ -70,10 +52,6 @@ const EditarServicio = () => {
     const approx = approximateValue ? `Aprox.: ${approximateValue}` : ''
     const cotRef = quoteReference ? ` #${quoteReference}` : ''
     setPreviewDescription([base, texto, approx].filter(Boolean).join('. ').trim().concat(cotRef))
-  }
-
-  useEffect(() => {
-    updatePreview()
   }, [formData])
 
   const handleChange = e => {
@@ -81,27 +59,50 @@ const EditarServicio = () => {
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
-    const handleSubmit = async e => {
-        e.preventDefault()
-        try {
-            formData.description = previewDescription
+  const handleItemChange = (index, field, value) => {
+    const items = [...formData.budgetItems]
+    items[index][field] = field === 'cantidad' || field === 'precioUnitario' ? parseFloat(value) || 0 : value
+    setFormData(prev => ({ ...prev, budgetItems: items }))
+  }
 
-            // Validar código duplicado si fue modificado
-            if (formData.code !== code) {
-            const res = await axios.get(`${getApiUrl()}/api/service/code/${formData.code}`, { withCredentials: true })
-            if (res.data && res.data.code !== code) {
-                setError('Ya existe un servicio con ese código.')
-                return
-            }
-            }
+  const addItem = () => {
+    setFormData(prev => ({
+      ...prev,
+      budgetItems: [...(prev.budgetItems || []), { cantidad: 1, descripcion: '', precioUnitario: 0 }]
+    }))
+  }
 
-            await axios.put(`${getApiUrl()}/api/service/${formData._id}`, formData, { withCredentials: true })
-            navigate(`/servicios`)
-        } catch (err) {
-            setError(err.response?.data?.error || 'Error al actualizar el servicio.')
-            console.error(err)
+  const removeItem = index => {
+    const items = [...formData.budgetItems]
+    items.splice(index, 1)
+    setFormData(prev => ({ ...prev, budgetItems: items }))
+  }
+
+  const calcularValorFinal = () => {
+    return (formData.budgetItems || []).reduce((sum, item) => sum + item.cantidad * item.precioUnitario, 0).toFixed(2)
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    try {
+      formData.description = previewDescription
+      formData.finalValue = parseFloat(calcularValorFinal())
+
+      if (formData.code !== code) {
+        const res = await axios.get(`${getApiUrl()}/api/service/code/${formData.code}`, { withCredentials: true })
+        if (res.data && res.data.code !== code) {
+          setError('Ya existe un servicio con ese código.')
+          return
         }
+      }
+
+      await axios.put(`${getApiUrl()}/api/service/${formData._id}`, formData, { withCredentials: true })
+      navigate(`/servicios`)
+    } catch (err) {
+      setError(err.response?.data?.error || 'Error al actualizar el servicio.')
+      console.error(err)
     }
+  }
 
   if (!formData) {
     return (
@@ -113,13 +114,32 @@ const EditarServicio = () => {
     )
   }
 
+  const clienteOptions = clientes.map(c => ({
+    value: c.customerNumber,
+    label: `#${c.customerNumber} - ${c.firstName} ${c.lastName}`
+  }))
+
+  const validCot = cotizaciones.filter(q => q.serviceRequestNumber)
+  const invalidCot = cotizaciones.filter(q => !q.serviceRequestNumber)
+
+  const cotOptions = [
+    ...validCot.sort((a, b) => b.serviceRequestNumber - a.serviceRequestNumber).map(q => ({
+      value: q.serviceRequestNumber,
+      label: `#${q.serviceRequestNumber} - ${q.userData?.firstName || ''} ${q.userData?.lastName || ''}`.trim()
+    })),
+    ...invalidCot.map(q => ({
+      value: null,
+      label: `${q.userData?.firstName || ''} ${q.userData?.lastName || ''} (sin número)`
+    }))
+  ]
+
   return (
     <DashboardLayout>
       <div className="dashboard-wrapper">
         <button className="back-button-pro" onClick={() => navigate(-1)}>← Volver</button>
         <h2 className="editservice-title">✏️ Editar Servicio</h2>
 
-        <form className="form-elegante" onSubmit={handleSubmit}>
+        <form className="form-elegante editar-servicio-form" onSubmit={handleSubmit}>
           <div className="form-section">
             <label>Código</label>
             <input name="code" value={formData.code} onChange={handleChange} />
@@ -159,11 +179,7 @@ const EditarServicio = () => {
 
           <div className="form-section full-width">
             <label>Descripción*</label>
-            <textarea
-              name="userDescription"
-              value={formData.userDescription}
-              onChange={handleChange}
-            />
+            <textarea name="userDescription" value={formData.userDescription} onChange={handleChange} />
           </div>
 
           <div className="form-section full-width">
@@ -182,21 +198,7 @@ const EditarServicio = () => {
 
           <div className="form-section">
             <label>Valor Aproximado ($)</label>
-            <input
-              name="approximateValue"
-              value={formData.approximateValue}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-section">
-            <label>Valor Final ($)</label>
-            <input type="number" name="finalValue" value={formData.finalValue} onChange={handleChange} />
-          </div>
-
-          <div className="form-section">
-            <label>Repuestos ($)</label>
-            <input type="number" name="repuestos" value={formData.repuestos} onChange={handleChange} />
+            <input name="approximateValue" value={formData.approximateValue} onChange={handleChange} />
           </div>
 
           <div className="form-section">
@@ -212,12 +214,7 @@ const EditarServicio = () => {
 
           <div className="form-section">
             <label>Garantía (días)</label>
-            <input
-              type="number"
-              name="warrantyExpiration"
-              value={formData.warrantyExpiration}
-              onChange={handleChange}
-            />
+            <input type="number" name="warrantyExpiration" value={formData.warrantyExpiration} onChange={handleChange} />
           </div>
 
           <div className="form-section">
@@ -240,10 +237,50 @@ const EditarServicio = () => {
           </div>
 
           <div className="form-section full-width">
-            <label>Notas del Técnico</label>
+            <label>Notas del Técnico  *Uso Interno*</label>
             <textarea name="notes" value={formData.notes} onChange={handleChange} />
           </div>
 
+          <div className="form-section full-width">
+            <label>Diagnóstico Técnico</label>
+            <textarea name="diagnosticoTecnico" value={formData.diagnosticoTecnico} onChange={handleChange} />
+          </div>
+
+          <div className="form-section full-width">
+            <label>Notas para la Orden</label>
+            <textarea name="workOrderNotes" value={formData.workOrderNotes} onChange={handleChange} />
+          </div>
+
+          <div className="form-section full-width">
+            <label>Ítems del Presupuesto</label>
+            <table className="budget-table">
+              <thead>
+                <tr>
+                  <th>Cant.</th>
+                  <th>Descripción</th>
+                  <th>Precio Unit.</th>
+                  <th>Subtotal</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {(formData.budgetItems || []).map((item, i) => (
+                  <tr key={i}>
+                    <td><input type="number" value={item.cantidad} onChange={e => handleItemChange(i, 'cantidad', e.target.value)} /></td>
+                    <td><input type="text" value={item.descripcion} onChange={e => handleItemChange(i, 'descripcion', e.target.value)} /></td>
+                    <td><input type="number" value={item.precioUnitario} onChange={e => handleItemChange(i, 'precioUnitario', e.target.value)} /></td>
+                    <td>{formatCurrency(item.cantidad * item.precioUnitario)}</td>
+                    <td><button type="button" onClick={() => removeItem(i)} className="remove-item">🗑</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button type="button" onClick={addItem} className="add-item-btn">➕ Agregar Ítem</button>
+          </div>
+          <div className="valor-final-linea-dos-columnas full-width">
+            <span>Total:</span>
+            <strong>{formatCurrency(parseFloat(calcularValorFinal()))}</strong>
+          </div>
           {error && <div className="error-message">{error}</div>}
 
           <div className="form-footer">
