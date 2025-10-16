@@ -221,7 +221,7 @@ export function WorkOrderDocument({ service }) {
           <Text style={styles.presupuestoHeader}>PRESUPUESTO</Text>
           <View style={styles.description}>
             <Text style={{ fontWeight: 'bold' }}>Artículo: {articulo || '—'}</Text>
-            <Text style={{ fontWeight: 'bold', marginTop: 4 }}>Diagnóstico técnico: {diagnostico}</Text>
+            <Text style={{ fontWeight: 'bold', marginTop: 4 }}>Diagnóstico: {diagnostico}</Text>
             {notas && (
               <>
                 <Text style={{ fontWeight: 'bold', marginTop: 6 }}>Notas del técnico:</Text>
@@ -286,7 +286,7 @@ export function WorkOrderDocument({ service }) {
         </View>
 
         <Text style={styles.note}>
-            Nota legal:
+            Nota:
             {'\n'}• El presupuesto enviado tendrá una validez de 7 (siete) días corridos desde su emisión. Vencido este plazo sin respuesta, se entenderá como rechazado.
             {'\n'}• En caso de rechazo o falta de respuesta, se deberá abonar el valor de la revisión técnica, el cual oscila entre $5.000 y $15.000 según la complejidad del equipo. El pago deberá realizarse al momento del retiro.
             {'\n'}• Si el cliente no retira el equipo dentro de los 10 (diez) días posteriores a la notificación fehaciente (WhatsApp/SMS/email), Electrosafe podrá disponer del mismo conforme al artículo 2525 del Código Civil y Comercial de la Nación.
