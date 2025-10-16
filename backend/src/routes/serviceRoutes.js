@@ -40,7 +40,7 @@ router.get('/code/:code/print-ticket', /*authenticateJWT,*/ TicketController.pri
 router.get('/public/:publicId/print-ticket', TicketController.printByPublicId)
 
 // ================== Orden de trabajo ==================
-router.get('/public/:publicId/print-workorder', WorkOrderController.printByPublicId)
+router.get('/public/:publicId', WorkOrderController.getPublicService)
 
 
 export default router

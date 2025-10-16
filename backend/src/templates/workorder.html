@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    body { font-family: sans-serif; font-size: 12px; padding: 30px; }
+    .box { border: 1px solid #000; padding: 10px; margin-bottom: 8px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #000; padding: 5px; text-align: left; }
+  </style>
+</head>
+<body>
+  <h2 style="text-align: center;">ORDEN DE TRABAJO</h2>
+  <div class="box"><strong>Nombre:</strong> {{nombre}}</div>
+  <div class="box"><strong>Artículo:</strong> {{articulo}}</div>
+  <div class="box"><strong>Diagnóstico:</strong> {{diagnostico}}</div>
+  <div class="box"><strong>Valor aproximado:</strong> {{valorAprox}}</div>
+  <div class="box"><strong>Garantía:</strong> {{garantia}}</div>
+
+  <table>
+    <thead>
+      <tr><th>Cantidad</th><th>Descripción</th><th>Precio U.</th><th>Subtotal</th></tr>
+    </thead>
+    <tbody>
+      {{itemsTable}}
+    </tbody>
+  </table>
+</body>
+</html>
