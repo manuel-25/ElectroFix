@@ -10,6 +10,7 @@ import {
 } from '@react-pdf/renderer';
 import logo from '../../assets/electrosafe-logo.jpg';
 import { formatCurrency } from '../../utils/currency';
+import firmaSello from '../../assets/firmaSelloQuilmes.png';
 
 Font.register({
   family: 'Helvetica',
@@ -172,6 +173,15 @@ const styles = StyleSheet.create({
     transform: 'rotate(-30deg)',
     margin: 40,
   },
+  selloImage: {
+    position: 'absolute',
+    bottom: 30, // altura del sello
+    right: 60,  // margen derecho
+    width: 105, // tamaño del sello
+    opacity: 0.90, // efecto “superpuesto”
+    transform: 'rotate(-7deg)', // leve rotación como sello real
+    zIndex: 10,
+  },
 });
 
 export function WorkOrderDocument({ service }) {
@@ -292,6 +302,9 @@ export function WorkOrderDocument({ service }) {
             {'\n'}• En caso de rechazo del presupuesto, se solicita informar con anticipación para permitir el correcto ensamblaje del equipo antes de su devolución.
             {'\n'}• La aprobación del presupuesto enviada por WhatsApp u otro medio digital será considerada aceptación tácita y vinculante según la Ley 26.994 (CCC).
         </Text>
+
+        {/* SELLO */}
+        <Image src={firmaSello} style={styles.selloImage} />
 
         <View style={styles.disclaimerContainer}>
           <Text style={styles.disclaimer}>Electrosafe - Servicio Técnico Oficial • www.electrosafe.com</Text>
