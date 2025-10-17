@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   description: {
     padding: 6,
-    fontSize: 9,
+    fontSize: 10,
     lineHeight: 1.3,
   },
   totalLine: {
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   note: {
-    fontSize: 7,
+    fontSize: 8,
     lineHeight: 1.3,
     marginTop: 10,
   },
@@ -224,8 +224,7 @@ export function WorkOrderDocument({ service }) {
             <Text style={{ fontWeight: 'bold', marginTop: 4 }}>Diagnóstico: {diagnostico}</Text>
             {notas && (
               <>
-                <Text style={{ fontWeight: 'bold', marginTop: 6 }}>Notas del técnico:</Text>
-                <Text>{notas}</Text>
+                <Text style={{ marginTop: 6 }}>Notas del técnico: {notas}</Text>
               </>
             )}
           </View>
@@ -263,8 +262,8 @@ export function WorkOrderDocument({ service }) {
           )}
 
           <View style={styles.budgetRow}>
-            <Text style={[styles.tableCell, { width: '80%', textAlign: 'right' }]}>Valor Final:</Text>
-            <Text style={{ padding: 4, width: '20%' }}>{valorFinal}</Text>
+            <Text style={[styles.tableCell, { width: '80%', textAlign: 'right', fontWeight: 'bold' }]}>Total:</Text>
+            <Text style={{ padding: 4, width: '20%', fontWeight: 'bold' }}>{valorFinal}</Text>
           </View>
         </View>
 

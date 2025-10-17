@@ -198,16 +198,74 @@
   border: 1px solid #ccc;
 }
 
-/* === COLORES DE ESTADOS === */
-.status-select.cell-pendiente { background-color: #fff3cd; color: #856404; border-color: #ffeeba; }
-.status-select.cell-reparacion,
-.status-select.cell-revision { background-color: #fff; color: #212529; border-color: #ced4da; }
-.status-select.cell-recibido { background-color: #e2f0ff; color: #004085; }
-.status-select.cell-pruebas { background-color: #d4edda; color: #155724; }
-.status-select.cell-listo,
-.status-select.cell-entregado { background-color: #d4edda; color: #155724; border-color: #c3e6cb; }
-.status-select.cell-garantía { background-color: #ffeeba; color: #856404; }
-.status-select.cell-devolución { background-color: #f8d7da; color: #721c24; }
+/* === ESTADOS DE SERVICIO === */
+
+/* Pendiente: Amarillo brillante */
+select.status-select.cell-pendiente {
+  background-color: #faf096 !important;
+  color: #7a6000 !important;
+  border-color: #fae758 !important;
+}
+
+/* En Reparación: Azul fuerte */
+select.status-select.cell-reparacion {
+  background-color: #007bff !important;
+  color: #ffffff !important;
+  border-color: #0069d9 !important;
+}
+
+/* Revisión: Azul grisáceo intermedio */
+select.status-select.cell-revision {
+  background-color: #d0e2f2 !important;
+  color: #004080 !important;
+  border-color: #b0cfe2 !important;
+}
+
+/* Recibido: Celeste claro */
+select.status-select.cell-recibido {
+  background-color: #e2f0ff !important;
+  color: #004085 !important;
+  border-color: #b8daff !important;
+}
+
+/* Pruebas: Verde claro */
+select.status-select.cell-pruebas {
+  background-color: #d4edda !important;
+  color: #155724 !important;
+  border-color: #c3e6cb !important;
+}
+
+/* Listo: Verde pastel */
+select.status-select.cell-listo {
+  background-color: #d4edda !important;
+  color: #155724 !important;
+  border-color: #c3e6cb !important;
+}
+
+/* Entregado: Gris muy claro */
+select.status-select.cell-entregado {
+  background-color: #f8f9fa !important;
+  color: #6c757d !important;
+  border-color: #dee2e6 !important;
+}
+
+/* Garantía: Naranja intenso */
+select.status-select.cell-garantía,
+select.status-select.cell-garantia {
+  background-color: #ffbe5b !important; 
+  color: #663c00 !important;          
+  border-color: #ffa31a !important;    
+}
+
+/* Devolución: Rojo claro */
+select.status-select.cell-devolución,
+select.status-select.cell-devolucion {
+  background-color: #f8d7da !important;
+  color: #721c24 !important;
+  border-color: #f5c6cb !important;
+}
+
+
 
 /* === NOTAS === */
 .styled-table td:nth-child(8) { padding: 0; }

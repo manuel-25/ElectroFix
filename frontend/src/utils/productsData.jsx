@@ -718,8 +718,8 @@ export const esTransicionValida = (estadoActual, nuevoEstado, historial = []) =>
 
 // Obtiene la clase CSS de un estado textual
 export const getStatusClass = (status) => {
-    const key = normalizeStatus(status)
-    return ESTADOS_SERVICIO.find(s => s.key === key)?.class || ''
+  const key = normalizeStatus(status)
+  return `cell-${key}`
 }
 
 export const branchMap = { W: 'Web', Q: 'Quilmes', B: 'Barracas' }
