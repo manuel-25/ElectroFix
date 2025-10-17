@@ -182,6 +182,39 @@ const styles = StyleSheet.create({
     transform: 'rotate(-7deg)', // leve rotación como sello real
     zIndex: 10,
   },
+    statusContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    border: `1pt solid ${COLORS.border}`,
+    marginBottom: 12,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+  },
+  statusTitle: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    marginRight: 8,
+  },
+  statusOptions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  statusOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  checkboxBox: {
+    width: 9,
+    height: 9,
+    border: `0.8pt solid ${COLORS.black}`,
+    marginRight: 4,
+  },
+  statusLabel: {
+    fontSize: 9,
+  },
 });
 
 export function WorkOrderDocument({ service }) {
@@ -274,6 +307,19 @@ export function WorkOrderDocument({ service }) {
           <View style={styles.budgetRow}>
             <Text style={[styles.tableCell, { width: '80%', textAlign: 'right', fontWeight: 'bold' }]}>Total:</Text>
             <Text style={{ padding: 4, width: '20%', fontWeight: 'bold' }}>{valorFinal}</Text>
+          </View>
+        </View>
+
+        {/* Estado del servicio (casillas para marcar) */}
+        <View style={styles.statusContainer}>
+          <Text style={styles.statusTitle}>Estado del servicio:</Text>
+          <View style={styles.statusOptions}>
+            {['En Revisión', 'Aprobado', 'Ok Listo', 'Rechazado', 'Listo'].map((estado, i) => (
+              <View key={i} style={styles.statusOption}>
+                <View style={styles.checkboxBox} />
+                <Text style={styles.statusLabel}>{estado}</Text>
+              </View>
+            ))}
           </View>
         </View>
 

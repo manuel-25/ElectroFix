@@ -281,15 +281,16 @@ const Servicios = () => {
                         >
                           <FontAwesomeIcon icon={faPrint} />
                         </a>
-
-                        <Link
-                          to={`/orden/${s.publicId}`}
+                        <a
+                          href={`/orden/${s.publicId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="action-btn orden"
                           title="Ver Orden de Trabajo"
                         >
                           <FontAwesomeIcon icon={faFileLines} />
-                        </Link>
-
+                        </a>
+                        
                         {s.userData?.phone && (
                           <a
                             href={`https://wa.me/54${String(s.userData.phone).replace(/\D/g, '')}`}
