@@ -72,20 +72,32 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-
-  // Logout: pedir al backend borrar cookie
-  const logout = async () => {
-    setLoading(true)
-    try {
-      await axios.post(`${getApiUrl()}/api/manager/logout`, {}, {
-        withCredentials: true
-      })
-    } catch (err) {
-      console.warn('Error en logout:', err)
-    }
-    setAuth(null)
-    setLoading(false)
+// Logout: pedir al backend borrar cookie
+const logout = async () => {
+  setLoading(true)
+  try {
+    await axios.post(`${getApiUrl()}/api/manager/logout`, {}, {
+      withCredentials: true
+    })
+  } catch (err) {
+    console.warn('Error en logout:', err)
   }
+
+  // 🧹 Limpieza de estados persistidos
+  try {
+    localStorage.removeItem('serviciosState')
+    localStorage.removeItem('clientsState')
+    localStorage.removeItem('cotizacionesState')
+    localStorage.removeItem('serviciosSortState')
+    // si más adelante agregás otros, podés incluirlos acá
+  } catch (e) {
+    console.warn('Error limpiando estados guardados', e)
+  }
+
+  setAuth(null)
+  setAuthenticated(false)
+  setLoading(false)
+}
 
   return (
     <AuthContext.Provider value={{ auth, login, logout, loading, error, authenticated }}>

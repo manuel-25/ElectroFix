@@ -26,6 +26,7 @@ const Servicios = () => {
   const [itemsPerPage, setItemsPerPage] = useState(25)
   const [currentPage, setCurrentPage] = useState(1)
   const [sortConfig, setSortConfig] = useState({ key: 'createdAt', direction: 'desc' })
+  const [isStateLoaded, setIsStateLoaded] = useState(false)
 
   /*=== Filtros === */
   const [filters, setFilters] = useState({
@@ -53,24 +54,22 @@ const Servicios = () => {
   }
 
   useEffect(() => {
+    if (!isStateLoaded) return // espera a que se carguen los filtros guardados antes de pedir datos
     const fetchAll = async () => {
       try {
         const res = await axios.get(`${getApiUrl()}/api/service`, {
-          // headers: { Authorization: `Bearer ${auth?.token}` },
           withCredentials: true
         })
         setServices(res.data || [])
       } catch (e) {
-        if (isDev()) {
-          console.error('Error al actualizar servicios', e)
-        }
+        if (isDev()) console.error('Error al actualizar servicios', e)
         setError('No se pudieron cargar los servicios.')
       } finally {
         setLoading(false)
       }
     }
     fetchAll()
-  }, [auth])
+  }, [auth, isStateLoaded])
 
   //Recarga si actualizan el estado
   useEffect(() => {
@@ -171,6 +170,35 @@ const Servicios = () => {
     const cellHeight = td.offsetHeight
     textarea.style.height = `${cellHeight}px`
   }
+
+  // === Persistencia de filtros, búsqueda y paginación ===
+  useEffect(() => {
+    // Cargar estado guardado antes de todo
+    const savedState = localStorage.getItem('serviciosState')
+    if (savedState) {
+      try {
+        const parsed = JSON.parse(savedState)
+        if (parsed.filters) setFilters(parsed.filters)
+        if (parsed.search) setSearch(parsed.search)
+        if (parsed.itemsPerPage) setItemsPerPage(parsed.itemsPerPage)
+        if (parsed.currentPage) setCurrentPage(parsed.currentPage)
+      } catch (err) {
+        console.error('Error cargando estado guardado', err)
+      }
+    }
+    setIsStateLoaded(true) // marcamos que ya cargamos el estado
+  }, [])
+
+  useEffect(() => {
+    if (!isStateLoaded) return // evitamos guardar antes de cargar
+    const stateToSave = {
+      filters,
+      search,
+      itemsPerPage,
+      currentPage,
+    }
+    localStorage.setItem('serviciosState', JSON.stringify(stateToSave))
+  }, [filters, search, itemsPerPage, currentPage, isStateLoaded])
 
   return (
     <DashboardLayout>
@@ -290,7 +318,7 @@ const Servicios = () => {
                         >
                           <FontAwesomeIcon icon={faFileLines} />
                         </a>
-                        
+
                         {s.userData?.phone && (
                           <a
                             href={`https://wa.me/54${String(s.userData.phone).replace(/\D/g, '')}`}

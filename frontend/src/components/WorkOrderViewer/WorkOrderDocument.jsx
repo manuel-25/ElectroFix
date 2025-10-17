@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   note: {
-    fontSize: 8,
+    fontSize: 7.5,
     lineHeight: 1.3,
     marginTop: 10,
   },
@@ -175,11 +175,11 @@ const styles = StyleSheet.create({
   },
   selloImage: {
     position: 'absolute',
-    bottom: 30, // altura del sello
-    right: 60,  // margen derecho
-    width: 105, // tamaño del sello
-    opacity: 0.90, // efecto “superpuesto”
-    transform: 'rotate(-7deg)', // leve rotación como sello real
+    bottom: 30,
+    right: 60,
+    width: 105,
+    opacity: 0.90,
+    transform: 'rotate(-7deg)',
     zIndex: 10,
   },
     statusContainer: {
