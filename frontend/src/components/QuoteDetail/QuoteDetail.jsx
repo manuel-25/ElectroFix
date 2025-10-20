@@ -19,37 +19,38 @@ const QuoteDetail = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { auth, loading: authLoading } = useContext(AuthContext)
-  const token = auth?.token
   const [quote, setQuote] = useState(null)
   const [client, setClient] = useState(undefined)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (authLoading || !token) return
+    if (authLoading) return
 
     const fetchQuote = async () => {
       setLoading(true)
       try {
         const res = await axios.get(`${getApiUrl()}/api/quotes/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
+          withCredentials: true,
         })
         setQuote(res.data)
 
-        const customerNumber = res.data.customerNumber
-        if (customerNumber) {
+        if (res.data?.customerNumber) {
           try {
-            const clientRes = await axios.get(`${getApiUrl()}/api/client/by-customer/${customerNumber}`, {
-              headers: { Authorization: `Bearer ${token}` }
-            })
+            const clientRes = await axios.get(
+              `${getApiUrl()}/api/client/by-customer/${res.data.customerNumber}`,
+              { withCredentials: true }
+            )
             setClient(clientRes.data)
-          } catch {
+          } catch (err2) {
+            console.warn('Cliente no encontrado', err2)
             setClient(null)
           }
         } else {
           setClient(null)
         }
-      } catch {
+      } catch (err) {
+        console.error('Error al obtener cotización', err)
         setError('No se pudo cargar la información.')
       } finally {
         setLoading(false)
@@ -57,8 +58,7 @@ const QuoteDetail = () => {
     }
 
     fetchQuote()
-  }, [id, token, authLoading])
-
+  }, [id, authLoading])
 
   if (error) return <p className="error">{error}</p>
   if (loading || !quote) {
@@ -74,12 +74,12 @@ const QuoteDetail = () => {
   return (
     <div className="quote-detail-centered">
       <button className="back-button-pro" onClick={() => navigate(-1)}>← Volver</button>
-      <h2 className="dashboard-title" style={{textAlign:'center'}}>Detalle de Cotización #{quote.serviceRequestNumber}</h2>
-      <div className="table-wrapper" style={{margin:'0 auto', marginTop: 24, maxWidth: 900}}>
-        <table className="styled-table">
+      <h2 className="dashboard-title">Detalle de Cotización #{quote.serviceRequestNumber}</h2>
+      <div className="quote-table-wrapper">
+        <table className="quote-table">
           <thead className="table-head">
             <tr>
-              <th className="fixed-col">Campo</th>
+              <th className="quote-field-col">Campo</th>
               <th>Valor</th>
             </tr>
           </thead>
@@ -176,8 +176,8 @@ const QuoteDetail = () => {
       </div>
 
       {/* Cuadro CLIENTE DE BASE, debajo */}
-      <h2 className="dashboard-title" style={{marginTop: 40, textAlign:'center'}}>Datos del Cliente Registrado</h2>
-      <div className="table-wrapper" style={{margin:'0 auto', marginTop: 16, maxWidth: 900}}>
+      <h2 className="dashboard-title">Datos del Cliente Registrado</h2>
+      <div className="quote-table-wrapper quote-client-wrapper">
         {client === undefined ? (
           <div style={{padding: 32, textAlign:'center'}}>
             <Loading size={32} />
@@ -187,10 +187,10 @@ const QuoteDetail = () => {
             Cliente no registrado en la base de datos.
           </div>
         ) : (
-          <table className="styled-table">
+          <table className="quote-table">
             <thead className="table-head">
               <tr>
-                <th className="fixed-col">Campo</th>
+                <th className="quote-field-col">Campo</th>
                 <th>Valor</th>
               </tr>
             </thead>
