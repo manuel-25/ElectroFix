@@ -43,8 +43,9 @@ const getApiError = (err) => {
 
 const StatusPill = ({ status }) => {
   const cls = getStatusClass(status)
-  return <span className={`status-pill ${cls}`}>{status || '—'}</span>
+  return <span className={`status-pill ${cls}`}>{normalizeStatus(status)}</span>
 }
+
 
 const addDays = (date, days) => {
   if (!date || days == null) return null
@@ -83,11 +84,6 @@ const ServiceDetail = () => {
   useEffect(() => {
     if (code) fetchService()
   }, [code])
-
-  const currency = (n) =>
-    typeof n === 'number'
-      ? n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })
-      : n ? String(n) : '—'
 
   const history = useMemo(() => {
     if (!service) return []
@@ -194,16 +190,59 @@ const ServiceDetail = () => {
           {/* Costos */}
           <div className="info-column">
             <h3>Costos</h3>
-            <Item label="Ref. Cotización" value={
-              service.quoteReference
-                ? <Link to={`/cotizaciones/${service.quoteReference}`} className="service-link strong-link">#{service.quoteReference}</Link>
-                : '—'
-            } />
-            <Item label="Valor Aproximado" value={service.approximateValue || '—'} />
-            <Item label="Valor Final" value={<span className="strong">{formatCurrency(service.finalValue)}</span>} />
-            <Item label="Repuestos" value={formatCurrency(service.repuestos)} />
-          </div>
 
+            <Item
+              label="Ref. Cotización"
+              value={
+                service.quoteReference ? (
+                  <Link
+                    to={`/cotizaciones/${service.quoteReference}`}
+                    className="service-link strong-link"
+                  >
+                    #{service.quoteReference}
+                  </Link>
+                ) : (
+                  '—'
+                )
+              }
+            />
+
+            <Item
+              label="Valor Aproximado"
+              value={service.approximateValue || '—'}
+            />
+
+            <Item
+              label="Valor Final"
+              value={<span className="strong">{formatCurrency(service.finalValue)}</span>}
+            />
+
+            {service.budgetItems?.length > 0 && (
+              <div className="budget-items">
+                <h4>Presupuesto Desglosado</h4>
+                <table className="budget-table">
+                  <thead>
+                    <tr>
+                      <th>Cant.</th>
+                      <th>Descripción</th>
+                      <th>Precio Unitario</th>
+                      <th>Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {service.budgetItems.map((item, index) => (
+                      <tr key={index}>
+                        <td>{item.cantidad}</td>
+                        <td>{item.descripcion}</td>
+                        <td>{formatCurrency(item.precioUnitario)}</td>
+                        <td>{formatCurrency(item.cantidad * item.precioUnitario)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
           {/* Estado */}
           <div className="info-column">
             <h3>Estado</h3>
@@ -285,22 +324,42 @@ const ServiceDetail = () => {
               {history.map((h, i) => {
                 const prev = history[i - 1]
                 const showNote = h.note && (!prev || h.note !== prev.note)
+                const statusClass = getStatusClass(h.status)
+
                 return (
                   <li key={i} className="history-item">
                     <div className="history-main">
                       <span className="history-date">{formatDate(h.changedAt, true)}</span>
-                      <StatusPill status={h.status} />
+                      <span className={`status-pill ${statusClass}`}>
+                        {normalizeStatus(h.status)
+                          .replace('-', ' ')
+                          .replace(/\b\w/g, (l) => l.toUpperCase())}
+                      </span>
                       <span className="history-by">({h.changedBy})</span>
                     </div>
-                    <ul className="history-details">
-                      {showNote && <li>📝 <em>{h.note}</em></li>}
-                      {h.receivedBy && <li>👤 Recibido por: {h.receivedBy}</li>}
-                      {h.receivedAtBranch && <li>🏢 Sucursal: {h.receivedAtBranch}</li>}
-                      {h.deliveredAt && <li>📦 Entregado: {formatDate(h.deliveredAt, true)}</li>}
-                      {typeof h.isSatisfied === 'boolean' && (
-                        <li>⭐ Cliente satisfecho: {h.isSatisfied ? 'Sí ✅' : 'No ❌'}</li>
-                      )}
-                    </ul>
+
+                    {showNote && (
+                      <p className="history-note">
+                        📝 <em>{h.note}</em>
+                      </p>
+                    )}
+
+                    {h.receivedBy && (
+                      <p className="history-note">👤 Recibido por: {h.receivedBy}</p>
+                    )}
+                    {h.receivedAtBranch && (
+                      <p className="history-note">🏢 Sucursal: {h.receivedAtBranch}</p>
+                    )}
+                    {h.deliveredAt && (
+                      <p className="history-note">
+                        📦 Entregado: {formatDate(h.deliveredAt, true)}
+                      </p>
+                    )}
+                    {typeof h.isSatisfied === 'boolean' && (
+                      <p className="history-note">
+                        ⭐ Cliente satisfecho: {h.isSatisfied ? 'Sí ✅' : 'No ❌'}
+                      </p>
+                    )}
                   </li>
                 )
               })}

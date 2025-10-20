@@ -14,10 +14,12 @@
   overflow-x: hidden;
 }
 
+/* Expansión al pasar el mouse */
 .sidebar:hover {
   width: 180px;
 }
 
+/* Logo */
 .sidebar-logo {
   padding: 20px 0;
 }
@@ -26,6 +28,7 @@
   height: 60px;
 }
 
+/* NAVEGACIÓN */
 .sidebar-nav {
   list-style: none;
   padding: 0;
@@ -34,16 +37,17 @@
 }
 
 .sidebar-nav li {
+  position: relative;
   margin: 0;
   padding: 0;
 }
 
 .sidebar-link {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
   width: 100%;
-  height: 100%;
   padding: 15px 20px;
   color: white !important;
   text-decoration: none !important;
@@ -56,26 +60,114 @@
 }
 
 .sidebar-nav li:hover {
-  background-color: rgba(255,255,255,0.12);
+  background-color: rgba(255, 255, 255, 0.12);
   color: white;
 }
 
-/* ícono siempre visible */
+/* Íconos */
 .sidebar-link svg {
   font-size: 18px;
   flex-shrink: 0;
   transition: margin-right 0.3s;
 }
 
-/* texto oculto por defecto */
-.sidebar-link span {
+/* TEXTO Y EFECTOS */
+
+/* Oculta solo el texto (no las notificaciones) */
+.sidebar-link span:not(.notification-badge) {
   opacity: 0;
   margin-left: 0;
   transition: opacity 0.3s, margin-left 0.3s;
   overflow: hidden;
 }
 
-.sidebar:hover .sidebar-link span {
+/* Muestra texto cuando la barra se expande */
+.sidebar:hover .sidebar-link span:not(.notification-badge) {
   opacity: 1;
   margin-left: 10px;
+}
+
+/* ============================================
+   NOTIFICACIÓN (Badge)
+   ============================================ */
+.notification-badge {
+  position: absolute;
+  top: 8px;
+  left: 34px; /* visible incluso con la barra cerrada */
+  background-color: #ff3b30; /* rojo estilo iOS */
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 4px 6px;
+  min-width: 18px;
+  text-align: center;
+  line-height: 1;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
+  z-index: 10;
+  transition: transform 0.2s ease, left 0.3s ease;
+}
+
+/* Animación hover del badge */
+.notification-badge:hover {
+  transform: scale(1.1);
+}
+
+/* Desplazamiento del badge cuando la barra se expande */
+.sidebar:hover .notification-badge {
+  left: 150px;
+}
+
+/* RESPONSIVIDAD MÓVIL */
+
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 50px;
+    height: 100%;
+  }
+
+  .sidebar:hover {
+    width: 150px;
+  }
+
+  .sidebar-link {
+    padding: 12px 16px;
+  }
+
+  .sidebar-link svg {
+    font-size: 16px;
+  }
+
+  .notification-badge {
+    top: 6px;
+    left: 28px;
+    font-size: 10px;
+    padding: 3px 5px;
+    min-width: 16px;
+  }
+
+  .sidebar-logo img {
+    height: 50px;
+  }
+}
+
+/* Teléfonos muy pequeños */
+@media (max-width: 480px) {
+  .sidebar {
+    width: 48px;
+  }
+
+  .sidebar:hover {
+    width: 130px;
+  }
+
+  .sidebar-link {
+    padding: 10px 14px;
+  }
+
+  .notification-badge {
+    left: 26px;
+    font-size: 9px;
+  }
 }

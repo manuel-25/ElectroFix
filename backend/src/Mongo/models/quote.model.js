@@ -32,8 +32,15 @@ const quoteSchema = new Schema({
     branch: {type: String},
     status: { 
         type: String, 
-        enum: ['En revisión', 'Presupuesto Enviado', 'Aprobada', 'Rechazada', 'Listo para devolución'], 
-        default: 'En revisión' 
+        enum: [
+            // nuevos estados
+            'Pendiente',
+            'Respondido',
+            'No Respondido',
+            'Datos incorrectos',
+            'Rechazada', 
+        ], 
+        default: 'Pendiente'
     }
 }, { timestamps: true })
 

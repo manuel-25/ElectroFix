@@ -62,28 +62,6 @@
   flex-wrap: wrap;
 }
 
-.items-per-page {
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.items-per-page select {
-  padding: 4px 6px;
-  font-size: 13px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-  outline: none;
-  cursor: pointer;
-}
-
-.items-per-page select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 1px #007bff25;
-}
-
 .pagination {
   display: flex;
   justify-content: center;

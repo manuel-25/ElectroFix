@@ -104,7 +104,7 @@ const Clients = () => {
               </p>
             )}
 
-            <div className="items-per-page">
+            <div className="quotes-items">
               <label>Mostrar </label>
               <select value={itemsPerPage} onChange={e => setItemsPerPage(Number(e.target.value))}>
                 {[10, 25, 50, 100].map(n => (

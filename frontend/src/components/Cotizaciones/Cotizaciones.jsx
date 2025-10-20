@@ -103,9 +103,9 @@ const Cotizaciones = () => {
   const name = q.userData?.firstName || 'cliente'
   const equipo = q.category?.name || 'equipo'
   const solicitud = q.serviceRequestNumber || ''
-  const message = `Hola, ${name}! Nos comunicamos del equipo de logística Electrosafe, recibimos tu solicitud de cotización (Nº ${solicitud}) en nuestra web y quería comentarte las opciones y promociones que tenemos para reparación de tu ${equipo}.`
-  return `https://wa.me/54${phone}?text=${encodeURIComponent(message)}`
-}
+  const message = `Hola, ${name}! Nos comunicamos del equipo de logística Electrosafe. Recibimos tu solicitud de cotización (Nº ${solicitud}) por tu ${equipo} y quería comentarte las opciones y promociones que tenemos disponibles para la reparación.`;
+    return `https://wa.me/54${phone}?text=${encodeURIComponent(message)}`;
+  }
 
 
   return (
@@ -134,7 +134,7 @@ const Cotizaciones = () => {
 
           {error && <p className="error-message">{error}</p>}
 
-          <div className="items-per-page">
+          <div className="quotes-items">
             <label>Mostrar </label>
             <select
               value={itemsPerPage}
@@ -151,7 +151,7 @@ const Cotizaciones = () => {
           </div>
 
           <div className="table-wrapper">
-            <table className="styled-table">
+            <table className="quotes-table">
               <thead className="table-head">
                 <tr>
                   <th style={{ width: '6%' }} onClick={() => handleSort('serviceRequestNumber')}>
@@ -193,15 +193,14 @@ const Cotizaciones = () => {
                 {paginatedQuotes.map((q) => {
                   const getStatusClass = (status) => {
                     switch (status) {
+                      case 'Pendiente': return 'cell-pendiente'
+                      case 'Respondido': return 'cell-respondido'
+                      case 'No Respondido': return 'cell-norespondido'
+                      case 'Datos incorrectos': return 'cell-rechazada'
                       case 'Rechazada': return 'cell-rechazada'
-                      case 'Presupuesto Enviado': return 'cell-presupuesto'
-                      case 'Aprobada': return 'cell-aprobada'
-                      case 'En revisión': return 'cell-revision'
-                      case 'Listo para devolución': return 'cell-devolucion'
                       default: return ''
                     }
                   }
-
                   return (
                     <tr key={`${q.serviceRequestNumber}-${q.customerNumber}`}>
                       <td>
@@ -215,25 +214,31 @@ const Cotizaciones = () => {
                         </Link>
                       </td>
                       <td>{new Date(q.date).toLocaleDateString()}</td>
-                      <td>{q.category?.name || 'N/A'}</td>
+                      <td className="quotes-equipo">{q.category?.name || 'N/A'}</td>
                       <td>{q.brand}</td>
                       <td>{q.model || 'N/A'}</td>
-                      <td className="details-cell">{q.userData?.additionalDetails || 'N/A'}</td>
+                      <td className="quotes-details">{q.userData?.additionalDetails || 'N/A'}</td>
                       <td>{q.faults?.join(', ') || 'N/A'}</td>
                       <td>{q.branch || 'N/A'}</td>
                       <td>{q.userData?.municipio ? `${q.userData.municipio}, ${q.userData.province}` : 'N/A'}</td>
-                      <td className={getStatusClass(q.status)}>
+                      <td className={`quotes-status ${getStatusClass(q.status)}`}>
                         <select
                           className="status-select"
                           value={q.status}
                           onChange={(e) => handleStatusChange(q.serviceRequestNumber, e.target.value)}
                         >
-                          {['En revisión', 'Presupuesto Enviado', 'Aprobada', 'Rechazada', 'Listo para devolución'].map(s => (
+                          {[
+                            'Pendiente',
+                            'Respondido',
+                            'No Respondido',
+                            'Datos incorrectos',
+                            'Rechazada',
+                          ].map(s => (
                             <option key={s} value={s}>{s}</option>
                           ))}
                         </select>
                       </td>
-                      <td className="review-cell">
+                      <td className="quotes-review">
                         <textarea
                           className="review-textarea"
                           defaultValue={q.review || ''}

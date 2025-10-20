@@ -211,7 +211,7 @@ const Servicios = () => {
           <>
             {error && <p className="error-message">{error}</p>}
 
-            <div className="search-wrapper">
+            <div className="search-wrapper" style={{ position: 'relative', display: 'inline-block' }}>
               <input
                 type="text"
                 placeholder="Buscar por Código, Cliente, Equipo..."
@@ -219,6 +219,16 @@ const Servicios = () => {
                 value={search}
                 onChange={e => { setSearch(e.target.value); setCurrentPage(1) }}
               />
+              {search && (
+                <button
+                  type="button"
+                  onClick={() => setSearch('')}
+                  className="clear-search-btn"
+                  title="Borrar búsqueda"
+                >
+                  ✖
+                </button>
+              )}
             </div>
 
             <ServiceFilters

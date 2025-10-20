@@ -80,84 +80,94 @@
 /* ===========================
    HISTORIAL DE ESTADOS
 =========================== */
-.history-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.history-item {
-  display: flex;
-  align-items: left;
-  justify-content: center;
-  gap: 10px;
-  font-size: 14px;
-  color: #444;
-  width: 100%;
-  max-width: 720px;
-  text-align: center;
-}
-
-.history-date,
-.history-by {
-  color: #666;
-}
-
-/* === HISTORIAL === */
 .historial-container {
   display: flex;
   justify-content: center;
+  align-items: center;
   padding: 20px;
 }
 
 .history-list {
   list-style: none;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
-  width: 100%;
+  width: auto;
   max-width: 720px;
+  text-align: left;
 }
 
 .history-item {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 4px 0;
+  padding: 6px 0;
   max-width: 550px;
+  border-bottom: 1px solid #eee;
 }
 
 .history-main {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
+}
+
+.history-date {
+  min-width: 170px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.history-by {
+  color: #9ca3af;
+  font-size: 13px;
 }
 
 .history-note {
   margin-left: 182px;
   color: #4b5563;
   font-size: 0.9rem;
+  line-height: 1.4;
 }
 
-.history-date {
-  min-width: 170px;
-  color: #6b7280;
+/* === COLORES DE ESTADOS EN HISTORIAL === */
+.history-item .status-pill.cell-pendiente {
+  background: var(--status-amber-bg);
+  color: var(--status-amber-text);
+  border-color: var(--status-amber-border);
 }
 
-.history-by {
-  color: #9ca3af;
+.history-item .status-pill.cell-recibido,
+.history-item .status-pill.cell-revision {
+  background: var(--status-blue-bg);
+  color: var(--status-blue-text);
+  border-color: var(--status-blue-border);
 }
 
-.history-details {
-  margin-left: 1rem;
-  padding-left: 1rem;
-  border-left: 2px solid #ccc;
-  font-size: 0.95em;
-  color: #444;
-  list-style: none;
+.history-item .status-pill.cell-reparacion {
+  background: var(--status-grey-bg);
+  color: var(--status-grey-text);
+  border-color: var(--status-grey-border);
+}
+
+.history-item .status-pill.cell-pruebas,
+.history-item .status-pill.cell-listo,
+.history-item .status-pill.cell-entregado {
+  background: var(--status-green-bg);
+  color: var(--status-green-text);
+  border-color: var(--status-green-border);
+}
+
+.history-item .status-pill.cell-garantia {
+  background: var(--status-warn-bg);
+  color: var(--status-warn-text);
+  border-color: var(--status-warn-border);
+}
+
+.history-item .status-pill.cell-rechazado {
+  background: var(--status-red-bg);
+  color: var(--status-red-text);
+  border-color: var(--status-red-border);
 }
 
 /* ===========================
@@ -192,23 +202,87 @@
 }
 
 /* ===========================
+   COSTOS (Presupuesto desglosado)
+=========================== */
+.budget-items {
+  margin-top: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.budget-items h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 4px;
+}
+
+.budget-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  color: #333;
+}
+
+.budget-table th {
+  text-align: left;
+  background: #e9ecef;
+  padding: 6px;
+  font-weight: 600;
+  border-bottom: 1px solid #ccc;
+}
+
+.budget-table td {
+  padding: 6px;
+  border-bottom: 1px solid #ddd;
+}
+
+.budget-table tr:last-child td {
+  border-bottom: none;
+}
+
+.budget-table td:nth-child(1) {
+  width: 50px;
+  text-align: center;
+}
+
+.budget-table td:nth-child(3),
+.budget-table td:nth-child(4) {
+  text-align: right;
+}
+
+.strong {
+  font-weight: 700;
+  color: #000;
+}
+
+/* ===========================
    PILLS (usan variables de :root)
 =========================== */
-.status-pill{
-  display:inline-block; padding:4px 10px; border-radius:999px;
-  font-size:13px; font-weight:700; line-height:1.2; text-transform:capitalize;
-  border:1px solid transparent;
+.status-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: capitalize;
+  border: 1px solid transparent;
 }
-.status-pendiente { color:var(--status-amber-text);  background:var(--status-amber-bg);  border-color:var(--status-amber-border); }
+
+.status-pendiente { color: var(--status-amber-text); background: var(--status-amber-bg); border-color: var(--status-amber-border); }
 .status-recibido,
-.status-revision  { color:var(--status-blue-text);   background:var(--status-blue-bg);   border-color:var(--status-blue-border); }
-.status-reparacion{ color:var(--status-grey-text);   background:var(--status-grey-bg);   border-color:var(--status-grey-border); }
+.status-revision  { color: var(--status-blue-text); background: var(--status-blue-bg); border-color: var(--status-blue-border); }
+.status-reparacion{ color: var(--status-grey-text); background: var(--status-grey-bg); border-color: var(--status-grey-border); }
 .status-pruebas,
-.status-entregado { color:var(--status-green-text);  background:var(--status-green-bg);  border-color:var(--status-green-border); }
-.status-listo     { color:var(--status-green-text);  background:var(--status-green-bg);  border-color:var(--status-green-border); }
-.status-garantia  { color:var(--status-warn-text);   background:var(--status-warn-bg);   border-color:var(--status-warn-border); }
-.status-rechazado { color:var(--status-red-text);    background:var(--status-red-bg);    border-color:var(--status-red-border); }
-.status-desconocido{ color:#424242; background:#e0e0e0; border-color:#bdbdbd; }
+.status-entregado { color: var(--status-green-text); background: var(--status-green-bg); border-color: var(--status-green-border); }
+.status-listo     { color: var(--status-green-text); background: var(--status-green-bg); border-color: var(--status-green-border); }
+.status-garantia  { color: var(--status-warn-text);  background: var(--status-warn-bg);  border-color: var(--status-warn-border); }
+.status-rechazado { color: var(--status-red-text);   background: var(--status-red-bg);   border-color: var(--status-red-border); }
+.status-desconocido { color: #424242; background: #e0e0e0; border-color: #bdbdbd; }
 
 /* === SELECT con mismos colores === */
 .status-select {
@@ -219,15 +293,15 @@
   border-radius: 3px;
   border: 1px solid #ccc;
 }
-.status-select.cell-pendiente { background:var(--status-amber-bg);  color:var(--status-amber-text);  border-color:var(--status-amber-border); }
+.status-select.cell-pendiente { background: var(--status-amber-bg); color: var(--status-amber-text); border-color: var(--status-amber-border); }
 .status-select.cell-recibido,
-.status-select.cell-revision  { background:var(--status-blue-bg);   color:var(--status-blue-text);   border-color:var(--status-blue-border); }
-.status-select.cell-reparacion{ background:var(--status-grey-bg);   color:var(--status-grey-text);   border-color:var(--status-grey-border); }
+.status-select.cell-revision  { background: var(--status-blue-bg); color: var(--status-blue-text); border-color: var(--status-blue-border); }
+.status-select.cell-reparacion{ background: var(--status-grey-bg); color: var(--status-grey-text); border-color: var(--status-grey-border); }
 .status-select.cell-pruebas,
-.status-select.cell-entregado { background:var(--status-green-bg);  color:var(--status-green-text);  border-color:var(--status-green-border); }
-.status-select.cell-listo     { background:var(--status-green-bg);  color:var(--status-green-text);  border-color:var(--status-green-border); }
-.status-select.cell-garantia  { background:var(--status-warn-bg);   color:var(--status-warn-text);   border-color:var(--status-warn-border); }
-.status-select.cell-rechazado { background:var(--status-red-bg);    color:var(--status-red-text);    border-color:var(--status-red-border); }
+.status-select.cell-entregado { background: var(--status-green-bg); color: var(--status-green-text); border-color: var(--status-green-border); }
+.status-select.cell-listo     { background: var(--status-green-bg); color: var(--status-green-text); border-color: var(--status-green-border); }
+.status-select.cell-garantia  { background: var(--status-warn-bg); color: var(--status-warn-text); border-color: var(--status-warn-border); }
+.status-select.cell-rechazado { background: var(--status-red-bg); color: var(--status-red-text); border-color: var(--status-red-border); }
 
 /* ===========================
    NOTAS (compacto, sin borde negro)
@@ -270,13 +344,20 @@
 .toast-close { background: transparent; border: none; cursor: pointer; font-size: 16px; line-height: 1; color: inherit; }
 
 /* ===========================
-   Focus global sin borde negro
+   FOCUS GLOBAL SIN BORDE NEGRO
 =========================== */
 button:focus, input:focus, select:focus, textarea:focus {
   outline: none;
   box-shadow: none;
 }
 
-/* Enlaces de detalle */
-.service-link { color:#007bff; text-decoration:none; }
-.service-link:hover { text-decoration:underline; }
+/* ===========================
+   ENLACES DE DETALLE
+=========================== */
+.service-link {
+  color: #007bff;
+  text-decoration: none;
+}
+.service-link:hover {
+  text-decoration: underline;
+}

@@ -58,6 +58,28 @@ class QuoteManagerDao {
             .limit(limit)
         return quotes
     }
+
+    async countByStatus(status) {
+        return await this.quoteModel.countDocuments({
+        status,
+        deleted: { $ne: true }
+        })
+    }
+
+    async countPending() {
+        try {
+        const count = await this.quoteModel.countDocuments({
+            deleted: { $ne: true },
+            $or: [
+            { status: 'Pendiente' },
+            ]
+        })
+        return count
+        } catch (error) {
+        console.error('Error en countPending:', error)
+        throw error
+        }
+    }
 }
 
 const QuoteManager = new QuoteManagerDao()

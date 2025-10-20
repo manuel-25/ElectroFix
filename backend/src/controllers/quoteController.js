@@ -3,28 +3,6 @@ import NumberGenerator from "../services/numberGenerator.js"
 import { logger } from "../utils/logger.js"
 
 class QuoteController {
-    // Crear una nueva cotización ===> NO USAR
-    /*static async createQuote(req, res) {
-        try {
-            // Generar un número de cotización único y de cliente
-            const serviceRequestNumber = await NumberGenerator.generateServiceRequestNumber()
-            const customerNumber = await NumberGenerator.generateCustomerNumber()
-
-            // Asignar los numeros
-            req.body.serviceRequestNumber = serviceRequestNumber
-            req.body.customerNumber = customerNumber
-
-            // Crear la nueva cotización con el número de cotización generado
-            const newQuote = await QuoteManager.create(req.body)
-
-            // Enviar la respuesta con el nuevo objeto de cotización
-            res.status(201).json(newQuote)
-        } catch (error) {
-            logger.error('Error creating quote:', error)
-            res.status(400).json({ error: 'Error creating quote: ' + error.message })
-        }
-    }*/
-
     // Obtener todas las cotizaciones con paginación
     static async getQuotes(req, res) {
         try {
@@ -40,6 +18,18 @@ class QuoteController {
             logger.error('Error fetching quotes:', error)
             res.status(500).json({ error: 'Failed to fetch quotes: ' + error.message })
         }
+    }
+
+    // Contar cotizaciones pendientes
+    static async getPendingCount(req, res) {
+    try {
+        // Contamos solo las que no están eliminadas y tienen estado "Pendiente" o "En revisión"
+        const count = await QuoteManager.countPending()
+        res.status(200).json({ count })
+    } catch (error) {
+        console.error('Error al contar cotizaciones pendientes:', error)
+        res.status(500).json({ error: 'Error interno al contar cotizaciones pendientes' })
+    }
     }
 
     // Obtener una cotización por número de solicitud
