@@ -102,6 +102,12 @@
     color: #ff6666;
 }
 
+.legal-disclaimer {
+  font-size: 12px;
+  color: #999;
+  margin-top: 12px;
+  line-height: 1.4;
+}
 
 @media (max-width: 768px) {
     .footer-content {

@@ -72,6 +72,9 @@ export default function Footer() {
             </div>
 
             <div className="footer-bottom">
+              <p className="legal-disclaimer">
+                Electrosafe es un servicio independiente. No afiliado a ninguna marca.
+              </p>
               <p>
                 Todos los derechos reservados Electrosafe. CUIT: 20-38930937-1 Buenos Aires | Argentina.
               </p>
