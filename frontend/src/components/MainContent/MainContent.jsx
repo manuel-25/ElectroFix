@@ -348,20 +348,22 @@ function MainContent() {
           </ul>
           <p className='attribution'><span className='powered-by-google' title="Powered by Google"></span></p>
         </section>
-        <article className='brands-container animated-element vertical-animation'>
-          <h2>Trabajamos con todas las marcas</h2>
-          <h3>Las mejores marcas a tu servicio</h3>
-          <section className='brands-logo-container'>
-            {brandLogos.map((logo, index) => (
-              <div key={index} className='brand-logo-item'>
-                <img src={logo.src} alt={`Logo de ${logo.alt || 'marca'}`} className='brand-logo' loading="lazy" />
-              </div>
-            ))}
-          </section>
-          <Link to="/reparacion-electrodomesticos">
-            <QuoteButton text="Cotizar Ahora" />
-          </Link>
-        </article>
+        {/* 
+          <article className='brands-container animated-element vertical-animation'>
+            <h2>Trabajamos con todas las marcas</h2>
+            <h3>Las mejores marcas a tu servicio</h3>
+            <section className='brands-logo-container'>
+              {brandLogos.map((logo, index) => (
+                <div key={index} className='brand-logo-item'>
+                  <img src={logo.src} alt={`Logo de ${logo.alt || 'marca'}`} className='brand-logo' loading="lazy" />
+                </div>
+              ))}
+            </section>
+            <Link to="/reparacion-electrodomesticos">
+              <QuoteButton text="Cotizar Ahora" />
+            </Link>
+          </article>
+        */}
             <div className='whatsapp-float'>
               <a 
                 href="https://wa.me/5491170664306?text=Hola,%20me%20comunico%20desde%20la%20web%20de%20Electrosafe%20para%20recibir%20la%20mejor%20cotización." 
