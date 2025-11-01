@@ -19,11 +19,12 @@ const FormSubmissionStatus = () => {
     }
   }, [status])
 
-  // 🔹 Disparo de conversiones de Google Ads
+  // 🔹 Disparo de conversiones de Google Ads actualizado
   useEffect(() => {
     if (status === 'success' && window.gtag) {
+      window.gtag('config', 'AW-17690889436'); // Inicializa el nuevo ID de conversión
       window.gtag('event', 'conversion', {
-        send_to: 'AW-16673611004/_VMICPe79aUbEPy5zI4-',
+        send_to: 'AW-17690889436', // Usá el nuevo ID acá también
         value: 1.0,
         currency: 'ARS'
       })
