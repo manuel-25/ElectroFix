@@ -3,6 +3,8 @@ import './InformationForm.css'
 import { barriosCABA } from '../../utils/productsData.jsx'
 import Loading from '../Loading/Loading.jsx'
 
+const TIMEOUT_MS = 15000 // 20 segundos máximo de espera
+
 const InformationForm = ({ nextStep, updateFormData }) => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -24,11 +26,25 @@ const InformationForm = ({ nextStep, updateFormData }) => {
     fetchProvincias()
   }, [])
 
+  const fetchWithTimeout = async (url, options = {}, timeout = TIMEOUT_MS) => {
+    const controller = new AbortController()
+    const id = setTimeout(() => controller.abort(), timeout)
+    try {
+      const response = await fetch(url, { ...options, signal: controller.signal })
+      clearTimeout(id)
+      return response
+    } catch (err) {
+      clearTimeout(id)
+      throw err
+    }
+  }
+
   const fetchProvincias = async () => {
     setLoading(true)
     setLoadProvinciasError(false)
     try {
-      const response = await fetch('https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre')
+      const response = await fetchWithTimeout('https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre')
+      if (!response.ok) throw new Error('Error de respuesta')
       const data = await response.json()
       const provincias = data.provincias.map(p => p.nombre)
       setProvinces(provincias.sort((a, b) => a.localeCompare(b)))
@@ -44,23 +60,26 @@ const InformationForm = ({ nextStep, updateFormData }) => {
     setLoadMunicipiosError(false)
     if (provinciaNombre === 'Ciudad Autónoma de Buenos Aires') {
       setMunicipios([...barriosCABA].sort((a, b) => a.localeCompare(b)))
-    } else {
-      try {
-        const response = await fetch(`https://apis.datos.gob.ar/georef/api/municipios?provincia=${provinciaNombre}&campos=id,nombre&max=100`)
-        const data = await response.json()
-        const municipios = data.municipios.map(m => m.nombre)
-        setMunicipios(municipios.sort((a, b) => a.localeCompare(b)))
-      } catch (error) {
-        console.error('Error al obtener los municipios:', error)
-        setLoadMunicipiosError(true)
-      }
+      setLoadingMunicipios(false)
+      return
+    }
+    try {
+      const response = await fetchWithTimeout(
+        `https://apis.datos.gob.ar/georef/api/municipios?provincia=${provinciaNombre}&campos=id,nombre&max=100`
+      )
+      if (!response.ok) throw new Error('Error de respuesta')
+      const data = await response.json()
+      const municipios = data.municipios.map(m => m.nombre)
+      setMunicipios(municipios.sort((a, b) => a.localeCompare(b)))
+    } catch (error) {
+      console.error('Error al obtener los municipios:', error)
+      setLoadMunicipiosError(true)
     }
     setLoadingMunicipios(false)
   }
 
   const validateForm = () => {
     const newErrors = {}
-
     if (!firstName.trim()) newErrors.firstName = '*El nombre es requerido'
     if (!lastName.trim()) newErrors.lastName = '*El apellido es requerido'
     if (!email.trim()) {
@@ -73,8 +92,12 @@ const InformationForm = ({ nextStep, updateFormData }) => {
     } else if (!/^\d{10}$/.test(phone)) {
       newErrors.phone = '*Debe tener 10 dígitos numéricos'
     }
-    if (provinces.length > 0 && !province) newErrors.province = '*La provincia es requerida'
-    if (municipios.length > 0 && !municipio) newErrors.municipio = '*El municipio es requerido'
+    if (!loadProvinciasError && provinces.length > 0 && !province) {
+      newErrors.province = '*La provincia es requerida'
+    }
+    if (!loadMunicipiosError && municipios.length > 0 && !municipio) {
+      newErrors.municipio = '*El municipio es requerido'
+    }
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -105,16 +128,19 @@ const InformationForm = ({ nextStep, updateFormData }) => {
           <label>Nombre</label>
           {errors.firstName && <p className="error">{errors.firstName}</p>}
         </div>
+
         <div className="form-group floating-label">
           <input type="text" placeholder="Apellido" value={lastName} onChange={e => setLastName(e.target.value)} required />
           <label>Apellido</label>
           {errors.lastName && <p className="error">{errors.lastName}</p>}
         </div>
+
         <div className="form-group floating-label">
           <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
           <label>Email</label>
           {errors.email && <p className="error">{errors.email}</p>}
         </div>
+
         <div className="form-group floating-label" id="phone-id">
           <div className="phone-container">
             <div className="flag-container">
@@ -134,30 +160,51 @@ const InformationForm = ({ nextStep, updateFormData }) => {
           </div>
           {errors.phone && <p className="error">{errors.phone}</p>}
         </div>
+
+        {/* PROVINCIA */}
         <div className="form-group floating-label">
           <div className={`select-container ${loading ? 'loading' : ''}`}>
-            <select value={province} onChange={e => { setProvince(e.target.value); fetchMunicipios(e.target.value) }} required>
+            <select
+              value={province}
+              onChange={e => { setProvince(e.target.value); fetchMunicipios(e.target.value) }}
+              disabled={loadProvinciasError}
+            >
               <option value="">Provincia</option>
               {provinces.map((prov, idx) => <option key={idx} value={prov}>{prov}</option>)}
             </select>
             {loading ? <div className="spinner-container"><Loading /></div> : <div className="custom-arrow" />}
           </div>
           <label>Provincia</label>
-          {loadProvinciasError && <p className="error">No se pudo cargar la lista de provincias.</p>}
+          {loadProvinciasError && (
+            <p className="error" style={{ color: '#c0392b', fontWeight: 'bold', marginTop: '5px' }}>
+              ⚠️ No se pudo cargar la lista de provincias y municipios. Podés continuar sin seleccionarla.
+            </p>
+          )}
           {provinces.length > 0 && errors.province && <p className="error">{errors.province}</p>}
         </div>
+
+        {/* MUNICIPIO */}
         <div className="form-group floating-label">
           <div className={`select-container ${loadingMunicipios ? 'loading' : ''}`}>
-            <select value={municipio} onChange={e => setMunicipio(e.target.value)} required>
+            <select
+              value={municipio}
+              onChange={e => setMunicipio(e.target.value)}
+              disabled={loadMunicipiosError}
+            >
               <option value="">Municipio</option>
               {municipios.map((muni, idx) => <option key={idx} value={muni}>{muni}</option>)}
             </select>
             {loadingMunicipios ? <div className="spinner-container"><Loading /></div> : <div className="custom-arrow" />}
           </div>
           <label>Municipio</label>
-          {loadMunicipiosError && <p className="error">No se pudo cargar la lista de municipios.</p>}
+          {loadMunicipiosError && (
+            <p className="error" style={{ color: '#c0392b', fontWeight: 'bold', marginTop: '5px' }}>
+              ⚠️ No se pudo cargar la lista de municipios en el tiempo esperado. Podés continuar sin seleccionarlo.
+            </p>
+          )}
           {municipios.length > 0 && errors.municipio && <p className="error">{errors.municipio}</p>}
         </div>
+
         <div className="form-group floating-label">
           <textarea
             value={additionalDetails}
@@ -169,10 +216,12 @@ const InformationForm = ({ nextStep, updateFormData }) => {
           {errors.additionalDetails && <p className="error">{errors.additionalDetails}</p>}
         </div>
       </div>
+
       <div className="form-group floating-label" id="form-discount">
         <span id="form-discount-span">Si tenés un código de descuento, ingrésalo aquí:</span>
         <input type="text" placeholder="Código de descuento" value={discountCode} onChange={e => setDiscountCode(e.target.value)} />
       </div>
+
       <div className="blank-space"></div>
       <div className="next-button">
         <button onClick={handleSubmit}>Siguiente</button>
