@@ -39,11 +39,12 @@ export default function ServiceStatusControl({
     if (!service?._id || saving) return
 
     const yaRecibido = !!(service.receivedAtBranch && service.receivedBy && service.receivedAt)
-    const seSalteaRecibido = !yaRecibido && value !== 'Pendiente' && value !== 'Recibido'
+    const seSalteaRecibido = !yaRecibido
 
     if (seSalteaRecibido) {
+      const estadoFinal = value === 'Recibido' ? 'En Revisión' : value
+
       if (userBranch) {
-        // Marca automáticamente como recibido, luego cambia al estado elegido
         await persist({
           service,
           newStatus: 'Recibido',
@@ -54,25 +55,17 @@ export default function ServiceStatusControl({
         })
         await persist({
           service,
-          newStatus: value,
+          newStatus: estadoFinal,
           token,
           note,
           userEmail,
           receivedAtBranch: userBranch
         })
       } else {
-        // Admin: guardar estado deseado, seleccionar sucursal
-        setNextStatus(value)
+        setNextStatus(estadoFinal)
         setSelectedBranch('')
         setModalType('branch')
       }
-      return
-    }
-
-    if (value === 'Recibido' && !userBranch) {
-      setNextStatus('Recibido')
-      setSelectedBranch('')
-      setModalType('branch')
       return
     }
 

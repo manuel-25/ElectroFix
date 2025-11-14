@@ -14,14 +14,25 @@ const ServiceFilters = ({
 
   return (
     <div className="filters-wrapper">
-      <select value={filters.code} onChange={e => onChange('code', e.target.value)}>
+
+      {/* Código */}
+      <select
+        value={filters.code}
+        onChange={e => onChange('code', e.target.value)}
+        className={`filter-select ${filters.code ? 'active' : ''}`}
+      >
         <option value="">Todos los códigos</option>
         {['Q', 'B', 'W'].map(code => (
           <option key={code} value={code}>{code}</option>
         ))}
       </select>
 
-      <select value={filters.branch} onChange={e => onChange('branch', e.target.value)}>
+      {/* Sucursal */}
+      <select
+        value={filters.branch}
+        onChange={e => onChange('branch', e.target.value)}
+        className={`filter-select ${filters.branch ? 'active' : ''}`}
+      >
         <option value="">Todas las sucursales</option>
         <option value="null">No recibido</option>
         {['Quilmes', 'Barracas'].map(branch => (
@@ -29,30 +40,60 @@ const ServiceFilters = ({
         ))}
       </select>
 
-      <select value={filters.createdBy} onChange={e => onChange('createdBy', e.target.value)}>
+      {/* Creado por */}
+      <select
+        value={filters.createdBy}
+        onChange={e => onChange('createdBy', e.target.value)}
+        className={`filter-select ${filters.createdBy ? 'active' : ''}`}
+      >
         <option value="">Todos los creadores</option>
         {uniqueValues(services, 'createdByEmail').map(email => (
           <option key={email} value={email}>{email}</option>
         ))}
       </select>
 
-      <select value={filters.equipment} onChange={e => onChange('equipment', e.target.value)}>
+      {/* Equipos */}
+      <select
+        value={filters.equipment}
+        onChange={e => onChange('equipment', e.target.value)}
+        className={`filter-select ${filters.equipment ? 'active' : ''}`}
+      >
         <option value="">Todos los equipos</option>
         {uniqueValues(services, 'equipmentType').map(eq => (
           <option key={eq} value={eq}>{eq}</option>
         ))}
       </select>
 
-      <select value={filters.month} onChange={e => onChange('month', e.target.value)}>
+      {/* Mes */}
+      <select
+        value={filters.month}
+        onChange={e => onChange('month', e.target.value)}
+        className={`filter-select ${filters.month ? 'active' : ''}`}
+      >
         <option value="">Todos los meses</option>
         {months.map(m => (
           <option key={m} value={m}>{m}</option>
         ))}
       </select>
 
-      <select value={filters.status} onChange={e => onChange('status', e.target.value)}>
+      {/* Estado */}
+      <select
+        value={filters.status}
+        onChange={e => onChange('status', e.target.value)}
+        className={`filter-select ${filters.status ? 'active' : ''}`}
+      >
         <option value="">Todos los estados</option>
-        {['Pendiente', 'Recibido', 'En Revisión', 'En Reparación', 'En Pruebas', 'Listo para retirar', 'Entregado', 'Garantía', 'Devolución'].map(st => (
+        {[
+          'Pendiente',
+          'Recibido',
+          'En Revisión',
+          'En Reparación',
+          'En Pruebas',
+          'Listo para retirar',
+          'Entregado',
+          'Garantía',
+          'Devolución'
+        ].map(st => (
           <option key={st} value={st}>{st}</option>
         ))}
       </select>
