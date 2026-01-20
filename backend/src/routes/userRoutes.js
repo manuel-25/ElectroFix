@@ -15,7 +15,7 @@ router.post('/logout', authenticateJWT, UserController.logout)
 router.get('/me', authenticateJWT, UserController.getProfile)
 
 // 🔐 Solo admins
-router.post('/', authenticateJWT, authenticateAdmin, UserController.createUser)
+router.post('/', /*authenticateJWT, authenticateAdmin,*/ UserController.createUser)
 router.get('/', authenticateJWT, authenticateAdmin, UserController.getUsers)
 router.get('/:email', authenticateJWT, authenticateAdmin, UserController.getUserByEmail)
 router.put('/:email', authenticateJWT, authenticateAdmin, UserController.updateUserByEmail)

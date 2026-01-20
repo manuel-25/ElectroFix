@@ -507,6 +507,19 @@
     border-radius: 20%;
 }
 
+.whatsapp-button {
+  all: unset;              /* 🔥 borra TODOS los estilos nativos */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whatsapp-button img {
+  width: 56px;             /* ajustá si antes era otro tamaño */
+  height: 56px;
+}
+
 /* Animaciones*/
 .vertical-animation {
     opacity: 0;

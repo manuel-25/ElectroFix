@@ -1,0 +1,73 @@
+.wa-branch-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.wa-branch-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.wa-branch-card:hover {
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.wa-branch-icon {
+  font-size: 20px;
+  color: var(--black-color);
+}
+
+.wa-branch-card strong {
+  font-size: 15px;
+}
+
+.wa-branch-card span {
+  display: block;
+  font-size: 13px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .wa-branch-selector {
+    align-items: center;
+    gap: 18px;
+  }
+
+  .wa-branch-card {
+    width: 100%;
+    max-width: 320px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 18px 16px;
+    border-radius: 14px;
+  }
+
+  .wa-branch-icon {
+    font-size: 26px;
+    margin-bottom: 6px;
+  }
+
+  .wa-branch-card strong {
+    font-size: 16px;
+  }
+
+  .wa-branch-card span {
+    font-size: 14px;
+  }
+
+  .wa-branch-card:active {
+    transform: scale(0.97);
+    background: #f1f1f1;
+  }
+}

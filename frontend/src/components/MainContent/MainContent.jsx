@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faStore, faTruck, faHome, faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from 'react-router-dom'
 import { brandLogos, reviews, detailedBrandsByCategory } from '../../utils/productsData'
+import WhatsAppBranchSelector from '../WhatsAppBranchSelector/WhatsAppBranchSelector'
+import Modal from '../Modal/Modal'
 import Loading from '../Loading/Loading'
 import { Helmet } from 'react-helmet'
 import throttle from 'lodash/throttle'
@@ -18,6 +20,7 @@ function MainContent() {
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const inputRef = useRef(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [showWhatsAppModal, setShowWhatsAppModal] = useState(false)
   const navigate = useNavigate()
 
   // Memoizar el filtrado de items para evitar recálculos en cada renderizado
@@ -348,7 +351,6 @@ function MainContent() {
           </ul>
           <p className='attribution'><span className='powered-by-google' title="Powered by Google"></span></p>
         </section>
-        {/* 
           <article className='brands-container animated-element vertical-animation'>
             <h2>Trabajamos con todas las marcas</h2>
             <h3>Las mejores marcas a tu servicio</h3>
@@ -363,23 +365,27 @@ function MainContent() {
               <QuoteButton text="Cotizar Ahora" />
             </Link>
           </article>
-        */}
             <div className='whatsapp-float'>
-              <a 
-                href="https://wa.me/5491170664306?text=Hola,%20me%20comunico%20desde%20la%20web%20de%20Electrosafe%20para%20recibir%20la%20mejor%20cotización." 
-                target="_blank" 
-                rel="noopener noreferrer"
-                onClick={() => {
-                  if (window.gtag) {
-                    window.gtag('event', 'conversion', {
-                      'send_to': 'AW-16673611004/49hxCIfl_aUbEPy5zI4-'
-                    })
-                  }
-                }}
-              >
-                <img src='/images/whatsappLogo.svg' alt='WhatsApp' />
-              </a>
+              <div className='whatsapp-float'>
+                <button
+                  className="whatsapp-button"
+                  onClick={() => setShowWhatsAppModal(true)}
+                  aria-label="Contactar por WhatsApp"
+                >
+                  <img src="/images/whatsappLogo.svg" alt="WhatsApp" />
+                </button>
+              </div>
             </div>
+            {showWhatsAppModal && (
+              <Modal
+                title="Elegí tu sucursal"
+                onClose={() => setShowWhatsAppModal(false)}
+              >
+                <WhatsAppBranchSelector
+                  onSelect={() => setShowWhatsAppModal(false)}
+                />
+              </Modal>
+            )}
       </div>
     </>
   )
