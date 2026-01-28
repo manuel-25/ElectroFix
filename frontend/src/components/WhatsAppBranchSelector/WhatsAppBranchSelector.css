@@ -40,34 +40,42 @@
 @media (max-width: 768px) {
   .wa-branch-selector {
     align-items: center;
-    gap: 18px;
+    gap: 16px;
   }
 
   .wa-branch-card {
     width: 100%;
     max-width: 320px;
+    padding: 20px 18px;
+    border-radius: 16px;
+    border: none;
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 18px 16px;
-    border-radius: 14px;
   }
 
   .wa-branch-icon {
-    font-size: 26px;
-    margin-bottom: 6px;
+    font-size: 28px;
+    color: #444;
+    margin-bottom: 8px;
   }
 
   .wa-branch-card strong {
     font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 2px;
   }
 
   .wa-branch-card span {
     font-size: 14px;
+    color: #777;
+    line-height: 1.4;
   }
 
   .wa-branch-card:active {
-    transform: scale(0.97);
-    background: #f1f1f1;
+    transform: scale(0.96);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
   }
 }

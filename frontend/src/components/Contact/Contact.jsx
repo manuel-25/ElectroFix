@@ -2,6 +2,12 @@ import React, { useState, useRef, useMemo } from 'react'
 import './Contact.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'  //faEnvelope, faPhone 
+import { faWhatsapp, faInstagram, faFacebookF } from '@fortawesome/free-brands-svg-icons'
+import {
+  faPhone,
+  faEnvelope,
+  faShareAlt 
+} from '@fortawesome/free-solid-svg-icons'
 import { faqs } from '../../utils/productsData'
 import { GoogleMap, useLoadScript, MarkerF } from '@react-google-maps/api'
 import { Helmet } from 'react-helmet';
@@ -94,42 +100,94 @@ const Contact = () => {
                 <section className="contact-socials">
                     <h3>Contacto y Soporte</h3>
                     <span>¿Seguís con dudas? ¡Comunicate!</span>
-                    <div className="socials-container">
-                        <div className="social-item">
-                            <p>📱 Llámanos a</p>
-                            <div class="phone-numbers">
-                                <p><strong>Cotizaciones Web:</strong> <a href="tel:5491178967720">+54 9 11 7066-4306</a></p>
-                                {/* <p><strong>Barracas:</strong> <a href="tel:5491139148766">+54 911 3914-8766</a></p>
-                                <p><strong>Quilmes:</strong> <a href="tel:5491178967720">+54 911 7896-7720</a></p> */}
+                        <div className="socials-container">
+                            <div className="contact-card">
+                                <div className="social-item">
+                                <div className="phone-numbers">
+                                    <p><strong>Barracas:</strong> <a href="tel:5491139148766">+54 9 11 3914-8766</a></p>
+                                    <p><strong>Quilmes:</strong> <a href="tel:5491170664306">+54 9 11 7066-4306</a></p>
+                                </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="social-item">
-                            <p>📧 Envíanos un mail</p>
-                            <a href="mailto:electrosafeservice@gmail.com" id='social-email'>electrosafeservice@gmail.com</a>
-                        </div>
-                        <div className="social-item">
-                            <p>Nuestras redes sociales</p>
-                            <div className='social-logos'>
-                                <a href="https://wa.me/5491139148766" target="_blank" rel="noopener noreferrer">
-                                    <img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" id='contact-whatsapp'/>
+
+                            <div className="contact-card">
+                                <div className="social-item">
+                                <a href="mailto:electrosafeservice@gmail.com" id="social-email">
+                                    electrosafeservice@gmail.com
                                 </a>
-                                <a href="https://www.instagram.com/electrosafeok/" target="_blank" rel="noopener noreferrer">
-                                    <img src="/images/Instagram.webp" alt="Logotipo de Instagram" />
-                                </a>
+                                </div>
+                            </div>
+
+                            <div className="contact-card">
+                                <div className="social-item">
+                                    <div className="social-logos">
+                                    <a
+                                        href="https://wa.me/5491139148766"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="WhatsApp"
+                                    >
+                                        <FontAwesomeIcon icon={faWhatsapp} />
+                                    </a>
+
+                                    <a
+                                        href="https://www.instagram.com/electrosafeok/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Instagram"
+                                    >
+                                        <FontAwesomeIcon icon={faInstagram} />
+                                    </a>
+
+                                    <a
+                                        href="https://www.facebook.com/electrosafequilmes/"  // ajustá si es otro
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Facebook"
+                                    >
+                                        <FontAwesomeIcon icon={faFacebookF} />
+                                    </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="branch-locations"> 
-                        <h4>Nuestras sucursales</h4>
-                        <div className="branch-items-container">
-                            <div className="branch-item">
-                                <p><img src="/casita.png" alt="Logo Electrosafe" className="branch-item-icon" /> Barracas:</p>
-                                <span> Rocha 1752</span>
+                    <div className="branch-locations">
+                        <h4>Contactá tu sucursal</h4>
+
+                        <div className="branch-cards">
+                            <a
+                            href="https://wa.me/5491139148766?text=Hola,%20me%20comunico%20con%20la%20sucursal%20Barracas"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="branch-card"
+                            >
+                            <img
+                                src="/casita.png"
+                                alt="Sucursal Barracas"
+                                className="branch-card-icon"
+                            />
+                            <div className="branch-card-text">
+                                <strong>Barracas</strong>
+                                <span>Rocha 1752</span>
                             </div>
-                            <div className="branch-item">
-                                <p><img src="/casita.png" alt="Logo Electrosafe" className="branch-item-icon" /> Quilmes:</p>
+                            </a>
+
+                            <a
+                            href="https://wa.me/5491170664306?text=Hola,%20me%20comunico%20con%20la%20sucursal%20Quilmes"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="branch-card"
+                            >
+                            <img
+                                src="/casita.png"
+                                alt="Sucursal Quilmes"
+                                className="branch-card-icon"
+                            />
+                            <div className="branch-card-text">
+                                <strong>Quilmes</strong>
                                 <span>Av. Vicente López 770</span>
                             </div>
+                            </a>
                         </div>
                     </div>
                     <div className="map-container">

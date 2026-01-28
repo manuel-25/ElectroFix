@@ -37,7 +37,6 @@
 }
 
 .contact-content p {
-    font-size: 18px;
     margin-bottom: 20px;
     color: var(--white-color) !important;
     font-weight: 400;
@@ -59,7 +58,6 @@
     background-color: var(--primary-color-hover);
 }
 
-/*FAQ section */
 .frequent-question-container {
     display: flex;
     flex-direction: column;
@@ -110,7 +108,6 @@
     transform: rotate(180deg);
 }
 
-/* Estilos para la sección de redes sociales */
 .contact-socials {
     display: flex;
     flex-direction: column;
@@ -169,11 +166,48 @@
 
 .social-logos {
     display: flex;
-    gap: 10px;
+    gap: 16px;
+    margin-top: 8px;
 }
 
-#contact-whatsapp {
-    font-size: 30px;
+.social-logos a {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #fff;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.social-logos a svg {
+    color: #ffffff;
+}
+
+/* colores permanentes */
+.social-logos a[aria-label="WhatsApp"] {
+    background: #25D366;
+}
+
+.social-logos a[aria-label="Instagram"] {
+    background: radial-gradient(
+        circle at 30% 107%,
+        #fdf497 0%,
+        #fd5949 45%,
+        #d6249f 60%,
+        #285AEB 90%
+    );
+}
+
+.social-logos a[aria-label="Facebook"] {
+    background: #1877F2;
+}
+
+.social-logos a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
 }
 
 .social-item p {
@@ -185,14 +219,6 @@
 .social-item a {
     font-weight: bold;
     color: var(--secondary-color);
-}
-
-
-.social-item img {
-    margin-right: 10px;
-    color: var(--black-color);
-    max-width: 30px;
-    max-height: 30px;
 }
 
 .branch-locations {
@@ -211,122 +237,77 @@
     margin-bottom: 20px;
 }
 
-.branch-items-container {
+.branch-cards {
     display: flex;
-    flex-direction: row;
+    gap: 24px;
     justify-content: center;
-    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 20px;
 }
 
-.branch-item {
+.branch-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fafafa;
+    padding: 16px 20px;
+    border-radius: 14px;
+    text-decoration: none;
+    color: var(--text-color);
+    min-width: 260px;
+    width: 320px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.branch-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.1);
+}
+
+.branch-card-icon {
+    width: 28px;
+    height: 28px;
+}
+
+.branch-card-text {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    font-size: 16px;
-}
-
-.branch-item-icon {
-    width: 25px;
-    font-size: 2.5rem;
-    color: var(--primary-color);
-}
-
-.branch-item p {
-    display: flex;
     justify-content: center;
-    align-items:center;
-    gap: 5px;
-    font-weight: bold;
+    text-align: left;
+}
+
+.branch-card-text strong {
+    font-size: 16px;
     color: var(--secondary-color);
 }
 
-.branch-item span {
+.branch-card-text span {
     font-size: 14px;
     color: var(--text-color);
 }
 
-
-/* Google Maps */
 .map-container {
-    height: 400px; /* Ajusta según tus necesidades */
+    height: 400px;
     width: 100%;
 }
 
-
-/* Estilos para pantallas más pequeñas (hasta 900px) */
 @media only screen and (max-width: 900px) {
-    .contact-content h3 {
-        font-size: 40px;
-    }
-
-    .contact-content span {
-        font-size: 18px;
-    }
-
-    .contact-content p {
-        font-size: 16px;
-    }
-
-    .contact-button {
-        font-size: 16px;
-    }
-
-    .question {
-        font-size: 14px;
-    }
-
-    .answer {
-        font-size: 16px;
-    }
-
-    .contact-socials span {
-        font-size: 20px;
-    }
-
-    .social-item a {
-        font-size: 16px;
-    }
-
-    .social-item svg {
-        font-size: 20px;
-    }
+    .contact-content span { font-size: 18px; }
+    .contact-content p { font-size: 16px; }
+    .contact-button { font-size: 16px; }
+    .question { font-size: 14px; }
+    .answer { font-size: 16px; }
+    .contact-socials span { font-size: 20px; }
+    .social-item a { font-size: 16px; }
 }
 
-/* Estilos para pantallas aún más pequeñas (hasta 650px) */
 @media only screen and (max-width: 650px) {
-    .contact-content h3 {
-        font-size: 30px;
-    }
-
-    .contact-content span {
-        font-size: 16px;
-    }
-
-    .contact-content p {
-        font-size: 14px;
-    }
-
-    .contact-button {
-        font-size: 14px;
-    }
-
-    .question {
-        font-size: 12px;
-    }
-
-    .answer {
-        font-size: 14px;
-    }
-
-    .contact-socials span {
-        font-size: 18px;
-    }
-
-    .social-item a {
-        font-size: 14px;
-    }
-
-    .social-item svg {
-        font-size: 18px;
-    }
+    .contact-content span { font-size: 16px; }
+    .contact-content p { font-size: 14px; }
+    .contact-button { font-size: 14px; }
+    .question { font-size: 12px; }
+    .answer { font-size: 14px; }
+    .contact-socials span { font-size: 18px; }
+    .social-item a { font-size: 14px; }
 }
