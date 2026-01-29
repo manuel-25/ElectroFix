@@ -167,7 +167,7 @@ function MainContent() {
             "name": "Electrosafe",
             "image": "https://electrosafeweb.com/logo.png",
             "url": "https://electrosafeweb.com",
-            "telephone": "+54 911 7066-4306",
+            "telephone": "+54 911 7896-7720",
             "address": {
               "@type": "PostalAddress",
               "streetAddress": "Av. Vicente López 770",

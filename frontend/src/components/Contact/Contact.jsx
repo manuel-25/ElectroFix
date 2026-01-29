@@ -3,11 +3,6 @@ import './Contact.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'  //faEnvelope, faPhone 
 import { faWhatsapp, faInstagram, faFacebookF } from '@fortawesome/free-brands-svg-icons'
-import {
-  faPhone,
-  faEnvelope,
-  faShareAlt 
-} from '@fortawesome/free-solid-svg-icons'
 import { faqs } from '../../utils/productsData'
 import { GoogleMap, useLoadScript, MarkerF } from '@react-google-maps/api'
 import { Helmet } from 'react-helmet';
@@ -105,7 +100,7 @@ const Contact = () => {
                                 <div className="social-item">
                                 <div className="phone-numbers">
                                     <p><strong>Barracas:</strong> <a href="tel:5491139148766">+54 9 11 3914-8766</a></p>
-                                    <p><strong>Quilmes:</strong> <a href="tel:5491170664306">+54 9 11 7066-4306</a></p>
+                                    <p><strong>Quilmes:</strong> <a href="tel:5491170664306">+54 9 11 7896-7720</a></p>
                                 </div>
                                 </div>
                             </div>
@@ -140,7 +135,7 @@ const Contact = () => {
                                     </a>
 
                                     <a
-                                        href="https://www.facebook.com/electrosafequilmes/"  // ajustá si es otro
+                                        href="https://www.facebook.com/electrosafequilmes/"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label="Facebook"
