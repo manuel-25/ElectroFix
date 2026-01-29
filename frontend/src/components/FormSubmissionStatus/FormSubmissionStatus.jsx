@@ -93,7 +93,7 @@ const FormSubmissionStatus = () => {
               className="whatsapp-link"
             >
               <img src="/images/whatsappLogo.svg" alt="Logotipo de WhatsApp" className="whatsapp-icon" />
-              <strong>+54 9 11 7066-4306</strong>
+              <strong>+54 9 11 7896-7720</strong>
             </a>
             <a href="mailto:electrosafeservice@gmail.com" className="email-link">
               <FontAwesomeIcon icon={faEnvelope} className="social-icon" />

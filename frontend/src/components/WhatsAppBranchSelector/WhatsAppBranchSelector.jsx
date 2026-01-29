@@ -11,7 +11,7 @@ const branches = [
   {
     name: 'Quilmes',
     address: 'Av. Vicente López 770',
-    whatsapp: 'https://wa.me/5491170664306?text=Hola,%20me%20comunico%20desde%20la%20web%20de%20Electrosafe%20(Quilmes)'
+    whatsapp: 'https://wa.me/5491178967720?text=Hola,%20me%20comunico%20desde%20la%20web%20de%20Electrosafe%20(Quilmes)'
   }
 ]
 

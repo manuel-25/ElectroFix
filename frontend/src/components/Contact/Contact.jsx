@@ -100,7 +100,7 @@ const Contact = () => {
                                 <div className="social-item">
                                 <div className="phone-numbers">
                                     <p><strong>Barracas:</strong> <a href="tel:5491139148766">+54 9 11 3914-8766</a></p>
-                                    <p><strong>Quilmes:</strong> <a href="tel:5491170664306">+54 9 11 7896-7720</a></p>
+                                    <p><strong>Quilmes:</strong> <a href="tel:5491178967720">+54 9 11 7896-7720</a></p>
                                 </div>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@ const Contact = () => {
                             </a>
 
                             <a
-                            href="https://wa.me/5491170664306?text=Hola,%20me%20comunico%20con%20la%20sucursal%20Quilmes"
+                            href="https://wa.me/5491178967720?text=Hola,%20me%20comunico%20con%20la%20sucursal%20Quilmes"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="branch-card"
