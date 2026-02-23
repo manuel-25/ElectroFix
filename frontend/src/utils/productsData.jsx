@@ -582,11 +582,11 @@ export const faqs = [
 export const bannerLink = "https://forms.gle/NXYeJaASrJtqxC6i6"
 
 export const bannerTexts = [
-  "📣 ¡PREVENTA abierta! Curso Presencial de Reparación de Electrodomésticos. Click Aca!",
-  "🔧 Aprendé con práctica real en Barracas (CABA) y Quilmes.",
-  "📅 Comenzamos en Marzo 2026 — ¡Cupos limitados!",
-  "💼 Salida laboral asegurada. Capacitate con nosotros.",
-  "🚀 Formate como Técnico Profesional. ¡Inscribite ahora!"
+  "🔧 Servicio Técnico Especializado en Electrodomésticos",
+  "📲 Cotizá rápido por WhatsApp — Enviá fotos y te respondemos al momento",
+  "⚡ ¿Tu electrodoméstico no funciona?",
+  "📲 Cotizá ahora por WhatsApp en minutos",
+  "📍 Sucursales en Quilmes y Barracas"
 ]
 
 export const barriosCABA = [

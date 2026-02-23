@@ -11,6 +11,11 @@ import cookieParser from 'cookie-parser'
 import config from './utils/config.js'
 import { logger } from './utils/logger.js'
 
+//Whatsapp
+import qrcode from 'qrcode-terminal'
+import client from './whatsapp/whatsappClient.js'
+import botHandlers from './whatsapp/botHandlers.js'
+
 dotenv.config()
 
 const app = express()
@@ -53,3 +58,18 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
   logger.info(`Server is running on port: ${port}`)
 })
+
+//Whatsapp
+// ====== WHATSAPP BOT ======
+
+client.on('qr', (qr) => {
+  qrcode.generate(qr, { small: true });
+});
+
+client.on('ready', () => {
+  logger.info('WhatsApp Bot conectado ✅');
+});
+
+botHandlers(client);
+
+client.initialize();
