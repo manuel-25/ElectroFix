@@ -1,4 +1,6 @@
+// botHandlers.js
 import ConversationManager from '../Mongo/ConversationManager.js';
+import ServiceManager from '../Mongo/ServiceManager.js';
 import { getSession, updateSession } from './sessionManager.js';
 import { logger } from '../utils/logger.js';
 
@@ -50,6 +52,10 @@ function wantsRepair(text) {
   return ['reparar','arreglar','cotizar','presupuesto','no anda','no funciona','no enciende','no prende','se rompio','se apago'].some(t => text.includes(t));
 }
 
+function wantsRepairStatus(text) {
+  return ['estado','arreglo','reparación','reparacion','servicio'].some(t => text.includes(t));
+}
+
 function wantsLocation(text) {
   return ['horario','direccion','donde','ubicacion','abren','cierran','sucursal'].some(t => text.includes(t));
 }
@@ -72,7 +78,6 @@ function isThanks(text) {
 // ================================
 async function botSend(client, chatId, text) {
   try {
-
     const sent = await client.sendMessage(chatId, text);
 
     // Guardar mensaje del bot
@@ -87,7 +92,6 @@ async function botSend(client, chatId, text) {
     });
 
     return sent;
-
   } catch (err) {
     logger.error(`Error enviando mensaje a ${chatId}: ${err.message}`);
   }
@@ -99,12 +103,10 @@ async function botSend(client, chatId, text) {
 async function escalateToHuman(client, chatId) {
   try {
     const conv = await ConversationManager.getByPhone(chatId);
-
     const updateData = { pendingHuman: true, humanRequestedAt: new Date() };
 
-    // Solo poner status 'pending' si no está en progreso
     if (!conv || conv.status !== 'in_progress') {
-      updateData.status = 'pending';
+      updateData.status = 'waiting';
     }
 
     await ConversationManager.createOrUpdate(chatId, updateData);
@@ -117,23 +119,76 @@ Mientras tanto, podés dejar detallada tu consulta 🙌
 Escribí *cancelar* si querés volver al menú.`);
 
     updateSession(chatId, { step: 'waiting_human', fallbackCount: 0 });
-
   } catch (err) {
     logger.error(`Error escalando a humano para ${chatId}: ${err.message}`);
   }
 }
 
 // ================================
+// 📦 CONSULTA ESTADO SERVICIO
+// ================================
+async function checkRepairStatus(client, chatId, text, originalText) {
+  // Cancelar
+  if (text === 'cancelar') {
+    updateSession(chatId, { step: 'menu', fallbackCount: 0 });
+    await botSend(client, chatId,
+`❌ Consulta cancelada.  
+Volvemos al menú 👇
+
+1️⃣ Reparar un electrodoméstico  
+2️⃣ Consultar el estado de tu reparación  
+3️⃣ Ver horarios y dirección  
+4️⃣ Hablar con un asesor`);
+    return true;
+  }
+
+  // Escalar a humano
+  if (wantsHuman(text)) {
+    await escalateToHuman(client, chatId);
+    return true;
+  }
+
+  // Validación de código
+  const publicId = originalText.trim(); // <<< usar el texto original SIN normalizar
+  if (!/^[a-zA-Z0-9]{6,10}$/.test(publicId)) {
+    await botSend(client, chatId,
+`❌ Código inválido.  
+Ingresalo nuevamente o escribí *cancelar* para volver al menú.`);
+    return true;
+  }
+
+  const service = await ServiceManager.getByPublicId(publicId);
+
+  if (!service) {
+    await botSend(client, chatId,
+`❌ No encontramos un servicio con ese código.  
+Verificá que esté bien escrito.  
+Si querés salir escribí *cancelar*.  
+Si necesitás ayuda, escribí *asesor* y te ayudamos personalmente 🙌`);
+    return true;
+  }
+
+  // Mostrar estado del servicio
+  await botSend(client, chatId,
+`📦 Estado de tu equipo:
+🔧 Equipo: ${service.device || service.equipmentType}
+🏷 Marca: ${service.brand}
+📊 Estado: ${service.status}
+
+Si tenés dudas podés escribir *asesor* para hablar con un humano.`);
+
+  updateSession(chatId, { step: 'menu', fallbackCount: 0 });
+  return true;
+}
+
+// ================================
 // 🚀 HANDLER PRINCIPAL
 // ================================
 export default function botHandlers(client) {
-
   global.client = client;
 
   client.on('message', async (message) => {
-
     try {
-
       if (!DEV_PHONES.includes(message.from)) return;
       if (message.fromMe) return;
       if (!message.body) return;
@@ -146,9 +201,7 @@ export default function botHandlers(client) {
       let text = normalize(originalText);
       text = normalizeNumbers(text);
 
-      // ================================
-      // 🔥 ACTUALIZAR GESTIÓN COMPLETA
-      // ================================
+      // 🔥 ACTUALIZAR CONVERSACIÓN
       await ConversationManager.createOrUpdate(userId, {
         phone: userId,
         contactName: name,
@@ -165,63 +218,52 @@ export default function botHandlers(client) {
       const session = getSession(userId) || {};
       const fallbackCount = session.fallbackCount || 0;
 
-      // ================================
+      // ================================  
       // 🛑 ESPERANDO HUMANO
       // ================================
       if (session.step === 'waiting_human') {
-
         if (text === 'cancelar') {
-
           await ConversationManager.resolveConversation(userId);
-
           updateSession(userId, { step: 'menu', fallbackCount: 0 });
-
           await botSend(client, userId,
 `❌ Solicitud cancelada.
 
 Volvemos al menú 👇
-
 1️⃣ Reparar un electrodoméstico  
-2️⃣ Ver horarios y dirección  
-3️⃣ Hablar con asesor`);
-
+2️⃣ Consultar el estado de tu reparación  
+3️⃣ Ver horarios y dirección  
+4️⃣ Hablar con un asesor`);
         }
-
         return;
       }
 
+      // ================================  
+      // 📦 CONSULTA ESTADO / CHECK_REPAIR
       // ================================
+      if (session.step === 'check_repair') {
+        const handled = await checkRepairStatus(client, userId, text, originalText);
+        if (handled) return;
+      }
+
+      // ================================  
       // 👋 SALUDO
       // ================================
       const isFirstMessage = !session.lastMessageAt;
-
       if (detectUserGreeting(text) || isFirstMessage) {
-
         updateSession(userId, { step: 'menu', fallbackCount: 0 });
-
+        await botSend(client, userId, `👋 ${getTimeGreeting()} ${name}, somos *Electrosafe Quilmes*.`);
         await botSend(client, userId,
-`👋 ${getTimeGreeting()} ${name}, somos *Electrosafe Quilmes*.`);
-
-        await botSend(client, userId,
-`Podés elegir:
+`Podés elegir un número o escribir lo que necesitás:
 
 1️⃣ Reparar un electrodoméstico  
-2️⃣ Ver horarios y dirección  
-3️⃣ Hablar con asesor`);
-
+2️⃣ Consultar el estado de tu reparación  
+3️⃣ Ver horarios y dirección  
+4️⃣ Hablar con un asesor`);
         return;
       }
 
-      // ================================
-      // 👤 HUMANO
-      // ================================
-      if (wantsHuman(text) || text === '3') {
-        await escalateToHuman(client, userId);
-        return;
-      }
-
-      // ================================
-      // 🔧 REPARACIÓN
+      // ================================  
+      // 🔧 OPCIÓN 1: REPARACIÓN
       // ================================
       if (wantsRepair(text) || text === '1') {
         await botSend(client, userId,
@@ -230,10 +272,23 @@ https://electrosafeweb.com/reparacion-electrodomesticos`);
         return;
       }
 
+      // ================================  
+      // 📦 OPCIÓN 2: CONSULTA ESTADO
       // ================================
-      // 🕒 UBICACIÓN
+      if (wantsRepairStatus(text) || text === '2') {
+        updateSession(userId, { step: 'check_repair', fallbackCount: 0 });
+        await botSend(client, userId,
+`📦 Para consultar el estado de tu reparación necesitamos el código público que figura en tu ticket.
+Ingresalo acá por favor 🙌
+(Ejemplo: Ab3K9xYz)
+Podés escribir *cancelar* para salir o *asesor* para hablar con un humano.`);
+        return;
+      }
+
+      // ================================  
+      // 🕒 OPCIÓN 3: UBICACIÓN
       // ================================
-      if (wantsLocation(text) || text === '2') {
+      if (wantsLocation(text) || text === '3') {
         await botSend(client, userId,
 `📍 Av. Vicente López 770 - Quilmes
 
@@ -242,19 +297,24 @@ Sábados 10 a 13 hs`);
         return;
       }
 
+      // ================================  
+      // 👤 OPCIÓN 4: HUMANO
       // ================================
+      if (wantsHuman(text) || text === '4') {
+        await escalateToHuman(client, userId);
+        return;
+      }
+
+      // ================================  
       // 🔚 CIERRE
       // ================================
       if (wantsToClose(text)) {
-        await botSend(client, userId,
-`Perfecto 😊
-
-Si necesitás algo más escribinos cuando quieras.`);
+        await botSend(client, userId, `Perfecto 😊\nSi necesitás algo más escribinos cuando quieras.`);
         updateSession(userId, { step: 'menu', fallbackCount: 0 });
         return;
       }
 
-      // ================================
+      // ================================  
       // 😕 FRUSTRACIÓN
       // ================================
       if (detectFrustration(text)) {
@@ -262,13 +322,14 @@ Si necesitás algo más escribinos cuando quieras.`);
 `Perdón si no fui claro 🙏
 
 Podés elegir:
-1️⃣ Reparar  
-2️⃣ Ubicación  
-3️⃣ Asesor`);
+1️⃣ Reparar un electrodoméstico  
+2️⃣ Consultar el estado de tu reparación  
+3️⃣ Ver horarios y dirección  
+4️⃣ Hablar con un asesor`);
         return;
       }
 
-      // ================================
+      // ================================  
       // 🙏 GRACIAS
       // ================================
       if (isThanks(text)) {
@@ -276,7 +337,7 @@ Podés elegir:
         return;
       }
 
-      // ================================
+      // ================================  
       // 🧠 FALLBACK
       // ================================
       if (fallbackCount >= 2) {
@@ -286,17 +347,16 @@ Podés elegir:
       }
 
       updateSession(userId, { fallbackCount: fallbackCount + 1 });
-
       await botSend(client, userId,
 `No estoy seguro de haber entendido 🤔
 
-1️⃣ Reparar  
-2️⃣ Ubicación  
-3️⃣ Asesor`);
+1️⃣ Reparar un electrodoméstico  
+2️⃣ Consultar el estado de tu reparación  
+3️⃣ Ver horarios y dirección  
+4️⃣ Hablar con un asesor`);
 
     } catch (err) {
       logger.error(`❌ Error en message: ${err.message}`);
     }
-
   });
 }
