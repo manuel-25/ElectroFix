@@ -51,18 +51,32 @@ function title(doc, str, { center = false, bold = true } = {}) {
   spacer(doc, TOKENS.space.xs)
 }
 
-function kv(doc, k, v, { size = TOKENS.font.base } = {}) {
+function kv(doc, k, v, { size = TOKENS.font.base, valueBold = false } = {}) {
   const leftWidth = 78
   const key = `${k.toUpperCase()}: `
   const y0 = doc.y
   const prevSize = doc._fontSize
+
   doc.fontSize(size)
+
   const hL = doc.heightOfString(key, { width: leftWidth, lineGap: 1.05 })
   const hV = doc.heightOfString(String(v ?? '—'), { width: wInside(doc) - leftWidth, lineGap: 1.2 })
   const h = Math.max(hL, hV)
+
   ensureSpace(doc, h + TOKENS.space.xs + 1)
-  doc.font('Helvetica-Bold').fontSize(size).text(key, MARGIN, y0, { width: leftWidth, lineGap: 1.2 })
-  doc.font('Helvetica').text(String(v ?? '—'), MARGIN + leftWidth, y0, { width: wInside(doc) - leftWidth, lineGap: 1.2 })
+
+  // Clave (siempre negrita)
+  doc.font('Helvetica-Bold')
+     .fontSize(size)
+     .text(key, MARGIN, y0, { width: leftWidth, lineGap: 1.2 })
+
+  // Valor (opcionalmente en negrita)
+  doc.font(valueBold ? 'Helvetica-Bold' : 'Helvetica')
+     .text(String(v ?? '—'), MARGIN + leftWidth, y0, {
+       width: wInside(doc) - leftWidth,
+       lineGap: 1.2
+     })
+
   doc.fontSize(prevSize)
 }
 
@@ -188,6 +202,10 @@ async function buildAndSendTicket(service, res) {
   const u = svc.userData || {}
   const fullName = `${u.firstName || ''} ${u.lastName || ''}`.trim() || '—'
   kv(doc, 'Ticket', svc.code)
+  if (svc.publicId) {
+    kv(doc, 'Codigo publico', svc.publicId, { valueBold: true })
+  }
+  kv(doc, 'Cliente', fullName)
   kv(doc, 'Cliente', fullName)
   kv(doc, 'Tel', u.phone || '—')
   if (u.dniOrCuit) kv(doc, 'DNI / CUIT', u.dniOrCuit)

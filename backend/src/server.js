@@ -6,6 +6,7 @@ import quoteRoutes from './routes/quoteRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import clientRoutes from './routes/clientRoutes.js'
 import serviceRoutes from './routes/serviceRoutes.js'
+import conversationRoutes from './routes/conversationRoutes.js'
 import logRoutes from './routes/logRoutes.js'
 import cookieParser from 'cookie-parser'
 import config from './utils/config.js'
@@ -45,6 +46,7 @@ app.use('/api/manager', userRoutes)
 app.use('/api/client', clientRoutes)
 app.use('/api/service', serviceRoutes)
 app.use('/api/logs', logRoutes)
+app.use('/api/conversations', conversationRoutes)
 
 // MongoDB Connection
 await connectDB()

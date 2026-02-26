@@ -34,6 +34,7 @@ import NuevoServicio from './components/NuevoServicio/NuevoServicio.jsx'
 import EditarServicio from './components/EditarServicio/EditarServicio.jsx'
 import ServiceDetail from './components/ServiceDetail/ServiceDetail.jsx'
 import WorkOrderViewer from './components/WorkOrderViewer/WorkOrderViewer.jsx'
+import WhatsAppDashboard from './components/WhatsAppDashboard/WhatsAppDashboard.jsx'
 
 // Otros
 import NotFound from './components/NotFound/NotFound.jsx'
@@ -152,6 +153,14 @@ function AppContent() {
             element={
               <ProtectedRoute>
                 <DashboardLayout><WorkOrderViewer /></DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/whatsapp"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout><WhatsAppDashboard /></DashboardLayout>
               </ProtectedRoute>
             }
           />

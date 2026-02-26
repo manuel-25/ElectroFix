@@ -1,20 +1,78 @@
 import mongoose from 'mongoose';
 
-const BotMessageSchema = new mongoose.Schema({
-  messageId: String,
-  text: String,
-  sentAt: Date
+const MessageSchema = new mongoose.Schema({
+  sender: {
+    type: String,
+    enum: ['user', 'bot', 'human'],
+    required: true
+  },
+  text: {
+    type: String,
+    trim: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 }, { _id: false });
 
 const ConversationSchema = new mongoose.Schema({
-  phone: { type: String, required: true, unique: true },
+
+  phone: {
+    type: String,
+    required: true,
+    unique: true,
+    index: true
+  },
+
+  /* 👤 Datos del contacto */
+  contactName: {
+    type: String,
+    trim: true
+  },
+
+  /* 📝 Últimos mensajes */
   lastMessage: String,
   lastMessageAt: Date,
-  unreadCount: { type: Number, default: 0 },
-  pendingHuman: { type: Boolean, default: false },
-  priority: { type: Boolean, default: false },
-  apologySent: { type: Boolean, default: false },
-  botMessages: [BotMessageSchema]
+
+  lastCustomerMessage: String,
+  lastCustomerMessageAt: Date,
+
+  unreadCount: {
+    type: Number,
+    default: 0
+  },
+
+  /* 🤝 Estado humano */
+  pendingHuman: {
+    type: Boolean,
+    default: false,
+    index: true
+  },
+
+  status: {
+    type: String,
+    enum: ['bot', 'waiting', 'in_progress', 'waiting_customer', 'resolved'],
+    default: 'bot',
+    index: true
+  },
+
+  humanRequestedAt: Date,
+
+  assignedTo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  
+  inProgressAt: Date,
+
+  priority: {
+    type: Boolean,
+    default: false
+  },
+
+  messages: [MessageSchema]
+
 }, { timestamps: true });
 
 export default mongoose.model('Conversation', ConversationSchema);

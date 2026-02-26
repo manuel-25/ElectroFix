@@ -1,345 +1,302 @@
 import ConversationManager from '../Mongo/ConversationManager.js';
-import { updateSession } from './sessionManager.js';
+import { getSession, updateSession } from './sessionManager.js';
+import { logger } from '../utils/logger.js';
 
-const DEV_PHONE = '5491121842237@c.us';
+const DEV_PHONES = [
+  '5491121842237@c.us',
+  '5491136106124@c.us'
+];
 
-// 🔥 Flags
-const botSending = new Set();
-const messageTracker = new Map();
-const humanTimeouts = new Map();
+// ================================
+// 🔤 NORMALIZADORES
+// ================================
+function normalize(text) {
+  return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
 
-// Anti spam config
-const SPAM_LIMIT = 3;
-const SPAM_WINDOW = 10000;
-const SPAM_BLOCK_TIME = 30000;
+function normalizeNumbers(text) {
+  const map = { 'uno':'1','dos':'2','tres':'3','cuatro':'4' };
+  text = text.toLowerCase();
+  for (const [word,num] of Object.entries(map)) {
+    text = text.replace(new RegExp(`\\b${word}\\b`, 'g'), num);
+  }
+  return text;
+}
 
-const waitingResponseCooldown = new Map();
-const WAITING_COOLDOWN_TIME = 15000; // 15 segundos
+// ================================
+// 👋 SALUDO
+// ================================
+function getTimeGreeting() {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return "Buen día";
+  if (hour >= 12 && hour < 19) return "Buenas tardes";
+  return "Buenas noches";
+}
 
-// Tiempo espera humano (1 hora)
-const HUMAN_WAIT_TIME = 60 * 60 * 1000;
+function detectUserGreeting(text) {
+  const greetings = ["hola","holaa","holi","buen dia","buenos dias","buenas tardes","buenas noches","buenas"];
+  const clean = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  return greetings.some(g => clean.includes(g));
+}
 
+// ================================
+// 🎯 INTENCIONES
+// ================================
+function wantsHuman(text) {
+  return ['asesor','humano','persona','operador','alguien'].some(t => text.includes(t));
+}
 
-// ========================================
-// 🚫 ANTI SPAM
-// ========================================
-async function isSpamming(userId, client) {
+function wantsRepair(text) {
+  return ['reparar','arreglar','cotizar','presupuesto','no anda','no funciona','no enciende','no prende','se rompio','se apago'].some(t => text.includes(t));
+}
 
-  const now = Date.now();
+function wantsLocation(text) {
+  return ['horario','direccion','donde','ubicacion','abren','cierran','sucursal'].some(t => text.includes(t));
+}
 
-  if (!messageTracker.has(userId)) {
-    messageTracker.set(userId, {
-      count: 1,
-      firstMessageTime: now,
-      blockedUntil: null,
-      warned: false
+function wantsToClose(text) {
+  const closing = ['no gracias','ninguna','nada','esta bien','ok','listo','chau','adios'];
+  return closing.includes(text.trim());
+}
+
+function detectFrustration(text) {
+  return ['no entiendo','no me entendiste','esto no funciona','que pasa'].some(t => text.includes(t));
+}
+
+function isThanks(text) {
+  return ['gracias','muchas gracias','mil gracias'].includes(text.trim());
+}
+
+// ================================
+// 🤖 ENVÍO MENSAJE
+// ================================
+async function botSend(client, chatId, text) {
+  try {
+
+    const sent = await client.sendMessage(chatId, text);
+
+    // Guardar mensaje del bot
+    await ConversationManager.addMessage(chatId, {
+      sender: 'bot',
+      text
     });
-    return false;
+
+    // Actualizar última actividad
+    await ConversationManager.createOrUpdate(chatId, {
+      lastMessageAt: new Date()
+    });
+
+    return sent;
+
+  } catch (err) {
+    logger.error(`Error enviando mensaje a ${chatId}: ${err.message}`);
   }
+}
 
-  const data = messageTracker.get(userId);
+// ================================
+// 👤 ESCALAR HUMANO
+// ================================
+async function escalateToHuman(client, chatId) {
+  try {
+    const conv = await ConversationManager.getByPhone(chatId);
 
-  if (data.blockedUntil && now < data.blockedUntil) {
-    return true;
-  }
+    const updateData = { pendingHuman: true, humanRequestedAt: new Date() };
 
-  if (now - data.firstMessageTime > SPAM_WINDOW) {
-    data.count = 1;
-    data.firstMessageTime = now;
-    data.blockedUntil = null;
-    data.warned = false;
-    return false;
-  }
-
-  data.count++;
-
-  if (data.count >= SPAM_LIMIT) {
-    data.blockedUntil = now + SPAM_BLOCK_TIME;
-
-    if (!data.warned) {
-      data.warned = true;
-
-      await client.sendMessage(userId,
-  `⚠️ Por favor aguardá unos segundos antes de enviar más mensajes.`
-      );
+    // Solo poner status 'pending' si no está en progreso
+    if (!conv || conv.status !== 'in_progress') {
+      updateData.status = 'pending';
     }
 
-    console.log('🚫 Usuario bloqueado por spam:', userId);
-    return true;
-  }
-
-  return false;
-}
-
-
-// ========================================
-// 🤖 BOT SEND
-// ========================================
-async function botSend(client, chatId, text) {
-
-  if (chatId.includes('status@broadcast')) return;
-  if (!chatId.endsWith('@c.us')) return;
-
-  botSending.add(chatId);
-
-  const sentMessage = await client.sendMessage(chatId, text);
-
-  await ConversationManager.addBotMessage(chatId, {
-    messageId: sentMessage.id._serialized,
-    text,
-    sentAt: new Date()
-  });
-
-  setTimeout(() => {
-    botSending.delete(chatId);
-  }, 800);
-
-  return sentMessage;
-}
-
-
-// ========================================
-// ⏳ TIMER ESPERA HUMANO
-// ========================================
-function startHumanTimer(client, chatId) {
-
-  if (humanTimeouts.has(chatId)) {
-    clearTimeout(humanTimeouts.get(chatId));
-  }
-
-  const timeout = setTimeout(async () => {
-
-    const conversation = await ConversationManager.getByPhone(chatId);
-    if (!conversation) return;
-
-    if (!conversation.pendingHuman) return;
-    if (conversation.apologySent) return;
+    await ConversationManager.createOrUpdate(chatId, updateData);
 
     await botSend(client, chatId,
-`🙏 Disculpas por la demora.
-
-En este momento todos los asesores están ocupados.
-
-Tu consulta fue priorizada y te responderemos lo antes posible.`
-    );
-
-    await ConversationManager.setPriority(chatId, true);
-    await ConversationManager.setApologySent(chatId, true);
-
-    console.log('⏳ Conversación priorizada automáticamente:', chatId);
-
-  }, HUMAN_WAIT_TIME);
-
-  humanTimeouts.set(chatId, timeout);
-}
-
-
-// ========================================
-// 👤 ESCALAR
-// ========================================
-async function escalateToHuman(client, chatId) {
-
-  await ConversationManager.createOrUpdate(chatId, {
-    pendingHuman: true,
-    humanRequestedAt: new Date(),
-    waitingSince: new Date(),
-    priority: false,
-    apologySent: false
-  });
-
-  await botSend(client, chatId,
 `👤 Un asesor humano te responderá a la brevedad.
 
-Gracias por tu paciencia 🙌`
-  );
+Mientras tanto, podés dejar detallada tu consulta 🙌
 
-  startHumanTimer(client, chatId);
+Escribí *cancelar* si querés volver al menú.`);
 
-  console.log('✅ Escalado a humano:', chatId);
+    updateSession(chatId, { step: 'waiting_human', fallbackCount: 0 });
+
+  } catch (err) {
+    logger.error(`Error escalando a humano para ${chatId}: ${err.message}`);
+  }
 }
 
-
-// ========================================
+// ================================
 // 🚀 HANDLER PRINCIPAL
-// ========================================
+// ================================
 export default function botHandlers(client) {
 
-  // ========================================
-  // 📩 MENSAJES ENTRANTES
-  // ========================================
+  global.client = client;
+
   client.on('message', async (message) => {
 
     try {
 
-      if (message.from !== DEV_PHONE) return;
+      if (!DEV_PHONES.includes(message.from)) return;
       if (message.fromMe) return;
       if (!message.body) return;
-      if (!message.from.endsWith('@c.us')) return;
 
       const userId = message.from;
-      const text = message.body.toLowerCase().trim();
+      const contact = await message.getContact();
+      const name = contact.pushname || '';
 
-      if (await isSpamming(userId, client)) {
-        console.log('🚫 Ignorado por spam:', userId);
-        return;
-      }
+      const originalText = message.body.trim();
+      let text = normalize(originalText);
+      text = normalizeNumbers(text);
 
+      // ================================
+      // 🔥 ACTUALIZAR GESTIÓN COMPLETA
+      // ================================
       await ConversationManager.createOrUpdate(userId, {
-        lastMessage: text,
-        lastMessageAt: new Date()
+        phone: userId,
+        contactName: name,
+        lastMessageAt: new Date(),
+        lastCustomerMessage: originalText,
+        $inc: { unreadCount: 1 }
       });
 
-      const conversation = await ConversationManager.getByPhone(userId);
-      if (!conversation) return;
+      await ConversationManager.addMessage(userId, {
+        sender: 'user',
+        text: originalText
+      });
 
-      // ========================================
-      // 🔄 VOLVER AL MENÚ
-      // ========================================
-      if (text === 'hola' || text === 'menu') {
+      const session = getSession(userId) || {};
+      const fallbackCount = session.fallbackCount || 0;
 
-        if (conversation.pendingHuman) {
-          await ConversationManager.createOrUpdate(userId, {
-            pendingHuman: false,
-            priority: false,
-            apologySent: false
-          });
+      // ================================
+      // 🛑 ESPERANDO HUMANO
+      // ================================
+      if (session.step === 'waiting_human') {
 
-          if (humanTimeouts.has(userId)) {
-            clearTimeout(humanTimeouts.get(userId));
-            humanTimeouts.delete(userId);
-          }
+        if (text === 'cancelar') {
+
+          await ConversationManager.resolveConversation(userId);
+
+          updateSession(userId, { step: 'menu', fallbackCount: 0 });
+
+          await botSend(client, userId,
+`❌ Solicitud cancelada.
+
+Volvemos al menú 👇
+
+1️⃣ Reparar un electrodoméstico  
+2️⃣ Ver horarios y dirección  
+3️⃣ Hablar con asesor`);
+
         }
 
-        updateSession(userId, { step: 'menu' });
+        return;
+      }
+
+      // ================================
+      // 👋 SALUDO
+      // ================================
+      const isFirstMessage = !session.lastMessageAt;
+
+      if (detectUserGreeting(text) || isFirstMessage) {
+
+        updateSession(userId, { step: 'menu', fallbackCount: 0 });
 
         await botSend(client, userId,
-`👋 ¡Hola! Somos *Electrosafe Quilmes*.
+`👋 ${getTimeGreeting()} ${name}, somos *Electrosafe Quilmes*.`);
 
-¿En qué podemos ayudarte?
+        await botSend(client, userId,
+`Podés elegir:
 
-1️⃣ Reparar un electrodoméstico
-2️⃣ Consultar estado
-3️⃣ Horarios y dirección
-4️⃣ Hablar con asesor
-
-Respondé con el número.`
-        );
+1️⃣ Reparar un electrodoméstico  
+2️⃣ Ver horarios y dirección  
+3️⃣ Hablar con asesor`);
 
         return;
       }
 
-      // ========================================
-      // 👤 YA EN MODO HUMANO
-      // ========================================
-      if (conversation.pendingHuman) {
-    const now = Date.now();
-    const lastSent = waitingResponseCooldown.get(userId);
-
-    if (!lastSent || now - lastSent > WAITING_COOLDOWN_TIME) {
-
-      await botSend(client, userId,
-  `👤 Estamos aguardando un asesor.
-
-  En breve te responderá 🙌
-
-  Si querés volver al menú escribí *hola*.`
-      );
-
-      waitingResponseCooldown.set(userId, now);
-    }
-
-    return;
-  }
-
-      await ConversationManager.incrementUnread(userId);
-
-      // ========================================
-      // OPCIONES MENÚ
-      // ========================================
-      if (text === '1') {
-        await botSend(client, userId,
-`🔧 Cotizá tu reparación acá:
-
-https://electrosafeweb.com/reparacion-electrodomesticos`
-        );
-        return;
-      }
-
-      if (text === '2') {
-        await botSend(client, userId,
-`📦 Enviános:
-
-• Nombre
-• Modelo
-• Número de orden`
-        );
-        return;
-      }
-
-      if (text === '3') {
-        await botSend(client, userId,
-`🕒 Horarios:
-
-Lunes a Viernes: 10 a 18 hs
-Sábados: 10 a 13 hs
-
-📍 Av. Vicente López 770, Quilmes`
-        );
-        return;
-      }
-
-      if (text === '4') {
-        updateSession(userId, { step: 'waiting_human' });
+      // ================================
+      // 👤 HUMANO
+      // ================================
+      if (wantsHuman(text) || text === '3') {
         await escalateToHuman(client, userId);
         return;
       }
 
-      await botSend(client, userId,
-`🤖 No entendí ese mensaje.
-
-Escribí *hola* para ver el menú.`
-      );
-
-    } catch (err) {
-      console.error('❌ Error en message:', err);
-    }
-
-  });
-
-
-  // ========================================
-  // 👤 DETECCIÓN HUMANO REAL
-  // ========================================
-  client.on('message_create', async (message) => {
-
-    try {
-
-      if (message.to !== DEV_PHONE) return;
-      if (!message.fromMe) return;
-      if (!message.to.endsWith('@c.us')) return;
-
-      const userId = message.to;
-
-      if (botSending.has(userId)) return;
-
-      const conversation = await ConversationManager.getByPhone(userId);
-      if (!conversation) return;
-      if (!conversation.pendingHuman) return;
-
-      await ConversationManager.setPending(userId, false);
-      await ConversationManager.resetUnread(userId);
-
-      if (humanTimeouts.has(userId)) {
-        clearTimeout(humanTimeouts.get(userId));
-        humanTimeouts.delete(userId);
+      // ================================
+      // 🔧 REPARACIÓN
+      // ================================
+      if (wantsRepair(text) || text === '1') {
+        await botSend(client, userId,
+`🔧 Podés cotizar tu reparación acá:
+https://electrosafeweb.com/reparacion-electrodomesticos`);
+        return;
       }
 
-      console.log('✅ Conversación tomada por humano:', userId);
+      // ================================
+      // 🕒 UBICACIÓN
+      // ================================
+      if (wantsLocation(text) || text === '2') {
+        await botSend(client, userId,
+`📍 Av. Vicente López 770 - Quilmes
+
+🕒 Lunes a Viernes 10 a 18 hs  
+Sábados 10 a 13 hs`);
+        return;
+      }
+
+      // ================================
+      // 🔚 CIERRE
+      // ================================
+      if (wantsToClose(text)) {
+        await botSend(client, userId,
+`Perfecto 😊
+
+Si necesitás algo más escribinos cuando quieras.`);
+        updateSession(userId, { step: 'menu', fallbackCount: 0 });
+        return;
+      }
+
+      // ================================
+      // 😕 FRUSTRACIÓN
+      // ================================
+      if (detectFrustration(text)) {
+        await botSend(client, userId,
+`Perdón si no fui claro 🙏
+
+Podés elegir:
+1️⃣ Reparar  
+2️⃣ Ubicación  
+3️⃣ Asesor`);
+        return;
+      }
+
+      // ================================
+      // 🙏 GRACIAS
+      // ================================
+      if (isThanks(text)) {
+        await botSend(client, userId, `😊 ¡Gracias a vos!`);
+        return;
+      }
+
+      // ================================
+      // 🧠 FALLBACK
+      // ================================
+      if (fallbackCount >= 2) {
+        await escalateToHuman(client, userId);
+        updateSession(userId, { fallbackCount: 0 });
+        return;
+      }
+
+      updateSession(userId, { fallbackCount: fallbackCount + 1 });
+
+      await botSend(client, userId,
+`No estoy seguro de haber entendido 🤔
+
+1️⃣ Reparar  
+2️⃣ Ubicación  
+3️⃣ Asesor`);
 
     } catch (err) {
-      console.error('❌ Error en message_create:', err);
+      logger.error(`❌ Error en message: ${err.message}`);
     }
 
   });
-
 }

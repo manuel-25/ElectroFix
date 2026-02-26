@@ -158,7 +158,6 @@ class ServiceController {
     }
   }
 
-
   // ✅ getLastCode
   static async getLastCode(req, res) {
     try {

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import './SideBar.css'
 import { Link } from 'react-router-dom'
 import { FaClipboardList, FaPlusCircle, FaUsers, FaChartBar } from 'react-icons/fa'
+import { FaWhatsapp } from 'react-icons/fa'
 import axios from 'axios'
 import { getApiUrl } from '../../config'
 
 const Sidebar = () => {
   const [pendingCount, setPendingCount] = useState(0)
+  const [whatsappCount, setWhatsappCount] = useState(0)
 
   useEffect(() => {
     const fetchCount = async () => {
@@ -20,6 +22,21 @@ const Sidebar = () => {
 
     fetchCount()
     const interval = setInterval(fetchCount, 15000) // actualiza cada 30 segundos
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    const fetchWhatsAppCount = async () => {
+      try {
+        const res = await axios.get(`${getApiUrl()}/api/conversations/count/pending-human`)
+        setWhatsappCount(res.data.count)
+      } catch (error) {
+        console.error('Error al cargar conversaciones pendientes', error)
+      }
+    }
+
+    fetchWhatsAppCount()
+    const interval = setInterval(fetchWhatsAppCount, 15000)
     return () => clearInterval(interval)
   }, [])
 
@@ -56,6 +73,17 @@ const Sidebar = () => {
           <Link to="/estadisticas" className="sidebar-link">
             <FaChartBar />
             <span>Estadísticas</span>
+          </Link>
+        </li>
+        <li title="WhatsApp">
+          <Link to="/whatsapp" className="sidebar-link">
+            <FaWhatsapp />
+            <span>WhatsApp</span>
+            {whatsappCount > 0 && (
+              <span className="notification-badge">
+                {whatsappCount}
+              </span>
+            )}
           </Link>
         </li>
       </ul>
