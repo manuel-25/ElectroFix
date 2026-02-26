@@ -5,7 +5,7 @@
   width: 100%;
   padding: 40px 60px;
   box-sizing: border-box;
-  background-color: #f7f8fa; /* fondo suave */
+  background-color: #f7f8fa;
 }
 
 .whatsapp-dashboard-container {
@@ -61,26 +61,24 @@
   table-layout: fixed;
 }
 
-.whatsapp-table thead {
-  background-color: #f1f3f6;
-}
-
-.whatsapp-table th {
-  padding: 16px 18px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #333;
-  text-align: left;
-}
-
+.whatsapp-table th, 
 .whatsapp-table td {
-  padding: 14px 18px;
+  padding: 12px 14px;
   font-size: 14px;
   color: #444;
   vertical-align: top;
   word-break: break-word;
   white-space: normal;
-  line-height: 1.6;
+  line-height: 1.4;
+}
+
+.whatsapp-table thead {
+  background-color: #f8f9fb;
+}
+
+.whatsapp-table th {
+  font-weight: 600;
+  color: #333;
 }
 
 /* =========================
@@ -92,117 +90,74 @@
 }
 
 .whatsapp-table tbody tr:hover {
-  background-color: #f0f4ff;
-  transform: translateY(-1px);
-}
-
-.urgent-row {
-  background-color: #fff8e1;
-  font-weight: 500;
+  background-color: #f5f8ff;
 }
 
 /* =========================
-   ESTADOS
+   ESTADOS DE FILAS
+========================= */
+.pending-row { background-color: #fff3cd; }       /* amarillo para pendientes */
+.critical-row { background-color: #fdecea; }      /* rojo clarito para prioridad */
+.in-progress-row { background-color: #f9f9f9; }   /* gris para gestión */
+.resolved-row { background-color: #e0f7fa; }      /* celeste para finalizados */
+
+/* =========================
+   STATUS BADGES
 ========================= */
 .status {
   display: inline-block;
-  padding: 6px 14px;
+  padding: 4px 10px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
 }
 
-.status.waiting {
-  background-color: #fff3cd;
-  color: #856404;
-}
-
-.status.bot {
-  background-color: #e9edf3;
-  color: #4a5568;
-}
-
-.status.in-progress {
-  background-color: #e9ecef;
-  color: #495057;
-}
+.status.waiting { background-color: #fff3cd; color: #856404; }
+.status.critical { background-color: #fdecea; color: #b71c1c; }
+.status.in-progress { background-color: #e9ecef; color: #495057; }
+.status.resolved { background-color: #e0f7fa; color: #007b91; }
 
 /* =========================
    BADGES DE ESPERA / PRIORIDAD
 ========================= */
 .wait-badge {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 4px 8px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
 }
 
-.wait-badge.normal {
-  background: #e3f2fd;
-  color: #1565c0;
-}
-
-.wait-badge.warning {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.wait-badge.critical {
-  background: #fdecea;
-  color: #b71c1c;
-}
+.wait-badge.normal { background: #e3f2fd; color: #1565c0; }
+.wait-badge.warning { background: #fff3cd; color: #856404; }
+.wait-badge.critical { background: #fdecea; color: #b71c1c; }
 
 /* =========================
    BOTONES
 ========================= */
-.assign-btn,
-.resolve-btn,
-.btn-whatsapp {
-  padding: 8px 14px;
-  margin-right: 8px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  border-radius: 6px;
   border: none;
+  margin-right: 5px;
   cursor: pointer;
   transition: all 0.2s ease;
-  display: inline-block;
 }
 
-.assign-btn {
-  background-color: #007bff;
-  color: #fff;
-}
+.assign-btn { background-color: #007bff; color: #fff; }
+.assign-btn:hover { background-color: #0069d9; }
 
-.assign-btn:hover {
-  background-color: #0069d9;
-}
+.resolve-btn { background-color: #28a745; color: #fff; }
+.resolve-btn:hover:not(:disabled) { background-color: #218838; }
+.resolve-btn:disabled { background-color: #ccc; color: #666; cursor: not-allowed; }
 
-.resolve-btn {
-  background-color: #28a745;
-  color: #fff;
-}
-
-.resolve-btn:hover:not(:disabled) {
-  background-color: #218838;
-}
-
-.resolve-btn:disabled {
-  background-color: #cccccc;
-  color: #666;
-  cursor: not-allowed;
-}
-
-.btn-whatsapp {
-  background-color: #25d366;
-  color: #fff;
-  text-decoration: none;
-}
-
-.btn-whatsapp:hover {
-  background-color: #1ebe5d;
-}
+.btn-whatsapp { background-color: #25D366; color: #fff; text-decoration: none; }
+.btn-whatsapp:hover { background-color: #1ebe5d; }
 
 /* =========================
    COLUMNA DE ACCIONES
@@ -224,7 +179,7 @@
 }
 
 /* =========================
-   CONTACT NAME
+   CONTACTO
 ========================= */
 .contact-name {
   font-size: 13px;
@@ -261,81 +216,6 @@
 }
 
 /* =========================
-   COLUMNA DE ACCIONES
-========================= */
-.col-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-}
-
-/* =========================
-   BOTONES PEQUEÑOS
-========================= */
-.assign-btn,
-.resolve-btn,
-.btn-whatsapp {
-  padding: 6px 10px;      /* más compacto */
-  font-size: 12px;        /* tamaño uniforme */
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  position: relative;     /* para tooltips */
-}
-
-/* =========================
-   BOTONES CON ICONO
-========================= */
-.btn-whatsapp {
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  background-color: #25d366;
-  border-radius: 50%;
-  color: #fff;
-  font-size: 18px;  /* ícono más visible */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-whatsapp:hover {
-  background-color: #1ebe5d;
-}
-
-/* =========================
-   BOTONES EN GESTIÓN Y RESOLVER
-========================= */
-.assign-btn {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.assign-btn:hover {
-  background-color: #0069d9;
-}
-
-.resolve-btn {
-  background-color: #28a745;
-  color: #fff;
-}
-
-.resolve-btn:hover:not(:disabled) {
-  background-color: #218838;
-}
-
-.resolve-btn:disabled {
-  background-color: #cccccc;
-  color: #666;
-  cursor: not-allowed;
-}
-
-/* =========================
    TOOLTIP
 ========================= */
 [col-tooltip] {
@@ -345,7 +225,7 @@
 [col-tooltip]:hover::after {
   content: attr(col-tooltip);
   position: absolute;
-  bottom: 125%; /* encima del botón */
+  bottom: 125%;
   left: 50%;
   transform: translateX(-50%);
   background-color: #333;
@@ -368,166 +248,4 @@
   border-style: solid;
   border-color: #333 transparent transparent transparent;
   z-index: 10;
-}
-
-/* =========================
-   WRAPPER GENERAL
-========================= */
-.whatsapp-dashboard-wrapper {
-  width: 100%;
-  padding: 40px 60px;
-  box-sizing: border-box;
-}
-
-.whatsapp-dashboard-container {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.dashboard-title {
-  font-size: 28px;
-  margin-bottom: 20px;
-}
-
-/* =========================
-   CARD PRINCIPAL
-========================= */
-.whatsapp-card {
-  width: 100%;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  padding: 25px;
-  box-sizing: border-box;
-  margin-bottom: 20px;
-}
-
-/* =========================
-   TABLA
-========================= */
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.whatsapp-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
-
-.whatsapp-table th, .whatsapp-table td {
-  padding: 12px 14px;
-  font-size: 14px;
-  color: #444;
-  vertical-align: top;
-  word-break: break-word;
-  white-space: normal;
-  line-height: 1.4;
-}
-
-.whatsapp-table thead {
-  background-color: #f8f9fb;
-}
-
-.whatsapp-table th {
-  font-weight: 600;
-  color: #333;
-}
-
-/* =========================
-   FILAS
-========================= */
-.whatsapp-table tbody tr {
-  border-bottom: 1px solid #eee;
-  transition: background 0.2s ease;
-}
-
-.whatsapp-table tbody tr:hover {
-  background-color: #f5f8ff;
-}
-
-.urgent-row {
-  background-color: #fff8e1;
-}
-
-/* =========================
-   BADGES
-========================= */
-.wait-badge {
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.wait-badge.normal { background: #e3f2fd; color: #1565c0; }
-.wait-badge.warning { background: #fff3cd; color: #856404; }
-.wait-badge.critical { background: #fdecea; color: #b71c1c; }
-
-.status {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.status.waiting { background-color: #fff3cd; color: #856404; }
-.status.bot { background-color: #e9edf3; color: #4a5568; }
-.status.in-progress { background-color: #e9ecef; color: #495057; }
-
-/* =========================
-   BOTONES COMPACTOS
-========================= */
-.icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: none;
-  margin-right: 5px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.assign-btn { background-color: #007bff; color: #fff; }
-.assign-btn:hover { background-color: #0069d9; }
-
-.resolve-btn { background-color: #28a745; color: #fff; }
-.resolve-btn:hover:not(:disabled) { background-color: #218838; }
-.resolve-btn:disabled { background-color: #ccc; color: #666; cursor: not-allowed; }
-
-.btn-whatsapp { background-color: #25D366; color: #fff; text-decoration: none; }
-.btn-whatsapp:hover { background-color: #1ebe5d; }
-
-/* =========================
-   FILA VACÍA
-========================= */
-.empty-row {
-  text-align: center;
-  padding: 30px;
-  color: #888;
-}
-
-/* =========================
-   CONTACTO
-========================= */
-.contact-name {
-  font-size: 12px;
-  color: #666;
-  margin-top: 2px;
-}
-
-.urgent-row {
-  background-color: #ffe5e5; /* rojo clarito */
-}
-
-.in-progress-row {
-  background-color: #f9f9f9; /* gris clarito */
 }

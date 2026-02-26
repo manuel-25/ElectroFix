@@ -60,8 +60,8 @@ const ConversationSchema = new mongoose.Schema({
   humanRequestedAt: Date,
 
   assignedTo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    type: String,
+    default: null
   },
   
   inProgressAt: Date,

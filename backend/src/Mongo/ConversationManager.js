@@ -74,6 +74,7 @@ class ConversationManager {
     let conversation = await Conversation.findOne({ phone });
 
     if (!conversation) {
+      // Si no existe, crea nueva
       return Conversation.create({
         phone,
         messages: [message],
@@ -81,8 +82,18 @@ class ConversationManager {
         lastMessageAt: new Date(),
         lastCustomerMessage: message.sender === 'user' ? message.text : undefined,
         lastCustomerMessageAt: message.sender === 'user' ? new Date() : undefined,
-        unreadCount: message.sender === 'user' ? 1 : 0
+        unreadCount: message.sender === 'user' ? 1 : 0,
+        status: 'bot'
       });
+    }
+
+    // ✅ Reinicio si estaba resuelta y llega mensaje del usuario
+    if (conversation.status === 'resolved' && message.sender === 'user') {
+      conversation.status = 'bot';
+      conversation.pendingHuman = false;
+      conversation.assignedTo = null;
+      conversation.unreadCount = 1;
+      conversation.messages = [];   //borra el historial de mensajes opcional cambiarlo
     }
 
     conversation.messages.push(message);
@@ -101,19 +112,19 @@ class ConversationManager {
     return conversation;
   }
 
-  async assignToUser(phone, userId) {
+  async assignToUser(phone, email) {
     const updated = await Conversation.findOneAndUpdate(
       { phone },
       {
         status: 'in_progress',
-        assignedTo: userId,
+        assignedTo: email,
         inProgressAt: new Date(),
       },
       { new: true }
     );
 
     if (!updated) console.log('No se encontró la conversación con phone:', phone);
-    else console.log('Conversación tomada:', updated._id, updated.phone);
+    else console.log('Conversación tomada:', updated._id, updated.phone, 'Asignado a:', email);
 
     return updated;
   }

@@ -215,25 +215,41 @@ export default function botHandlers(client) {
         text: originalText
       });
 
+      // OBTENGO LA SESSION DEL USUARIO
       const session = getSession(userId) || {};
+      console.log('session',session)
       const fallbackCount = session.fallbackCount || 0;
 
+      // 🔹 OBTENGO CONVERSACIÓN
+      const conversation = await ConversationManager.getByPhone(userId);
+
       // ================================  
-      // 🛑 ESPERANDO HUMANO
+      // MODO HUMANO
       // ================================
-      if (session.step === 'waiting_human') {
+
+      // 🟡 Esperando que alguien lo tome
+      if (conversation?.status === 'waiting') {
+
         if (text === 'cancelar') {
           await ConversationManager.resolveConversation(userId);
-          updateSession(userId, { step: 'menu', fallbackCount: 0 });
-          await botSend(client, userId,
-`❌ Solicitud cancelada.
 
-Volvemos al menú 👇
-1️⃣ Reparar un electrodoméstico  
-2️⃣ Consultar el estado de tu reparación  
-3️⃣ Ver horarios y dirección  
-4️⃣ Hablar con un asesor`);
+          updateSession(userId, { step: 'menu', fallbackCount: 0 });
+
+          await botSend(client, userId,
+      `❌ Solicitud cancelada.
+
+      Volvemos al menú 👇
+      1️⃣ Reparar un electrodoméstico  
+      2️⃣ Consultar el estado de tu reparación  
+      3️⃣ Ver horarios y dirección  
+      4️⃣ Hablar con un asesor`);
         }
+
+        return;
+      }
+
+      // 🔴 Ya está siendo atendido por humano
+      if (conversation?.status === 'in_progress') {
         return;
       }
 

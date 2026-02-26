@@ -43,17 +43,18 @@ class ConversationController {
         console.log('👤 Usuario logueado:', req.user);
 
         if (!req.user) {
-        console.log('❌ No hay usuario logueado');
-        return res.status(401).json({ error: 'Usuario no autenticado' });
+            console.log('❌ No hay usuario logueado');
+            return res.status(401).json({ error: 'Usuario no autenticado' });
         }
 
-        const userId = req.user._id;
+        const email = req.user.email;
         const { phone } = req.params;
-        const updated = await ConversationManager.assignToUser(phone, userId);
+
+        const updated = await ConversationManager.assignToUser(phone, email);
 
         if (!updated) {
-        console.log('❌ Conversación no encontrada en manager');
-        return res.status(404).json({ error: 'Conversación no encontrada' });
+            console.log('❌ Conversación no encontrada en manager');
+            return res.status(404).json({ error: 'Conversación no encontrada' });
         }
 
         console.log('✅ Conversación tomada:', updated._id, updated.status, updated.assignedTo);
@@ -63,7 +64,7 @@ class ConversationController {
         console.error('❌ Error tomando conversación', error);
         res.status(500).json({ error: 'Error al tomar conversación' });
     }
-    }
+  }
 
 }
 

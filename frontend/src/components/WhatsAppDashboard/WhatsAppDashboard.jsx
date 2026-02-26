@@ -1,3 +1,4 @@
+// WhatsAppDashboard.js
 import { useEffect, useState, useContext, useMemo } from 'react';
 import axios from 'axios';
 import DashboardLayout from '../DashboardLayout/DashboardLayout';
@@ -12,28 +13,26 @@ function WhatsAppDashboard() {
   const { auth } = useContext(AuthContext);
   const [conversations, setConversations] = useState([]);
 
-  // 🔹 Calcula minutos de espera desde humanRequestedAt
   const getWaitingMinutes = (date) => {
     if (!date) return 0;
     const diff = Date.now() - new Date(date).getTime();
     return Math.floor(diff / 60000);
   };
 
-  // 🔹 Clase visual según prioridad / tiempo
-  const getPriorityClass = (minutes, status) => {
-    if (status === 'in_progress') return 'in-progress-row'; // gris clarito
-    if (minutes >= 60) return 'critical';
-    if (minutes >= 30) return 'warning';
-    return 'normal';
+  const getPriorityClass = (conv) => {
+    const minutes = getWaitingMinutes(conv.humanRequestedAt);
+    if (conv.status === 'in_progress') return 'in-progress-row';
+    if (minutes >= 60) return 'critical-row'; // prioridad roja
+    if (conv.pendingHuman) return 'pending-row'; // amarillo
+    if (!conv.pendingHuman && conv.status === 'resolved') return 'resolved-row'; // celeste
+    return '';
   };
 
-  // 🔹 Fetch de conversaciones desde backend
   const fetchConversations = async () => {
     if (!auth) return;
     try {
       const res = await axios.get(`${getApiUrl()}/api/conversations`, { withCredentials: true });
       setConversations(res.data || []);
-      console.log('🛠 Debug conversaciones:', res.data);
     } catch (err) {
       console.error('❌ Error cargando conversaciones', err);
     }
@@ -46,24 +45,25 @@ function WhatsAppDashboard() {
     return () => clearInterval(interval);
   }, [auth]);
 
-  // 🔹 Ordenar conversaciones
   const sortedConversations = useMemo(() => {
     return [...conversations].sort((a, b) => {
-      // Pendientes humano primero
+      const aMinutes = getWaitingMinutes(a.humanRequestedAt);
+      const bMinutes = getWaitingMinutes(b.humanRequestedAt);
+
+      const aPriority = aMinutes >= 60;
+      const bPriority = bMinutes >= 60;
+
+      if (aPriority && !bPriority) return -1;
+      if (!aPriority && bPriority) return 1;
+
       if (a.pendingHuman && b.pendingHuman) return new Date(a.humanRequestedAt) - new Date(b.humanRequestedAt);
       if (a.pendingHuman) return -1;
       if (b.pendingHuman) return 1;
 
-      // Prioridad luego
-      if (a.priority && !b.priority) return -1;
-      if (!a.priority && b.priority) return 1;
-
-      // Últimos mensajes finalmente
       return new Date(b.lastMessageAt || 0) - new Date(a.lastMessageAt || 0);
     });
   }, [conversations]);
 
-  // 🔹 Acciones de conversación
   const resolveConversation = async (phone) => {
     try {
       await axios.post(`${getApiUrl()}/api/conversations/${phone}/resolve`, {}, { withCredentials: true });
@@ -82,13 +82,6 @@ function WhatsAppDashboard() {
     }
   };
 
-  // 🔹 Separar por tipo de conversación
-  const priorityConvs = sortedConversations.filter(c => c.priority);
-  const pendingConvs = sortedConversations.filter(c => c.pendingHuman && c.status !== 'in_progress');
-  const inProgressConvs = sortedConversations.filter(c => c.pendingHuman && c.status === 'in_progress');
-  const resolvedConvs = sortedConversations.filter(c => !c.pendingHuman && c.status === 'resolved');
-
-  // 🔹 Render tabla
   const renderTable = (data) => (
     <div className="whatsapp-card">
       <div className="table-responsive">
@@ -112,9 +105,13 @@ function WhatsAppDashboard() {
             )}
             {data.map(conv => {
               const minutes = getWaitingMinutes(conv.humanRequestedAt);
-              const cleanPhone = conv.phone?.replace('@c.us', '');
-              const waPhone = cleanPhone?.replace(/\D/g, '');
-              const rowClass = getPriorityClass(minutes, conv.status);
+              // Normalizar teléfono
+              const cleanPhone = conv.phone?.replace('@c.us', '') || '';
+              const waPhone = cleanPhone.replace(/\D/g, '');
+
+              // Normalizar assignedTo para mostrar solo la parte antes del @
+              const assignedShort = conv.assignedTo ? conv.assignedTo.split('@')[0] : '-';
+              const rowClass = getPriorityClass(conv);
 
               return (
                 <tr key={cleanPhone} className={rowClass}>
@@ -128,13 +125,15 @@ function WhatsAppDashboard() {
                   <td>
                     {conv.status === 'in_progress' ? (
                       <span className="status in-progress">En gestión</span>
+                    ) : conv.pendingHuman && minutes >= 60 ? (
+                      <span className="status critical">Prioridad</span>
                     ) : conv.pendingHuman ? (
                       <span className="status waiting">Esperando asesor</span>
                     ) : (
                       <span className="status resolved">Finalizado</span>
                     )}
                   </td>
-                  <td>{conv.assignedTo?.firstName || '-'}</td>
+                  <td>{assignedShort}</td>
                   <td className="col-actions">
                     {conv.status !== 'in_progress' && conv.pendingHuman && (
                       <button
@@ -180,16 +179,16 @@ function WhatsAppDashboard() {
           <h2 className="dashboard-title">📱 WhatsApp Dashboard</h2>
 
           <h3>🔴 Prioridad</h3>
-          {renderTable(priorityConvs)}
+          {renderTable(sortedConversations.filter(c => getWaitingMinutes(c.humanRequestedAt) >= 60 && c.pendingHuman))}
 
           <h3>🟡 Pendientes</h3>
-          {renderTable(pendingConvs)}
+          {renderTable(sortedConversations.filter(c => c.pendingHuman && getWaitingMinutes(c.humanRequestedAt) < 60 && c.status !== 'in_progress'))}
 
           <h3>⚪ En gestión</h3>
-          {renderTable(inProgressConvs)}
+          {renderTable(sortedConversations.filter(c => c.status === 'in_progress'))}
 
           <h3>✅ Finalizados</h3>
-          {renderTable(resolvedConvs)}
+          {renderTable(sortedConversations.filter(c => !c.pendingHuman && c.status === 'resolved'))}
         </div>
       </div>
     </DashboardLayout>
