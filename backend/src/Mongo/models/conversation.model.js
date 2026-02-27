@@ -71,6 +71,8 @@ const ConversationSchema = new mongoose.Schema({
     default: false
   },
 
+  lastAssignedTo: String,
+
   messages: [MessageSchema]
 
 }, { timestamps: true });

@@ -109,7 +109,12 @@ function WhatsAppDashboard() {
               const waPhone = cleanPhone.replace(/\D/g, '');
 
               // Normalizar assignedTo para mostrar solo la parte antes del @
-              const assignedShort = conv.assignedTo ? conv.assignedTo.split('@')[0] : '-';
+              let assignedDisplay = '-';
+              if (conv.status === 'in_progress' && conv.assignedTo) {
+                assignedDisplay = conv.assignedTo.split('@')[0];
+              } else if (conv.lastAssignedTo) {
+                assignedDisplay = `Última vez: ${conv.lastAssignedTo.split('@')[0]}`;
+              }
               const rowClass = getPriorityClass(conv);
 
               return (
@@ -132,7 +137,7 @@ function WhatsAppDashboard() {
                       <span className="status resolved">Finalizado</span>
                     )}
                   </td>
-                  <td>{assignedShort}</td>
+                  <td>{assignedDisplay}</td>
                   <td className="col-actions">
                     {conv.status !== 'in_progress' && conv.pendingHuman && (
                       <button

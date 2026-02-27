@@ -92,20 +92,23 @@
    ============================================ */
 .notification-badge {
   position: absolute;
-  top: 8px;
-  left: 34px; /* visible incluso con la barra cerrada */
-  background-color: #ff3b30; /* rojo estilo iOS */
+  top: 6px;
+  right: 12px;
+  background-color: #ff3b30;
   color: #fff;
-  font-size: 11px;
-  font-weight: bold;
-  border-radius: 50%;
-  padding: 4px 6px;
-  min-width: 18px;
-  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 2px 6px;
+  min-width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   z-index: 10;
-  transition: transform 0.2s ease, left 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
 /* Animación hover del badge */
@@ -116,6 +119,36 @@
 /* Desplazamiento del badge cuando la barra se expande */
 .sidebar:hover .notification-badge {
   left: 150px;
+}
+
+/* 🔴 PRIORIDAD */
+.notification-badge.priority {
+  background-color: #ff3b30;
+  animation: pulse 1.2s infinite;
+}
+
+/* 🟡 PENDIENTES */
+.notification-badge.pending {
+  background-color: #ffcc00;
+  color: #000;
+}
+
+/* 🔴 Badge rojo genérico */
+.notification-badge.red {
+  background-color: #ff3b30;
+}
+
+/* ✨ Animación pulsante para prioridad */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(255, 59, 48, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
+  }
 }
 
 /* RESPONSIVIDAD MÓVIL */
@@ -136,7 +169,7 @@
   }
 
   .sidebar-link svg {
-    font-size: 16px;
+    font-size: 20px;
   }
 
   .notification-badge {
@@ -155,7 +188,7 @@
 /* Teléfonos muy pequeños */
 @media (max-width: 480px) {
   .sidebar {
-    width: 48px;
+    width: 65px;
   }
 
   .sidebar:hover {
@@ -169,5 +202,8 @@
   .notification-badge {
     left: 26px;
     font-size: 9px;
+    top: 4px;
+    right: 8px;
   }
 }
+

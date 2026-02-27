@@ -8,6 +8,8 @@ router.get('/', authenticateJWT, ConversationController.getAll)
 
 router.get('/count/pending-human', authenticateJWT, ConversationController.getPendingHumanCount)
 
+router.get('/count/sidebar', authenticateJWT, ConversationController.getSidebarCounts)
+
 router.post('/:phone/resolve', authenticateJWT, ConversationController.resolve)
 
 router.post('/:phone/take', authenticateJWT, ConversationController.takeConversation)

@@ -217,7 +217,6 @@ export default function botHandlers(client) {
 
       // OBTENGO LA SESSION DEL USUARIO
       const session = getSession(userId) || {};
-      console.log('session',session)
       const fallbackCount = session.fallbackCount || 0;
 
       // 🔹 OBTENGO CONVERSACIÓN
@@ -365,6 +364,7 @@ Podés elegir:
       updateSession(userId, { fallbackCount: fallbackCount + 1 });
       await botSend(client, userId,
 `No estoy seguro de haber entendido 🤔
+¿En qué podemos ayudarte? Elegi una de las opciones:
 
 1️⃣ Reparar un electrodoméstico  
 2️⃣ Consultar el estado de tu reparación  

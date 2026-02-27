@@ -39,11 +39,7 @@ class ConversationController {
   // 🟢 Tomar conversación (poner en gestión)
   static async takeConversation(req, res) {
     try {
-        console.log('📞 Request para tomar conversación:', req.params.phone);
-        console.log('👤 Usuario logueado:', req.user);
-
         if (!req.user) {
-            console.log('❌ No hay usuario logueado');
             return res.status(401).json({ error: 'Usuario no autenticado' });
         }
 
@@ -53,16 +49,25 @@ class ConversationController {
         const updated = await ConversationManager.assignToUser(phone, email);
 
         if (!updated) {
-            console.log('❌ Conversación no encontrada en manager');
             return res.status(404).json({ error: 'Conversación no encontrada' });
         }
 
-        console.log('✅ Conversación tomada:', updated._id, updated.status, updated.assignedTo);
         res.json(updated);
 
     } catch (error) {
         console.error('❌ Error tomando conversación', error);
         res.status(500).json({ error: 'Error al tomar conversación' });
+    }
+  }
+
+  // 🔔 Conteo para Sidebar
+  static async getSidebarCounts(req, res) {
+    try {
+      const counts = await ConversationManager.getSidebarCount();
+      res.json(counts);
+    } catch (error) {
+      console.error('Error obteniendo conteo sidebar', error);
+      res.status(500).json({ error: 'Error al obtener conteos' });
     }
   }
 

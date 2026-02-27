@@ -78,11 +78,12 @@ class ConversationManager {
         pendingHuman: false,
         humanRequestedAt: null,
         unreadCount: 0,
-        status: 'resolved'
+        status: 'resolved',
+        assignedTo: null
       },
       { new: true }
     );
-  }
+}
 
   async addMessage(phone, message) {
     let conversation = await Conversation.findOne({ phone });
@@ -105,7 +106,6 @@ class ConversationManager {
     if (conversation.status === 'resolved' && message.sender === 'user') {
       conversation.status = 'bot';
       conversation.pendingHuman = false;
-      conversation.assignedTo = null;
       conversation.unreadCount = 1;
       conversation.messages = [];   //borra el historial de mensajes opcional cambiarlo
     }
@@ -132,16 +132,27 @@ class ConversationManager {
       {
         status: 'in_progress',
         assignedTo: email,
+        lastAssignedTo: email,
         inProgressAt: new Date(),
         priority: false
       },
       { new: true }
     );
 
-    if (!updated) console.log('No se encontró la conversación con phone:', phone);
-    else console.log('Conversación tomada:', updated._id, updated.phone, 'Asignado a:', email);
-
     return updated;
+  }
+
+  async getSidebarCount() {
+    const pending = await Conversation.countDocuments({
+      pendingHuman: true,
+      priority: false
+    });
+
+    const priority = await Conversation.countDocuments({
+      priority: true
+    });
+
+    return { pending, priority };
   }
 }
 
