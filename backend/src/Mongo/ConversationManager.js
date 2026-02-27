@@ -61,9 +61,9 @@ class ConversationManager {
       { phone },
       {
         status: 'resolved',
-        humanRequestedAt: null,
         unreadCount: 0,
-        assignedTo: null
+        assignedTo: null,
+        inProgressAt: null
       },
       { new: true }
     );
@@ -101,14 +101,17 @@ class ConversationManager {
     return conversation;
   }
 
-  async assignToUser(phone, email) {
+  // ConversationManager.js
+  async assignToUser(phone, email, firstResponseDate = new Date()) {
     return await Conversation.findOneAndUpdate(
-      { phone },
+      { phone, status: { $in: ['waiting', 'priority'] } },
       {
         status: 'in_progress',
         assignedTo: email,
         lastAssignedTo: email,
-        inProgressAt: new Date()
+        inProgressAt: new Date(),
+        firstResponseAt: firstResponseDate,
+        unreadCount: 0
       },
       { new: true }
     );

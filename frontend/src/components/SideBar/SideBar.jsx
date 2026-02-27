@@ -7,26 +7,43 @@ import { getApiUrl } from '../../config'
 
 const Sidebar = () => {
   const [pendingCount, setPendingCount] = useState(0)
-
   const [pendingChats, setPendingChats] = useState(0)
   const [priorityChats, setPriorityChats] = useState(0)
 
   const previousTotalRef = useRef(0)
+  const previousQuotesRef = useRef(0)
   const audioRef = useRef(null)
 
-  // 🔔 Cotizaciones
+  // 🔊 Función para reproducir sonido de notificación una sola vez
+  const playNotificationSound = () => {
+    if (audioRef.current) {
+      audioRef.current.pause()          // Detiene cualquier sonido en reproducción
+      audioRef.current.currentTime = 0  // Reinicia desde el inicio
+      audioRef.current.play().catch(() => {})
+    }
+  }
+
+  // 🔔 Cotizaciones + sonido
   useEffect(() => {
-    const fetchCount = async () => {
+    const fetchQuotes = async () => {
       try {
         const res = await axios.get(`${getApiUrl()}/api/quotes/count/pending`)
-        setPendingCount(res.data.count)
+        const newCount = res.data.count
+
+        // 🔊 Reproducir sonido solo si aumenta
+        if (newCount > previousQuotesRef.current) {
+          playNotificationSound()
+        }
+
+        previousQuotesRef.current = newCount
+        setPendingCount(newCount)
       } catch (error) {
         console.error('Error al cargar cotizaciones pendientes', error)
       }
     }
 
-    fetchCount()
-    const interval = setInterval(fetchCount, 15000)
+    fetchQuotes()
+    const interval = setInterval(fetchQuotes, 15000)
     return () => clearInterval(interval)
   }, [])
 
@@ -35,21 +52,18 @@ const Sidebar = () => {
     const fetchWhatsAppCounts = async () => {
       try {
         const res = await axios.get(`${getApiUrl()}/api/conversations/count/sidebar`, { withCredentials: true })
-
         const pending = res.data.pending
         const priority = res.data.priority
         const total = pending + priority
 
-        setPendingChats(pending)
-        setPriorityChats(priority)
-
-        // 🔊 Sonido solo si aumenta el total
+        // 🔊 Reproducir sonido solo si aumenta
         if (total > previousTotalRef.current) {
-          audioRef.current?.play().catch(() => {})
+          playNotificationSound()
         }
 
         previousTotalRef.current = total
-
+        setPendingChats(pending)
+        setPriorityChats(priority)
       } catch (error) {
         console.error('Error al cargar conversaciones', error)
       }
@@ -61,9 +75,7 @@ const Sidebar = () => {
   }, [])
 
   const totalChats = pendingChats + priorityChats
-
-  const displayChats =
-    totalChats > 9 ? '9+' : totalChats
+  const displayChats = totalChats > 9 ? '9+' : totalChats
 
   return (
     <aside className="sidebar">
@@ -119,9 +131,7 @@ const Sidebar = () => {
 
             {totalChats > 0 && (
               <span
-                className={`notification-badge ${
-                  priorityChats > 0 ? 'priority' : 'pending'
-                }`}
+                className={`notification-badge ${priorityChats > 0 ? 'priority' : 'pending'}`}
               >
                 {displayChats}
               </span>

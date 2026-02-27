@@ -80,15 +80,9 @@ async function botSend(client, chatId, text) {
   try {
     const sent = await client.sendMessage(chatId, text);
 
-    // Guardar mensaje del bot
     await ConversationManager.addMessage(chatId, {
       sender: 'bot',
       text
-    });
-
-    // Actualizar última actividad
-    await ConversationManager.createOrUpdate(chatId, {
-      lastMessageAt: new Date()
     });
 
     return sent;
@@ -202,15 +196,6 @@ export default function botHandlers(client) {
       let text = normalize(originalText);
       text = normalizeNumbers(text);
 
-      // 🔥 ACTUALIZAR CONVERSACIÓN
-      await ConversationManager.createOrUpdate(userId, {
-        phone: userId,
-        contactName: name,
-        lastMessageAt: new Date(),
-        lastCustomerMessage: originalText,
-        $inc: { unreadCount: 1 }
-      });
-
       await ConversationManager.addMessage(userId, {
         sender: 'user',
         text: originalText
@@ -232,6 +217,8 @@ export default function botHandlers(client) {
         await ConversationManager.updateByPhone(userId, {
           status: 'bot',
           assignedTo: null,
+          humanRequestedAt: null,
+          firstResponseAt: null,
           humanRequestedAt: null
         });
 

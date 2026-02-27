@@ -34,7 +34,8 @@ class ConversationController {
         const email = req.user.email;
         const { phone } = req.params;
 
-        const updated = await ConversationManager.assignToUser(phone, email);
+        // Asignar al usuario y setear firstResponseAt
+        const updated = await ConversationManager.assignToUser(phone, email, new Date());
 
         if (!updated) {
             return res.status(404).json({ error: 'Conversación no encontrada' });

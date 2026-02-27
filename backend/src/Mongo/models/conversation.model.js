@@ -51,6 +51,7 @@ const ConversationSchema = new mongoose.Schema({
 
   inProgressAt: Date,
   lastAssignedTo: String,
+  firstResponseAt: Date,
 
   messages: [MessageSchema]
 
