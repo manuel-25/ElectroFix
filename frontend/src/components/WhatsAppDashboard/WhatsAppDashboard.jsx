@@ -20,9 +20,8 @@ function WhatsAppDashboard() {
   };
 
   const getPriorityClass = (conv) => {
-    const minutes = getWaitingMinutes(conv.humanRequestedAt);
     if (conv.status === 'in_progress') return 'in-progress-row';
-    if (minutes >= 60) return 'critical-row'; // prioridad roja
+    if (conv.priority) return 'critical-row'; // prioridad roja
     if (conv.pendingHuman) return 'pending-row'; // amarillo
     if (!conv.pendingHuman && conv.status === 'resolved') return 'resolved-row'; // celeste
     return '';
@@ -179,10 +178,10 @@ function WhatsAppDashboard() {
           <h2 className="dashboard-title">📱 WhatsApp Dashboard</h2>
 
           <h3>🔴 Prioridad</h3>
-          {renderTable(sortedConversations.filter(c => getWaitingMinutes(c.humanRequestedAt) >= 60 && c.pendingHuman))}
+          {renderTable(sortedConversations.filter(c => c.priority))}
 
           <h3>🟡 Pendientes</h3>
-          {renderTable(sortedConversations.filter(c => c.pendingHuman && getWaitingMinutes(c.humanRequestedAt) < 60 && c.status !== 'in_progress'))}
+          {renderTable(sortedConversations.filter(c => c.pendingHuman && !c.priority && c.status !== 'in_progress'))}
 
           <h3>⚪ En gestión</h3>
           {renderTable(sortedConversations.filter(c => c.status === 'in_progress'))}

@@ -56,6 +56,19 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Ocurrió un error en el servidor', error: err.message })
 })
 
+// ================================
+// ⏱ CHECK PRIORITY WHATSAPP
+// ================================
+import ConversationManager from './Mongo/ConversationManager.js'
+
+setInterval(async () => {
+  try {
+    await ConversationManager.checkWaitingPriority(60); // 1 minuto para pruebas
+  } catch (error) {
+    console.error('Error revisando prioridades:', error);
+  }
+}, 60 * 1000); // cada 1 minuto
+
 // Start the server
 app.listen(port, () => {
   logger.info(`Server is running on port: ${port}`)

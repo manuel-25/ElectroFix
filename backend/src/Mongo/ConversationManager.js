@@ -48,6 +48,21 @@ class ConversationManager {
     );
   }
 
+  async checkWaitingPriority(limitMinutes = 60) {
+    const limitDate = new Date(Date.now() - limitMinutes * 60 * 1000);
+
+    const result = await Conversation.updateMany(
+      {
+        status: 'waiting',
+        humanRequestedAt: { $lte: limitDate },
+        priority: false
+      },
+      { priority: true }
+    );
+
+    return result;
+  }
+
   async resetUnread(phone) {
     return await Conversation.findOneAndUpdate(
       { phone },
@@ -63,7 +78,6 @@ class ConversationManager {
         pendingHuman: false,
         humanRequestedAt: null,
         unreadCount: 0,
-        assignedTo: null,
         status: 'resolved'
       },
       { new: true }
@@ -119,6 +133,7 @@ class ConversationManager {
         status: 'in_progress',
         assignedTo: email,
         inProgressAt: new Date(),
+        priority: false
       },
       { new: true }
     );

@@ -238,7 +238,6 @@ export function WorkOrderDocument({ service }) {
           <View style={styles.companyCenter}>
             <Text style={{ fontWeight: 'bold' }}>CUIT: 20-38903937-1</Text>
             <Text>Quilmes: Av. Vicente López 770</Text>
-            <Text>Barracas: Rocha 1752</Text>
             <Text>Lun. a Vie. de 10 a 18 hs • Sáb. de 10 a 13 hs</Text>
             <Text>Tel.: 11-3914-8766</Text>
             <Text>electrosafeservice@gmail.com</Text>
@@ -353,7 +352,7 @@ export function WorkOrderDocument({ service }) {
         <Image src={firmaSello} style={styles.selloImage} />
 
         <View style={styles.disclaimerContainer}>
-          <Text style={styles.disclaimer}>Electrosafe - Servicio Técnico Oficial • www.electrosafe.com</Text>
+          <Text style={styles.disclaimer}>Electrosafe - Servicio Técnico Oficial • electrosafeweb.com</Text>
           <Text style={styles.disclaimer}>Documento no válido como factura.</Text>
         </View>
       </Page>
