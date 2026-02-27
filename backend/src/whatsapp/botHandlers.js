@@ -103,13 +103,13 @@ async function botSend(client, chatId, text) {
 async function escalateToHuman(client, chatId) {
   try {
     const conv = await ConversationManager.getByPhone(chatId);
-    const updateData = { pendingHuman: true, humanRequestedAt: new Date() };
 
     if (!conv || conv.status !== 'in_progress') {
-      updateData.status = 'waiting';
+      await ConversationManager.createOrUpdate(chatId, {
+        status: 'waiting',
+        humanRequestedAt: new Date()
+      });
     }
-
-    await ConversationManager.createOrUpdate(chatId, updateData);
 
     await botSend(client, chatId,
 `👤 Un asesor humano te responderá a la brevedad.
@@ -119,6 +119,7 @@ Mientras tanto, podés dejar detallada tu consulta 🙌
 Escribí *cancelar* si querés volver al menú.`);
 
     updateSession(chatId, { step: 'waiting_human', fallbackCount: 0 });
+
   } catch (err) {
     logger.error(`Error escalando a humano para ${chatId}: ${err.message}`);
   }
@@ -223,11 +224,39 @@ export default function botHandlers(client) {
       const conversation = await ConversationManager.getByPhone(userId);
 
       // ================================  
+      // 🔄 PRIMERO REINICIO SI ESTABA RESUELTA
+      // ================================
+
+      if (conversation?.status === 'resolved') {
+
+        await ConversationManager.updateByPhone(userId, {
+          status: 'bot',
+          assignedTo: null,
+          humanRequestedAt: null
+        });
+
+        updateSession(userId, { step: 'menu', fallbackCount: 0 });
+
+        await botSend(client, userId, 
+      `👋 ${getTimeGreeting()} ${name}, somos *Electrosafe Quilmes*.`);
+
+        await botSend(client, userId,
+      `Podés elegir un número o escribir lo que necesitás:
+
+      1️⃣ Reparar un electrodoméstico  
+      2️⃣ Consultar el estado de tu reparación  
+      3️⃣ Ver horarios y dirección  
+      4️⃣ Hablar con un asesor`);
+
+        return; // 🔴 FUNDAMENTAL
+      }
+
+      // ================================  
       // MODO HUMANO
       // ================================
 
       // 🟡 Esperando que alguien lo tome
-      if (conversation?.status === 'waiting') {
+      if (conversation?.status === 'waiting' || conversation?.status === 'priority') {
 
         if (text === 'cancelar') {
           await ConversationManager.resolveConversation(userId);
@@ -308,7 +337,7 @@ Podés escribir *cancelar* para salir o *asesor* para hablar con un humano.`);
 `📍 Av. Vicente López 770 - Quilmes
 
 🕒 Lunes a Viernes 10 a 18 hs  
-Sábados 10 a 13 hs`);
+    Sábados 10 a 13 hs`);
         return;
       }
 

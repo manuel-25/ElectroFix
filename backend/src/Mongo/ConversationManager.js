@@ -18,18 +18,12 @@ class ConversationManager {
     return await Conversation.findOne({ phone });
   }
 
-  async getPendingHumans() {
-    return await Conversation.find({ pendingHuman: true }).sort({ humanRequestedAt: 1 });
-  }
-
-  async getPendingHumanCount() {
-    return await Conversation.countDocuments({ pendingHuman: true });
-  }
-
-  async setPending(phone, value) {
-    const update = { pendingHuman: value };
-    if (value) update.humanRequestedAt = new Date();
-    return await Conversation.findOneAndUpdate({ phone }, update, { new: true });
+  async updateByPhone(phone, updateData) {
+    return await Conversation.findOneAndUpdate(
+      { phone },
+      updateData,
+      { new: true }
+    );
   }
 
   async setHumanRequestedAt(phone, date) {
@@ -40,27 +34,18 @@ class ConversationManager {
     );
   }
 
-  async setPriority(phone, value) {
-    return await Conversation.findOneAndUpdate(
-      { phone },
-      { priority: value },
-      { new: true }
-    );
-  }
-
   async checkWaitingPriority(limitMinutes = 60) {
     const limitDate = new Date(Date.now() - limitMinutes * 60 * 1000);
 
-    const result = await Conversation.updateMany(
+    return await Conversation.updateMany(
       {
         status: 'waiting',
-        humanRequestedAt: { $lte: limitDate },
-        priority: false
+        humanRequestedAt: { $lte: limitDate }
       },
-      { priority: true }
+      {
+        status: 'priority'
+      }
     );
-
-    return result;
   }
 
   async resetUnread(phone) {
@@ -75,21 +60,19 @@ class ConversationManager {
     return await Conversation.findOneAndUpdate(
       { phone },
       {
-        pendingHuman: false,
+        status: 'resolved',
         humanRequestedAt: null,
         unreadCount: 0,
-        status: 'resolved',
         assignedTo: null
       },
       { new: true }
     );
-}
+  }
 
   async addMessage(phone, message) {
     let conversation = await Conversation.findOne({ phone });
 
     if (!conversation) {
-      // Si no existe, crea nueva
       return Conversation.create({
         phone,
         messages: [message],
@@ -100,14 +83,6 @@ class ConversationManager {
         unreadCount: message.sender === 'user' ? 1 : 0,
         status: 'bot'
       });
-    }
-
-    // ✅ Reinicio si estaba resuelta y llega mensaje del usuario
-    if (conversation.status === 'resolved' && message.sender === 'user') {
-      conversation.status = 'bot';
-      conversation.pendingHuman = false;
-      conversation.unreadCount = 1;
-      conversation.messages = [];   //borra el historial de mensajes opcional cambiarlo
     }
 
     conversation.messages.push(message);
@@ -127,29 +102,25 @@ class ConversationManager {
   }
 
   async assignToUser(phone, email) {
-    const updated = await Conversation.findOneAndUpdate(
+    return await Conversation.findOneAndUpdate(
       { phone },
       {
         status: 'in_progress',
         assignedTo: email,
         lastAssignedTo: email,
-        inProgressAt: new Date(),
-        priority: false
+        inProgressAt: new Date()
       },
       { new: true }
     );
-
-    return updated;
   }
 
   async getSidebarCount() {
     const pending = await Conversation.countDocuments({
-      pendingHuman: true,
-      priority: false
+      status: 'waiting'
     });
 
     const priority = await Conversation.countDocuments({
-      priority: true
+      status: 'priority'
     });
 
     return { pending, priority };

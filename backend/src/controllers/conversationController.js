@@ -1,18 +1,6 @@
 import ConversationManager from '../Mongo/ConversationManager.js';
 
 class ConversationController {
-
-  // 🔴 Conteo pendientes humano
-  static async getPendingHumanCount(req, res) {
-    try {
-      const count = await ConversationManager.getPendingHumanCount();
-      res.json({ count });
-    } catch (error) {
-      console.error('Error contando conversaciones', error);
-      res.status(500).json({ error: 'Error al contar conversaciones' });
-    }
-  }
-
   // 📋 Obtener todas (para dashboard)
   static async getAll(req, res) {
     try {

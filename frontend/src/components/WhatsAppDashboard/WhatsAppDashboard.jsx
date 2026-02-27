@@ -17,15 +17,15 @@ function WhatsAppDashboard() {
     if (!date) return 0;
     const diff = Date.now() - new Date(date).getTime();
     return Math.floor(diff / 60000);
-  };
+  }
 
   const getPriorityClass = (conv) => {
     if (conv.status === 'in_progress') return 'in-progress-row';
-    if (conv.priority) return 'critical-row'; // prioridad roja
-    if (conv.pendingHuman) return 'pending-row'; // amarillo
-    if (!conv.pendingHuman && conv.status === 'resolved') return 'resolved-row'; // celeste
+    if (conv.status === 'priority') return 'critical-row';
+    if (conv.status === 'waiting') return 'pending-row';
+    if (conv.status === 'resolved') return 'resolved-row';
     return '';
-  };
+  }
 
   const fetchConversations = async () => {
     if (!auth) return;
@@ -35,7 +35,7 @@ function WhatsAppDashboard() {
     } catch (err) {
       console.error('❌ Error cargando conversaciones', err);
     }
-  };
+  }
 
   useEffect(() => {
     if (!auth) return;
@@ -46,21 +46,20 @@ function WhatsAppDashboard() {
 
   const sortedConversations = useMemo(() => {
     return [...conversations].sort((a, b) => {
-      const aMinutes = getWaitingMinutes(a.humanRequestedAt);
-      const bMinutes = getWaitingMinutes(b.humanRequestedAt);
+    const order = {
+      priority: 1,
+      waiting: 2,
+      in_progress: 3,
+      resolved: 4,
+      bot: 5
+    };
 
-      const aPriority = aMinutes >= 60;
-      const bPriority = bMinutes >= 60;
+    if (order[a.status] !== order[b.status]) {
+      return order[a.status] - order[b.status];
+    }
 
-      if (aPriority && !bPriority) return -1;
-      if (!aPriority && bPriority) return 1;
-
-      if (a.pendingHuman && b.pendingHuman) return new Date(a.humanRequestedAt) - new Date(b.humanRequestedAt);
-      if (a.pendingHuman) return -1;
-      if (b.pendingHuman) return 1;
-
-      return new Date(b.lastMessageAt || 0) - new Date(a.lastMessageAt || 0);
-    });
+    return new Date(b.lastMessageAt || 0) - new Date(a.lastMessageAt || 0);
+  });
   }, [conversations]);
 
   const resolveConversation = async (phone) => {
@@ -124,22 +123,28 @@ function WhatsAppDashboard() {
                     {conv.contactName && <div className="contact-name">{conv.contactName}</div>}
                   </td>
                   <td className="last-message">{conv.lastCustomerMessage || '-'}</td>
-                  <td>{conv.pendingHuman ? <span className={`wait-badge ${rowClass}`}>{minutes}m</span> : '-'}</td>
+                  <td>{conv.status === 'waiting' || conv.status === 'priority'
+                    ? <span className={`wait-badge ${rowClass}`}>{minutes}m</span>
+                    : '-'}
+                  </td>
                   <td>{conv.unreadCount > 0 ? <span className="unread-badge">{conv.unreadCount}</span> : '0'}</td>
                   <td>
-                    {conv.status === 'in_progress' ? (
-                      <span className="status in-progress">En gestión</span>
-                    ) : conv.pendingHuman && minutes >= 60 ? (
+                    {conv.status === 'priority' && (
                       <span className="status critical">Prioridad</span>
-                    ) : conv.pendingHuman ? (
+                    )}
+                    {conv.status === 'waiting' && (
                       <span className="status waiting">Esperando asesor</span>
-                    ) : (
+                    )}
+                    {conv.status === 'in_progress' && (
+                      <span className="status in-progress">En gestión</span>
+                    )}
+                    {conv.status === 'resolved' && (
                       <span className="status resolved">Finalizado</span>
                     )}
                   </td>
                   <td>{assignedDisplay}</td>
                   <td className="col-actions">
-                    {conv.status !== 'in_progress' && conv.pendingHuman && (
+                    {(conv.status === 'waiting' || conv.status === 'priority') && (
                       <button
                         className="icon-btn assign-btn"
                         title="Tomar conversación"
@@ -148,7 +153,7 @@ function WhatsAppDashboard() {
                         <FontAwesomeIcon icon={faHandPaper} />
                       </button>
                     )}
-                    {conv.pendingHuman || conv.status === 'in_progress' ? (
+                    {conv.status === 'waiting' || conv.status === 'priority' || conv.status === 'in_progress' ? (
                       <button
                         className="icon-btn resolve-btn"
                         title="Marcar como resuelto"
@@ -183,16 +188,16 @@ function WhatsAppDashboard() {
           <h2 className="dashboard-title">📱 WhatsApp Dashboard</h2>
 
           <h3>🔴 Prioridad</h3>
-          {renderTable(sortedConversations.filter(c => c.priority))}
+          {renderTable(sortedConversations.filter(c => c.status === 'priority'))}
 
           <h3>🟡 Pendientes</h3>
-          {renderTable(sortedConversations.filter(c => c.pendingHuman && !c.priority && c.status !== 'in_progress'))}
+          {renderTable(sortedConversations.filter(c => c.status === 'waiting'))}
 
           <h3>⚪ En gestión</h3>
           {renderTable(sortedConversations.filter(c => c.status === 'in_progress'))}
 
           <h3>✅ Finalizados</h3>
-          {renderTable(sortedConversations.filter(c => !c.pendingHuman && c.status === 'resolved'))}
+          {renderTable(sortedConversations.filter(c => c.status === 'resolved'))}
         </div>
       </div>
     </DashboardLayout>

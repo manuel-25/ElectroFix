@@ -24,53 +24,32 @@ const ConversationSchema = new mongoose.Schema({
     unique: true,
     index: true
   },
-
   /* 👤 Datos del contacto */
   contactName: {
     type: String,
     trim: true
   },
-
   /* 📝 Últimos mensajes */
   lastMessage: String,
   lastMessageAt: Date,
-
   lastCustomerMessage: String,
   lastCustomerMessageAt: Date,
-
   unreadCount: {
     type: Number,
     default: 0
   },
-
-  /* 🤝 Estado humano */
-  pendingHuman: {
-    type: Boolean,
-    default: false,
-    index: true
-  },
-
   status: {
     type: String,
-    enum: ['bot', 'waiting', 'in_progress', 'waiting_customer', 'resolved'],
-    default: 'bot',
-    index: true
+    enum: ['bot', 'waiting', 'priority', 'in_progress', 'resolved'],
+    default: 'bot'
   },
-
   humanRequestedAt: Date,
-
   assignedTo: {
     type: String,
     default: null
   },
-  
+
   inProgressAt: Date,
-
-  priority: {
-    type: Boolean,
-    default: false
-  },
-
   lastAssignedTo: String,
 
   messages: [MessageSchema]
