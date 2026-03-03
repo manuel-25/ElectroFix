@@ -1,5 +1,4 @@
-import pkg from 'whatsapp-web.js';
-const { Client, LocalAuth } = pkg;
+import { Client, LocalAuth } from 'whatsapp-web.js'
 
 const client = new Client({
   authStrategy: new LocalAuth({
@@ -7,8 +6,12 @@ const client = new Client({
   }),
   puppeteer: {
     headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage'
+    ]
   }
-});
+})
 
-export default client;
+export default client

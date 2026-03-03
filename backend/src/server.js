@@ -74,7 +74,6 @@ app.listen(port, () => {
   logger.info(`Server is running on port: ${port}`)
 })
 
-//Whatsapp
 // ====== WHATSAPP BOT ======
 
 client.on('qr', (qr) => {
@@ -85,6 +84,41 @@ client.on('ready', () => {
   logger.info('WhatsApp Bot conectado ✅');
 });
 
+client.on('change_state', (state) => {
+  console.log('🔄 Estado cambió a:', state);
+});
+
+client.on('disconnected', async (reason) => {
+  console.log('❌ WhatsApp desconectado:', reason);
+
+  try {
+    await client.destroy();
+    await client.initialize();
+  } catch (err) {
+    console.error('Error reiniciando cliente:', err);
+  }
+});
+
+// 🔥 HANDLERS DE MENSAJES
 botHandlers(client);
 
+// 🚀 INICIALIZAR
 client.initialize();
+
+// 🛡 WATCHDOG PRODUCCIÓN
+setInterval(async () => {
+  try {
+    const state = await client.getState();
+    console.log('🟢 Estado actual:', state);
+
+    if (state !== 'CONNECTED') {
+      console.log('⚠️ Cliente no conectado. Reiniciando...');
+      await client.destroy();
+      await client.initialize();
+    }
+  } catch (err) {
+    console.log('💥 Error obteniendo estado. Reiniciando...');
+    await client.destroy();
+    await client.initialize();
+  }
+}, 60000);
