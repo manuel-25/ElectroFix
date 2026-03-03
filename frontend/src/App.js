@@ -35,6 +35,7 @@ import EditarServicio from './components/EditarServicio/EditarServicio.jsx'
 import ServiceDetail from './components/ServiceDetail/ServiceDetail.jsx'
 import WorkOrderViewer from './components/WorkOrderViewer/WorkOrderViewer.jsx'
 import WhatsAppDashboard from './components/WhatsAppDashboard/WhatsAppDashboard.jsx'
+import { NotificationProvider } from './Context/NotificationContext.jsx'
 
 // Otros
 import NotFound from './components/NotFound/NotFound.jsx'
@@ -55,119 +56,121 @@ function AppContent() {
     <div className="App">
       <Navbar />
       <main>
-        <Routes>
-          {/* 🌐 Rutas públicas */}
-          <Route path="/" element={<MainContent />} />
-          <Route path="/nosotros" element={<AboutUs />} />
-          <Route path="/contacto" element={<Contact />} />
-          <Route path="/reparacion-electrodomesticos" element={<Services />} />
-          <Route path="/confirmacion" element={<FormSubmissionStatus />} />
-          <Route path="/terminos-condiciones" element={<TermsAndConditions />} />
-          <Route path="/privacidad" element={<PrivacyPolicy />} />
-          <Route path="/manager" element={<Login />} />
-          <Route path="/ticket/:publicId" element={<TicketViewer />} />
+        <NotificationProvider>
+          <Routes>
+            {/* 🌐 Rutas públicas */}
+            <Route path="/" element={<MainContent />} />
+            <Route path="/nosotros" element={<AboutUs />} />
+            <Route path="/contacto" element={<Contact />} />
+            <Route path="/reparacion-electrodomesticos" element={<Services />} />
+            <Route path="/confirmacion" element={<FormSubmissionStatus />} />
+            <Route path="/terminos-condiciones" element={<TermsAndConditions />} />
+            <Route path="/privacidad" element={<PrivacyPolicy />} />
+            <Route path="/manager" element={<Login />} />
+            <Route path="/ticket/:publicId" element={<TicketViewer />} />
 
-          {/* 🔒 Rutas protegidas */}
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><Dashboard /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/perfil"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><Perfil /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/cotizaciones"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><Cotizaciones /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/cotizaciones/:id"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><QuoteDetail /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/clientes"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><Clients /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/clientes/:id"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><ClientDetail /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/servicios"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><Servicios /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/servicios/nuevo"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><NuevoServicio /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/servicios/:code/editar"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><EditarServicio /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/servicios/:code"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><ServiceDetail /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/orden/:publicId"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><WorkOrderViewer /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/whatsapp"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><WhatsAppDashboard /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
+            {/* 🔒 Rutas protegidas */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout><Dashboard /></DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/perfil"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout><Perfil /></DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/cotizaciones"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout><Cotizaciones /></DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/cotizaciones/:id"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout><QuoteDetail /></DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/clientes"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout><Clients /></DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/clientes/:id"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout><ClientDetail /></DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/servicios"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout><Servicios /></DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/servicios/nuevo"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout><NuevoServicio /></DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/servicios/:code/editar"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout><EditarServicio /></DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/servicios/:code"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout><ServiceDetail /></DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/orden/:publicId"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout><WorkOrderViewer /></DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/whatsapp"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout><WhatsAppDashboard /></DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
 
-          {/* ❌ No encontrada */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            {/* ❌ No encontrada */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </NotificationProvider>
       </main>
 
       {location.pathname !== '/reparacion-electrodomesticos' && <Footer />}

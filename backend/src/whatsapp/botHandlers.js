@@ -184,6 +184,7 @@ export default function botHandlers(client) {
 
   client.on('message', async (message) => {
     try {
+      console.log('📩 Mensaje detectado:', message.from, message.body);
       if (!DEV_PHONES.includes(message.from)) return;
       if (message.fromMe) return;
       if (!message.body) return;
