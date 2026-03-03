@@ -40,7 +40,7 @@ const logger = winston.createLogger({
     new Mail({
       to: config.GMAIL_USER,
       from: config.GMAIL_USER,
-      subject: 'Error occurred!',
+      subject: '[ALERTA ELECTROSAFE] Revisar error en producción',
       level: 'error',
       host: 'smtp-relay.brevo.com',
       username: config.BREVO_USER,

@@ -16,6 +16,7 @@ import { logger } from './utils/logger.js'
 import qrcode from 'qrcode-terminal'
 import client from './whatsapp/whatsappClient.js'
 import botHandlers from './whatsapp/botHandlers.js'
+import ConversationManager from './Mongo/ConversationManager.js'
 
 dotenv.config()
 
@@ -59,23 +60,47 @@ app.use((err, req, res, next) => {
 // ================================
 // ⏱ CHECK PRIORITY WHATSAPP
 // ================================
-import ConversationManager from './Mongo/ConversationManager.js'
-
 setInterval(async () => {
   try {
-    await ConversationManager.checkWaitingPriority(60); // 1 minuto para pruebas
+    await ConversationManager.checkWaitingPriority(60); // 1 para pruebas 60 produccion.
   } catch (error) {
-    console.error('Error revisando prioridades:', error);
+    logger.debug('Error revisando prioridades:', error);
   }
 }, 60 * 1000); // cada 1 minuto
 
-// Start the server
-app.listen(port, () => {
-  logger.info(`Server is running on port: ${port}`)
+/* ==========================================
+   🛑 GLOBAL ERROR HANDLERS (PRODUCCIÓN)
+========================================== */
+process.on('uncaughtException', (err) => {
+  logger.fatal(`Uncaught Exception: ${err.stack}`)
 })
 
-// ====== WHATSAPP BOT ======
+process.on('unhandledRejection', (reason) => {
+  logger.fatal(`Unhandled Rejection: ${reason}`)
+})
 
+process.on('SIGTERM', async () => {
+  logger.warn('Proceso detenido (SIGTERM)')
+  try {
+    await client.destroy()
+  } catch (err) {
+    logger.error(`Error cerrando WhatsApp: ${err.message}`)
+  }
+  process.exit(0)
+})
+
+
+
+// START THE SERVER
+app.listen(port, () => {
+  logger.info(`Server is running on port: ${port}`)
+  // INICIALIZAR Whatsapp
+  client.initialize();
+})
+
+
+
+// ====== WHATSAPP BOT ======
 client.on('qr', (qr) => {
   qrcode.generate(qr, { small: true });
 });
@@ -85,40 +110,48 @@ client.on('ready', () => {
 });
 
 client.on('change_state', (state) => {
-  console.log('🔄 Estado cambió a:', state);
+  logger.info(`Estado cambió a: ${state}`)
 });
 
 client.on('disconnected', async (reason) => {
-  console.log('❌ WhatsApp desconectado:', reason);
+  logger.error(`WhatsApp desconectado ❌ Motivo: ${reason}`)
 
   try {
-    await client.destroy();
-    await client.initialize();
+    await client.destroy().catch(() => {})
+    await client.initialize()
   } catch (err) {
-    console.error('Error reiniciando cliente:', err);
+    logger.fatal(`Reinicio fallido: ${err.message}`)
   }
-});
+})
 
 // 🔥 HANDLERS DE MENSAJES
 botHandlers(client);
 
-// 🚀 INICIALIZAR
-client.initialize();
-
 // 🛡 WATCHDOG PRODUCCIÓN
+let lastConnectedState = 'CONNECTED'
+
 setInterval(async () => {
   try {
-    const state = await client.getState();
-    console.log('🟢 Estado actual:', state);
+    const state = await client.getState()
+    logger.debug(`Estado actual: ${state}`)
 
     if (state !== 'CONNECTED') {
-      console.log('⚠️ Cliente no conectado. Reiniciando...');
-      await client.destroy();
-      await client.initialize();
+      logger.error(`Estado inválido detectado: ${state}`)
+
+      if (lastConnectedState === 'CONNECTED') {
+        logger.fatal(`⚠️ WhatsApp perdió conexión. Estado: ${state}`)
+      }
+
+      await client.destroy()
+      await client.initialize()
     }
+
+    lastConnectedState = state
+
   } catch (err) {
-    console.log('💥 Error obteniendo estado. Reiniciando...');
-    await client.destroy();
-    await client.initialize();
+    logger.fatal(`💥 Error obteniendo estado WhatsApp: ${err.message}`)
+
+    await client.destroy()
+    await client.initialize()
   }
-}, 60000);
+}, 60000)

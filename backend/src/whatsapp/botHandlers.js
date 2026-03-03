@@ -231,12 +231,12 @@ export default function botHandlers(client) {
         await botSend(client, userId,
       `Podés elegir un número o escribir lo que necesitás:
 
-      1️⃣ Reparar un electrodoméstico  
-      2️⃣ Consultar el estado de tu reparación  
-      3️⃣ Ver horarios y dirección  
-      4️⃣ Hablar con un asesor`);
+ 1️⃣ Reparar un electrodoméstico  
+ 2️⃣ Consultar el estado de tu reparación  
+ 3️⃣ Ver horarios y dirección  
+ 4️⃣ Hablar con un asesor`);
 
-        return; // 🔴 FUNDAMENTAL
+        return;
       }
 
       // ================================  
