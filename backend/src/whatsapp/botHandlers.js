@@ -3,11 +3,31 @@ import ConversationManager from '../Mongo/ConversationManager.js';
 import ServiceManager from '../Mongo/ServiceManager.js';
 import { getSession, updateSession } from './sessionManager.js';
 import { logger } from '../utils/logger.js';
+import {
+  greeting,
+  mainMenu,
+  askRepairCode,
+  invalidRepairCodeMessage,
+  repairNotFoundMessage,
+  repairStatusMessage,
+  locationMessage,
+  humanMessage,
+  cancelMessage,
+  thanksMessage,
+  frustrationMessage,
+  fallbackMessage,
+  technicalReportMessage
+} from './botMenus.js';
 
 const DEV_PHONES = [
-  '5491121842237@c.us',
+  //'5491121842237@c.us',
   '5491136106124@c.us'
 ];
+
+function isConversationExpired(lastMessageAt) {
+  const hours24 = 24 * 60 * 60 * 1000;
+  return !lastMessageAt || (Date.now() - lastMessageAt > hours24);
+}
 
 // ================================
 // 🔤 NORMALIZADORES
@@ -60,6 +80,10 @@ function wantsLocation(text) {
   return ['horario','direccion','donde','ubicacion','abren','cierran','sucursal'].some(t => text.includes(t));
 }
 
+function wantsTechnicalReport(text) {
+  return ['informe','seguro','informe tecnico','aseguradora'].some(t => text.includes(t));
+}
+
 function wantsToClose(text) {
   const closing = ['no gracias','ninguna','nada','esta bien','ok','listo','chau','adios'];
   return closing.includes(text.trim());
@@ -94,7 +118,7 @@ async function botSend(client, chatId, text) {
 // ================================
 // 👤 ESCALAR HUMANO
 // ================================
-async function escalateToHuman(client, chatId) {
+async function escalateToHuman(client, chatId, sendMessage = true) {
   try {
     const conv = await ConversationManager.getByPhone(chatId);
 
@@ -105,12 +129,10 @@ async function escalateToHuman(client, chatId) {
       });
     }
 
-    await botSend(client, chatId,
-`👤 Un asesor humano te responderá a la brevedad.
-
-Mientras tanto, podés dejar detallada tu consulta 🙌
-
-Escribí *cancelar* si querés volver al menú.`);
+    // Enviar mensaje solo si sendMessage es true
+    if (sendMessage) {
+      await botSend(client, chatId, humanMessage);
+    }
 
     updateSession(chatId, { step: 'waiting_human', fallbackCount: 0 });
 
@@ -126,14 +148,8 @@ async function checkRepairStatus(client, chatId, text, originalText) {
   // Cancelar
   if (text === 'cancelar') {
     updateSession(chatId, { step: 'menu', fallbackCount: 0 });
-    await botSend(client, chatId,
-`❌ Consulta cancelada.  
-Volvemos al menú 👇
-
-1️⃣ Reparar un electrodoméstico  
-2️⃣ Consultar el estado de tu reparación  
-3️⃣ Ver horarios y dirección  
-4️⃣ Hablar con un asesor`);
+    await botSend(client, chatId, cancelMessage);
+    await botSend(client, chatId, mainMenu);
     return true;
   }
 
@@ -146,31 +162,19 @@ Volvemos al menú 👇
   // Validación de código
   const publicId = originalText.trim(); // <<< usar el texto original SIN normalizar
   if (!/^[a-zA-Z0-9]{6,10}$/.test(publicId)) {
-    await botSend(client, chatId,
-`❌ Código inválido.  
-Ingresalo nuevamente o escribí *cancelar* para volver al menú.`);
+    await botSend(client, chatId, invalidRepairCodeMessage);
     return true;
   }
 
   const service = await ServiceManager.getByPublicId(publicId);
 
   if (!service) {
-    await botSend(client, chatId,
-`❌ No encontramos un servicio con ese código.  
-Verificá que esté bien escrito.  
-Si querés salir escribí *cancelar*.  
-Si necesitás ayuda, escribí *asesor* y te ayudamos personalmente 🙌`);
+    await botSend(client, chatId, repairNotFoundMessage);
     return true;
   }
 
   // Mostrar estado del servicio
-  await botSend(client, chatId,
-`📦 Estado de tu equipo:
-🔧 Equipo: ${service.device || service.equipmentType}
-🏷 Marca: ${service.brand}
-📊 Estado: ${service.status}
-
-Si tenés dudas podés escribir *asesor* para hablar con un humano.`);
+  await botSend(client, chatId, repairStatusMessage(service));
 
   updateSession(chatId, { step: 'menu', fallbackCount: 0 });
   return true;
@@ -184,7 +188,7 @@ export default function botHandlers(client) {
 
   client.on('message', async (message) => {
     try {
-      console.log('📩 Mensaje detectado:', message.from, message.body);
+      //console.log('📩 Mensaje detectado:', message.from, message.body);
       if (!DEV_PHONES.includes(message.from)) return;
       if (message.fromMe) return;
       if (!message.body) return;
@@ -197,14 +201,22 @@ export default function botHandlers(client) {
       let text = normalize(originalText);
       text = normalizeNumbers(text);
 
+      // OBTENGO LA SESSION DEL USUARIO
+      const session = getSession(userId) || {};
+      const now = Date.now();
+      const isNewConversation = isConversationExpired(session.lastMessageAt);
+      if (isNewConversation) {
+        updateSession(userId, { fallbackCount: 0 });
+      }
+
+      // Guardar mensaje en DB
       await ConversationManager.addMessage(userId, {
         sender: 'user',
         text: originalText
       });
 
-      // OBTENGO LA SESSION DEL USUARIO
-      const session = getSession(userId) || {};
-      const fallbackCount = session.fallbackCount || 0;
+      // Actualizar última interacción
+      updateSession(userId, { lastMessageAt: now });
 
       // 🔹 OBTENGO CONVERSACIÓN
       const conversation = await ConversationManager.getByPhone(userId);
@@ -220,21 +232,12 @@ export default function botHandlers(client) {
           assignedTo: null,
           humanRequestedAt: null,
           firstResponseAt: null,
-          humanRequestedAt: null
         });
 
         updateSession(userId, { step: 'menu', fallbackCount: 0 });
 
-        await botSend(client, userId, 
-      `👋 ${getTimeGreeting()} ${name}, somos *Electrosafe Quilmes*.`);
-
-        await botSend(client, userId,
-      `Podés elegir un número o escribir lo que necesitás:
-
- 1️⃣ Reparar un electrodoméstico  
- 2️⃣ Consultar el estado de tu reparación  
- 3️⃣ Ver horarios y dirección  
- 4️⃣ Hablar con un asesor`);
+        await botSend(client, userId, greeting(getTimeGreeting(), name));
+        await botSend(client, userId, mainMenu);
 
         return;
       }
@@ -251,14 +254,8 @@ export default function botHandlers(client) {
 
           updateSession(userId, { step: 'menu', fallbackCount: 0 });
 
-          await botSend(client, userId,
-      `❌ Solicitud cancelada.
-
-      Volvemos al menú 👇
-      1️⃣ Reparar un electrodoméstico  
-      2️⃣ Consultar el estado de tu reparación  
-      3️⃣ Ver horarios y dirección  
-      4️⃣ Hablar con un asesor`);
+          await botSend(client, userId, cancelMessage);
+          await botSend(client, userId, mainMenu);
         }
 
         return;
@@ -280,17 +277,21 @@ export default function botHandlers(client) {
       // ================================  
       // 👋 SALUDO
       // ================================
-      const isFirstMessage = !session.lastMessageAt;
-      if (detectUserGreeting(text) || isFirstMessage) {
+      // Si es conversación nueva → SIEMPRE saludo
+      if (isNewConversation) {
         updateSession(userId, { step: 'menu', fallbackCount: 0 });
-        await botSend(client, userId, `👋 ${getTimeGreeting()} ${name}, somos *Electrosafe Quilmes*.`);
-        await botSend(client, userId,
-`Podés elegir un número o escribir lo que necesitás:
+        await botSend(client, userId, greeting(getTimeGreeting(), name));
+        await botSend(client, userId, mainMenu);
+        return;
+      }
 
-1️⃣ Reparar un electrodoméstico  
-2️⃣ Consultar el estado de tu reparación  
-3️⃣ Ver horarios y dirección  
-4️⃣ Hablar con un asesor`);
+      // Si solo es saludo y ya está en menu → no repetir
+      if (detectUserGreeting(text)) {
+        if (session.step === 'menu') return;
+
+        updateSession(userId, { step: 'menu', fallbackCount: 0 });
+        await botSend(client, userId, greeting(getTimeGreeting(), name));
+        await botSend(client, userId, mainMenu);
         return;
       }
 
@@ -309,11 +310,7 @@ https://electrosafeweb.com/reparacion-electrodomesticos`);
       // ================================
       if (wantsRepairStatus(text) || text === '2') {
         updateSession(userId, { step: 'check_repair', fallbackCount: 0 });
-        await botSend(client, userId,
-`📦 Para consultar el estado de tu reparación necesitamos el código público que figura en tu ticket.
-Ingresalo acá por favor 🙌
-(Ejemplo: Ab3K9xYz)
-Podés escribir *cancelar* para salir o *asesor* para hablar con un humano.`);
+        await botSend(client, userId, askRepairCode);
         return;
       }
 
@@ -321,11 +318,7 @@ Podés escribir *cancelar* para salir o *asesor* para hablar con un humano.`);
       // 🕒 OPCIÓN 3: UBICACIÓN
       // ================================
       if (wantsLocation(text) || text === '3') {
-        await botSend(client, userId,
-`📍 Av. Vicente López 770 - Quilmes
-
-🕒 Lunes a Viernes 10 a 18 hs  
-    Sábados 10 a 13 hs`);
+        await botSend(client, userId, locationMessage);
         return;
       }
 
@@ -334,6 +327,15 @@ Podés escribir *cancelar* para salir o *asesor* para hablar con un humano.`);
       // ================================
       if (wantsHuman(text) || text === '4') {
         await escalateToHuman(client, userId);
+        return;
+      }
+
+      // ================================  
+      // 📝 OPCIÓN 5: INFORME TÉCNICO
+      // ================================
+      if (wantsTechnicalReport(text) || text === '5') {
+        await botSend(client, userId, technicalReportMessage);
+        await escalateToHuman(client, userId, false);
         return;
       }
 
@@ -350,14 +352,8 @@ Podés escribir *cancelar* para salir o *asesor* para hablar con un humano.`);
       // 😕 FRUSTRACIÓN
       // ================================
       if (detectFrustration(text)) {
-        await botSend(client, userId,
-`Perdón si no fui claro 🙏
-
-Podés elegir:
-1️⃣ Reparar un electrodoméstico  
-2️⃣ Consultar el estado de tu reparación  
-3️⃣ Ver horarios y dirección  
-4️⃣ Hablar con un asesor`);
+        await botSend(client, userId, frustrationMessage);
+        await botSend(client, userId, mainMenu);
         return;
       }
 
@@ -365,7 +361,7 @@ Podés elegir:
       // 🙏 GRACIAS
       // ================================
       if (isThanks(text)) {
-        await botSend(client, userId, `😊 ¡Gracias a vos!`);
+        await botSend(client, userId, thanksMessage);
         return;
       }
 
@@ -379,14 +375,8 @@ Podés elegir:
       }
 
       updateSession(userId, { fallbackCount: fallbackCount + 1 });
-      await botSend(client, userId,
-`No estoy seguro de haber entendido 🤔
-¿En qué podemos ayudarte? Elegi una de las opciones:
-
-1️⃣ Reparar un electrodoméstico  
-2️⃣ Consultar el estado de tu reparación  
-3️⃣ Ver horarios y dirección  
-4️⃣ Hablar con un asesor`);
+      await botSend(client, userId, fallbackMessage);
+      await botSend(client, userId, mainMenu);
 
     } catch (err) {
       logger.error(`❌ Error en message: ${err.message}`);

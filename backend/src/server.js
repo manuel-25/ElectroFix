@@ -92,12 +92,16 @@ process.on('SIGTERM', async () => {
 
 
 // START THE SERVER
-app.listen(port, () => {
-  logger.info(`Server is running on port: ${port}`)
-  // INICIALIZAR Whatsapp
-  client.initialize();
-})
+app.listen(port, async () => {
+  logger.info(`Server is running on port: ${port}`);
 
+  // Inicializamos WhatsApp solo una vez
+  if (!global.clientInitialized) {
+    client.initialize();
+    botHandlers(client);
+    global.clientInitialized = true; // marca que ya inicializamos
+  }
+})
 
 
 // ====== WHATSAPP BOT ======
@@ -133,13 +137,13 @@ let lastConnectedState = 'CONNECTED'
 setInterval(async () => {
   try {
     const state = await client.getState()
-    logger.debug(`Estado actual: ${state}`)
+    logger.info(`Estado actual: ${state}`)
 
     if (state !== 'CONNECTED') {
-      logger.error(`Estado inválido detectado: ${state}`)
+      logger.info(`Estado inválido detectado: ${state}`)
 
       if (lastConnectedState === 'CONNECTED') {
-        logger.fatal(`⚠️ WhatsApp perdió conexión. Estado: ${state}`)
+        logger.info(`⚠️ WhatsApp perdió conexión. Estado: ${state}`)
       }
 
       await client.destroy()
